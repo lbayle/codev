@@ -13,13 +13,14 @@
 # Author: Vito Genovese
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-05-11 15:35:05+0000\n"
+"PO-Revision-Date: 2020-06-01 20:28:41+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
+"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -2249,7 +2250,7 @@ msgstr "Yeniden yükle"
 
 #. tpl/scheduler.html
 msgid "Export"
-msgstr "Dışa Aktar"
+msgstr "Dışa aktar"
 
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
@@ -2762,6 +2763,10 @@ msgstr "Gösterge Ekle"
 #. tpl/modal/login.html
 msgid "Loading"
 msgstr "Yükleniyor"
+
+#. tpl/logs.html
+msgid "Logfile:"
+msgstr "Kayıt dosyası:"
 
 #. tpl/logs.html
 msgid "Line"
@@ -3344,6 +3349,10 @@ msgid "Remove Mantis plugin:"
 msgstr "Mantis eklentisini kaldırın:"
 
 #. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
+msgstr "ExternalTasks projesini kaldır:"
+
+#. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
 msgstr "Lütfen aşağıdaki projeleri MANÜEL olarak silin:"
 
@@ -3561,7 +3570,7 @@ msgstr "Araştır..."
 
 #. tpl/modal/select_issues.html
 msgid "Select all"
-msgstr "Tümünü seç"
+msgstr "Hepsini seç"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
@@ -3680,14 +3689,12 @@ msgid "User info"
 msgstr "Kullanıcı"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Kullanıcı"
+msgstr "Kullanıcı kimliği"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Kullanıcı varış tarihi"
+msgstr "Ekip varış tarihi"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -4313,42 +4320,36 @@ msgstr "Mesaj duvarı"
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "CodevTT Yönetimi"
+msgstr "Yönetim araçları"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "Süreyi sil"
+msgstr "Seçilen eylemleri çalıştır"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
-msgstr ""
+msgstr "Yürüt"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "Görev seçilmedi !"
+msgstr "Eylemler yürütüldü !"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Force the display of the \"Message\" plugin on the homepage"
-msgstr "Ana sayfada bir mesaj duvarı görüntüle"
+msgstr "Ana sayfada \"Mesaj\" eklentisinin görüntülenmesini zorla"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Kullanıcılar"
+msgstr "kullanıcılar"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
-msgstr ""
+msgstr "Gösterge Tablosunu Temizle"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "for user "
-msgstr "Kullanıcıları içe aktar"
+msgstr "kullanıcı için "
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
@@ -4698,12 +4699,8 @@ msgid "Load per User"
 msgstr "Kullanıcı Başına Yükle"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n"
-"          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4719,12 +4716,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Projeler ve taraf için harcanan zaman Geçerli görev seçiminin görevleri"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n"
-"          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4794,8 +4787,9 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr "Her görev için belirli bir fiyatla günlük hizmetler satıyorsanız, bu eklenti size belirli bir süre boyunca görev grubunuzun fiyatını verecektir."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr "Bu eklenti için, her görevde MantisBT customField \"CodevTT_DailyPrice\" ayarlamanız gerekir."
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
+msgstr "Bu eklenti için, mantis projelerinize \"CodevTT_DailyPrice\" customField öğesini eklemeniz ve her görev için bir değer ayarlamanız gerekir."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
@@ -4919,7 +4913,7 @@ msgstr "EffortEstim güvenilirlik geçmişi"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
-msgstr "Tümünü Seç"
+msgstr "Hepsini seç"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Dates"
@@ -5043,7 +5037,7 @@ msgstr "İş silinemedi"
 msgid "Sorry, you need to be identified."
 msgstr "Üzgünüz, tanımlanmalısınız."
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr "Üzgünüz, günlük dosyası bulunamadı:"
 
@@ -5873,14 +5867,12 @@ msgid "Timetrack not added: Job is not specified"
 msgstr "Zaman izlemesi eklenmedi: İş belirtilmedi"
 
 #: timetracking/time_tracking.php:155
-#, fuzzy
 msgid "Timetrack not added: bugid is not specified"
-msgstr "Zaman izlemesi eklenmedi: İş belirtilmedi"
+msgstr "Zaman izleme eklenmedi: bugid belirtilmedi"
 
 #: timetracking/time_tracking.php:160
-#, fuzzy
 msgid "Timetrack not added: duration is not specified"
-msgstr "Zaman izlemesi eklenmedi: İş belirtilmedi"
+msgstr "Zaman izleme eklenmedi: süre belirtilmedi"
 
 #: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
@@ -5972,9 +5964,8 @@ msgid "Everybody"
 msgstr "Herkes"
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "CodevTT Yönetimi"
+msgstr "CodevTT yönetim araçları"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -6071,10 +6062,6 @@ msgstr "Yan görevler"
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
 msgstr "Basit bir HelloWorld eklentisi"
-
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr " Bu eklenti için, her görevde MantisBT customField \"CodevTT_DailyPrice\" ayarlamanız gerekir."
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
@@ -6240,3 +6227,4 @@ msgstr "H"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Teslim Tarihi"
+

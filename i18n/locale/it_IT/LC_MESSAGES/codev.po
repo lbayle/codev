@@ -14,10 +14,11 @@
 # Author: Walter Raffoni
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-05-11 15:35:03+0000\n"
+"PO-Revision-Date: 2020-06-01 20:28:39+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -27,7 +28,7 @@ msgstr ""
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
+"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -2770,6 +2771,10 @@ msgid "Loading"
 msgstr "Caricamento"
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr ""
+
+#. tpl/logs.html
 msgid "Line"
 msgstr "Linea"
 
@@ -3350,6 +3355,10 @@ msgid "Remove Mantis plugin:"
 msgstr "Rimuovi plugin Mantis:"
 
 #. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
+msgstr ""
+
+#. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
 msgstr "Cancella MANUALMENTE i seguenti progetti:"
 
@@ -3686,14 +3695,12 @@ msgid "User info"
 msgstr "Utente"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Utente"
+msgstr "ID utente"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Data di arrivo"
+msgstr "Data di arrivo della squadra"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -4324,41 +4331,36 @@ msgstr ""
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "Amministrazione CodevTT"
+msgstr "Strumenti amministrazione"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "Elimina durata"
+msgstr "Esegui azioni selezionate"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
-msgstr ""
+msgstr "Esegui"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "Nessuna attività selezionata!"
+msgstr "Azioni eseguite!"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Utenti"
+msgstr "utenti"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "for user "
-msgstr "Importa utenti"
+msgstr "per utenti "
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 #, fuzzy
@@ -4715,9 +4717,7 @@ msgid "Load per User"
 msgstr "Carico per utente"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4734,9 +4734,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4808,7 +4806,8 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -5073,7 +5072,7 @@ msgstr "Non è stato possibile rimuovere il job"
 msgid "Sorry, you need to be identified."
 msgstr "Spiacente, devi essere identificato."
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr "Logfile non trovato"
 
@@ -5907,14 +5906,12 @@ msgid "Timetrack not added: Job is not specified"
 msgstr "Non è stata aggiunta una tabella oraria: il lavoro non è specificato."
 
 #: timetracking/time_tracking.php:155
-#, fuzzy
 msgid "Timetrack not added: bugid is not specified"
-msgstr "Non è stata aggiunta una tabella oraria: il lavoro non è specificato."
+msgstr "Non è stata aggiunta una tabella oraria: bugid non è specificato"
 
 #: timetracking/time_tracking.php:160
-#, fuzzy
 msgid "Timetrack not added: duration is not specified"
-msgstr "Non è stata aggiunta una tabella oraria: il lavoro non è specificato."
+msgstr "Non è stata aggiunta una tabella oraria: la durata non è specificata"
 
 #: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
@@ -6011,9 +6008,8 @@ msgid "Everybody"
 msgstr ""
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "Amministrazione CodevTT"
+msgstr "Amministrazione strumenti CodevTT"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -6113,10 +6109,6 @@ msgstr ""
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
 msgstr "Un semplice plugin HelloWorld"
-
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
@@ -6288,3 +6280,4 @@ msgstr "S"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Data consegna"
+

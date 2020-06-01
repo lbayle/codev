@@ -5,13 +5,14 @@
 # Author: Xaris333
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-05-11 15:35:02+0000\n"
+"PO-Revision-Date: 2020-06-01 20:28:37+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
+"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -2756,6 +2757,10 @@ msgid "Loading"
 msgstr "Φόρτωση σε εξέλιξη..."
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr ""
+
+#. tpl/logs.html
 msgid "Line"
 msgstr "Γραμμή"
 
@@ -3333,6 +3338,10 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
+msgstr ""
+
+#. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
 msgstr ""
 
 #. tpl/uninstall.html
@@ -4692,9 +4701,7 @@ msgid "Load per User"
 msgstr "Φόρτωση ανά χρήστη"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4711,9 +4718,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4782,7 +4787,8 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -5034,7 +5040,7 @@ msgstr ""
 msgid "Sorry, you need to be identified."
 msgstr ""
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr ""
 
@@ -6060,10 +6066,6 @@ msgstr ""
 msgid "A simple HelloWorld plugin"
 msgstr ""
 
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
-
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
 msgstr ""
@@ -6229,3 +6231,4 @@ msgstr ""
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr ""
+

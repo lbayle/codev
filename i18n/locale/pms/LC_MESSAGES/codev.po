@@ -5,13 +5,14 @@
 # Author: Fitoschido
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-05-11 15:35:04+0000\n"
+"PO-Revision-Date: 2020-06-01 20:28:40+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
+"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -2756,6 +2757,10 @@ msgid "Loading"
 msgstr "Antramentre ch'as caria"
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr "Archivi dl'argistr:"
+
+#. tpl/logs.html
 msgid "Line"
 msgstr "Linia"
 
@@ -3335,6 +3340,10 @@ msgid "Remove Mantis plugin:"
 msgstr "Gavé ij plugins Mantis:"
 
 #. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
+msgstr "Dëscancelament dël proget ëd travaj estern:"
+
+#. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
 msgstr "Për piasì, dëscancelé A MAN ij proget sì-dapress:"
 
@@ -3670,14 +3679,12 @@ msgid "User info"
 msgstr "Anformassion an sl'utent"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Utent"
+msgstr "ID utent"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Dàita d'ariv dl'utent"
+msgstr "Dàita d'ariv ant l'echip"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -4299,42 +4306,36 @@ msgstr "Muraja dij mëssagi"
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "Aministrassion ëd CodevTT"
+msgstr "Utiss d'aministrassion"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "Dëscancelé la durà"
+msgstr "Fé j'assion selessionà"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
-msgstr ""
+msgstr "Fé andé"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "Gnun travaj selessionà!"
+msgstr "Assion fàita!"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Force the display of the \"Message\" plugin on the homepage"
-msgstr "Smon-e na muraja ëd mëssagi an sla pàgina d'intrada"
+msgstr "Forsé la visualissassion dl'aplicassion «Mëssagi» ant la pàgina d'intrada"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Utent"
+msgstr "utent"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
-msgstr ""
+msgstr "Dëscancelé la tàula"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "for user "
-msgstr "Amporté d'utent"
+msgstr "për l'utent "
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
@@ -4684,12 +4685,8 @@ msgid "Load per User"
 msgstr "Badò për utent"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n"
-"         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4705,12 +4702,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Temp passà an sij proget e ij travaj tacà për la selession corenta dij travaj"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n"
-"         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4777,8 +4770,9 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr "S'a vend dij servissi a la giornà con un pressi spessìfich për minca 'n travaj, costa aplicassion a-j darà ël pressi ëd l'ansem ëd travaj për un dàit perìod ëd temp."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr "Për costa aplicassion, a dev definì ël camp përsonalisà «CodevTT_PressiGiorna» për minca 'n travaj."
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
+msgstr "Për costa aplicassion, a dev gionté ël camp përsonalisà «CodevTT_PressiGiorna» a sò proget mantis e definì un valor për minca 'n travaj."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
@@ -5026,7 +5020,7 @@ msgstr "Impossìbil eliminé ël travaj"
 msgid "Sorry, you need to be identified."
 msgstr "An dëspias, a dev esse identificà."
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr "An dëspias, l'archivi d'argistr a l'é nen ëstàit trovà:"
 
@@ -5853,14 +5847,12 @@ msgid "Timetrack not added: Job is not specified"
 msgstr "Programassion nen giontà: ël travaj a l'é nen ëspessificà."
 
 #: timetracking/time_tracking.php:155
-#, fuzzy
 msgid "Timetrack not added: bugid is not specified"
-msgstr "Programassion nen giontà: ël travaj a l'é nen ëspessificà."
+msgstr "Cronologìa nen giontà: l'identificativ ëd givo a l'é nen ëspessificà."
 
 #: timetracking/time_tracking.php:160
-#, fuzzy
 msgid "Timetrack not added: duration is not specified"
-msgstr "Programassion nen giontà: ël travaj a l'é nen ëspessificà."
+msgstr "Cronologìa nen giontà: la durà a l'é nen ëspessificà."
 
 #: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
@@ -5952,9 +5944,8 @@ msgid "Everybody"
 msgstr "Tuti quanti"
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "Aministrassion ëd CodevTT"
+msgstr "Utiss d'aministrassion ëd CodevTT"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -6051,10 +6042,6 @@ msgstr "Travaj marginaj"
 #: plugins/HelloWorldIndicator/HelloWorldIndicator.class.php:65
 msgid "A simple HelloWorld plugin"
 msgstr "N'aplicassion sempia HelloWorld"
-
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr "Për costa aplicassion, a dev definì ël camp përsonalisà MantisBT «CodevTT_PressiGiorna» për minca 'n travaj."
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
@@ -6220,3 +6207,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Dàita ëd consigna"
+

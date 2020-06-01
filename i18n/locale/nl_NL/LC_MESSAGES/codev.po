@@ -12,13 +12,14 @@
 # Author: Xbaked potatox
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-05-11 15:35:04+0000\n"
+"PO-Revision-Date: 2020-06-01 20:28:39+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
+"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -2764,6 +2765,10 @@ msgid "Loading"
 msgstr "Bezig met laden"
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr ""
+
+#. tpl/logs.html
 msgid "Line"
 msgstr "Regel"
 
@@ -3343,6 +3348,10 @@ msgstr ""
 #, fuzzy
 msgid "Remove Mantis plugin:"
 msgstr "Verwijder deze link :"
+
+#. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -4735,9 +4744,7 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4754,9 +4761,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4828,7 +4833,9 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr "Als je dagelijkse diensten verkoopt met een specifieke prijs voor elke taak, zal deze plugin je de prijs van een groep taken geven gedurende een bepaalde periode."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+#, fuzzy
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
 msgstr "Voor deze plugin, moet je het MantisBT customField \"CodevTT_DailyPrice\" vastleggen voor elke taak."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -5094,7 +5101,7 @@ msgstr ""
 msgid "Sorry, you need to be identified."
 msgstr "Sorry, je moet geïdentificeerd worden."
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr ""
 
@@ -6128,10 +6135,6 @@ msgstr ""
 msgid "A simple HelloWorld plugin"
 msgstr ""
 
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr "Voor deze plugin, moet je het MantisBT customField \"CodevTT_DailyPrice\" vastleggen voor elke taak."
-
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
 msgstr "Verkoopsprijs = Dagprijs x Verstreken gedurende periode"
@@ -6300,3 +6303,4 @@ msgstr ""
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr ""
+

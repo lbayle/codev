@@ -9,18 +9,20 @@
 # Author: Liuxinyu970226
 # Author: 予弦
 # Author: 佛壁灯
+# Author: 列维劳德
 # Author: 夢蝶葬花
 # Author: 沈澄心
 # Author: 神樂坂秀吉
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-05-11 15:35:06+0000\n"
+"PO-Revision-Date: 2020-06-01 20:28:42+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
+"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -2765,6 +2767,10 @@ msgid "Loading"
 msgstr "正在载入"
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr ""
+
+#. tpl/logs.html
 msgid "Line"
 msgstr "行"
 
@@ -3345,6 +3351,10 @@ msgid "Remove Mantis plugin:"
 msgstr "移除Mantis插件："
 
 #. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
+msgstr ""
+
+#. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
 msgstr "请手动删除以下项目："
 
@@ -3686,9 +3696,8 @@ msgid "User ID"
 msgstr "用户"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "用户到达日期"
+msgstr "团队到达日期"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -4315,9 +4324,8 @@ msgstr "信息墙"
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "CodevTT管理"
+msgstr "管理工具"
 
 #. plugins/AdminTools/AdminTools.html
 #, fuzzy
@@ -4326,7 +4334,7 @@ msgstr "删除持续时间"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
-msgstr ""
+msgstr "执行"
 
 #. plugins/AdminTools/AdminTools.html
 #, fuzzy
@@ -4703,12 +4711,8 @@ msgid "Load per User"
 msgstr "每位用户加载的"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
-"   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4724,12 +4728,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "在当前任务选择的项目和边栏任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"当前选择中的“事件”和“不活跃”子任务。<br>\n"
-"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4800,7 +4800,8 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -5053,7 +5054,7 @@ msgstr "不能删除工作"
 msgid "Sorry, you need to be identified."
 msgstr "对不起，您需要被验证。"
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr "对不起，找不到日志文件："
 
@@ -6082,10 +6083,6 @@ msgstr "边缘任务"
 msgid "A simple HelloWorld plugin"
 msgstr "一个简单的您好世界插件"
 
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
-
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
 msgstr ""
@@ -6251,3 +6248,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "交货日期"
+

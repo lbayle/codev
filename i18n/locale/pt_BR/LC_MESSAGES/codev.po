@@ -14,10 +14,11 @@
 # Author: WikiUser22222
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-05-11 15:35:04+0000\n"
+"PO-Revision-Date: 2020-06-01 20:28:40+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: MediaWiki 1.35.0-alpha; Translate 2020-04-20\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2020-04-01 16:30:43+0000\n"
+"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -2770,6 +2771,10 @@ msgid "Loading"
 msgstr "Carregando"
 
 #. tpl/logs.html
+msgid "Logfile:"
+msgstr "Arquivo de registro:"
+
+#. tpl/logs.html
 msgid "Line"
 msgstr "Linha"
 
@@ -3368,6 +3373,10 @@ msgid "Remove Mantis plugin:"
 msgstr "Remover o plugin Mantis:"
 
 #. tpl/uninstall.html
+msgid "Remove ExternalTasks project:"
+msgstr ""
+
+#. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
 msgstr "Por favor delete MANUALMENTE os seguintes projetos:"
 
@@ -3716,14 +3725,12 @@ msgid "User info"
 msgstr "Informação de usuário"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Usuário"
+msgstr "ID de usuário"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Data de chegada do usuário"
+msgstr "Data de chegada da equipe"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -4391,7 +4398,7 @@ msgstr "Excluir duração"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
-msgstr ""
+msgstr "Executar"
 
 #. plugins/AdminTools/AdminTools.html
 #, fuzzy
@@ -4404,9 +4411,8 @@ msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr "Mostrar uma parede de mensagem na página inicial"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Usuários"
+msgstr "usuários"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
@@ -4414,7 +4420,7 @@ msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "for user "
-msgstr ""
+msgstr "para usuário "
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
@@ -4788,9 +4794,7 @@ msgid "Load per User"
 msgstr "Filtros"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4807,9 +4811,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4878,7 +4880,8 @@ msgid "If you sell daily services with a specific price for each task, this plug
 msgstr "Se você vender serviços diários com um preço específico para cada tarefa, este plug-in fornecerá o preço do seu lote de tarefas durante um determinado período de tempo."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-msgid "For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
+#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
+msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -5150,7 +5153,7 @@ msgstr "Impossivel de apagar o cargo "
 msgid "Sorry, you need to be identified."
 msgstr "Desculpe, você precisa estar identificado."
 
-#: admin/logs.php:58
+#: admin/logs.php:59
 msgid "Sorry, logfile not found:"
 msgstr "Desculpe, arquivo de log não localizado:"
 
@@ -6223,10 +6226,6 @@ msgstr ""
 msgid "A simple HelloWorld plugin"
 msgstr ""
 
-#: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
-msgstr ""
-
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
 msgstr ""
@@ -6397,3 +6396,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Data de liberação"
+
