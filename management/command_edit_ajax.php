@@ -123,7 +123,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $logger->error("EXCEPTION importProvisionCSV: ".$e->getMessage());
          $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       }
-      $logger->error($jsonData);
+      //$logger->error($jsonData);
       echo json_encode($jsonData);
 
    } elseif ('editProvision' == $action) {
@@ -185,7 +185,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $logger->error("EXCEPTION importProvisionCSV: ".$e->getMessage());
          $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       }
-      $logger->error($jsonData);
+      //$logger->error($jsonData);
       echo json_encode($jsonData);
 
    } elseif ('deleteProvision' == $action) {
@@ -244,15 +244,15 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   if(FALSE === $date) {
                      throw new Exception("Could not parse date (Y-m-d) : ".$myDate);
                   }
-                  
+
                   if (false === $provTypeId){
                      throw new Exception("Unknown provision type: ". $provType);
                   }
-                  
+
                   if (!is_numeric($myBudgetDays) || $myBudgetDays < 0){
                      throw new Exception("Invalid BudgetDays: ".$myBudgetDays);
                   }
-                  
+
                   if (!is_numeric($myBudget) || $myBudget < 0){
                      throw new Exception("Invalid budget: ".$myBudget);
                   }
@@ -267,7 +267,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   } else {
                      $myAverageDailyRate = 0;
                   }
-                  
+
                   $isMngtProv = ( $provMngtName === $provType);
                   $prov = array(
                       'date' => $myDate,
@@ -298,7 +298,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                $prov['average_daily_rate'],
                $prov['is_checked'],
                $prov['currency']);
-            
+
             $provData[$row]['provId'] = $provId;
             $provData[$row]['csvFileLine'] = $row;
          }
@@ -323,7 +323,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    }
 } else {
    // send 'Forbidden' caught by ajax: function(jqXHR, textStatus, errorThrown)
-   Tools::sendUnauthorizedAccess(); 
+   Tools::sendUnauthorizedAccess();
 }
 
    /**
