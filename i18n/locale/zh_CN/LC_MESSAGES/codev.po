@@ -7,6 +7,7 @@
 # Author: Fanjiayi
 # Author: Frog7301
 # Author: Liuxinyu970226
+# Author: SomeyaMako
 # Author: 予弦
 # Author: 佛壁灯
 # Author: 列维劳德
@@ -18,7 +19,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-06-01 20:28:42+0000\n"
+"PO-Revision-Date: 2020-06-04 15:44:12+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2768,7 +2769,7 @@ msgstr "正在载入"
 
 #. tpl/logs.html
 msgid "Logfile:"
-msgstr ""
+msgstr "日志文件："
 
 #. tpl/logs.html
 msgid "Line"
@@ -3691,9 +3692,8 @@ msgid "User info"
 msgstr "用户"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "用户"
+msgstr "用户ID"
 
 #. tpl/user_info.html
 msgid "Team arrival date"
@@ -4328,32 +4328,28 @@ msgid "Administration tools"
 msgstr "管理工具"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "删除持续时间"
+msgstr "执行选中操作"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
 msgstr "执行"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "未选择任务！"
+msgstr "动作已执行！"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Force the display of the \"Message\" plugin on the homepage"
-msgstr "在首页上显示消息墙"
+msgstr "在首页上强制显示“消息”插件"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
 msgstr "用户"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
-msgstr ""
+msgstr "清除面板"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 #, fuzzy
@@ -5884,14 +5880,12 @@ msgid "Timetrack not added: Job is not specified"
 msgstr "时间跟踪未添加：未指定工作"
 
 #: timetracking/time_tracking.php:155
-#, fuzzy
 msgid "Timetrack not added: bugid is not specified"
-msgstr "时间跟踪未添加：未指定工作"
+msgstr "时间跟踪未添加：未指定bugid"
 
 #: timetracking/time_tracking.php:160
-#, fuzzy
 msgid "Timetrack not added: duration is not specified"
-msgstr "时间跟踪未添加：未指定工作"
+msgstr "时间跟踪未添加：未指定时长"
 
 #: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
@@ -5983,9 +5977,8 @@ msgid "Everybody"
 msgstr "任何人"
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "CodevTT管理"
+msgstr "CodevTT管理工具"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"

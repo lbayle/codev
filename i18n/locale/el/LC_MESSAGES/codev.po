@@ -2,13 +2,14 @@
 # Exported from translatewiki.net
 #
 # Author: Nikosgranturismogt
+# Author: Norhorn
 # Author: Xaris333
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-06-01 20:28:37+0000\n"
+"PO-Revision-Date: 2020-06-04 15:44:08+0000\n"
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3681,14 +3682,12 @@ msgid "User info"
 msgstr "Χρήστης"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Χρήστης"
+msgstr "Ταυτότητα χρήστη"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Ημερομηνία άφιξης χρήστη"
+msgstr "Ημερομηνία άφιξης ομάδας"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -4315,14 +4314,12 @@ msgstr ""
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "Διαχείριση του CodevTT"
+msgstr "Εργαλεία διαχείρισης"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "διαγραφή διάρκειας"
+msgstr "Εκτέλεση επιλεγμένων ενεργειών"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
@@ -4337,18 +4334,16 @@ msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Χρήστες"
+msgstr "χρήστες"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "for user "
-msgstr "Εισαγωγή χρηστών"
+msgstr "για τον χρήστη "
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 #, fuzzy
@@ -5966,9 +5961,8 @@ msgid "Everybody"
 msgstr "Ο καθένας"
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "Διαχείριση του CodevTT"
+msgstr "Εργαλεία διαχείρισης του CodevTT"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
