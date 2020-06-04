@@ -55,7 +55,7 @@ class HolidaysReportController extends Controller {
          } else {
             $filters = array(
                 'isExternalTasks' => 1,
-                'isSidetasksInactivity' => 1,
+                'isSidetasksInactivity' => 0,
                 'isOtherTeamsActivity' => 1,
                 );
          }
@@ -78,7 +78,7 @@ class HolidaysReportController extends Controller {
             );
          $this->smartyHelper->assign('filterInfo', $filterInfo);
          $this->smartyHelper->assign('checkedFilters', $filtersStr);
-         
+
          // ---
          $teams = SmartyTools::getSmartyArray($this->teamList,$displayed_teamid);
          #$teams = SmartyTools::getSmartyArray(Team::getTeams(),$displayed_teamid);
@@ -165,7 +165,7 @@ class HolidaysReportController extends Controller {
       $isExternalTasks = $filters['isExternalTasks'];
       $isSidetasksInactivity = $filters['isSidetasksInactivity'];
       $isOtherTeamsActivity = $filters['isOtherTeamsActivity'];
-      
+
       $startT = mktime(0, 0, 0, $month, 1, $year);
       $endT = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
@@ -226,7 +226,7 @@ class HolidaysReportController extends Controller {
                      "title" => htmlentities((T_($astreintes[$timestamp]['type']))),
                   );
                } elseif (isset($daysOf[$timestamp]) && (NULL != $daysOf[$timestamp])) {
-                  
+
                   if ($isSidetasksInactivity) {
                      $days[$i] = array(
                         "color" => $daysOf[$timestamp]['color'],
