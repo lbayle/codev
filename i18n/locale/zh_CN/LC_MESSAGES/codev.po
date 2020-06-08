@@ -19,7 +19,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-06-04 15:44:12+0000\n"
+"PO-Revision-Date: 2020-06-08 15:02:01+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4352,9 +4352,8 @@ msgid "Clear Dashboard"
 msgstr "清除面板"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "for user "
-msgstr "导入用户"
+msgstr "致用户\\"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 #, fuzzy
