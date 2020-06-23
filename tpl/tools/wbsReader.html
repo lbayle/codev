@@ -1,7 +1,8 @@
-<div id="content">
 
 
 <script src="lib/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
+<link href="lib/dynatree/dist/skin/ui.dynatree.css" rel="stylesheet" type="text/css" id="skinSheet">
+<script src="lib/dynatree/dist/jquery.dynatree.min.js" type="text/javascript"></script>
 <script src="lib/jquery.powertip/jquery.powertip.min.js" type="text/javascript"></script>
 <script src="js_min/tooltip.min.js" type="text/javascript"></script>
 
@@ -95,6 +96,7 @@
   }
   </style>
 
+<div id="wbsContent">
 
    <a id="bt_loadTree" style="text-decoration: none" href="{$page}"><img align="absmiddle" src="images/b_refresh.png" style="vertical-align: middle;" > {t}Reload{/t}</a>
    <div id="tree">
@@ -113,7 +115,7 @@
 
          // uses cookies to store the expanded nodes
          jQuery.ui.dynatree.prototype.options.persist = true;
-         
+
          jQuery("#tree").dynatree({
              initAjax: {
       		   type: "POST",
@@ -160,7 +162,7 @@
                    html += "<span class='td-mgrDrift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[7] + "&nbsp;</span>";
                    {/if}
                    html += "<span class='td-drift' style='font-weight: bold; background-color:#D8D8D8' >" + cols[8] + "&nbsp;</span>";
-                  
+
                } else {
 
                   html += "<span class='td-desc'>" + cols[0] + "</span>";
@@ -198,7 +200,7 @@
              }
 
          });
-         
+
          addTitleBar();
 	  }
 
