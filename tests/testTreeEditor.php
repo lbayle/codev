@@ -30,5 +30,5 @@ class TestTreeEditor extends Controller {
 
 // ========== MAIN ===========
 TestTreeEditor::staticInit();
-$controller = new TestTreeEditor('../', 'TEST Fancytree', 'Tests');
+$controller = new TestTreeEditor('../', 'TEST Fancytree Editor', 'Tests');
 $controller->execute();
