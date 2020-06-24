@@ -545,6 +545,116 @@ jQuery(document).ready(function() {
       ]
    });
 
+   // ------------------------------------------------------
+   jQuery(".editPrjJobAssociation_link").click(function(e) {
+      e.preventDefault();
+      var trProject = $(this).parents('.projectList_tr');
+      var projectid = $(trProject).attr('data-projectId');
+      var projectName = $(trProject).attr('data-projectName');
+
+      $("#editPrjJobAssoDlg_tbl tbody").empty();
+
+      // get full JobList, with association info
+      jQuery.ajax({
+         url: editTeamSmartyData.ajaxPage,
+         async:false, // why ?
+         data: {
+            action: 'getPrjJobAsso',
+            displayed_teamid:editTeamSmartyData.displayedTeamId,
+            projectId: projectid
+         },
+         type: 'post',
+         success: function(data) {
+            data = JSON.parse(data);
+            if('SUCCESS' !== data.statusMsg) {
+               console.log(data.statusMsg);
+               // TODO inform user !
+            } else {
+               // add <tr> to editPrjJobAssoDlg_tbl
+               jQuery.each(data.jobList, function( index, job ) {
+                  var cbObject = jQuery('<input type="checkbox">').addClass("opt_enabled");
+                  cbObject.attr('checked', job.checked);
+                  //cbObject.prop( "disabled", job.disabled );
+
+                  var trObject = jQuery('<tr>').addClass("editPrjJobAssoDlg_tr").attr('data-jobId', job.id).append(
+                      jQuery('<td>').addClass("right").append(cbObject),
+                      jQuery('<td>').addClass("left").addClass("opt_jobName").attr('title', job.id).text(job.name)
+                  );
+                trObject.appendTo('#editPrjJobAssoDlg_tbl tbody');
+               });
+
+            }
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            console.error('ERROR getPrjJobAsso errorThrown', errorThrown);
+            // TODO inform user !
+         }
+      });
+
+      jQuery('#editPrjJobAsso_dialog').dialog('option', 'title', editTeamSmartyData.i18n_jobListForProject + projectName);
+      jQuery("#editPrjJobAssoDlg_tbl").attr('data-projectId', projectid);
+
+      jQuery("#editPrjJobAsso_dialog").dialog( "open" );
+   });
+
+   jQuery("#editPrjJobAsso_dialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      height: 'auto',
+      width: 400,
+      modal: true,
+      buttons: [
+         {
+            text: editTeamSmartyData.i18n_update,
+            click: function() {
+               var jobList = {};
+               $("#editPrjJobAssoDlg_tbl .editPrjJobAssoDlg_tr").each(function() {
+                  var jobId  = $(this).attr('data-jobId');
+                  var jobChecked = $(this).find(".opt_enabled").attr('checked') ? 1 : 0;
+                  jobList[jobId] = jobChecked;
+               });
+
+               // send edited jobPrjAsso data
+               $.ajax({
+                  url: editTeamSmartyData.ajaxPage,
+                  type: "POST",
+                  dataType:"json",
+                  data: {
+                     action: 'savePrjJobAsso',
+                     displayed_teamid: editTeamSmartyData.displayedTeamId,
+                     projectId: $("#editPrjJobAssoDlg_tbl").attr('data-projectId'),
+                     jobListStr: JSON.stringify(jobList)
+                  },
+                  success: function(data) {
+                     if ('SUCCESS' === data.statusMsg) {
+                        // UPDATE job list
+                        var myTr = $(".projectList_tr[data-projectId="+data.projectId+"]");
+                        myTr.find(".projectJobsList").text(data.jobNameListStr);
+                     } else {
+                        console.error("Ajax statusMsg", data.statusMsg);
+                        alert(data.statusMsg);
+                     }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+               jQuery(this).dialog( "close" );
+            }
+         },
+         {
+            text: editTeamSmartyData.i18n_cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
+
+
+
+
 }); // document ready
 
 function updateAddUdrDlg_userArrivalDate() {

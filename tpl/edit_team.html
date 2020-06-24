@@ -281,11 +281,12 @@
                      <th>{t}Type{/t}</th>
                      <th>{t}Status{/t}</th>
                      <th>{t}Jobs{/t}</th>
+                     <th title="{t}Edit Job list{/t}"></th>
                   </tr>
                </thead>
                <tbody>
                   {foreach from=$teamProjects key=id item=i}
-                  <tr>
+                  <tr class="projectList_tr" data-projectId="{$i.projectid}" data-projectName="{$i.name}">
                      <td class="ui-state-error-text" style="width:1em;">{if isset($i.delete) && $i.delete}
                         <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
                            onclick="removeTeamProject('{$id}','{$i.name}');return false;"></a>
@@ -293,7 +294,12 @@
                      <td title="{$i.projectid}">{$i.name}</td>
                      <td>{$i.typeNames}</td>
                      <td>{$i.enabled}</td>
-                     <td>{$i.jobs}</td>
+                     <td class="projectJobsList">{$i.jobs}</td>
+                     <td>
+                        {if (3 != $i.type)} {* type_noStatsProject (ExternalTasks project) *}
+                        <img class="editPrjJobAssociation_link pointer" align="absmiddle" title="{t}Edit Job list{/t}" src="images/b_edit.png"/>
+                        {/if}
+                     </td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -305,6 +311,20 @@
                   <input type="hidden" name="displayed_teamid" value="{$team->getId()}" />
                </fieldset>
             </form>
+
+            <div id="editPrjJobAsso_dialog" title="{t}Edit Job list{/t}" class="ui-helper-hidden">
+               <div style="height:300px;overflow-x:hidden;overflow-y:auto;">
+               <table id="editPrjJobAssoDlg_tbl" class="invisible" data-projectId="0">
+                  <tbody>
+                     <tr class="editPrjJobAssoDlg_tr" data-jobId="0">
+                        <td class="right"><input class="opt_enabled" type="checkbox"></td>
+                        <td class="left opt_jobName" title="0">jobName</td>
+                     </tr>
+                  </tbody>
+               </table>
+               </div>
+            </div>
+
          </div>
 
          <div style="margin-top: 4em;">
@@ -349,7 +369,7 @@
                      </tr>
                      <tr>
                         <td><label>{t}Team Average Daily Cost{/t}</label></td>
-                        <td><input size="10" name="teamAverageDailyCost" type="text" value="{$teamADR}"/> 
+                        <td><input size="10" name="teamAverageDailyCost" type="text" value="{$teamADR}"/>
                             <span class="displayedTeamCurrency" style="font-weight:bold">{$teamCurrency}</span>
                         </td>
                         <td><img class="teamAdrHelpDialog_link pointer" title="{t}Help{/t}" src="images/help_icon.gif"/></td>
@@ -648,7 +668,7 @@
             </form>
             {/if}
          </div>
-	
+
       </div>
       <div id="tabDuration">
          <!-- Duration -->
@@ -723,7 +743,7 @@
             	</fieldset>
          	</form>
          </div>
-         {/if}       
+         {/if}
       </div>
    </div>
 
@@ -753,7 +773,8 @@
          i18n_removeIssueTooltipCustomisationForProject:"{t}Remove IssueTooltip customisation for project{/t}",
          i18n_noLongerOnDuty:"{t}This task will no longer be identified as an 'OnDuty' task.{/t}",
          i18n_save:"{t}save{/t}",
-         i18n_updatedSuccessfully:"{t}Updated successfully !{/t}"
+         i18n_updatedSuccessfully:"{t}Updated successfully !{/t}",
+         i18n_jobListForProject:"{t}Job list for project :{/t} "
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>

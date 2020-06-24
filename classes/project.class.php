@@ -49,7 +49,7 @@ class Project extends Model {
       //self::type_workingProject  => "Project", // DEPRECATED
       self::type_noCommonProject => "Regular project", // previously "Project (no common jobs)"
       self::type_sideTaskProject => "SideTasks project",
-      self::type_noStatsProject  => "NoStats project (excluded from statistics)",
+      self::type_noStatsProject  => "External activity (excluded from statistics)",
    );
 
    public static $catTypeNames = array(

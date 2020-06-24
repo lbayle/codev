@@ -26,9 +26,9 @@ $logger = Logger::getLogger("editTeam_ajax");
 
 function getAvailableTooltipFields($project) {
 
-   $fields = array('project_id', 'category_id', 'status', 'summary', 
+   $fields = array('project_id', 'category_id', 'status', 'summary',
        'handler_id', 'priority', 'severity', 'target_version', 'version',
-       'eta', 'fixed_in_version', 
+       'eta', 'fixed_in_version',
        'codevtt_elapsed', 'codevtt_commands', 'codevtt_drift', 'codevtt_driftMgr',
        'mantis_tags');
 
@@ -115,7 +115,7 @@ if(Tools::isConnectedUser() &&
 
       } else if ('processPostSelectionAction' == $action) {
          try {
-         
+
             $selectedTooltips = Tools::getSecureGETStringValue('selectedItems', NULL);
             if (strlen($selectedTooltips) == 0) {
             	$selectedTooltips = null;
@@ -123,7 +123,7 @@ if(Tools::isConnectedUser() &&
 
             $implodedSrcRef = Tools::getSecureGETStringValue('itemSelection_srcRef');
             $srcRefList = Tools::doubleExplode(':', ',', $implodedSrcRef);
-            $projectid = $srcRefList['projectid'];
+            $projectId = $srcRefList['projectid'];
             $teamid = $srcRefList['teamid'];
 
             // save user preferances
@@ -131,7 +131,7 @@ if(Tools::isConnectedUser() &&
             if ($selectedTooltips != NULL) {
            		$tooltips = explode(',', $selectedTooltips);
             }
-            $project = ProjectCache::getInstance()->getProject($projectid);
+            $project = ProjectCache::getInstance()->getProject($projectId);
             $project->setIssueTooltipFields($tooltips, $teamid);
 
             $formattedFields = array();
@@ -144,7 +144,7 @@ if(Tools::isConnectedUser() &&
 
             // return row to add/replace in issueTooltipsTable
             $response = array();
-            $response['projectid'] = $projectid;
+            $response['projectid'] = $projectId;
             $response['projectName'] = $project->getName();
             $response['tooltipFields'] = $strFields;
 
@@ -164,7 +164,7 @@ if(Tools::isConnectedUser() &&
             $teamCurrency = Tools::getSecurePOSTStringValue('teamCurrency');
 
             // TOTO check ADR and currency values...
-            
+
             $team = TeamCache::getInstance()->getTeam($displayed_teamid);
             $team->setAverageDailyCost($teamADR);
             $team->setTeamCurrency($teamCurrency);
@@ -387,6 +387,82 @@ if(Tools::isConnectedUser() &&
          // return status & data
          $jsonData = json_encode($data);
          echo $jsonData;
+
+      } else if ('getPrjJobAsso' == $action) {
+         $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+         $projectId = Tools::getSecurePOSTIntValue('projectId');
+
+         $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+         $project = ProjectCache::getInstance()->getProject($projectId);
+         $teamProjTypes = $team->getProjectsType();
+         $projectJobs = $project->getJobList($teamProjTypes[$projectId]);
+
+         // get complete job list compatible with project type
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT * FROM codev_job_table";
+         $result = $sql->sql_query($query);
+
+         // if Regular project or sideTasksProject
+         // - display all jobs
+         // if externalTasksProject : only 'N/A" job, disable dialogBox
+
+         $jobList = array();
+         while($row = $sql->fetchObject($result)) {
+            $j = new Job($row->id, $row->name, $row->type, $row->color);
+            $jobList[$row->id] = array(
+               'id' => $row->id,
+               'name' => $row->name,
+               'type' => Job::$typeNames[$row->type],
+               'checked' => array_key_exists($row->id, $projectJobs),
+               // 'disabled' => false, // no reason yet to hide a job
+            );
+         }
+
+         $data['statusMsg'] = 'SUCCESS';
+         $data['jobList'] = $jobList;
+
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ('savePrjJobAsso' == $action) {
+         $data = array();
+         try {
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $projectId = Tools::getSecurePOSTIntValue('projectId');
+            $jobListStr = Tools::getSecurePOSTStringValue('jobListStr');
+            $jobList = json_decode(stripslashes($jobListStr), true);
+
+            // delete all previous job associations
+            $sql = AdodbWrapper::getInstance();
+            $query = "DELETE FROM codev_project_job_table WHERE project_id = ".$sql->db_param();
+            $sql->sql_query($query, array($projectId));
+
+            // set new project-job associations
+            foreach ($jobList as $job_id => $ischecked) {
+               if ($ischecked) {
+                  Jobs::addJobProjectAssociation($projectId, $job_id);
+               }
+            }
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+            $project = ProjectCache::getInstance()->getProject($projectId);
+            $teamProjTypes = $team->getProjectsType();
+            $projectJobs = $project->getJobList($teamProjTypes[$projectId]);
+
+            $jobNameListStr = implode(', ', $projectJobs);
+            $data['statusMsg'] = 'SUCCESS';
+            $data['projectId'] = $projectId;
+            $data['jobNameListStr'] = $jobNameListStr;
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION savePrjJobAsso: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            $data['statusMsg'] = 'ERROR';
+         }
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
       } else {
          Tools::sendNotFoundAccess();
       }

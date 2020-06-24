@@ -193,8 +193,31 @@ class Jobs {
     */
    public static function addJobProjectAssociation($project_id, $job_id) {
       $sql = AdodbWrapper::getInstance();
-      $query = "INSERT INTO codev_project_job_table (project_id, job_id)".
-               " VALUES (".$sql->db_param().", ".$sql->db_param().")";
+/*
+      // check if exists
+      $query  = "SELECT id FROM codev_project_job_table".
+         " WHERE project_id = ".$sql->db_param()." AND job_id = ".$sql->db_param();
+      $result = $sql->sql_query($query, array($project_id, $job_id));
+      $nb  = $sql->getNumRows($result);
+      self::$logger->error("$project_id, $job_id => $nb");
+
+      if ($nb == 0) {
+*/       $query = "INSERT INTO codev_project_job_table (project_id, job_id)".
+                  " VALUES (".$sql->db_param().", ".$sql->db_param().")";
+         $sql->sql_query($query, array($project_id, $job_id));
+//      }
+   }
+
+   /**
+    * @static
+    * @param int $project_id
+    * @param int $job_id
+    */
+   public static function removeJobProjectAssociation($project_id, $job_id) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "DELETE FROM codev_project_job_table ".
+         "WHERE project_id = ".$sql->db_param().
+         " AND job_id = ".$sql->db_param();
       $sql->sql_query($query, array($project_id, $job_id));
    }
 
