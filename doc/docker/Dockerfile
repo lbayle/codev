@@ -122,7 +122,6 @@ RUN ln -s /usr/share/phpMyAdmin/ /var/www/phpmyadmin && \
 RUN sed -i "s/Require ip 127.0.0.1/Require ip 172.17/" /etc/httpd/conf.d/phpMyAdmin.conf && \
     sed -i "s/Allow from 127.0.0.1/Allow from 172.17/" /etc/httpd/conf.d/phpMyAdmin.conf
 
-
 # ------------------
 # install MantisBT
 
@@ -160,6 +159,22 @@ RUN set -xe \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
     && mkdir -p /tmp/codevtt/logs \
     && chown -R apache:apache /tmp/codevtt
+
+# Update httpd.conf in order to restrict access as defined by .htaccess file.
+# .htaccess files are not evaluated since a default apache install does not allow to override directives in /var/www
+RUN set -xe \
+    && echo "#Mantis specific access policy" > /etc/httpd/conf.d/mantis.conf \
+    && echo "#CodevTT specific access policy" > /etc/httpd/conf.d/codevtt.conf \
+    && for f in $(find /var/www/html/mantis -name .htaccess) ; do \
+    echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/mantis.conf \
+    && cat $f >> /etc/httpd/conf.d/mantis.conf \
+    && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/mantis.conf \
+    ; done \
+    && for f in $(find /var/www/html/codevtt -name .htaccess) ; do \
+    echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/codevtt.conf \
+    && cat $f >> /etc/httpd/conf.d/codevtt.conf \
+    && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/codevtt.conf \
+    ; done
 
 # ------------------
 # Adding config files (bugtracker)
