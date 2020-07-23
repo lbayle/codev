@@ -114,6 +114,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN echo 'date.timezone=Europe/Paris' > /etc/php.d/00-docker-php-date-timezone.ini
 #RUN sed -i "s/^;date.timezone =.*$/date.timezone = \"Europe\/Paris\"/" /etc/php.ini
 
+# set PHP session lifetime (1 day)
+RUN echo "session.gc_maxlifetime = 86400" > /etc/php.d/00-docker-php-session.ini
+
 # configure phpMyAdmin (assuming DB container name is 'mariadb', see --link option)
 RUN ln -s /usr/share/phpMyAdmin/ /var/www/phpmyadmin && \
     sed -i "s/localhost/mariadb/" /etc/phpMyAdmin/config.inc.php
