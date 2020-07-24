@@ -53,6 +53,11 @@ RUN yum -y update && \
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 /etc/pki/rpm-gpg/RPM-GPG-KEY-remi /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 # ------------------
+# Reinstall glibc-common for i18n.
+# -> this fixes the case where only english is available in CodevTT
+RUN yum -y --setopt=override_install_langs=all reinstall glibc-common && yum clean all 
+
+# ------------------
 # install tools
 RUN yum -y install \
         vim-enhanced \
