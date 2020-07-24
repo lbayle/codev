@@ -493,7 +493,7 @@ CREATE TABLE IF NOT EXISTS "codev_plugin_table" (
   "domains" varchar(250) NOT NULL,
   "categories" varchar(250) NOT NULL,
   "version" varchar(10) NOT NULL,
-  "description" varchar(250) default NULL,
+  "description" varchar(1000) default NULL,
   PRIMARY KEY  ("name")
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;

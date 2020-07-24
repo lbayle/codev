@@ -687,6 +687,28 @@ function update_v19_to_v20() {
 
 }
 
+/**
+ * update 1.5.0 to 1.5.x (DB v20 to DB v21)
+ *
+ */
+function update_v20_to_v21() {
+
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v20_v21.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+   // execute the SQL script
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+
+}
 
 // ======================================================
 // toolbox
