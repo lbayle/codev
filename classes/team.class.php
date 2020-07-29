@@ -486,10 +486,10 @@ class Team extends Model {
    /**
     * @return string[]
     */
-   public function getMembers() {
+   public function getMembers($userRealName=FALSE) {
       if(NULL == $this->members) {
          $sql = AdodbWrapper::getInstance();
-         $query = "SELECT user.id, user.username ".
+         $query = "SELECT user.id, user.username, user.realname ".
                   " FROM {user} as user ".
                   " JOIN codev_team_user_table as team_user ON user.id = team_user.user_id ".
                   " WHERE team_user.team_id= ".$sql->db_param().
@@ -499,7 +499,7 @@ class Team extends Model {
 
          $this->members = array();
          while($row = $sql->fetchObject($result)) {
-            $this->members[$row->id] = $row->username;
+            $this->members[$row->id] = ($userRealName) ? $row->realname : $row->username;
          }
       }
 

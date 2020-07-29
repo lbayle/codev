@@ -1,0 +1,338 @@
+<div class="FillPeriodWithTimetracks">
+<div class="pluginInitFunction"  style="display: none;">FillPeriodWithTimetracksJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">FillPeriodWithTimetracksJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+
+   <div id="tabsFillPeriodWithTimetracks" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#FillPeriodWithTimetracks_tabAction">{t}Action{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#FillPeriodWithTimetracks_tabLogs">{t}Logs{/t}</a></li>
+      </ul>
+
+      <div id="FillPeriodWithTimetracks_tabAction">
+         <form id="FillPeriodWithTimetracks_form" method="POST" action="{$FillPeriodWithTimetracks_ajaxPhpURL}">
+            <fieldset>
+               <label>{t}User{/t}: </label>
+               <select class="FillPeriodWithTimetracks_managedUser select2" name="FillPeriodWithTimetracks_managedUser" style="min-width:200px;" >
+                  <option value="0"> </option>
+               {foreach from=$FillPeriodWithTimetracks_teamMembers key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+               </select>
+               &nbsp;&nbsp;
+               <label>{t}Period{/t}: </label>
+               <input type="text" class="FillPeriodWithTimetracks_startdatepicker datepicker" name="FillPeriodWithTimetracks_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+               <label> &nbsp;{t}to{/t}&nbsp; </label>
+               <input type="text" class="FillPeriodWithTimetracks_enddatepicker datepicker" name="FillPeriodWithTimetracks_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date{/t}" />
+               <br><br>
+               <table class="invisible">
+                  <tr>
+                     <td><label>{t}Task{/t}: </label></td>
+                     <td>
+                        <select class="FillPeriodWithTimetracks_issueId select2" name="FillPeriodWithTimetracks_issueId" style="min-width:800px;">
+                           <option value="0"></option>
+                        {foreach from=$FillPeriodWithTimetracks_taskList key=id item=i}
+                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                        </select>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td><label>{t}Job{/t}: </label></td>
+                     <td><select class="FillPeriodWithTimetracks_jobId" name="FillPeriodWithTimetracks_jobId" style="min-width:100px;"></select></td>
+                  </tr>
+                  <tr>
+                     <td><label title="{t}Number of days to add on the period{/t}">{t}Nb days{/t}: </label></td>
+                     <td>
+                        <input type="text" class="FillPeriodWithTimetracks_elapsedTarget" name="FillPeriodWithTimetracks_elapsedTarget" title="{t}Number of days to add on the period{/t}"/>
+                        &nbsp;&nbsp;
+                        <label class="FillPeriodWithTimetracks_availableOnPeriod success_font" data-availableOnPeriod="0"></label>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td><label>{t}Task backlog{/t}: </label></td>
+                     <td><input type="text" class="FillPeriodWithTimetracks_finalBacklog" name="FillPeriodWithTimetracks_finalBacklog" /></td>
+                  </tr>
+                  <tr>
+                     <td><label>{t}Timetrack note{/t}: </label></td>
+                     <td>
+                        <textarea name="FillPeriodWithTimetracks_ttNote" style="width:100%;background-color:white;">{$FillPeriodWithTimetracks_ttNote}</textarea>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <input class="FillPeriodWithTimetracks_submit" type="submit" value="{t}Execute{/t}" />
+                        <img class="FillPeriodWithTimetracks_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+
+                     </td>
+                     <td>
+                        <label class="FillPeriodWithTimetracks_infoMsg success_font" ></label>
+                        <label class="FillPeriodWithTimetracks_errorMsg error_font" ></label>
+                     </td>
+                  </tr>
+               </table>
+               &nbsp;
+
+               <input type="hidden" name="action" value="" />
+               <input type="hidden" name="dashboardId" value="" />
+            </fieldset>
+         </form>
+      </div>
+      <div id="FillPeriodWithTimetracks_tabLogs">
+         <textarea name="FillPeriodWithTimetracks_actionLogs" style="width:100%;background-color:white;" rows="14" ></textarea>
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+      <span class="FillPeriodWithTimetracksHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+   </div>
+   <div class="FillPeriodWithTimetracksHelpDialog ui-helper-hidden" title="{t}Fill Period With Timetracks{/t}">
+      <p>
+         <strong>{t}Description{/t}:</strong><br>
+         {t}Add multiple timetracks at once{/t}
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+
+</div>
+
+<script type="text/javascript">
+
+   /*
+    * this is called on:
+    * - dates changed
+    * - managedUser changed
+    * - addTimetracks action processed
+    */
+   function updateAvailableOnPeriod() {
+      jQuery('.FillPeriodWithTimetracks_spinner').show(); // spinner img
+      jQuery(".FillPeriodWithTimetracks_availableOnPeriod").html('');
+      var form = jQuery('#FillPeriodWithTimetracks_form');
+      form.find("input[name=action]").val("getAvailableOnPeriod");
+
+      jQuery.ajax({
+         async: false,
+         type: "POST",
+         url: '{$FillPeriodWithTimetracks_ajaxPhpURL}',
+         dataType:"json",
+         data: form.serialize(),
+         success: function(data) {
+            if('SUCCESS' !== data.statusMsg) {
+               console.error(data.statusMsg);
+               jQuery(".FillPeriodWithTimetracks_availableOnPeriod").html("{t}Error !{/t}"); // data.statusMsg);
+            } else {
+               jQuery(".FillPeriodWithTimetracks_availableOnPeriod").html(data.availableOnPeriod+" {t}days available on period{/t}");
+               jQuery(".FillPeriodWithTimetracks_availableOnPeriod").attr("data-availableOnPeriod", data.availableOnPeriod);
+            }
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            if(errorThrown == 'Forbidden') {
+               window.location = '{$page}';
+            }
+            jQuery(".FillPeriodWithTimetracks_errorMsg").text("ERROR !!");
+         }
+      });
+      jQuery('.FillPeriodWithTimetracks_spinner').hide(); // spinner img
+   }
+
+   // check data before action 'addTimetracks'
+   function consistencyCheck() {
+      jQuery(".FillPeriodWithTimetracks_infoMsg").text("");
+      jQuery(".FillPeriodWithTimetracks_errorMsg").text("");
+
+      var form = jQuery('#FillPeriodWithTimetracks_form');
+      var elapsedTarget = jQuery(".FillPeriodWithTimetracks_elapsedTarget");
+      var finalBacklog = form.find("input[name=FillPeriodWithTimetracks_finalBacklog]");
+      var availableOnPeriod = jQuery(".FillPeriodWithTimetracks_availableOnPeriod").attr("data-availableOnPeriod");
+
+      // correct common mistakes
+      var str = elapsedTarget.val().replace(/,/g, ".");
+      elapsedTarget.val(str);
+      var str = finalBacklog.val().replace(/,/g, ".");
+      finalBacklog.val(str);
+
+      // check fields
+      var errMsg = '';
+      if ('0' === form.find("select[name=FillPeriodWithTimetracks_managedUser]").val()) {
+         errMsg += 'User, ';
+      }
+      if ('0' === form.find("select[name=FillPeriodWithTimetracks_issueId]").val()) {
+         errMsg += 'Task, ';
+      }
+      if (null === $(".FillPeriodWithTimetracks_jobId").val()) {
+         errMsg += 'Job, ';
+      }
+      if (('' === elapsedTarget.val()) || (isNaN(elapsedTarget.val())) ||
+          (parseFloat(elapsedTarget.val()) > parseFloat(availableOnPeriod))) {
+         errMsg += 'Nb days, ';
+      }
+      if (('' === finalBacklog.val()) || isNaN(finalBacklog.val())) {
+         errMsg += 'Backlog';
+      }
+
+
+      if ('' === errMsg) {
+         return 'SUCCESS';
+      } else {
+         jQuery(".FillPeriodWithTimetracks_errorMsg").text("{t}ERROR: Please check{/t} : " + errMsg);
+         return 'ERROR';
+      }
+   }
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function FillPeriodWithTimetracksJsDestroy() {
+      console.log('FillPeriodWithTimetracksJsDestroy');
+      jQuery(".FillPeriodWithTimetracksHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function FillPeriodWithTimetracksJsInit() {
+
+      jQuery('.FillPeriodWithTimetracks_spinner').hide(); // hide spinner
+
+      // set select2 with width adapted to the content
+      $(".FillPeriodWithTimetracks_managedUser").select2({ width: 'resolve' });
+      $(".FillPeriodWithTimetracks_issueId").select2({ width: 'resolve' });
+
+      var form = jQuery('#FillPeriodWithTimetracks_form');
+      var dashboardId = $('.FillPeriodWithTimetracks').parents('.codevttDashboard').attr('data-dashboardId');
+      form.find("input[name=dashboardId]").val(dashboardId);
+
+      // ------------------------
+      // datepicker
+      if ('{$locale}' !== 'en') {
+         jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      }
+      jQuery(".FillPeriodWithTimetracks_startdatepicker").datepicker("setDate" ,"{$FillPeriodWithTimetracks_startDate}");
+      jQuery(".FillPeriodWithTimetracks_enddatepicker").datepicker("setDate" ,"{$FillPeriodWithTimetracks_endDate}");
+
+      // ------------------------
+      jQuery(".FillPeriodWithTimetracks_managedUser").change(function() {
+         jQuery(".FillPeriodWithTimetracks_infoMsg").text("");
+         jQuery(".FillPeriodWithTimetracks_errorMsg").text("");
+         updateAvailableOnPeriod();
+      });
+      jQuery(".FillPeriodWithTimetracks_startdatepicker").change(function() {
+         // do not update if user not set !
+         if ('0' !== form.find("select[name=FillPeriodWithTimetracks_managedUser]").val()) {
+            jQuery(".FillPeriodWithTimetracks_infoMsg").text("");
+            jQuery(".FillPeriodWithTimetracks_errorMsg").text("");
+            updateAvailableOnPeriod();
+         }
+      });
+      jQuery(".FillPeriodWithTimetracks_enddatepicker").change(function() {
+         // do not update if user not set !
+         if ('0' !== form.find("select[name=FillPeriodWithTimetracks_managedUser]").val()) {
+            jQuery(".FillPeriodWithTimetracks_infoMsg").text("");
+            jQuery(".FillPeriodWithTimetracks_errorMsg").text("");
+            updateAvailableOnPeriod();
+         }
+      });
+
+      // ===== getJobs
+      jQuery(".FillPeriodWithTimetracks_issueId").change(function() {
+
+         jQuery(".FillPeriodWithTimetracks_infoMsg").text("");
+         jQuery(".FillPeriodWithTimetracks_errorMsg").text("");
+         jQuery('.FillPeriodWithTimetracks_spinner').show(); // spinner img
+         var form = jQuery('#FillPeriodWithTimetracks_form');
+         form.find("input[name=action]").val("getJobs");
+
+         jQuery.ajax({
+            async: false,
+            type: "POST",
+            url: '{$FillPeriodWithTimetracks_ajaxPhpURL}',
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".FillPeriodWithTimetracks_errorMsg").text("{t}ERROR{/t} : {t}Could not retrieve task data !{/t}");
+               } else {
+                  // update jobList
+                  var cbJobList = $(".FillPeriodWithTimetracks_jobId");
+                  cbJobList.find('option').remove(); // clear jobList
+
+                  $.each(data.jobList, function(key, value) {
+                     cbJobList.append(new Option(value, key));
+                  });
+                  // restore previous selected jobId if exists
+                  cbJobList.val(data.selectedJobId);
+
+                  // update issue backlog with actual DB value
+                  form.find("input[name=FillPeriodWithTimetracks_finalBacklog]").val(data.backlog);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+               jQuery(".FillPeriodWithTimetracks_errorMsg").text("ERROR !!");
+            }
+         });
+         jQuery('.FillPeriodWithTimetracks_spinner').hide(); // spinner img
+
+      });
+
+      // ===== addTimetracks
+      // on reload with new date range
+      jQuery('.FillPeriodWithTimetracks_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         // check data before sending action 'addTimetracks'
+         if ('SUCCESS' === consistencyCheck()) {
+
+            var form = jQuery('#FillPeriodWithTimetracks_form');
+            form.find("input[name=action]").val("addTimetracks");
+
+            jQuery.ajax({
+               async: false,
+               type: form.attr('method'),
+               url: form.attr('action'),
+               dataType:"json",
+               data: form.serialize(),
+               success: function(data) {
+                  if('SUCCESS' !== data.statusMsg) {
+                     console.error(data.statusMsg);
+                     jQuery(".FillPeriodWithTimetracks_errorMsg").text("ERROR !");
+                     // TODO display more error info ?
+                  } else {
+                     jQuery(".FillPeriodWithTimetracks_infoMsg").text("SUCCESS !");
+                     var prevLogs = jQuery("#FillPeriodWithTimetracks_tabLogs").find("textarea[name=FillPeriodWithTimetracks_actionLogs]").val();
+                     jQuery("#FillPeriodWithTimetracks_tabLogs").find("textarea[name=FillPeriodWithTimetracks_actionLogs]").html(prevLogs + data.actionLogs);
+
+                     jQuery(".FillPeriodWithTimetracks_availableOnPeriod").html(data.availableOnPeriod+" {t}days available on period{/t}");
+                     jQuery(".FillPeriodWithTimetracks_availableOnPeriod").attr("data-availableOnPeriod", data.availableOnPeriod);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  if(errorThrown == 'Forbidden') {
+                     window.location = '{$page}';
+                  }
+               jQuery(".FillPeriodWithTimetracks_errorMsg").text("ERROR !!");
+               }
+            });
+         }
+      });
+
+      // ------------------------
+      jQuery(".FillPeriodWithTimetracksHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".FillPeriodWithTimetracksHelpDialog").dialog("open");
+      });
+      jQuery(".FillPeriodWithTimetracksHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "650px",
+         hide: "fade"
+      });
+
+   };
+</script>
+</div>

@@ -326,6 +326,7 @@ class EditTeamController extends Controller {
                $dashboard->setCategories(array(
                    IndicatorPluginInterface::CATEGORY_ADMIN,
                    IndicatorPluginInterface::CATEGORY_IMPORT,
+                   IndicatorPluginInterface::CATEGORY_ACTIVITY,
                   ));
                $dashboard->setTeamid($this->teamid);
                $dashboard->setUserid($this->session_userid);
