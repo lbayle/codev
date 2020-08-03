@@ -51,7 +51,7 @@
        <p>{t}Reduce the command selection by setting some filters{/t}</p>
        <form id="formSetStateFilter" name="formSetStateFilter" method="post" action="{$page}" >
           <fieldset>
-             {foreach from=$cmdStateFilterInfo key=id item=i} 
+             {foreach from=$cmdStateFilterInfo key=id item=i}
              <input type="checkbox" class="cb_cmdStateFilter" name="{$i.stateId}" {if $i.isChecked} checked="checked" {/if}/>
              <label>{$i.stateName}</label>
              <br>
@@ -63,7 +63,7 @@
           </fieldset>
        </form>
     </div>
-    
+
    {if isset($cmdid)}
    {include file="modal/consistency_check.html"}
 
@@ -85,7 +85,7 @@
             </td>
          </tr>
 
-         {if isset($isManager) && $isManager}
+         {if $isManager || $isObserver}
          <tr>
             <th valign="top">{t}Budget{/t}</th>
             <td valign="top">: </td>
@@ -137,7 +137,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_wbs">{t}WBS{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_tasks">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
+         {if $isManager || $isObserver}<li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>{/if}
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_gantt">{t}Gantt{/t}</a></li>
       </ul>
@@ -177,7 +177,7 @@
                <td valign="top">: </td>
                <td>{$cmdDeadline}</td>
             </tr>
-           {if isset($isManager) && $isManager}
+           {if $isManager || $isObserver}
            {if isset($cmdAverageDailyRate)}
             <tr>
                <th title="{t}Average Daily Rate{/t}" ><span class="help_font" >{t}Default ADR{/t}</span></th>
@@ -198,9 +198,9 @@
             </tr>
          </table>
       </div>
+      {if $isManager || $isObserver}
       <div id="tab_provisions">
-          {if isset($isManager) && $isManager}
-          
+
          <div>
             <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" />{t}Total{/t}</label>
             <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" checked="checked" />{t}Provisions{/t}</label>
@@ -267,8 +267,8 @@
             {t}None{/t}
             {/if}
          </div>
-           {/if}
       </div>
+      {/if}
 
       <div id="tab_tasks">
 
@@ -286,13 +286,13 @@
                      <th>{t}Type{/t}</th>
                      <th>{t}Status{/t}</th>
                      <th>{t}Progress{/t}</th>
-                     {if isset($isManager) && $isManager}
+                     {if $isManager || $isObserver}
                      <th>{t}MgrEffortEstim{/t}</th>
                      {/if}
                      <th>{t}EffortEstim{/t}</th>
                      <th>{t}Elapsed{/t}</th>
                      <th title="{t}Backlog{/t}">{t}BL{/t}</th>
-                     {if isset($isManager) && $isManager}
+                     {if $isManager || $isObserver}
                      <th>{t}Drift Mgr{/t}</th>
                      {else}
                      <th>{t}Drift{/t}</th>
@@ -314,7 +314,7 @@
                      <td style="width:1em;" nowrap="nowrap">{$issue.status}</td>
                      <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
                      <!--MgrEfforstEstim TD-->
-                     {if $isManager}
+                     {if $isManager || $isObserver}
                      <td {if $isEditGranted}class="td_editable" data-fieldname="MgrEffortEstim"{/if} style="width:1em; position: relative; z-index=9999;" nowrap="nowrap">{$issue.mgrEffortEstim}</td>
                      {/if}
                      <!--EffortEstim TD-->
@@ -365,7 +365,7 @@
       </div>
       {/if}
    </div>
-   
+
    <script src="lib/DataTables/media/js/jquery.dataTables.min.js"></script>
    <script src="lib/jquery.jeditable/jquery.jeditable.mini.js"></script>
    <script src="lib/dhtmlxGantt/dhtmlxgantt.js" type="text/javascript" charset="utf-8"></script>
