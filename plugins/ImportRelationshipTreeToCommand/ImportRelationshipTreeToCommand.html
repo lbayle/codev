@@ -1,0 +1,203 @@
+<div class="ImportRelationshipTreeToCommand">
+{if $ImportRelationshipTreeToCommand_accessDenied }
+<p class="center ui-state-error-text" style="margin-top:2em;margin-bottom:2em;">{t}Sorry, you need to be manager to use this plugin{/t}</p>
+{else}
+
+<div class="pluginInitFunction"  style="display: none;">ImportRelationshipTreeToCommandJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">ImportRelationshipTreeToCommandJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+
+   <div id="tabsImportRelationshipTreeToCommand" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#ImportRelationshipTreeToCommand_tabAction">{t}Action{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#ImportRelationshipTreeToCommand_tabLogs">{t}Logs{/t}</a></li>
+      </ul>
+
+      <div id="ImportRelationshipTreeToCommand_tabAction">
+         <form id="ImportRelationshipTreeToCommand_form" method="POST" action="{$ImportRelationshipTreeToCommand_ajaxPhpURL}">
+            <fieldset>
+               <table class="invisible">
+                  <tr>
+                     <td><label>{t}Root task{/t}: </label></td>
+                     <td>
+                        <select class="ImportRelationshipTreeToCommand_issueId" name="ImportRelationshipTreeToCommand_issueId" style="min-width:800px;">
+                           <option value="0"></option>
+                        {foreach from=$ImportRelationshipTreeToCommand_taskList key=id item=i}
+                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                        </select>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td><label>{t}Command{/t}: </label></td>
+                     <td>
+                        <select class="ImportRelationshipTreeToCommand_commandId " name="ImportRelationshipTreeToCommand_commandId" style="min-width:200px;" >
+                           <option value="0"> </option>
+                        {foreach from=$ImportRelationshipTreeToCommand_teamCommands key=id item=i}
+                           <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i}</option>
+                        {/foreach}
+                        </select>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td><label>{t}Options{/t}: </label></td>
+                     <td>
+                        <input class="ImportRelationshipTreeToCommand_isIncludeParentIssue" type="checkbox"> {t}Also include parent-tasks in the tree (default: include as folder only){/t}
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <input class="ImportRelationshipTreeToCommand_submit" type="submit" value="{t}Execute{/t}" />
+                        <img class="ImportRelationshipTreeToCommand_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+                     </td>
+                     <td>
+                        <label class="ImportRelationshipTreeToCommand_infoMsg success_font" ></label>
+                        <label class="ImportRelationshipTreeToCommand_errorMsg error_font" ></label>
+                     </td>
+                  </tr>
+               </table>
+               <input type="hidden" name="action" value="" />
+               <input type="hidden" name="dashboardId" value="" />
+               <input type="hidden" name="optionsJsonStr" value="" />
+            </fieldset>
+         </form>
+      </div>
+      <div id="ImportRelationshipTreeToCommand_tabLogs">
+         <textarea name="ImportRelationshipTreeToCommand_actionLogs" style="width:100%;background-color:white;" rows="14" ></textarea>
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+      <span class="ImportRelationshipTreeToCommandHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+   </div>
+   <div class="ImportRelationshipTreeToCommandHelpDialog ui-helper-hidden" title="{t}Import Relationship tree to command{/t}">
+         {t}TODO{/t}
+      <p style="margin-top:1em;">
+         <strong>{t}Description{/t}:</strong><br>
+         {t}TODO{/t}
+      </p>
+   </div>
+
+   <div class="ui-helper-clearfix"></div>
+
+</div>
+
+<script type="text/javascript">
+
+   // check data before action 'addTimetracks'
+   function consistencyCheck() {
+      jQuery(".ImportRelationshipTreeToCommand_infoMsg").text("");
+      jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("");
+
+      var form = jQuery('#ImportRelationshipTreeToCommand_form');
+
+      // check fields
+      var errMsg = '';
+      if ('0' === form.find("select[name=ImportRelationshipTreeToCommand_commandId]").val()) {
+         errMsg += 'Command, ';
+      }
+      if ('0' === form.find("select[name=ImportRelationshipTreeToCommand_issueId]").val()) {
+         errMsg += 'Task, ';
+      }
+      if ('' === errMsg) {
+         return 'SUCCESS';
+      } else {
+         jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("{t}ERROR: Please check{/t} : " + errMsg);
+         return 'ERROR';
+      }
+   }
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function ImportRelationshipTreeToCommandJsDestroy() {
+      console.log('ImportRelationshipTreeToCommandJsDestroy');
+      jQuery(".ImportRelationshipTreeToCommandHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function ImportRelationshipTreeToCommandJsInit() {
+
+      jQuery('.ImportRelationshipTreeToCommand_spinner').hide(); // hide spinner
+
+      // set select2
+      $(".ImportRelationshipTreeToCommand_commandId").select2({ width: 'resolve' });
+      $(".ImportRelationshipTreeToCommand_issueId").select2({ width: 'resolve' });
+
+      var form = jQuery('#ImportRelationshipTreeToCommand_form');
+      var dashboardId = $('.ImportRelationshipTreeToCommand').parents('.codevttDashboard').attr('data-dashboardId');
+      form.find("input[name=dashboardId]").val(dashboardId);
+
+      // ------------------------
+      jQuery(".ImportRelationshipTreeToCommand_issueId").change(function() {
+         jQuery(".ImportRelationshipTreeToCommand_infoMsg").text("");
+         jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("");
+      });
+      jQuery(".ImportRelationshipTreeToCommand_commandId").change(function() {
+         jQuery(".ImportRelationshipTreeToCommand_infoMsg").text("");
+         jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("");
+      });
+
+      // ===== import tasks to Command
+      jQuery('.ImportRelationshipTreeToCommand_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         // check data before sending action 'addTimetracks'
+         if ('SUCCESS' === consistencyCheck()) {
+
+            var form = jQuery('#ImportRelationshipTreeToCommand_form');
+            form.find("input[name=action]").val("importRelationshipTreeToCommand");
+
+            // add checkbox options
+            var options = {};
+            options["isIncludeParentIssue"] = form.find(".ImportRelationshipTreeToCommand_isIncludeParentIssue").attr('checked') ? 1 : 0;
+            // if more options, add here
+            var optionsJsonStr = JSON.stringify(options);
+            form.find('input[name=optionsJsonStr]').val(optionsJsonStr);
+
+            jQuery.ajax({
+               async: false,
+               type: form.attr('method'),
+               url: form.attr('action'),
+               dataType:"json",
+               data: form.serialize(),
+               success: function(data) {
+                  if('SUCCESS' !== data.statusMsg) {
+                     console.error(data.statusMsg);
+                     jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("ERROR !");
+                     // TODO display more error info ?
+                  } else {
+                     jQuery(".ImportRelationshipTreeToCommand_infoMsg").text("SUCCESS !");
+                     var prevLogs = jQuery("#ImportRelationshipTreeToCommand_tabLogs").find("textarea[name=ImportRelationshipTreeToCommand_actionLogs]").val();
+                     jQuery("#ImportRelationshipTreeToCommand_tabLogs").find("textarea[name=ImportRelationshipTreeToCommand_actionLogs]").html(prevLogs + data.actionLogs);
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  if(errorThrown == 'Forbidden') {
+                     window.location = '{$page}';
+                  }
+               jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("ERROR !!");
+               }
+            });
+         }
+      });
+
+      // ------------------------
+      jQuery(".ImportRelationshipTreeToCommandHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".ImportRelationshipTreeToCommandHelpDialog").dialog("open");
+      });
+      jQuery(".ImportRelationshipTreeToCommandHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "650px",
+         hide: "fade"
+      });
+
+   };
+</script>
+{/if}
+</div>

@@ -79,6 +79,7 @@ class Constants {
    //--- RELATIONSHIPS ---
    public static $relationship_constrained_by;
    public static $relationship_constrains;
+   public static $relationship_parent_of = 2; // default mantis value
 
    //--- INTERNET ---
    public static $proxy;
@@ -259,6 +260,10 @@ class Constants {
       self::$relationship_constrained_by = $relationships['relationship_constrained_by'];
       self::$relationship_constrains = $relationships['relationship_constrains'];
 
+      if (null != $relationships && array_key_exists('relationship_parent_of', $relationships)) {
+         self::$relationship_parent_of = $relationships['relationship_parent_of'];
+      }
+
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', $relationships['relationship_constrained_by'] );
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',     $relationships['relationship_constrains'] );
 
@@ -385,6 +390,7 @@ class Constants {
       $relationships = array();
       $relationships['relationship_constrained_by'] = self::$relationship_constrained_by; // BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY;
       $relationships['relationship_constrains']     = self::$relationship_constrains;     // BUG_CUSTOM_RELATIONSHIP_CONSTRAINS;
+      $relationships['relationship_parent_of']     = self::$relationship_parent_of;
 
       $perf = array();
       $perf[] = '; display tooltips on only the x last_updated issues.';

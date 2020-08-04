@@ -60,8 +60,8 @@ class Issue extends Model implements Comparable {
             '0_REV' => T_('Has duplicate'),
             '1'     => T_('Related to'),
             '1_REV' => T_('Related to'),
-            '2'     => T_('Parent of'),
-            '2_REV' => T_('Child of'),
+            ''.Constants::$relationship_parent_of     => T_('Parent of'), // 2
+            ''.Constants::$relationship_parent_of.'_REV' => T_('Child of'),
             ''.Constants::$relationship_constrained_by  => T_('Constrained by'),
             ''.Constants::$relationship_constrains      => T_('Constrains'),
          );

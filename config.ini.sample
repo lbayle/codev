@@ -57,6 +57,7 @@ resolution_reopened = 30
 [relationships]
 relationship_constrained_by = 2500
 relationship_constrains = 2501
+relationship_parent_of = 2
 
 [perf]
 ; display tooltips on only the x last_updated issues.
