@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-07-27 16:19:24+0000\n"
+"PO-Revision-Date: 2020-09-07 14:38:00+0000\n"
 "Language: diq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3682,14 +3682,12 @@ msgid "User info"
 msgstr ""
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Karber"
+msgstr "IDa Karberi"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Terixê resayışi"
+msgstr "Terixê resayışi ekibi"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
@@ -4312,9 +4310,8 @@ msgstr "Dêsê mesaci"
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "Administrator Taxım"
+msgstr "Hacetê idareyi"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Run selected actions"
@@ -4333,9 +4330,8 @@ msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Karberi"
+msgstr "karberi"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
@@ -5956,9 +5952,8 @@ msgid "Everybody"
 msgstr "Herkes"
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "CodevTT Dokuman Wiki"
+msgstr "CodevTT hacetê idareyi"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"

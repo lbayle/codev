@@ -5,13 +5,14 @@
 # Author: Metalhead64
 # Author: Palmertim00
 # Author: ThePiscin
+# Author: Umherirrender
 msgid ""
 msgstr ""
 ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-07-27 16:19:24+0000\n"
+"PO-Revision-Date: 2020-08-13 17:13:24+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -3687,12 +3688,10 @@ msgid "User info"
 msgstr "Benutzer"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Benutzer"
+msgstr "Benutzer-ID"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
 msgstr "Benutzereintrittsdatum"
 
@@ -4321,31 +4320,26 @@ msgstr "Nachrichtenwand"
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
 msgstr "CodevTT-Verwaltung"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "Zeitspanne löschen"
+msgstr "Ausgwählte Aktionen ausführen"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Execute"
 msgstr "Ausführen"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "Keine Aufgabe ausgewählt!"
+msgstr "Aktionen ausgeführt!"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr "Eine Nachrichtenwand auf der Startseite anzeigen"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
 msgstr "Mitarbeiter"
 
@@ -4354,9 +4348,8 @@ msgid "Clear Dashboard"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "for user "
-msgstr "Benutzer importieren"
+msgstr "für Benutzer "
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 #, fuzzy
@@ -5882,14 +5875,12 @@ msgid "Timetrack not added: Job is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Aufgabe wurde nicht angegeben."
 
 #: timetracking/time_tracking.php:155
-#, fuzzy
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Aufgabe wurde nicht angegeben."
 
 #: timetracking/time_tracking.php:160
-#, fuzzy
 msgid "Timetrack not added: duration is not specified"
-msgstr "Zeiterfassung nicht hinzugefügt: Aufgabe wurde nicht angegeben."
+msgstr "Zeiterfassung nicht hinzugefügt: Dauer wurde nicht angegeben."
 
 #: timetracking/time_tracking.php:224
 msgid "Failed to delete the timetrack !"
@@ -5981,9 +5972,8 @@ msgid "Everybody"
 msgstr "Jeder"
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "CodevTT-Verwaltung"
+msgstr "CodevTT-Verwaltungstools"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"

@@ -5,6 +5,8 @@
 # Author: BaRaN6161 TURK
 # Author: Liuxinyu970226
 # Author: Mirzali
+# Author: MuratTheTurkish
+# Author: Patriot Kur
 # Author: Robby
 # Author: Urhixidur
 # Author: Verdy p
@@ -13,7 +15,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2020-07-27 16:19:29+0000\n"
+"PO-Revision-Date: 2020-09-17 14:38:27+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5826,7 +5828,7 @@ msgstr ""
 
 #: timetracking/holidays_report.php:140
 msgid "today"
-msgstr "{{Identical|Today}}"
+msgstr "{{Identical|ımrüj}}"
 
 #. light grey
 #: timetracking/holidays_report.php:206
@@ -6154,7 +6156,7 @@ msgstr ""
 
 #: scheduler/scheduler.php:108
 msgid "Today"
-msgstr "{{Identical|Today}}"
+msgstr ""
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"

@@ -4,6 +4,7 @@
 # Author: Jkl
 # Author: Jopparn
 # Author: Rockyfelle
+# Author: Sabelöga
 # Author: Umeaboy
 # Author: WikiPhoenix
 msgid ""
@@ -11,7 +12,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-19 11:53+0200\n"
-"PO-Revision-Date: 2020-07-27 16:19:28+0000\n"
+"PO-Revision-Date: 2020-08-17 17:14:44+0000\n"
 "Language: sv_se\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -112,7 +113,7 @@ msgstr "Belastning per Jobb"
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
-msgstr "Projektetdetalj"
+msgstr "Projektdetalj"
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -1328,7 +1329,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "ADR"
-msgstr ""
+msgstr "ADR"
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
@@ -1447,7 +1448,7 @@ msgstr "IE kanske inte visar denna webbplats helt rätt"
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
-msgstr "överlägg att använda en standardkompatibel webbläsare"
+msgstr "överväg att använda en standardkompatibel webbläsare"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
@@ -1607,7 +1608,7 @@ msgstr "radera denna rad"
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr "Uppdatera legmedlem"
+msgstr "Uppdatera teammedlem"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
