@@ -18,19 +18,34 @@
    {/if}
 
    {if isset($projectid)}
-      
+
          <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
       </ul>
 
-      <div id="tab_indicators">{include file="tools/dashboard.html"}</div>
+      <div id="tab_indicators">
+         <div class="center">
+            <form id="formPrjSetDateRange" name="formPrjSetDateRange" class="formWithTabsHistory" method="post" action="{$page}">
+               <fieldset>
+                  <label for="startdatepicker">{t}From{/t}:</label>
+                  <input type="text" id="startdatepicker" class="datepicker" name="startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+                  <label for="enddatepicker">{t}To{/t}:</label>
+                  <input type="text" id="enddatepicker" class="datepicker" name="enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+                  <input type="hidden" name="action" value="setDateRange" />
+                  <input id="btPrjSetDateRange" type="button" value="{t}Compute{/t}" />
+               </fieldset>
+            </form>
+         </div>
+         {include file="tools/dashboard.html"}
+      </div>
 
    {/if}
    {if isset($error)}
    <p class="center ui-state-error-text">{$error}</p>
    {/if}
-   
+
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
    <script type="text/javascript">
       jQuery(document).ready(function() {
          jQuery("#projectid").change(function() {
@@ -39,9 +54,29 @@
                form.submit();
             }
          });
+
+         if ('{$locale}' !== 'en') {
+            jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+         }
+         // Set the date
+         var startDatePicker = jQuery("#startdatepicker").datepicker("setDate" ,"{$startDate}");
+         var endDatePicker = jQuery("#enddatepicker").datepicker("setDate" ,"{$endDate}");
+
+         // Add range date
+         startDatePicker.datepicker("option","beforeShow",function(input) {
+            jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+         });
+         endDatePicker.datepicker("option","beforeShow",function(input) {
+            jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+         });
+
+         jQuery('#btPrjSetDateRange').click(function() {
+            var form = jQuery('#formPrjSetDateRange');
+            form.submit();
+         });
       });
    </script>
-   
+
 {else}
 <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
 {/if}

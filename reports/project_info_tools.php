@@ -29,22 +29,13 @@ class ProjectInfoTools {
     * @param Command $prj
     * @param int $userid
     */
-   public static function dashboardSettings(SmartyHelper $smartyHelper, Project $prj, $userid, $teamid) {
+   public static function dashboardSettings(SmartyHelper $smartyHelper, Project $prj, $userid, $teamid, $startT, $endT) {
 
       $pluginDataProvider = PluginDataProvider::getInstance();
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION, $prj->getIssueSelection());
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $teamid);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $userid);
 
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $startT = $team->getDate();
-      $now = time();
-      $endT = mktime(23, 59, 59, date('m', $now), date('d', $now), date('Y', $now));
-      if ($startT > $endT ) {
-         $startT = strtotime('today midnight');
-      }
-      //echo "start $startT end $endT<br>";
-      
       // Calculate a nice day interval
       $nbWeeks = ($endT - $startT) / 60 / 60 / 24;
       $interval = ceil($nbWeeks / 20);

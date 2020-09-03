@@ -38,6 +38,7 @@ class ProjectInfoController extends Controller {
         if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
         } else {
+            $action = filter_input(INPUT_POST, 'action');
 
             $tmpTeamList = array($this->teamid => $this->teamList[$this->teamid]);
             $projList = $this->session_user->getProjectList($tmpTeamList, true, false);
@@ -70,6 +71,24 @@ class ProjectInfoController extends Controller {
                $project = ProjectCache::getInstance()->getProject($projectid);
                $projectIssueSel = $project->getIssueSelection();
 
+               if ('setDateRange' === $action) {
+                  $startdate = filter_input(INPUT_POST, 'startdate');
+                  $startTimestamp = Tools::date2timestamp($startdate);
+
+                  $enddate = filter_input(INPUT_POST, 'enddate');
+                  $endTimestamp = Tools::date2timestamp($enddate);
+                  $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+               } else {
+                  $startTimestamp = strtotime("first day of this month");
+                  $startTimestamp = mktime(0, 0, 0, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
+
+                  $endTimestamp = strtotime("last day of this month");
+                  $endTimestamp = mktime(0, 0, 0, date('m', $endTimestamp), date('d', $endTimestamp), date('Y', $endTimestamp));
+               }
+
+               $this->smartyHelper->assign('startDate', date("Y-m-d", $startTimestamp));
+               $this->smartyHelper->assign('endDate', date("Y-m-d", $endTimestamp));
+
                // --- DRIFT TABS -------------------
 
                $currentIssuesInDrift = NULL;
@@ -87,10 +106,11 @@ class ProjectInfoController extends Controller {
 
                $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
-               
+
                // Dashboard
-               ProjectInfoTools::dashboardSettings($this->smartyHelper, $project, $this->session_userid, $this->teamid);
-               
+               ProjectInfoTools::dashboardSettings($this->smartyHelper,
+                  $project, $this->session_userid, $this->teamid, $startTimestamp, $endTimestamp);
+
             }
          }
       }
@@ -359,4 +379,3 @@ ProjectInfoController::staticInit();
 $controller = new ProjectInfoController('../', 'Project Info','ProjectInfo');
 $controller->execute();
 
-?>
