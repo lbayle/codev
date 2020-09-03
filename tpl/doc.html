@@ -2,15 +2,116 @@
 <br>
 <br>
 <br>
-{t}Documentation is available at {/t} <a target="blank" title="{t}CodevTT Documentation Wiki{/t}" href="http://codevtt.org/site/?page_id=153">CodevTT.org</a>
-<br>
-<!--br>
-{t}GreaseMonkey script: {/t} <a href="{$greasemonkeyURL}">mantis_monkey.user.js</a>
-<br-->
-<br>
-{t}You can help on translations: {/t} <a target="blank" href="https://translatewiki.net/wiki/Special:Translate?group=codev">translatewiki.net</a> &nbsp;&nbsp;( <a target="blank" href="https://translatewiki.net/w/i.php?title=Special%3AMessageGroupStats&x=D&group=codev&suppressempty=1">{t}statistics{/t}</a> )
-<br>
-<br>
-{t}Contact the author: {/t} <a href="mailto:lbayle.work@gmail.com">lbayle.work@gmail.com</a> &nbsp;&nbsp; - &nbsp;&nbsp; Louis BAYLE
+
+<div id="content">
+   <div id="tabsDoc" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabGeneral">{t}General{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tabTaskPriority">{t}Task priority in Planning & Gantt{/t}</a></li>
+      </ul>
+
+      <div id="tabGeneral">
+         {t}Documentation is available at {/t} <a target="blank" title="{t}CodevTT Documentation Wiki{/t}" href="http://codevtt.org/site/?page_id=153">CodevTT.org</a>
+         <br>
+         <!--br>
+         {t}GreaseMonkey script: {/t} <a href="{$greasemonkeyURL}">mantis_monkey.user.js</a>
+         <br-->
+         <br>
+         {t}You can help on translations: {/t} <a target="blank" href="https://translatewiki.net/wiki/Special:Translate?group=codev">translatewiki.net</a> &nbsp;&nbsp;( <a target="blank" href="https://translatewiki.net/w/i.php?title=Special%3AMessageGroupStats&x=D&group=codev&suppressempty=1">{t}statistics{/t}</a> )
+         <br>
+         <br>
+         {t}Contact the author: {/t} <a href="mailto:lbayle.work@gmail.com">lbayle.work@gmail.com</a> &nbsp;&nbsp; - &nbsp;&nbsp; Louis BAYLE
+      </div>
+
+      <div id="tabTaskPriority">
+
+         <span class="warn_font">{t}IMPORTANT: unassigned tasks will not be displayed !{/t}</span>
+         <br><br>
+         Planning and Gantt will will order the tasks considering the following criteria :<br>
+
+         <div style="margin-top: 2em;">
+            <h3>1) ‘Constrains’ / ‘Constrained by’ relationship</h3>
+            <div style="margin-left:20px">
+            <span class="success_font">If task_A constrains task_B, then task_A has higher priority</span>
+            <br><br>
+            CodevTT introduces two new relationships in MantisBT: “constrains” and “constrained by”.<br>
+            These have been introduced to set strong dependencies between tasks.<br>
+            The existing relationships (Duplicate of, Related to, Parent of, Child of) are not strict enough and may have been used by mantis users for other purposes (we do not want to change mantis users habbits).
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3>2) A deadline is specified</h3>
+            <div style="margin-left:20px">
+            <span class="success_font">A task having a deadline is higher priority to a task having no deadline defined</span>
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3>3) Deadline date</h3>
+            <div style="margin-left:20px">
+            <span class="success_font">task_A with deadline on 2020-05-01 is higher priority than task_B wich deadline is 2020-05-15</span>
+            <br><br>
+            If both tasks have a deadline defined, then the task with the earliest date has higher priority.
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3>4) Status is 'feedback'</h3>
+            <div style="margin-left:20px">
+            <span class="success_font">Tasks in feedback are lower priority</span>
+            <br><br>
+            ‘feedback’ is a special status, it is used to postpone a task for various reasons (missing information, waiting for acceptance, …), so a task in feedback cannot be completed and is therefore lower priority to any other status.
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3>5) priority attribute</h3>
+            <div style="margin-left:20px">
+            <span class="success_font">An ‘urgent’ task is higher priority than a ‘normal’ task</span>
+            <br><br>
+            The mantis ‘priority’ attribute (low, normal, high, urgent, immediate) is used.
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3>6) severity attribute</h3>
+            <div style="margin-left:20px">
+            <span class="success_font">‘major’ is higher priority than ‘minor’</span>
+            <br><br>
+            The mantis ‘severity’ attribute (…, tweak, minor, major, crash, block) is used.
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3>7 ) Constrains vs not constraining</h3>
+            <div style="margin-left:20px">
+            <span class="success_font">If task_A constrains nobody, and task_B constrains task_C, then IssueB is higher priority than task_A</span>
+            <br><br>
+            To avoid being blocked, tasks constraining others must be acomplished as soon as possible.
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3>8) The Lower the bug_id, the higher is the priority</h3>
+            <div style="margin-left:20px">
+            If none of the previous criterion is conclusive, then tasks will be ordered by the mantis task id.
+            </div>
+         </div>
+
+         <div style="margin-top: 2em;">
+            <h3></h3>
+            <div style="margin-left:20px">
+            <span class="success_font"></span>
+            <br><br>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+</div>
+
+
 <br>
 <br>

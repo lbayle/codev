@@ -20,7 +20,7 @@
       left: 50%;
       margin-top: -64px;
       margin-left: -64px;
-   
+
 </style>
 
 {if (!isset($accessDenied) || (0 == $accessDenied)) }
@@ -35,6 +35,8 @@
          <span class="vertical-middle">{t}Reload{/t}</span>
       </button>
    </div>
+
+   <span class="warn_font">{t}IMPORTANT: unassigned tasks will not be displayed !{/t}</span>
 
    <div id="tabsGantt" class="float tabs {$ui_tabs_jquery}" style="width:100%; margin-top:1em;" >
       <ul class="{$ui_tabs_jquery_ul}">

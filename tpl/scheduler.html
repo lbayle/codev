@@ -1,7 +1,7 @@
 <script src="lib/dhtmlxScheduler/dhtmlxscheduler.js" type="text/javascript"></script>
 <script src="lib/dhtmlxScheduler/ext/dhtmlxscheduler_timeline.js" type="text/javascript"></script>
 <script src="lib/dhtmlxScheduler/ext/dhtmlxscheduler_tooltip.js" type="text/javascript"></script>
-<script src="http://export.dhtmlx.com/scheduler/api.js"></script>  
+<script src="http://export.dhtmlx.com/scheduler/api.js"></script>
 <link rel="stylesheet" href="lib/dhtmlxScheduler/dhtmlxscheduler_flat.css" type="text/css">
 <style type="text/css" media="screen">
 
@@ -14,11 +14,11 @@
    tbody th, tbody td, tfoot td {
       padding: 0px;
    }
-   
+
    .dhx_cal_navline {
       z-index:0;
    }
-   
+
    #loading {
       z-index: 100;
       position: fixed;
@@ -39,7 +39,7 @@
 </div>
 
 <div class="scheduler">
-   
+
    <div class="right" style="margin-top: 1em;">
       <button class="scheduler_generatePlanningButton" onclick="createSchedulerTable(true)" >
          <img class="vertical-middle" src="images/b_refresh.png" alt="refresh icon">
@@ -50,7 +50,8 @@
          <span class="vertical-middle">{t}Export{/t}</span>
       </button>
    </div>
-   
+   <span class="warn_font">{t}IMPORTANT: unassigned tasks will not be displayed !{/t}</span>
+
    <div id="tabsScheduler" class="float tabs {$ui_tabs_jquery}" style="width:100%; margin-top:1em;" >
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabPlanning">{t}Planning{/t}</a></li>
@@ -58,7 +59,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabOptions">{t}Options{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tabsScheduler_tabRAF">{t}RAF{/t}</a></li>
       </ul>
-      
+
       <div id="tabsScheduler_tabPlanning" >
          <div id="scheduler_here" class="dhx_cal_container" style='height:600px'>
             <div class="dhx_cal_navline">
@@ -68,20 +69,20 @@
                <div class="dhx_cal_date"></div>
             </div>
             <div class="dhx_cal_header"></div>
-            <div class="dhx_cal_data"></div>      
+            <div class="dhx_cal_data"></div>
          </div>
       </div>
-      
-      
-      
-      
+
+
+
+
       <div id="tabsScheduler_tabAffectations">
          <h2 class="center">
             <strong>{t}User assignment{/t}</strong>
          </h2>
-         
-         
-         
+
+
+
          <div class="center">
             <select class="scheduler_projectList" title="{t}Project{/t}">
                {foreach from=$scheduler_projectList key=id item=i}
@@ -94,8 +95,8 @@
                {/foreach}
             </select>
          </div>
-         
-         
+
+
          <div class="scheduler_usersAffectations" hidden>
             <div class="scheduler_addedUsers center">
                <table style="display: inline-block; margin-top: 1em;">
@@ -143,20 +144,20 @@
                   </tfoot>
                </table>
             </div>
-            
+
             <div class="center">
-               
+
                <div class="scheduler_messageSave success_font">
                </div>
             </div>
          </div>
-         
+
          <div class="scheduler_timePerUsersPerTaskSummary">
          </div>
       </div>
-      
-      
-      
+
+
+
       <div id="tabsScheduler_tabOptions" >
          <form>
             <div>
@@ -165,7 +166,7 @@
             {foreach from=$scheduler_taskProviderList key=id item=taskProvider}
             <label><input class="scheduler_taskProvider scheduler_optionElement" type="radio" name="scheduler_taskProvider" value="{$id}" {if $taskProvider.selected}checked{/if}>{$taskProvider.name}</label><br>
             {/foreach}
-            
+
             <br>
             <div>
                <strong>{t}Options{/t}</strong>
@@ -216,7 +217,7 @@
                   <img class="scheduler_image vertical-middle" src="images/b_save.png" alt="save icon">
                   <span class="vertical-middle">{t}Save options{/t}</span>
                </button>
-               
+
                <div class="scheduler_messageSaveOptions success_font" style="margin-top: 0.5em;">
                </div>
             </div>
@@ -246,12 +247,12 @@
 <script src="js_min/datatable.min.js" type="text/javascript"></script>
 
 <script>
-   
-   
+
+
    scheduler.locale.labels.m_tab = "Timeline Month";
    //scheduler.locale.labels.section_custom="Section";
    scheduler.config.xml_date="%Y-%m-%d %h:%i";
-   
+
    scheduler.config.readonly = true;
    //scheduler.config.details_on_dblclick = true;
 
@@ -263,9 +264,9 @@
        if(date.getDay()==0||date.getDay()==6){ return "weekend"; }
    };
 
-   dhtmlXTooltip.config.className = 'dhtmlXTooltip tooltip'; 
-   dhtmlXTooltip.config.timeout_to_display = 50; 
-   dhtmlXTooltip.config.delta_x = 15; 
+   dhtmlXTooltip.config.className = 'dhtmlXTooltip tooltip';
+   dhtmlXTooltip.config.timeout_to_display = 50;
+   dhtmlXTooltip.config.delta_x = 15;
    dhtmlXTooltip.config.delta_y = -20;
    scheduler.templates.tooltip_text = function(start,end,event) {
       return event.tooltipHtml;
@@ -276,9 +277,9 @@
       initSchedulerOptions();
       createSchedulerTable(false);
    });
-   
 
-   
+
+
    function exportToExcel() {
       scheduler.exportToExcel(
          { name:"scheduler.xlsx", columns:[
@@ -289,6 +290,6 @@
          ]}
       );
    }
-   
+
 </script>
 
