@@ -230,12 +230,12 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
             $teamAvailWkl += $userWorkforce;
             $rangeUserDetails[$user_id] = array(
                'userName' => $user->getRealname(),
-               'rangeWorkforce' => $userWorkforce,
+               'rangeWorkforce' => round($userWorkforce, 2),
             );
          }
       }
       $values = array(
-         'rangeTeamWorkforce' => $teamAvailWkl,
+         'rangeTeamWorkforce' => round($teamAvailWkl, 2),
          'rangeUserDetails' => $rangeUserDetails
       );
       return $values;
