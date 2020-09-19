@@ -231,13 +231,18 @@ class WBSElement extends Model {
     * @param string $title title of the wbsElement
     * @param int $rootId
     * @param int $parentId
-    * @param int $isFolder search for folders only
+    * @param boolean $isFolder search for folders only
+    * @param boolean $isLikeRequest if TRUE, then title can use SQL wildcarding (%)
     * @return int id or NULL if not found
     * @throws Exception if multiple rows found
     */
-   public static function getIdByTitle($title, $rootId = NULL, $parentId = NULL, $isFolder = FALSE) {
+   public static function getIdByTitle($title, $rootId = NULL, $parentId = NULL, $isFolder = FALSE, $isLikeRequest = FALSE) {
       $sql = AdodbWrapper::getInstance();
-      $query = "SELECT id FROM codev_wbs_table WHERE title =  ".$sql->db_param();
+      if ($isLikeRequest) {
+         $query = "SELECT id FROM codev_wbs_table WHERE title LIKE ".$sql->db_param();
+      } else {
+         $query = "SELECT id FROM codev_wbs_table WHERE title =  ".$sql->db_param();
+      }
       $q_params[]=$title;
 
       if (NULL !== $rootId) {

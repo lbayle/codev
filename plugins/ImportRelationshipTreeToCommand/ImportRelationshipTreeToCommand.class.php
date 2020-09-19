@@ -184,10 +184,19 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
 
          // add myself as a wbsFolder
          $folderName = "[$issueId] ".$issue->getSummary();
-         $subFolderId = WBSElement::getIdByTitle($folderName, $wbsRootId, $wbsParentId, TRUE);
+         $subFolderId = WBSElement::getIdByTitle("[$issueId]%", $wbsRootId, $wbsParentId, TRUE, TRUE);
          if (NULL !== $subFolderId) {
             $folderId = $subFolderId;
-            $strActionLogs .= "wbsFolder already exists : $folderName\n";
+
+            $subFolder = new WBSElement($subFolderId, $wbsRootId);
+            $prevTitle = $subFolder->getTitle();
+            //$strActionLogs .= "wbsFolder already exists : $prevTitle\n";
+
+            if ($folderName !== $subFolder->getTitle()) {
+               $strActionLogs .= "rename wbsFolder to : $folderName\n";
+               $subFolder->setTitle($folderName);
+               $subFolder->update();
+            }
          } else {
             // subFolder does not exist, create it.
             $newSubFolder = new WBSElement(null, $wbsRootId, null, $wbsParentId, NULL, $folderName);
@@ -200,8 +209,13 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
          }
       } else {
          // --- I don't have children, I'm a leaf
-         $this->command->addIssue($issueId, true, $wbsParentId);
-         $strActionLogs .= "add issue: [$issueId] ".$issue->getSummary()."\n";
+         if (!array_key_exists($issueId, $this->command->getIssueSelection()->getIssueList())) {
+            $this->command->addIssue($issueId, true, $wbsParentId);
+            $strActionLogs .= "add issue: [$issueId] ".$issue->getSummary()."\n";
+         }
+//         else {
+//            $strActionLogs .= "issue already in command : [$issueId] ".$issue->getSummary()."\n";
+//         }
       }
       return $strActionLogs;
    }
