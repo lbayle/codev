@@ -72,15 +72,18 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    } elseif ('addProvision' == $action) {
 
       try {
+         // mandatory fields
          $myCmdId = Tools::getSecurePOSTIntValue('cmdid');
          $prov_date = Tools::getSecurePOSTStringValue('date');
          $provTypeId = Tools::getSecurePOSTIntValue('type');
+         $prov_currency = Tools::getSecurePOSTStringValue('provisionCurrency');
+         $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
+
+         // optional fields
+         $prov_summary = Tools::getSecurePOSTStringValue('summary', '');
          $prov_budget = Tools::getSecurePOSTNumberValue('budget');
          $prov_budgetDays = Tools::getSecurePOSTNumberValue('budgetDays');
          $prov_averageDailyRate = Tools::getSecurePOSTNumberValue('averageDailyRate');
-         $prov_currency = Tools::getSecurePOSTStringValue('provisionCurrency');
-         $prov_summary = Tools::getSecurePOSTStringValue('summary');
-         $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
 
          $prov_type = CommandProvision::$provisionNames[$provTypeId];
          if (NULL == $prov_type){

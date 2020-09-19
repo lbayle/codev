@@ -274,10 +274,11 @@ jQuery(document).ready(function() {
       jQuery("#addProvRowId").val(0);
       jQuery("#datepicker").val('');
       jQuery("#budgetDays").val('');
-      jQuery("#budget").val('');
+      jQuery("#budget").val('0');
       jQuery("#summary").val('');
-      jQuery("#averageDailyRate").val('');
+      jQuery("#averageDailyRate").val('0');
       jQuery("#cb_isInCheckBudget").prop('checked', false); // WARN rename cb !!!
+      jQuery("#addProvision_errorMsg").text("");
 
       dialog.dialog("open");
    });
@@ -296,52 +297,55 @@ jQuery(document).ready(function() {
                var form = jQuery("#formAddProvision");
                form.find("input[name=isInCheckBudget]").val(isInCheckBudget);
 
-               // TODO check fields validity before sending to the server
-               jQuery.ajax({
-                  url: smartyDataCmdEdit.ajaxPage,
-                  type: "POST",
-                  dataType:"json",
-                  async: false,
-                  //processData: false,
-                  //contentType: false,
-                  data: form.serialize(),
-                  success: function(data) {
-                     if ('SUCCESS' === data.statusMsg) {
-                        prov = data.provData;
+               // check fields validity before sending to the server
+               if ('SUCCESS' === addProvisionConsistencyCheck()) {
 
-                        if ('editProvision' === data.action) {
-                           // update existing row
-                           var myTr = $(".provRow[data-provRowId="+prov.provId+"]");
-                           myTr.find(".provDate").text(prov.date);
-                           myTr.find(".provType").text(prov.type).attr('data-provTypeId', data.type_id);
-                           myTr.find(".provBudgetDays").text(prov.budget_days);
-                           myTr.find(".provBudget").text(prov.budget);
-                           myTr.find(".provCurrency").text(prov.currency);
-                           myTr.find(".provSummary").html(prov.summary);
-                           myTr.find(".cbIsInCheckBudget").prop('checked', prov.is_checked);
-                           myTr.css("background-color", "#ccffcc"); // #ffff66
+                  jQuery.ajax({
+                     url: smartyDataCmdEdit.ajaxPage,
+                     type: "POST",
+                     dataType:"json",
+                     async: false,
+                     //processData: false,
+                     //contentType: false,
+                     data: form.serialize(),
+                     success: function(data) {
+                        if ('SUCCESS' === data.statusMsg) {
+                           prov = data.provData;
 
+                           if ('editProvision' === data.action) {
+                              // update existing row
+                              var myTr = $(".provRow[data-provRowId="+prov.provId+"]");
+                              myTr.find(".provDate").text(prov.date);
+                              myTr.find(".provType").text(prov.type).attr('data-provTypeId', data.type_id);
+                              myTr.find(".provBudgetDays").text(prov.budget_days);
+                              myTr.find(".provBudget").text(prov.budget);
+                              myTr.find(".provCurrency").text(prov.currency);
+                              myTr.find(".provSummary").html(prov.summary);
+                              myTr.find(".cbIsInCheckBudget").prop('checked', prov.is_checked);
+                              myTr.css("background-color", "#ccffcc"); // #ffff66
+
+                           } else {
+                              // addProvision
+                              var trObj = createProvisionTr(prov);
+                              trObj.css("background-color", "#ffff99");
+                              trObj.prependTo("#provisionsTable tbody");
+                           }
                         } else {
-                           // addProvision
-                           var trObj = createProvisionTr(prov);
-                           trObj.css("background-color", "#ffff99");
-                           trObj.prependTo("#provisionsTable tbody");
+                           console.error("Ajax statusMsg", data.statusMsg);
+                           alert(data.statusMsg);
                         }
-                     } else {
-                        console.error("Ajax statusMsg", data.statusMsg);
-                        alert(data.statusMsg);
+                     },
+                     error: function(jqXHR, textStatus, errorThrown) {
+                        if('Forbidden' === errorThrown ) {
+                           window.location = smartyDataCmdEdit.page;
+                        }else {
+                           console.error(textStatus, errorThrown);
+                           alert("ERROR: Please contact your CodevTT administrator");
+                        }
                      }
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                     if('Forbidden' === errorThrown ) {
-                        window.location = smartyDataCmdEdit.page;
-                     }else {
-                        console.error(textStatus, errorThrown);
-                        alert("ERROR: Please contact your CodevTT administrator");
-                     }
-                  }
-               });
-               jQuery(this).dialog("close");
+                  });
+                  jQuery(this).dialog("close");
+               }
             }
          },
          {
@@ -494,6 +498,8 @@ function updateADR() {
    ) {
       var adr = parseFloat(jQuery("#budget").val()) / parseFloat(jQuery("#budgetDays").val());
       jQuery("#averageDailyRate").val(adr.toFixed(2));
+   } else {
+      jQuery("#averageDailyRate").val(0);
    }
 }
 function updateBudget() {
@@ -546,4 +552,25 @@ function createProvisionTr(provData) {
    return trObj;
 }
 
+   // check data before action 'addTimetracks'
+   function addProvisionConsistencyCheck() {
+      jQuery("#addProvision_errorMsg").text("");
+
+      var form = jQuery('#addProvision_dialog_form');
+
+      // check fields
+      var errMsg = '';
+      if ('' === form.find("#datepicker").val()) {
+         errMsg += smartyDataCmdEdit.i18n_date + ', ';
+      }
+      if ('' === form.find("#budgetDays").val()) {
+         errMsg += smartyDataCmdEdit.i18n_budgetDays + ', ';
+      }
+      if ('' === errMsg) {
+         return 'SUCCESS';
+      } else {
+         jQuery("#addProvision_errorMsg").text(smartyDataCmdEdit.i18n_errorPleaseCheck + " : " + errMsg);
+         return 'ERROR';
+      }
+   }
 // ------------------------------------

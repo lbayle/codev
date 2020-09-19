@@ -375,7 +375,10 @@
                            <th nowrap="nowrap"><label for="cb_isInCheckBudget">{t}Add to 'check budget'{/t} :</label></th>
                            <td><input type="checkbox" id="cb_isInCheckBudget" /></td>
                         </tr>
-
+                        <tr>
+                           <td></td>
+                           <td><label id="addProvision_errorMsg" class="error_font" ></label></td>
+                        </tr>
                      </tbody>
                   </table>
                   <input type="hidden" name="action" id="addProvDlgAction" value="addProvision" />
@@ -420,7 +423,10 @@
          i18n_missingFieldCmdName:"{t}Field is missing{/t}: {t}Command name{/t}",
          i18n_nanSoldCharge:"{t}Not a number{/t}: {t}Sold Charge{/t}",
          i18n_nanTaskId:"{t}Not a number{/t}: {t}task id{/t}",
-         i18n_missingFieldTaskId:"{t}Missing field{/t}:\n\n{t}task id{/t}"
+         i18n_missingFieldTaskId:"{t}Missing field{/t}:\n\n{t}task id{/t}",
+         i18n_errorPleaseCheck:"{t}ERROR: Please check{/t}",
+         i18n_date:"{t}Date{/t}",
+         i18n_budgetDays:"{t}Budget Days{/t}"
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>
