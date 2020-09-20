@@ -78,12 +78,12 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $provTypeId = Tools::getSecurePOSTIntValue('type');
          $prov_currency = Tools::getSecurePOSTStringValue('provisionCurrency');
          $isInCheckBudget = (0 == Tools::getSecurePOSTIntValue("isInCheckBudget")) ? false : true;
+         $prov_budgetDays = Tools::getSecurePOSTNumberValue('budgetDays');
 
          // optional fields
          $prov_summary = Tools::getSecurePOSTStringValue('summary', '');
-         $prov_budget = Tools::getSecurePOSTNumberValue('budget');
-         $prov_budgetDays = Tools::getSecurePOSTNumberValue('budgetDays');
-         $prov_averageDailyRate = Tools::getSecurePOSTNumberValue('averageDailyRate');
+         $prov_budget = Tools::getSecurePOSTNumberValue('budget', 0);
+         $prov_averageDailyRate = Tools::getSecurePOSTNumberValue('averageDailyRate', 0);
 
          $prov_type = CommandProvision::$provisionNames[$provTypeId];
          if (NULL == $prov_type){

@@ -566,6 +566,12 @@ function createProvisionTr(provData) {
       if ('' === form.find("#budgetDays").val()) {
          errMsg += smartyDataCmdEdit.i18n_budgetDays + ', ';
       }
+      if ('' === form.find("#averageDailyRate").val()) {
+         jQuery("#averageDailyRate").val('0');
+      }
+      if ('' === form.find("#budget").val()) {
+         jQuery("#budget").val('0');
+      }
       if ('' === errMsg) {
          return 'SUCCESS';
       } else {
