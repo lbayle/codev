@@ -6,9 +6,8 @@
 # Author: Wolf Rex
 msgid ""
 msgstr ""
-""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-19 11:53+0200\n"
+"POT-Creation-Date: 2020-09-20 13:48+0200\n"
 "PO-Revision-Date: 2020-07-27 16:19:25+0000\n"
 "Language: hu\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,13 +51,13 @@ msgstr ""
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #: classes/issue.class.php:2290 classes/issue_selection.class.php:310
-#: classes/wbsElement.class.php:682 filters/ProjectFilter.php:59
+#: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
 #: management/servicecontract_info.php:138 management/command_info.php:226
 #: management/commandset_info.php:141 reports/planning_report.php:234
 #: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/project_info.php:255 reports/project_info.php:266
-#: reports/project_info.php:278 tests/odt.php:25
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
+#: reports/project_info.php:275 reports/project_info.php:286
+#: reports/project_info.php:298 tests/odt.php:25
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
 msgid "Project"
@@ -89,6 +88,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
+#. tpl/project_info.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/statistics.html
 #. tpl/team_dashboard.html
@@ -248,6 +248,7 @@ msgstr "Nem érhető el."
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/TimetrackList/TimetrackList.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 msgid "Job"
 msgstr "Munka"
@@ -435,8 +436,8 @@ msgstr ""
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: classes/issue.class.php:2277 reports/issue_info_tools.php:116
-#: reports/project_info.php:160 reports/project_info.php:217
-#: reports/project_info.php:268 reports/project_info.php:281
+#: reports/project_info.php:180 reports/project_info.php:237
+#: reports/project_info.php:288 reports/project_info.php:301
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:297
 #: scheduler/SchedulerEvent.class.php:161 gantt/gantt_ajax.php:255
 #: tools.php:273
@@ -582,7 +583,7 @@ msgstr "ExtRef"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. $titles[] = T_("Date");
-#: reports/project_info.php:155 reports/project_info.php:210
+#: reports/project_info.php:175 reports/project_info.php:230
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:290
 #: gantt/gantt_ajax.php:196
 msgid "Progress"
@@ -597,7 +598,7 @@ msgstr "Folyamat"
 #. tpl/commandset_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/CostsIndicator/CostsIndicator.html
-#: reports/project_info.php:213 tests/filters.php:69
+#: reports/project_info.php:233 tests/filters.php:69
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:293
 msgid "Reestimated"
 msgstr ""
@@ -620,9 +621,9 @@ msgstr ""
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: reports/project_info.php:214 tests/filters.php:70
+#: reports/project_info.php:234 tests/filters.php:70
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:294
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:228
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:227
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:381
 msgid "Elapsed"
 msgstr "Eltelt"
@@ -648,8 +649,8 @@ msgstr "Eltelt"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. $titles[] = T_("Elapsed");
-#: reports/planning_report.php:465 reports/project_info.php:158
-#: reports/project_info.php:215 tests/filters.php:71
+#: reports/planning_report.php:465 reports/project_info.php:178
+#: reports/project_info.php:235 tests/filters.php:71
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:295
 #: scheduler/SchedulerEvent.class.php:117
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
@@ -683,7 +684,7 @@ msgstr "A menedzserek becsléséhez viszonyított csúszás"
 #. tpl/commandset_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/CostsIndicator/CostsIndicator.html
-#: reports/project_info.php:159 reports/project_info.php:216
+#: reports/project_info.php:179 reports/project_info.php:236
 #: tests/filters.php:72 plugins/TasksPivotTable/TasksPivotTable.class.php:296
 msgid "Drift Mgr"
 msgstr ""
@@ -712,8 +713,8 @@ msgstr ""
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:684 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:280
+#: classes/wbsElement.class.php:690 reports/planning_report.php:461
+#: reports/planning_report.php:484 reports/project_info.php:300
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -744,13 +745,13 @@ msgstr "Állapot"
 #: management/servicecontract_info.php:139 management/command_info.php:227
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: reports/planning_report.php:235 reports/planning_report.php:478
-#: reports/project_info.php:256 reports/project_info.php:267
-#: reports/project_info.php:279
+#: reports/project_info.php:276 reports/project_info.php:287
+#: reports/project_info.php:299
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:253
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:350
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:352
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:227
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1561
 msgid "Summary"
@@ -992,7 +993,7 @@ msgstr "Részletesen"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#: classes/wbsElement.class.php:683 tools.php:1557
+#: classes/wbsElement.class.php:689 tools.php:1557
 msgid "Category"
 msgstr "Kategória"
 
@@ -1045,8 +1046,10 @@ msgstr "Cél"
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: install/install_step1.php:248
 msgid "User"
 msgstr "Felhasználó"
 
@@ -1191,7 +1194,9 @@ msgstr "Nincs elérhető parancskészlet"
 #. tpl/menu/global_menu.html
 #. tpl/commandset_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#: classes/consistency_check2.class.php:636
 msgid "Command"
 msgstr "Parancs"
 
@@ -1284,11 +1289,13 @@ msgstr "Záró dátum"
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ManagementCosts/ManagementCosts.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Description"
 msgstr "Leírás"
 
@@ -1333,6 +1340,7 @@ msgid "No provision found."
 msgstr ""
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. tpl/time_tracking.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
@@ -1348,6 +1356,7 @@ msgid "From"
 msgstr "Ettől"
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
@@ -1360,11 +1369,13 @@ msgstr "Ettől"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/ManagementCosts/ManagementCosts.html
 #. plugins/OngoingTasks/OngoingTasks.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Start Date"
 msgstr "Kezdő dátum"
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/TimetrackList/TimetrackList.html
@@ -1379,6 +1390,7 @@ msgid "To"
 msgstr "Eddig"
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/TimetrackList/TimetrackList.html
@@ -1429,11 +1441,11 @@ msgstr ""
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: management/command_info_ajax.php:305 management/command_info_ajax.php:307
-#: reports/planning_report.php:471 reports/planning_report.php:473
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:307 reports/planning_report.php:471
+#: reports/planning_report.php:473 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1452,6 +1464,7 @@ msgid "A new CodevTT version is available !"
 msgstr "Új CodevTT verzió érhető el!"
 
 #. tpl/edit_team.html
+#. tpl/doc.html
 msgid "General"
 msgstr "Általános"
 
@@ -1635,6 +1648,11 @@ msgstr "Hozzáad"
 #. tpl/edit_jobs.html
 msgid "Jobs"
 msgstr "Munkák"
+
+#. tpl/edit_team.html
+#, fuzzy
+msgid "Edit Job list"
+msgstr "Munkák szerkesztése"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -1869,6 +1887,10 @@ msgstr ""
 #. tpl/edit_team.html
 #. tpl/command_edit.html
 msgid "Updated successfully !"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Job list for project :"
 msgstr ""
 
 #. tpl/edit_team.html
@@ -2246,6 +2268,13 @@ msgid "Export"
 msgstr ""
 
 #. tpl/scheduler.html
+#. tpl/doc.html
+#. tpl/gantt.html
+#. tpl/command_info.html
+msgid "IMPORTANT: unassigned tasks will not be displayed !"
+msgstr ""
+
+#. tpl/scheduler.html
 #. tpl/menu/global_menu.html
 msgid "Planning"
 msgstr ""
@@ -2260,6 +2289,7 @@ msgstr ""
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Options"
 msgstr ""
 
@@ -2307,7 +2337,7 @@ msgstr ""
 
 #. tpl/scheduler.html
 #. tpl/tools/wbsEditor.html
-#: management/commandset_edit.php:123 management/command_edit.php:185
+#: management/commandset_edit.php:123 management/command_edit.php:175
 #: management/servicecontract_edit.php:138
 msgid "Save"
 msgstr "Mentés"
@@ -2552,6 +2582,7 @@ msgstr "Letöltés"
 
 #. tpl/time_tracking.html
 #. tpl/team_dashboard.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR"
 msgstr "HIBA"
 
@@ -2600,6 +2631,7 @@ msgid "Ext.ID"
 msgstr ""
 
 #. tpl/time_tracking.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Timetrack note"
 msgstr ""
 
@@ -2694,6 +2726,10 @@ msgstr "Szín"
 
 #. tpl/planning_report.html
 msgid "day"
+msgstr ""
+
+#. tpl/doc.html
+msgid "Task priority in Planning & Gantt"
 msgstr ""
 
 #. tpl/doc.html
@@ -2974,8 +3010,8 @@ msgid "Parent CommandSets"
 msgstr ""
 
 #. tpl/command_edit.html
-msgid "Add task"
-msgstr "Feladat hozzáadása"
+msgid "Add tasks (comma separated)"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -3046,8 +3082,18 @@ msgid "task id"
 msgstr "feladat azonosító"
 
 #. tpl/command_edit.html
+msgid "Not a comma separated number list"
+msgstr ""
+
+#. tpl/command_edit.html
 msgid "Missing field"
 msgstr "Hiányzó mező"
+
+#. tpl/command_edit.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "ERROR: Please check"
+msgstr ""
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -3087,6 +3133,8 @@ msgid "Read by"
 msgstr "Elolvasta"
 
 #. tpl/team_activity_report.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Action"
 msgstr "Művelet"
 
@@ -3249,6 +3297,8 @@ msgid "Plugin Manager"
 msgstr "Bővítmény kezelés"
 
 #. tpl/menu/global_menu.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Logs"
 msgstr ""
 
@@ -3317,6 +3367,7 @@ msgstr ""
 
 #. tpl/uninstall.html
 #. plugins/AdminTools/AdminTools.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #: plugins/AdminTools/AdminTools.class.php:69
 msgid "TODO"
 msgstr ""
@@ -3731,6 +3782,7 @@ msgstr ""
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
 #. plugins/WBSExport/WBSExport_cfg.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #. plugins/ManagementCosts/ManagementCosts_cfg.html
@@ -3738,6 +3790,7 @@ msgstr ""
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Title"
 msgstr ""
@@ -3793,6 +3846,7 @@ msgid "Timetrack details"
 msgstr ""
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End Date"
 msgstr ""
@@ -4325,6 +4379,8 @@ msgid "Run selected actions"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Execute"
 msgstr ""
 
@@ -4697,7 +4753,9 @@ msgid "Load per User"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr "Pazarló mellékfeladatok: 'Baleset' és 'Tétlen' kategóriájú<br>(ha nincs bejelölve, akkor a mellékfeladat az 'eltöltött'-be kerül)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4714,7 +4772,9 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Az aktuális feladat kijelölésnek megfelelő projektekre és mellékfeladatokra eltöltött idő."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4755,6 +4815,7 @@ msgid "Price"
 msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Period"
 msgstr ""
 
@@ -4798,6 +4859,24 @@ msgstr ""
 #, fuzzy
 msgid "Include sideTasks"
 msgstr "Mellékfeladatok"
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#, fuzzy
+msgid "Sorry, you need to be manager to use this plugin"
+msgstr "Sajnáljuk, ennek az oldalnak az eléréséhez az adminisztrátori csoportban kell lenned."
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Root task"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Also include parent-tasks in the tree (default: include as folder only)"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
+msgid "Import Relationship tree to command"
+msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4908,6 +4987,58 @@ msgstr ""
 msgid "EffortEstim reliability history"
 msgstr ""
 
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "to"
+msgstr ""
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#, fuzzy
+msgid "Number of days to add on the period"
+msgstr "Megjegyzés: az időszakban megoldott feladatok csúszása"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Nb days"
+msgstr ""
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#, fuzzy
+msgid "Task backlog"
+msgstr "Hátralévő idő"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Fill Period With Timetracks"
+msgstr ""
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:77
+msgid "Add multiple timetracks at once"
+msgstr ""
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
+msgstr ""
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#, fuzzy
+msgid "Error !"
+msgstr "Hibák"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#, fuzzy
+msgid "days available on period"
+msgstr "Elérhető munkaterhelés"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Could not retrieve task data !"
+msgstr ""
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
+msgid "Fill period with timetracks"
+msgstr ""
+
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
 msgstr ""
@@ -5005,27 +5136,27 @@ msgstr ""
 msgid "Configure Tooltips"
 msgstr ""
 
-#: admin/edit_team.php:401
+#: admin/edit_team.php:402
 msgid "enabled"
 msgstr ""
 
-#: admin/edit_team.php:401
+#: admin/edit_team.php:402
 msgid "disabled"
 msgstr ""
 
-#: admin/edit_jobs.php:81
+#: admin/edit_jobs.php:90
 msgid "Couldn't add the job association"
 msgstr "Nem lehet hozzáadni a munka összerendelést"
 
-#: admin/edit_jobs.php:89
+#: admin/edit_jobs.php:98
 msgid "This job must not be deleted."
 msgstr ""
 
-#: admin/edit_jobs.php:96 admin/edit_jobs.php:114
+#: admin/edit_jobs.php:105 admin/edit_jobs.php:123
 msgid "Couldn't remove the job association"
 msgstr "Nem lehet eltávolítani a munka összerendelést"
 
-#: admin/edit_jobs.php:103
+#: admin/edit_jobs.php:112
 msgid "Couldn't delete the job"
 msgstr ""
 
@@ -5087,6 +5218,7 @@ msgstr ""
 msgid "Parent of"
 msgstr ""
 
+#. 2
 #: classes/issue.class.php:64
 msgid "Child of"
 msgstr ""
@@ -5099,7 +5231,7 @@ msgstr ""
 msgid "Constrains"
 msgstr ""
 
-#: classes/issue.class.php:2265 classes/wbsElement.class.php:686 tools.php:1549
+#: classes/issue.class.php:2265 classes/wbsElement.class.php:692 tools.php:1549
 msgid "Tags"
 msgstr ""
 
@@ -5698,26 +5830,6 @@ msgstr ""
 msgid "Step 4"
 msgstr ""
 
-#: management/command_edit.php:219
-msgid "Add tasks to Command"
-msgstr ""
-
-#: management/command_edit.php:220
-msgid "Add multiple tasks"
-msgstr ""
-
-#: management/command_edit.php:221
-msgid "Add selection"
-msgstr ""
-
-#: management/command_edit.php:222
-msgid "Note: Tasks already assigned to a Command are not displayed."
-msgstr ""
-
-#: management/command_edit.php:223
-msgid "Add the selected issues to the Command ?"
-msgstr ""
-
 #: management/command_info_ajax.php:340 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
@@ -5727,7 +5839,7 @@ msgstr ""
 msgid "Provisions updated FAILED !"
 msgstr ""
 
-#: management/command_edit_ajax.php:372
+#: management/command_edit_ajax.php:375
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:237
 msgid "Please upload files with the following extension: "
@@ -5788,17 +5900,17 @@ msgstr "nincs határidő"
 msgid "Monitored"
 msgstr "Megfigyelt"
 
-#: reports/project_info.php:302
+#: reports/project_info.php:322
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:389
 msgid "New Tasks"
 msgstr ""
 
-#: reports/project_info.php:303
+#: reports/project_info.php:323
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:390
 msgid "Current Tasks"
 msgstr ""
 
-#: reports/project_info.php:304
+#: reports/project_info.php:324
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:391
 msgid "Resolved Tasks"
 msgstr ""
@@ -5973,15 +6085,15 @@ msgstr "Az intervallumban elérhető embernapok száma, kivéve a szabadságokat
 msgid "Check all the timetracks of the period and return their repartition per project categories"
 msgstr ""
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:346
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:350
 msgid "All Sidetasks Projects"
 msgstr "Minden Mellékfeladat projekt"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:347
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:351
 msgid "All Production Projects"
 msgstr "Minden termelési projekt"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:348
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:352
 msgid "All Projects"
 msgstr "Minden projekt"
 
@@ -6069,6 +6181,14 @@ msgstr ""
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
 msgstr ""
 
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:65
+msgid "Add issues to a command by following the relationship structure"
+msgstr ""
+
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:68
+msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
+msgstr ""
+
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
 msgstr ""
@@ -6124,6 +6244,11 @@ msgstr ""
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
 msgstr ""
+
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:296
+#, fuzzy
+msgid "Timetrack added by "
+msgstr "Szűrők beállítása"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
 msgid "Move Issue Timetracks"
@@ -6226,3 +6351,5 @@ msgstr ""
 msgid "Delivery Date"
 msgstr ""
 
+#~ msgid "Add task"
+#~ msgstr "Feladat hozzáadása"

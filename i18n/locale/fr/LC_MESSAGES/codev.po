@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-23 17:35+0200\n"
+"POT-Creation-Date: 2020-09-20 13:48+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -52,13 +52,13 @@ msgstr ""
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #: classes/issue.class.php:2290 classes/issue_selection.class.php:310
-#: classes/wbsElement.class.php:682 filters/ProjectFilter.php:59
+#: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
 #: management/servicecontract_info.php:138 management/command_info.php:226
 #: management/commandset_info.php:141 reports/planning_report.php:234
 #: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/project_info.php:255 reports/project_info.php:266
-#: reports/project_info.php:278 tests/odt.php:25
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
+#: reports/project_info.php:275 reports/project_info.php:286
+#: reports/project_info.php:298 tests/odt.php:25
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
 msgid "Project"
@@ -89,6 +89,7 @@ msgstr "nb jours"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
+#. tpl/project_info.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/statistics.html
 #. tpl/team_dashboard.html
@@ -248,6 +249,7 @@ msgstr "Non disponible."
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/TimetrackList/TimetrackList.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 msgid "Job"
 msgstr "Poste"
@@ -435,8 +437,8 @@ msgstr "Dérive - toutes les tâches"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: classes/issue.class.php:2277 reports/issue_info_tools.php:116
-#: reports/project_info.php:160 reports/project_info.php:217
-#: reports/project_info.php:268 reports/project_info.php:281
+#: reports/project_info.php:180 reports/project_info.php:237
+#: reports/project_info.php:288 reports/project_info.php:301
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:297
 #: scheduler/SchedulerEvent.class.php:161 gantt/gantt_ajax.php:255
 #: tools.php:273
@@ -582,7 +584,7 @@ msgstr "RefExt"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. $titles[] = T_("Date");
-#: reports/project_info.php:155 reports/project_info.php:210
+#: reports/project_info.php:175 reports/project_info.php:230
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:290
 #: gantt/gantt_ajax.php:196
 msgid "Progress"
@@ -597,7 +599,7 @@ msgstr "Avancement"
 #. tpl/commandset_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/CostsIndicator/CostsIndicator.html
-#: reports/project_info.php:213 tests/filters.php:69
+#: reports/project_info.php:233 tests/filters.php:69
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:293
 msgid "Reestimated"
 msgstr "Réestimé"
@@ -620,9 +622,9 @@ msgstr "Réestimé"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: reports/project_info.php:214 tests/filters.php:70
+#: reports/project_info.php:234 tests/filters.php:70
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:294
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:228
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:227
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:381
 msgid "Elapsed"
 msgstr "Consommé"
@@ -648,8 +650,8 @@ msgstr "Consommé"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. $titles[] = T_("Elapsed");
-#: reports/planning_report.php:465 reports/project_info.php:158
-#: reports/project_info.php:215 tests/filters.php:71
+#: reports/planning_report.php:465 reports/project_info.php:178
+#: reports/project_info.php:235 tests/filters.php:71
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:295
 #: scheduler/SchedulerEvent.class.php:117
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
@@ -683,7 +685,7 @@ msgstr "Dérive par rapport à l'estimation du manager"
 #. tpl/commandset_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/CostsIndicator/CostsIndicator.html
-#: reports/project_info.php:159 reports/project_info.php:216
+#: reports/project_info.php:179 reports/project_info.php:236
 #: tests/filters.php:72 plugins/TasksPivotTable/TasksPivotTable.class.php:296
 msgid "Drift Mgr"
 msgstr "Dérive Mgr"
@@ -712,8 +714,8 @@ msgstr "Dérive par rapport au BI + BS"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:684 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:280
+#: classes/wbsElement.class.php:690 reports/planning_report.php:461
+#: reports/planning_report.php:484 reports/project_info.php:300
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -744,13 +746,13 @@ msgstr "Statut"
 #: management/servicecontract_info.php:139 management/command_info.php:227
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: reports/planning_report.php:235 reports/planning_report.php:478
-#: reports/project_info.php:256 reports/project_info.php:267
-#: reports/project_info.php:279
+#: reports/project_info.php:276 reports/project_info.php:287
+#: reports/project_info.php:299
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:253
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:350
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:352
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:227
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1561
 msgid "Summary"
@@ -992,7 +994,7 @@ msgstr "Détaillé"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#: classes/wbsElement.class.php:683 tools.php:1557
+#: classes/wbsElement.class.php:689 tools.php:1557
 msgid "Category"
 msgstr "Catégorie"
 
@@ -1045,8 +1047,10 @@ msgstr "V.Ciblée"
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
+#: install/install_step1.php:248
 msgid "User"
 msgstr "Utilisateur"
 
@@ -1191,7 +1195,9 @@ msgstr "Pas de Macro Commande."
 #. tpl/menu/global_menu.html
 #. tpl/commandset_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#: classes/consistency_check2.class.php:636
 msgid "Command"
 msgstr "Commande"
 
@@ -1284,11 +1290,13 @@ msgstr "Date fin"
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ManagementCosts/ManagementCosts.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Description"
 msgstr "Description"
 
@@ -1333,6 +1341,7 @@ msgid "No provision found."
 msgstr "Pas de Provisions."
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. tpl/time_tracking.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
@@ -1348,6 +1357,7 @@ msgid "From"
 msgstr "Du"
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
@@ -1360,11 +1370,13 @@ msgstr "Du"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/ManagementCosts/ManagementCosts.html
 #. plugins/OngoingTasks/OngoingTasks.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Start Date"
 msgstr "Date début"
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/TimetrackList/TimetrackList.html
@@ -1379,6 +1391,7 @@ msgid "To"
 msgstr "Au"
 
 #. tpl/form/dateRangeSelector.html
+#. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #. plugins/TimetrackList/TimetrackList.html
@@ -1429,11 +1442,11 @@ msgstr "Filtres actifs"
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#: management/command_info_ajax.php:305 management/command_info_ajax.php:307
-#: reports/planning_report.php:471 reports/planning_report.php:473
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:307 reports/planning_report.php:471
+#: reports/planning_report.php:473 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1452,6 +1465,7 @@ msgid "A new CodevTT version is available !"
 msgstr "Une nouvelle version de CodevTT est disponible !"
 
 #. tpl/edit_team.html
+#. tpl/doc.html
 msgid "General"
 msgstr "Général"
 
@@ -1635,6 +1649,10 @@ msgstr "Ajouter"
 #. tpl/edit_jobs.html
 msgid "Jobs"
 msgstr "Postes"
+
+#. tpl/edit_team.html
+msgid "Edit Job list"
+msgstr "Editer Postes"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -1870,6 +1888,10 @@ msgstr "Enregistrer"
 #. tpl/command_edit.html
 msgid "Updated successfully !"
 msgstr "Mise à jour réussie !"
+
+#. tpl/edit_team.html
+msgid "Job list for project :"
+msgstr "Liste de postes pour le projet :"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2246,6 +2268,13 @@ msgid "Export"
 msgstr "Export"
 
 #. tpl/scheduler.html
+#. tpl/doc.html
+#. tpl/gantt.html
+#. tpl/command_info.html
+msgid "IMPORTANT: unassigned tasks will not be displayed !"
+msgstr "IMPORTANT: Les tâches non assignées ne sont pas affichées !"
+
+#. tpl/scheduler.html
 #. tpl/menu/global_menu.html
 msgid "Planning"
 msgstr "Planning"
@@ -2260,6 +2289,7 @@ msgstr "Affectations"
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Options"
 msgstr "Options"
 
@@ -2307,7 +2337,7 @@ msgstr "Enregistrer les affectations de cette tâche"
 
 #. tpl/scheduler.html
 #. tpl/tools/wbsEditor.html
-#: management/commandset_edit.php:123 management/command_edit.php:185
+#: management/commandset_edit.php:123 management/command_edit.php:175
 #: management/servicecontract_edit.php:138
 msgid "Save"
 msgstr "Enregistrer"
@@ -2552,6 +2582,7 @@ msgstr "Télécharger"
 
 #. tpl/time_tracking.html
 #. tpl/team_dashboard.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR"
 msgstr "ERREUR"
 
@@ -2600,6 +2631,7 @@ msgid "Ext.ID"
 msgstr "Réf.Ext"
 
 #. tpl/time_tracking.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Timetrack note"
 msgstr "Note d'imputation"
 
@@ -2695,6 +2727,10 @@ msgstr "Couleur"
 #. tpl/planning_report.html
 msgid "day"
 msgstr "jour"
+
+#. tpl/doc.html
+msgid "Task priority in Planning & Gantt"
+msgstr "Priorité des tâches dans le planning et le gantt"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
@@ -2974,8 +3010,8 @@ msgid "Parent CommandSets"
 msgstr "Macro Commandes parentes"
 
 #. tpl/command_edit.html
-msgid "Add task"
-msgstr "Ajouter une tâche"
+msgid "Add tasks (comma separated)"
+msgstr "Ajouter les tâches (separateur virgule)"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -3046,8 +3082,18 @@ msgid "task id"
 msgstr "id tâche"
 
 #. tpl/command_edit.html
+msgid "Not a comma separated number list"
+msgstr "Entrez une liste de nombre séparée par des virgules"
+
+#. tpl/command_edit.html
 msgid "Missing field"
 msgstr "Champ manquant"
+
+#. tpl/command_edit.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "ERROR: Please check"
+msgstr "ERREUR, vérifier"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -3087,6 +3133,8 @@ msgid "Read by"
 msgstr "Vu par"
 
 #. tpl/team_activity_report.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Action"
 msgstr "Action"
 
@@ -3248,6 +3296,8 @@ msgid "Plugin Manager"
 msgstr "Gestionnaire de plugin"
 
 #. tpl/menu/global_menu.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Logs"
 msgstr "Logs"
 
@@ -3316,6 +3366,7 @@ msgstr "Suppression CodevTT du menu de Mantis:"
 
 #. tpl/uninstall.html
 #. plugins/AdminTools/AdminTools.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #: plugins/AdminTools/AdminTools.class.php:69
 msgid "TODO"
 msgstr "TODO"
@@ -3727,6 +3778,7 @@ msgstr "Pour chaque utilisateur, renvoie la somme du RAF de ses tâches"
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
 #. plugins/WBSExport/WBSExport_cfg.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #. plugins/ManagementCosts/ManagementCosts_cfg.html
@@ -3734,6 +3786,7 @@ msgstr "Pour chaque utilisateur, renvoie la somme du RAF de ses tâches"
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Title"
 msgstr "Titre"
@@ -3789,6 +3842,7 @@ msgid "Timetrack details"
 msgstr "Imputations détaillées"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End Date"
 msgstr "Date Fin"
@@ -4315,6 +4369,8 @@ msgid "Run selected actions"
 msgstr "Exécuter les actions sélectionnées"
 
 #. plugins/AdminTools/AdminTools.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Execute"
 msgstr "Exécuter"
 
@@ -4752,6 +4808,7 @@ msgid "Price"
 msgstr "Prix"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Period"
 msgstr "Période"
 
@@ -4794,6 +4851,23 @@ msgstr "Reste à produire = ChargeMgr - Consommé depuis le début de la tâche"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 msgid "Include sideTasks"
 msgstr "Inclure les TâchesAnnexes"
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Sorry, you need to be manager to use this plugin"
+msgstr "Vous devez être Manager pour utiliser ce plugin"
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Root task"
+msgstr "Tâche racine"
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Also include parent-tasks in the tree (default: include as folder only)"
+msgstr "Inclure également la tâche parente (defaut: création du noeud WBS uniquement)"
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
+msgid "Import Relationship tree to command"
+msgstr "Importer un arbre de tâches défini par les relations parent-enfant de mantis"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4903,6 +4977,54 @@ msgstr "Taux de fiabilité de la Charge_Mgr"
 msgid "EffortEstim reliability history"
 msgstr "Historique de l'estimation de charge"
 
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "to"
+msgstr "au"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Number of days to add on the period"
+msgstr "nombre de jours à ajouter sur la période"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Nb days"
+msgstr "Nb jours"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Task backlog"
+msgstr "Backlog de tâches"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Fill Period With Timetracks"
+msgstr "Remplir une période avec des imputations"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:77
+msgid "Add multiple timetracks at once"
+msgstr "Ajouter plusieurs imputations en une seule opération"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
+msgstr ""
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Error !"
+msgstr "Erreur !"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "days available on period"
+msgstr "Nombre de jours dispo sur la période"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+msgid "Could not retrieve task data !"
+msgstr "Impossible de récupérer les informations de la tâche !"
+
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
+msgid "Fill period with timetracks"
+msgstr "Remplir une période avec des imputations"
+
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
 msgstr "Sélectionner tout"
@@ -5000,27 +5122,27 @@ msgstr "Le retrait du projet a échoué"
 msgid "Configure Tooltips"
 msgstr "Configuration des infobulles"
 
-#: admin/edit_team.php:401
+#: admin/edit_team.php:402
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:401
+#: admin/edit_team.php:402
 msgid "disabled"
 msgstr "désactivé"
 
-#: admin/edit_jobs.php:81
+#: admin/edit_jobs.php:90
 msgid "Couldn't add the job association"
 msgstr "Impossible d'ajouter cette association"
 
-#: admin/edit_jobs.php:89
+#: admin/edit_jobs.php:98
 msgid "This job must not be deleted."
 msgstr "Ce poste ne doit pas être supprimé."
 
-#: admin/edit_jobs.php:96 admin/edit_jobs.php:114
+#: admin/edit_jobs.php:105 admin/edit_jobs.php:123
 msgid "Couldn't remove the job association"
 msgstr "Impossible de supprimer l'association"
 
-#: admin/edit_jobs.php:103
+#: admin/edit_jobs.php:112
 msgid "Couldn't delete the job"
 msgstr "Impossible de supprimer le poste"
 
@@ -5082,6 +5204,7 @@ msgstr "Relatif à"
 msgid "Parent of"
 msgstr "Parent de"
 
+#. 2
 #: classes/issue.class.php:64
 msgid "Child of"
 msgstr "Enfant de"
@@ -5094,7 +5217,7 @@ msgstr "Contraint par"
 msgid "Constrains"
 msgstr "Contraint"
 
-#: classes/issue.class.php:2265 classes/wbsElement.class.php:686 tools.php:1549
+#: classes/issue.class.php:2265 classes/wbsElement.class.php:692 tools.php:1549
 msgid "Tags"
 msgstr "Balises"
 
@@ -5692,26 +5815,6 @@ msgstr "Etape 3"
 msgid "Step 4"
 msgstr "Etape 4"
 
-#: management/command_edit.php:219
-msgid "Add tasks to Command"
-msgstr "Ajouter les tâches à la commande ?"
-
-#: management/command_edit.php:220
-msgid "Add multiple tasks"
-msgstr "Ajouter plusieurs tâches"
-
-#: management/command_edit.php:221
-msgid "Add selection"
-msgstr "Ajouter la sélection"
-
-#: management/command_edit.php:222
-msgid "Note: Tasks already assigned to a Command are not displayed."
-msgstr "Note : Les tâches annexes définies dans les commandes ne sont pas affichées."
-
-#: management/command_edit.php:223
-msgid "Add the selected issues to the Command ?"
-msgstr "Ajouter les tâches sélectionnées à la commande ?"
-
 #: management/command_info_ajax.php:340 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
@@ -5721,7 +5824,7 @@ msgstr "auto"
 msgid "Provisions updated FAILED !"
 msgstr "ERREUR lors de la mise à jour des provisions !"
 
-#: management/command_edit_ajax.php:372
+#: management/command_edit_ajax.php:375
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:237
 msgid "Please upload files with the following extension: "
@@ -5782,17 +5885,17 @@ msgstr "sans deadLine"
 msgid "Monitored"
 msgstr "Suivie"
 
-#: reports/project_info.php:302
+#: reports/project_info.php:322
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:389
 msgid "New Tasks"
 msgstr "Nouvelles tâches"
 
-#: reports/project_info.php:303
+#: reports/project_info.php:323
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:390
 msgid "Current Tasks"
 msgstr "Tâches en cours"
 
-#: reports/project_info.php:304
+#: reports/project_info.php:324
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:391
 msgid "Resolved Tasks"
 msgstr "Tâches résolues"
@@ -5964,15 +6067,15 @@ msgstr "Nbre de jours-hommes disponibles sur la période (taches annexes et exte
 msgid "Check all the timetracks of the period and return their repartition per project categories"
 msgstr "Affiche le consommé sur la période, réparti par catégorie projet"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:346
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:350
 msgid "All Sidetasks Projects"
 msgstr "Projets TachesAnnexes"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:347
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:351
 msgid "All Production Projects"
 msgstr "Projets de production"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:348
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:352
 msgid "All Projects"
 msgstr "Tous les Projets"
 
@@ -6060,6 +6163,14 @@ msgstr "Prix de vente = PrixJournee x consommé sur la période"
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
 msgstr "ATTENTION: Il faut assigner le champ personnalisé Mantis \"CodevTT_PrixJournee\" aux projets suivants: "
 
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:65
+msgid "Add issues to a command by following the relationship structure"
+msgstr ""
+
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:68
+msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
+msgstr ""
+
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
 msgstr "Export WBS"
@@ -6115,6 +6226,10 @@ msgstr "REM: Les tâches réouvertes et non encore résolues ne sont pas prises 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
 msgstr "(si l'estimation de charge de ces tâches n'a pas été mise à jour, les résultats seront faussés)"
+
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:296
+msgid "Timetrack added by "
+msgstr "Imputation ajoutée par "
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
 msgid "Move Issue Timetracks"
@@ -6216,6 +6331,18 @@ msgstr "S"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Date Livraison"
+
+#~ msgid "Add task"
+#~ msgstr "Ajouter une tâche"
+
+#~ msgid "Add selection"
+#~ msgstr "Ajouter la sélection"
+
+#~ msgid "Note: Tasks already assigned to a Command are not displayed."
+#~ msgstr "Note : Les tâches annexes définies dans les commandes ne sont pas affichées."
+
+#~ msgid "Add the selected issues to the Command ?"
+#~ msgstr "Ajouter les tâches sélectionnées à la commande ?"
 
 #~ msgid " For this plugin, you need to set the MantisBT customField \"CodevTT_DailyPrice\" on each task."
 #~ msgstr "Pour ce plugin il faut renseigner le champ personnalisé Mantis \"CodevTT_PrixJournee\" pour chaque tâche."
@@ -6762,9 +6889,6 @@ msgstr "Date Livraison"
 
 #~ msgid "Les champs suivants ont ete oublies:"
 #~ msgstr "Les champs suivants ont ete oubliés:"
-
-#~ msgid "t"
-#~ msgstr "t"
 
 #~ msgid "Date depart"
 #~ msgstr "Date départ"
