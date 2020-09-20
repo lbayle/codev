@@ -174,12 +174,12 @@
          }
       }).css( { 'max-height' : '450px' } ); // fix MaxHeight http://bugs.jqueryui.com/ticket/4820
 
-      jQuery("ul.droptrue").sortable({
-         connectWith: "ul"
+      jQuery(".taskPivotTable_sortable.droptrue").sortable({
+         connectWith: ".taskPivotTable_sortable"
       });
 
-      jQuery("ul.dropfalse").sortable({
-         connectWith: "ul",
+      jQuery(".taskPivotTable_sortable.dropfalse").sortable({
+         connectWith: ".taskPivotTable_sortable",
          dropOnEmpty: false
       });
 
