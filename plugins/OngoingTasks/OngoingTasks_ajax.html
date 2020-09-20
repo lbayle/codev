@@ -27,6 +27,9 @@
                <th>{t}Assigned to{/t}</th>
                <th>{t}Involved users{/t}</th>
                {/if}
+               {if $ongoingTasks_isDisplayWbsPath}
+               <th>{t}WBS path{/t}</th>
+               {/if}
             </tr>
          </thead>
          <tbody>
@@ -54,6 +57,9 @@
                {if $ongoingTasks_isDisplayInvolvedUsers}
                <td>{$i.assignedTo}</td>
                <td>{$i.involvedUsers}</td>
+               {/if}
+               {if $ongoingTasks_isDisplayWbsPath}
+               <td>{$i.wbsPath}</td>
                {/if}
             </tr>
             {/foreach}

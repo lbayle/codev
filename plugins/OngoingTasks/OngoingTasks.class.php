@@ -32,6 +32,7 @@ class OngoingTasks extends IndicatorPluginAbstract {
    const OPTION_IS_DISPLAY_SUMMARY = 'isDisplayTaskSummary';
    const OPTION_IS_DISPLAY_EXTID = 'isDisplayTaskExtID';
    const OPTION_IS_DISPLAY_INVOLVED_USERS = 'isDisplayInvolvedUsers';
+   const OPTION_IS_DISPLAY_WBS_PATH = 'isDisplayWbsPath';
 
    /**
     * @var Logger The logger
@@ -45,6 +46,7 @@ class OngoingTasks extends IndicatorPluginAbstract {
    private $endTimestamp;
    private $teamid;
    private $managedUserId; // DOMAIN_USER only
+   private $commandId; // DOMAIN_COMMAND only
 
    // config options from Dashboard
    private $isOnlyActiveTeamMembers;
@@ -54,6 +56,7 @@ class OngoingTasks extends IndicatorPluginAbstract {
    private $isDisplayTaskSummary;
    private $isDisplayTaskExtID;
    private $isDisplayInvolvedUsers;
+   private $isDisplayWbsPath;
 
    // internal
    protected $execData;
@@ -166,10 +169,21 @@ class OngoingTasks extends IndicatorPluginAbstract {
       } else {
          $this->endTimestamp = NULL;
       }
+      if (IndicatorPluginInterface::DOMAIN_COMMAND === $this->domain) {
+         if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_COMMAND_ID)) {
+            $this->commandId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_COMMAND_ID);
+         } else {
+            throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_COMMAND_ID);
+         }
+      } else {
+         $this->commandId = NULL;
+         $this->isDisplayWbsPath = FALSE;
+      }
 
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->isOnlyActiveTeamMembers= TRUE;
       $this->isDisplayInvolvedUsers = TRUE;
+      $this->isDisplayWbsPath = FALSE;
    }
 
    /**
@@ -200,6 +214,13 @@ class OngoingTasks extends IndicatorPluginAbstract {
          }
          if (array_key_exists(self::OPTION_IS_DISPLAY_INVOLVED_USERS, $pluginSettings)) {
             $this->isDisplayInvolvedUsers = $pluginSettings[self::OPTION_IS_DISPLAY_INVOLVED_USERS];
+         }
+         if (array_key_exists(self::OPTION_IS_DISPLAY_WBS_PATH, $pluginSettings)) {
+            if (NULL != $this->commandId) {
+               $this->isDisplayWbsPath = $pluginSettings[self::OPTION_IS_DISPLAY_WBS_PATH];
+            } else {
+               $this->isDisplayWbsPath = FALSE;
+            }
          }
       }
    }
@@ -277,6 +298,9 @@ class OngoingTasks extends IndicatorPluginAbstract {
                $ongoingTasksArray[$bugId]['assignedTo'] = $handler->getName();
                $ongoingTasksArray[$bugId]['involvedUsers'] = $user->getName();
             }
+            if ($this->isDisplayWbsPath) {
+               $ongoingTasksArray[$bugId]['wbsPath'] = $issue->getWbsPath($this->commandId);
+            }
          } else {
             $ongoingTasksArray[$bugId]['elapsedOnPeriod'] += $track->getDuration();
 
@@ -310,6 +334,7 @@ class OngoingTasks extends IndicatorPluginAbstract {
          $prefix.'isDisplayTaskSummary' =>  $this->isDisplayTaskSummary,
          $prefix.'isDisplayTaskExtID' =>  $this->isDisplayTaskExtID,
          $prefix.'isDisplayInvolvedUsers' =>  $this->isDisplayInvolvedUsers,
+         $prefix.'isDisplayWbsPath' =>  $this->isDisplayWbsPath,
 
          $prefix.'nbTimetracks' =>  $this->execData['nbTimetracks'],
          $prefix.'ongoingTasksArray' =>  $this->execData['ongoingTasksArray'],

@@ -2531,6 +2531,56 @@ class Issue extends Model implements Comparable {
       }
       return $this->costStructList[$key];
    }
+
+   /**
+    *
+    * @param int $commandId
+    * @return string WBS structure (ex: "folder1/folder2/folder3")
+    */
+   public function getWbsPath($commandId) {
+
+      if (NULL == $commandId) { return ''; }
+      
+
+      // check if issue is in this command
+      $cmdList = $this->getCommandList();
+      if (!array_key_exists($commandId, $cmdList)) {
+         self::$logger->error("No, $row->bug_id) is not part of command $commandId !");
+         return '';
+      }
+
+      // get all parents
+      $cmd = CommandCache::getInstance()->getCommand($commandId);
+      $rootId = $cmd->getWbsid();
+
+      // get all elements of this root
+      $wbseList = array();
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, parent_id, bug_id, title FROM codev_wbs_table ".
+              " WHERE root_id = ".$sql->db_param().
+              " ORDER BY parent_id, id ";
+      $result = $sql->sql_query($query, array($rootId));
+
+      while ($row = $sql->fetchObject($result)) {
+         $wbseList[$row->id] = array('parent_id' => $row->parent_id, 'bug_id' =>  $row->bug_id, 'title' =>  $row->title);
+         if ($this->bugId == $row->bug_id) {
+            $issueWbsId = $row->id;
+         }
+      }
+
+      // backward re-construct the wbsPath for this issue
+      $wbsPath = '';
+      $nextParentId = $wbseList[$issueWbsId]['parent_id'];
+      while ($rootId != $nextParentId) {
+         $wbsPath = $wbseList[$nextParentId]['title'] . '/' . $wbsPath;
+         $nextParentId = $wbseList[$nextParentId]['parent_id'];
+      }
+
+      return $wbsPath;
+
+   }
+
+
 }
 
 Issue::staticInit();

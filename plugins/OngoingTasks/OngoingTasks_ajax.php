@@ -61,6 +61,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $isDisplayCategory = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_CATEGORY]) ? false : true;
          $isDisplayTaskSummary = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_SUMMARY]) ? false : true;
          $isDisplayTaskExtID = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_EXTID]) ? false : true;
+         $isDisplayWbsPath = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_WBS_PATH]) ? false : true;
 
          //$logger->error("attributesArray = ".var_export($attributesArray, true));
 
@@ -78,6 +79,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
              OngoingTasks::OPTION_IS_DISPLAY_CATEGORY => $isDisplayCategory,
              OngoingTasks::OPTION_IS_DISPLAY_SUMMARY => $isDisplayTaskSummary,
              OngoingTasks::OPTION_IS_DISPLAY_EXTID => $isDisplayTaskExtID,
+             OngoingTasks::OPTION_IS_DISPLAY_WBS_PATH => $isDisplayWbsPath,
          ));
 
          $indicator->execute();
