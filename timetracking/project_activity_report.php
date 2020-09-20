@@ -108,7 +108,7 @@ class ProjectActivityReportController extends Controller {
 
          // write table content (by bugid)
          $row_id = 0;
-         $bugDetailedList = "";
+         $bugDetailedList = array();
          foreach ($bugList as $bugid => $jobs) {
             $issue = IssueCache::getInstance()->getIssue($bugid);
             $user = UserCache::getInstance()->getUser($issue->getHandlerId());
