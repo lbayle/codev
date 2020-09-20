@@ -122,29 +122,19 @@ class CommandEditController extends Controller {
 
                // -------- UPDATE CMD -------
                // Actions
-               if ("addCmdIssue" == $action) {
-                  $bugid = Tools::getSecurePOSTIntValue('bugid');
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("add Issue $bugid on Command $cmdid team $this->teamid");
-                  }
-
-                  $cmd->addIssue($bugid, true); // DBonly
-               } else if ("addCmdIssueList" == $action) {
-                  $bugid_list = $_POST['bugid_list'];
-
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("add Issues ($bugid_list) on Command $cmdid team $this->teamid");
-                  }
-
+               if ("addCmdIssueList" == $action) {
+                  $bugid_list = Tools::getSecurePOSTStringValue('addCmdIssue_bugidList');
+                  $bugid_list = str_replace(' ', '', $bugid_list);
                   $bugids = explode(',', $bugid_list);
 
-                  //$cmd->addIssueList($bugids, true); // DBonly
                   foreach ($bugids as $id) {
-                     if (is_numeric(trim($id))) {
-                        $cmd->addIssue(intval($id), true); // DBonly
-                     } else {
-                        self::$logger->error('Attempt to set non_numeric value ('.$id.')');
-                        die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+                     if (!empty($id)) {
+                        if (is_numeric(trim($id))) {
+                           $cmd->addIssue(intval($id), true); // DBonly
+                        } else {
+                           self::$logger->error('Attempt to set non_numeric value ('.$id.')');
+                           die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+                        }
                      }
                   }
                } else if ("removeCmdIssue" == $action) {
@@ -212,15 +202,6 @@ class CommandEditController extends Controller {
                // WBS
                $this->smartyHelper->assign('wbsRootId', $cmd->getWbsid());
 
-               // multiple selection dialogBox
-               $availableIssueList = $this->getChildIssuesCandidates($this->teamid);
-               $this->smartyHelper->assign('availableIssueList', $availableIssueList);
-               $this->smartyHelper->assign('sendSelectIssuesActionName', "addCmdIssueList");
-               $this->smartyHelper->assign('selectIssuesBoxTitle', T_('Add tasks to Command').' \''.$cmd->getName().'\'');
-               $this->smartyHelper->assign('openDialogLabel', T_("Add multiple tasks"));
-               $this->smartyHelper->assign('selectIssuesDoneBtText', T_("Add selection"));
-               $this->smartyHelper->assign('selectIssuesBoxDesc', T_("Note: Tasks already assigned to a Command are not displayed."));
-               $this->smartyHelper->assign('selectIssuesConfirmMsg', T_("Add the selected issues to the Command ?"));
             }
 
 
@@ -306,47 +287,6 @@ class CommandEditController extends Controller {
       return $parentCmdSets;
    }
 
-   /**
-    * returns all issues not already assigned to a command
-    * and which project_id is defined in the team
-    *
-    * @param int $this->teamid
-    * @return mixed[]
-    */
-   private function getChildIssuesCandidates($teamid) {
-      $issueArray = array();
-      $sql = AdodbWrapper::getInstance();
-
-      // team projects except externalTasksProject & NoStats projects
-      $projects = TeamCache::getInstance()->getTeam($this->teamid)->getProjects();
-      $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-      unset($projects[$extProjId]);
-
-      $formattedProjectList = implode (', ', array_keys($projects));
-
-      $query  = "SELECT * FROM {bug} ".
-         " WHERE project_id IN (".$sql->db_param().") ".
-         " AND 0 = is_issue_in_team_commands(id, ".$sql->db_param().") ".
-         " ORDER BY id DESC";
-
-      $result = $sql->sql_query($query, array($formattedProjectList, $teamid));
-
-      while($row = $sql->fetchObject($result)) {
-         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-         $issueArray[$row->id] = array(
-            //"mantisLink" => mantisIssueURL($issue->bugId, NULL, true),
-            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
-            //"bugid" => $issue->bugId,
-            "extRef" => $issue->getTcId(),
-            "project" => $issue->getProjectName(),
-            "target" => $issue->getTargetVersion(),
-            "status" => $issue->getCurrentStatusName(),
-            "summary" => htmlspecialchars($issue->getSummary())
-         );
-      }
-
-      return $issueArray;
-   }
 }
 
 // ========== MAIN ===========

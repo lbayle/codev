@@ -446,12 +446,13 @@ function addCmdIssue(){
    // check fields
    var foundError = 0;
    var msgString = "";
-   var bug_id = jQuery.trim(document.forms["addCmdIssueForm"].bugid.value);
+   var bugidList = jQuery.trim(document.forms["addCmdIssueForm"].addCmdIssue_bugidList.value);
 
-   if ('' != bug_id) {
-      var reg=new RegExp("^[0-9]+$","i");
-      if (!reg.test(bug_id)) {
-         msgString += smartyDataCmdEdit.i18n_nanTaskId+"\n";
+   if ('' != bugidList) {
+      bugidList = bugidList.replace(/\s/g, '');
+      var reg=new RegExp("^[0-9]+([,]*[0-9]+)*[,]*$","i");
+      if (!reg.test(bugidList)) {
+         msgString += smartyDataCmdEdit.i18n_notACommaSepList+"\n";
          ++foundError;
       }
    } else {

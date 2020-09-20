@@ -132,15 +132,14 @@
             <!-- create form -->
             <form id="addCmdIssueForm" name="addCmdIssueForm" method="post" action="{$page}">
                <fieldset>
-                  <label for="bugid">{t}Add task{/t}: </label>
-                  <input id="bugid" name="bugid" type="text" size="5" value="" />
+                  <label for="bugidList">{t}Add tasks (comma separated){/t}: </label>
+                  <input id="addCmdIssue_bugidList" name="addCmdIssue_bugidList" type="text" size="100" value="" />
                   <button id="btAddCmdIssue" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {t}Add{/t}</button>
-                  <input type="hidden" name="action" value="addCmdIssue" />
+                  <input type="hidden" name="action" value="addCmdIssueList" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="cmdid" value="{$commandid}" />
                </fieldset>
             </form>
-            {include file="modal/select_issues.html"}
          </div>
          {else}
          {t}Create the Command to add some tasks.{/t}
@@ -423,6 +422,7 @@
          i18n_missingFieldCmdName:"{t}Field is missing{/t}: {t}Command name{/t}",
          i18n_nanSoldCharge:"{t}Not a number{/t}: {t}Sold Charge{/t}",
          i18n_nanTaskId:"{t}Not a number{/t}: {t}task id{/t}",
+         i18n_notACommaSepList:"{t}Not a comma separated number list{/t}",
          i18n_missingFieldTaskId:"{t}Missing field{/t}:\n\n{t}task id{/t}",
          i18n_errorPleaseCheck:"{t}ERROR: Please check{/t}",
          i18n_date:"{t}Date{/t}",
