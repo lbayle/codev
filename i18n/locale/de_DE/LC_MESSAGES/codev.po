@@ -8,17 +8,18 @@
 # Author: Umherirrender
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-08-13 17:13:24+0000\n"
+"PO-Revision-Date: 2020-09-21 14:00:25+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
+"X-POT-Import-Date: 2020-09-21 11:15:12+0000\n"
 "X-Generator: MediaWiki 1.36.0-alpha; Translate 2020-07-20\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -4761,12 +4762,8 @@ msgid "Load per User"
 msgstr "Pro Benutzer laden"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n"
-"(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4782,12 +4779,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "Mit den Projekten verbrachte Zeit und sonstige Aufgaben der aktuellen Aufgabenauswahl"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n"
-"(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -5038,9 +5031,7 @@ msgid "Add multiple timetracks at once"
 msgstr "Mehrere Aufgaben hinzufügen"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -6376,14 +6367,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "Liefertermin"
 
-#~ msgid "Add task"
-#~ msgstr "Task hinzufügen"
-
-#~ msgid "Add selection"
-#~ msgstr "Auswahl hinzufügen"
-
-#~ msgid "Note: Tasks already assigned to a Command are not displayed."
-#~ msgstr "Bereits zugewiesene Aufgaben werden nicht angezeigt"
-
-#~ msgid "Add the selected issues to the Command ?"
-#~ msgstr "Gewählte Einträge dem Auftrag hinzufügen?"

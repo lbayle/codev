@@ -8,16 +8,18 @@
 # Author: Eduardo Addad de Oliveira
 # Author: Felipe L. Ewald
 # Author: Luk3
+# Author: Nsharkey
 # Author: Tark
 # Author: Trigonometria87
 # Author: Warley Felipe C.
 # Author: WikiUser22222
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-07-27 16:19:27+0000\n"
+"PO-Revision-Date: 2020-09-24 13:52:53+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -26,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: MediaWiki 1.36.0-alpha; Translate 2020-07-20\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
+"X-POT-Import-Date: 2020-09-21 11:15:12+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -1662,9 +1664,8 @@ msgid "Jobs"
 msgstr "Cargos"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Job list"
-msgstr "Editar cargos"
+msgstr "Editar lista de cargos"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -1903,7 +1904,7 @@ msgstr "Atualizado com sucesso!"
 
 #. tpl/edit_team.html
 msgid "Job list for project :"
-msgstr ""
+msgstr "Lista de trabalho para projeto:"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -3111,7 +3112,7 @@ msgstr "id caso"
 
 #. tpl/command_edit.html
 msgid "Not a comma separated number list"
-msgstr ""
+msgstr "Não é uma lista de números separados por vírgulas"
 
 #. tpl/command_edit.html
 msgid "Missing field"
@@ -3121,7 +3122,7 @@ msgstr "Campos faltante"
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
-msgstr ""
+msgstr "ERRO: Por favor verifique"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -4852,9 +4853,7 @@ msgid "Load per User"
 msgstr "Filtros"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4871,9 +4870,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4960,9 +4957,8 @@ msgid "Include sideTasks"
 msgstr "Incluir tarefas laterais"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Sorry, you need to be manager to use this plugin"
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr "Desculpe, você precisa ser gerente para usar esse terminal"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #, fuzzy
@@ -5100,9 +5096,8 @@ msgid "EffortEstim reliability history"
 msgstr "Confiabilidade do EffortEstim"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "to"
-msgstr "Automático"
+msgstr "para"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #, fuzzy
@@ -5131,15 +5126,12 @@ msgid "Add multiple timetracks at once"
 msgstr "Adicionar multiplas tarefas"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Error !"
-msgstr "Erro"
+msgstr "Erro!"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #, fuzzy
@@ -5148,7 +5140,7 @@ msgstr "Decorrido no período"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Could not retrieve task data !"
-msgstr ""
+msgstr "Não foi possível recuperar dados!"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
@@ -6530,14 +6522,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "Data de liberação"
 
-#~ msgid "Add task"
-#~ msgstr "Adicionar um caso"
-
-#~ msgid "Add selection"
-#~ msgstr "Adicionar seleção"
-
-#~ msgid "Note: Tasks already assigned to a Command are not displayed."
-#~ msgstr "Nota: Estes casos relacionados estão definidos em comandos e não serão exibidos."
-
-#~ msgid "Add the selected issues to the Command ?"
-#~ msgstr "Adicionar os casos selecionados a Command ?"

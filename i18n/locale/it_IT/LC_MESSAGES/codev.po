@@ -14,10 +14,11 @@
 # Author: Walter Raffoni
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-07-27 16:19:25+0000\n"
+"PO-Revision-Date: 2020-09-24 13:52:51+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -27,7 +28,7 @@ msgstr ""
 "X-Generator: MediaWiki 1.36.0-alpha; Translate 2020-07-20\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
+"X-POT-Import-Date: 2020-09-21 11:15:12+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -1663,9 +1664,8 @@ msgid "Jobs"
 msgstr "Jobs"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Job list"
-msgstr "Modifica Jobs"
+msgstr "Modifica elenco lavori"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -1903,9 +1903,8 @@ msgid "Updated successfully !"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Job list for project :"
-msgstr "Suggerimenti per il progetto"
+msgstr "Elenco lavori per progetto:"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2285,9 +2284,8 @@ msgstr "Esporta"
 #. tpl/doc.html
 #. tpl/gantt.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "Le attività on assegnate non sono contabilizzate"
+msgstr "IMPORTANTE: le attività non assegnate non saranno mostrate!"
 
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
@@ -3025,9 +3023,8 @@ msgid "Parent CommandSets"
 msgstr "Macro padre"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Add tasks (comma separated)"
-msgstr "Aggiungere l'attività all'ordine?"
+msgstr "Aggiungi attività (separate da virgole)"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -4776,9 +4773,7 @@ msgid "Load per User"
 msgstr "Carico per utente"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4795,9 +4790,7 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4888,14 +4881,12 @@ msgid "Include sideTasks"
 msgstr "Attività collaterali"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Sorry, you need to be manager to use this plugin"
-msgstr "Devi essere Team Leader per accedere a questa pagina."
+msgstr "Devi essere gestore per accedere a questa pagina."
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task"
-msgstr "Nessuna attività in ritardo."
+msgstr "Attività pricipale"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (default: include as folder only)"
@@ -5025,51 +5016,41 @@ msgid "EffortEstim reliability history"
 msgstr "Affidabilità della stima di carico"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "to"
-msgstr "Automatico"
+msgstr "a"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Number of days to add on the period"
-msgstr "Numero di giorni da calcolare"
+msgstr "Numero di giorni da aggiungere al periodo"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Nb days"
 msgstr "n° giorni"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Task backlog"
-msgstr "Arretrati del Team"
+msgstr "Attività arretrate"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Fill Period With Timetracks"
-msgstr "Impossibile cancellare la traccia lavoro!"
+msgstr "Riempi il periodo con tabelle orarie"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:77
-#, fuzzy
 msgid "Add multiple timetracks at once"
-msgstr "Aggiungi attività multiple"
+msgstr "Aggiungi tabelle orarie multiple contemporaneamente"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Error !"
-msgstr "Errore"
+msgstr "Errore!"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "days available on period"
-msgstr "elaborato nel periodo"
+msgstr "giorni disponibili nel periodo"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Could not retrieve task data !"
@@ -5077,9 +5058,8 @@ msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
-#, fuzzy
 msgid "Fill period with timetracks"
-msgstr "Impossibile cancellare la traccia lavoro!"
+msgstr "Riempi il periodo con tabelle orarie"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
@@ -6308,9 +6288,8 @@ msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-
 msgstr ""
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:296
-#, fuzzy
 msgid "Timetrack added by "
-msgstr "Annotazione tabella oraria"
+msgstr "Tabella oraria aggiunta da "
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
 #, fuzzy
@@ -6415,14 +6394,3 @@ msgstr "S"
 msgid "Delivery Date"
 msgstr "Data consegna"
 
-#~ msgid "Add task"
-#~ msgstr "Aggiungi attività"
-
-#~ msgid "Add selection"
-#~ msgstr "Aggiungi la selezione"
-
-#~ msgid "Note: Tasks already assigned to a Command are not displayed."
-#~ msgstr "Nota: le attività già assegnate ad un ordine non vengono mostrate."
-
-#~ msgid "Add the selected issues to the Command ?"
-#~ msgstr "Aggiungere i seguenti tickets all'ordine?"

@@ -3,6 +3,7 @@
 #
 # Author: A Chinese Wikipedian
 # Author: A Retired User
+# Author: AYZ04
 # Author: Deathkon
 # Author: Fanjiayi
 # Author: Frog7301
@@ -16,13 +17,14 @@
 # Author: 神樂坂秀吉
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-07-27 16:19:28+0000\n"
+"PO-Revision-Date: 2020-09-28 15:13:21+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-05-26 10:22:58+0000\n"
+"X-POT-Import-Date: 2020-09-21 11:15:12+0000\n"
 "X-Generator: MediaWiki 1.36.0-alpha; Translate 2020-07-20\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -1660,9 +1662,8 @@ msgid "Jobs"
 msgstr "工作"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Job list"
-msgstr "编辑工作"
+msgstr "编辑工作清单"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -1900,9 +1901,8 @@ msgid "Updated successfully !"
 msgstr "已成功更新！"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Job list for project :"
-msgstr "用于项目的问题提示"
+msgstr "项目的工作清单："
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2282,9 +2282,8 @@ msgstr "导出"
 #. tpl/doc.html
 #. tpl/gantt.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "未分配的任务将不会显示"
+msgstr "重要：未分配的任务将不会显示！"
 
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
@@ -3022,9 +3021,8 @@ msgid "Parent CommandSets"
 msgstr "父命令集"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Add tasks (comma separated)"
-msgstr "添加任务至命令"
+msgstr "添加任务（逗号分隔）"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -3096,7 +3094,7 @@ msgstr "任务ID"
 
 #. tpl/command_edit.html
 msgid "Not a comma separated number list"
-msgstr ""
+msgstr "不是逗号分隔的数字列表"
 
 #. tpl/command_edit.html
 msgid "Missing field"
@@ -3106,7 +3104,7 @@ msgstr "丢失字段"
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
-msgstr ""
+msgstr "错误：请检查"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -4215,7 +4213,7 @@ msgstr ""
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
-msgstr ""
+msgstr "更新时间表"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 msgid "Budget history"
@@ -4637,7 +4635,7 @@ msgstr "显示已解决的任务"
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
 #: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:65
 msgid "Submitted/Resolved Issues History"
-msgstr ""
+msgstr "已提交/已解决的问题历史记录"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Values"
@@ -4645,7 +4643,7 @@ msgstr "值"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Submitted/Resolved issues"
-msgstr ""
+msgstr "已提交/已解决的问题"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Submitted / Resolved Issues"
@@ -4669,11 +4667,11 @@ msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Submitted issues"
-msgstr ""
+msgstr "已提交的问题"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Resolved issues"
-msgstr ""
+msgstr "已解决的问题"
 
 #. plugins/CostsIndicator/CostsIndicator_cfg.html
 #. plugins/CostsIndicator/CostsIndicator.html
@@ -4765,12 +4763,8 @@ msgid "Load per User"
 msgstr "每位用户加载的"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
-"   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
@@ -4786,12 +4780,8 @@ msgid "Time spent on the projects & sideTasks of the current task selection"
 msgstr "在当前任务选择的项目和边栏任务上所花费的时间"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"当前选择中的“事件”和“不活跃”子任务。<br>\n"
-"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4822,7 +4812,7 @@ msgstr "警告"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "每日价格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #, fuzzy
@@ -4831,12 +4821,12 @@ msgstr "运行周期"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "价格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Period"
-msgstr ""
+msgstr "周期"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
@@ -5042,9 +5032,7 @@ msgid "Add multiple timetracks at once"
 msgstr "添加多重任务"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -6380,14 +6368,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "交货日期"
 
-#~ msgid "Add task"
-#~ msgstr "添加任务"
-
-#~ msgid "Add selection"
-#~ msgstr "添加选择"
-
-#~ msgid "Note: Tasks already assigned to a Command are not displayed."
-#~ msgstr "注意：已分配给命令的任务不会显示。"
-
-#~ msgid "Add the selected issues to the Command ?"
-#~ msgstr "添加选定问题至命令么？"
