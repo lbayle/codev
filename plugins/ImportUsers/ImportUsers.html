@@ -7,7 +7,7 @@
 
     {if !empty($importUsers_teams)}
     <div align="left" style="margin-top:1em;" class="center">
-        
+
         <!-- FILE SELECTION -->
         <form method="post" action="{$importUsers_ajaxPhpURL}" enctype="multipart/form-data" class="importUsers_formUploadFile">
             <fieldset>
@@ -22,7 +22,7 @@
             </fieldset>
         </form>
     </div>
-    
+
     <div style="margin-top:2em;" class="center">
       <span>{t}Import template{/t}: </span>
       <span style="padding-left: 1em">
@@ -39,16 +39,16 @@
     </div>
    {/if}
 
-    <div class="importUsers_uploadValidationMessage error_font error_container">   
+    <div class="importUsers_uploadValidationMessage error_font error_container">
     </div>
-    
+
     <div>
         <div class="floatr" style=" width: 16px">
             <span class="importUsers_HelpDialog_link float pointer">
                <img title="Help" src="images/help_icon.gif"/>
             </span>
          </div>
-         <div class="importUsers_HelpDialog ui-helper-hidden" title="{t}Time per status{/t}">
+         <div class="importUsers_HelpDialog ui-helper-hidden" title="{t}Import users{/t}">
             <p>
                <strong>{t}Description{/t}</strong><br>
                - {t}Create Mantis users{/t}<br>
@@ -96,11 +96,11 @@
          function importUsersJsDestroy() {
              jQuery(".importUsers_HelpDialog").dialog('destroy').remove();
          }
-         
+
         // this function will be run at jQuery(document).ready (see dashboard.html)
         // or when a new widget is added to the dashboard.
         function importUsersJsInit() {
-            
+
             jQuery(".importUsers_HelpDialog_link").click(function(e) {
                 e.preventDefault();
                 jQuery(".importUsers_HelpDialog").dialog("open");
@@ -135,7 +135,7 @@
                 var form = jQuery(".importUsers_formUploadFile");
 
                 var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
-                
+
                 if (0 == form.find("select[name=teamId]").val()) {
                     msgString += "{t}Team{/t}\n";
                     ++foundError;
@@ -190,8 +190,8 @@
 
 
         }
-        
-    
+
+
     </script>
     {/if}
 </div>
