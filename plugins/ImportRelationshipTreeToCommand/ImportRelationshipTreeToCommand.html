@@ -41,9 +41,11 @@
                      </td>
                   </tr>
                   <tr>
-                     <td><label>{t}Options{/t}: </label></td>
+                     <td valign="top"><label>{t}Options{/t}: </label></td>
                      <td>
-                        <input class="ImportRelationshipTreeToCommand_isIncludeParentIssue" type="checkbox"> {t}Also include parent-tasks in the tree (default: include as folder only){/t}
+                        <input class="ImportRelationshipTreeToCommand_isIncludeParentIssue" type="checkbox"> {t}Also include parent-tasks in the tree (unchecked: include as folder only){/t}
+                        <br>
+                        <input class="ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder" type="checkbox" CHECKED DISABLED><span class="help_font ImportRelationshipTreeToCommand_spanIsIncludeParentInItsOwnWbsFolder">{t}Include parent-tasks in its own folder (unchecked: include above){/t}</span>
                      </td>
                   </tr>
                   <tr>
@@ -154,6 +156,7 @@
             // add checkbox options
             var options = {};
             options["isIncludeParentIssue"] = form.find(".ImportRelationshipTreeToCommand_isIncludeParentIssue").attr('checked') ? 1 : 0;
+            options["isIncludeParentInItsOwnWbsFolder"] = form.find(".ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder").attr('checked') ? 1 : 0;
             // if more options, add here
             var optionsJsonStr = JSON.stringify(options);
             form.find('input[name=optionsJsonStr]').val(optionsJsonStr);
@@ -184,6 +187,17 @@
             });
          }
       });
+
+      jQuery('.ImportRelationshipTreeToCommand_isIncludeParentIssue').click(function(event) {
+         var form = jQuery('#ImportRelationshipTreeToCommand_form');
+         var isIncludeParentIssue = jQuery(".ImportRelationshipTreeToCommand_isIncludeParentIssue").attr('checked') ? 1 : 0;
+
+         // disable/enable sub-option
+         jQuery(".ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder").prop("disabled", !isIncludeParentIssue);
+         var span_optionText=jQuery(".ImportRelationshipTreeToCommand_spanIsIncludeParentInItsOwnWbsFolder");
+         isIncludeParentIssue ? span_optionText.removeClass('help_font') : span_optionText.addClass('help_font');
+      });
+
 
       // ------------------------
       jQuery(".ImportRelationshipTreeToCommandHelpDialog_link").click(function(e) {

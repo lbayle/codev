@@ -27,6 +27,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    const OPTION_ISSUE_ID = 'issueId';
    const OPTION_CMD_ID = 'commandId';
    const OPTION_IS_INCLUDE_PARENT_ISSUE = 'isIncludeParentIssue';
+   const OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS = 'isIncludeParentInItsOwnWbsFolder';
 
    private static $logger;
    private static $domains;
@@ -40,6 +41,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    private $commandId;
    private $command;
    private $isIncludeParentIssue;
+   private $isIncludeParentInItsOwnWbsFolder;
 
    // internal
    private $sessionUserId;
@@ -118,6 +120,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
          throw new Exception("Missing parameter: " . PluginDataProviderInterface::PARAM_TEAM_ID);
       }
       $this->isIncludeParentIssue = false;
+      $this->isIncludeParentInItsOwnWbsFolder = true;
    }
 
    /**
@@ -137,6 +140,9 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
          }
          if (array_key_exists(self::OPTION_IS_INCLUDE_PARENT_ISSUE, $pluginSettings)) {
             $this->isIncludeParentIssue = $pluginSettings[self::OPTION_IS_INCLUDE_PARENT_ISSUE];
+         }
+         if (array_key_exists(self::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS, $pluginSettings)) {
+            $this->isIncludeParentInItsOwnWbsFolder = (0 == $pluginSettings[self::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS]) ? false : true;
          }
       }
    }
@@ -176,10 +182,11 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       if (array_key_exists($relType, $relationships)) {
          // --- Yes, I do have children, so I'm a wbsFolder
 
-         // (Optional) add myself to the command
-         if ($this->isIncludeParentIssue) {
+         // (Optional) add myself to the command, OUTSIDE the wbsFolder
+         if ($this->isIncludeParentIssue &&
+             (false === $this->isIncludeParentInItsOwnWbsFolder)) {
             $this->command->addIssue($issueId, true, $wbsParentId);
-            $strActionLogs .= "add issue: [$issueId] ".$issue->getSummary()."\n";
+            $strActionLogs .= "add wbsFolder issue (outside): [$issueId] ".$issue->getSummary()."\n";
          }
 
          // add myself as a wbsFolder
@@ -203,6 +210,15 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
             $folderId = $newSubFolder->getId();
             $strActionLogs .= "create wbsFolder: $folderName\n";
          }
+
+         // (Optional) add myself to the command, INSIDE the wbsFolder
+         if ($this->isIncludeParentIssue &&
+             (true === $this->isIncludeParentInItsOwnWbsFolder)) {
+            $this->command->addIssue($issueId, true, $folderId);
+            $strActionLogs .= "add wbsFolder issue (inside): [$issueId] ".$issue->getSummary()."\n";
+         }
+
+
          // now recursively add my children !
          foreach ($relationships[$relType] as $childId) {
             $strActionLogs .= $this->addChild($childId, $wbsRootId, $folderId);

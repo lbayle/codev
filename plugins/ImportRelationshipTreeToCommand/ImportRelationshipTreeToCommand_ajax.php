@@ -58,6 +58,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          ImportRelationshipTreeToCommand::OPTION_ISSUE_ID => $issueId,
          ImportRelationshipTreeToCommand::OPTION_CMD_ID => $commandId,
          ImportRelationshipTreeToCommand::OPTION_IS_INCLUDE_PARENT_ISSUE => $options['isIncludeParentIssue'],
+         ImportRelationshipTreeToCommand::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS => $options['isIncludeParentInItsOwnWbsFolder'],
       ));
 
       // --- update display
