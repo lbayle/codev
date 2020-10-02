@@ -3,13 +3,14 @@
 #
 # Author: Csega
 # Author: Falcon
+# Author: Hanna Tardos
 # Author: Wolf Rex
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-09-21 14:00:26+0000\n"
+"PO-Revision-Date: 2020-10-08 13:50:37+0000\n"
 "Language: hu\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1651,7 +1652,6 @@ msgid "Jobs"
 msgstr "Munkák"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Job list"
 msgstr "Munkák szerkesztése"
 
@@ -1892,7 +1892,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Job list for project :"
-msgstr ""
+msgstr "Feladatok listája a projekthez:"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2273,7 +2273,7 @@ msgstr ""
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr ""
+msgstr "FONTOS: a kiadatlan feladatok nem lesznek feltüntetve!"
 
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
@@ -3012,7 +3012,7 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Add tasks (comma separated)"
-msgstr ""
+msgstr "Feladatok hozzáadása (vesszővel elválasztva)"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -3084,7 +3084,7 @@ msgstr "feladat azonosító"
 
 #. tpl/command_edit.html
 msgid "Not a comma separated number list"
-msgstr ""
+msgstr "Nem vesszőkkel ellátott számlista"
 
 #. tpl/command_edit.html
 msgid "Missing field"
@@ -3094,7 +3094,7 @@ msgstr "Hiányzó mező"
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
-msgstr ""
+msgstr "HIBA: Kérjük, ellenőrizd"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -4858,9 +4858,8 @@ msgid "Include sideTasks"
 msgstr "Mellékfeladatok"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Sorry, you need to be manager to use this plugin"
-msgstr "Sajnáljuk, ennek az oldalnak az eléréséhez az adminisztrátori csoportban kell lenned."
+msgstr "Sajnáljuk, a plugin használatához kezelőnek kell lenned"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Root task"
@@ -4989,9 +4988,8 @@ msgid "to"
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Number of days to add on the period"
-msgstr "Megjegyzés: az időszakban megoldott feladatok csúszása"
+msgstr "Hozzáadandó napok száma ebben az időszakban"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Nb days"
@@ -5016,14 +5014,12 @@ msgid "It is not in the philosophy of CodevTT to allow users to enter several ti
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Error !"
-msgstr "Hibák"
+msgstr "Hiba!"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "days available on period"
-msgstr "Elérhető munkaterhelés"
+msgstr "rendelkezésre álló napok az időszakban"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Could not retrieve task data !"

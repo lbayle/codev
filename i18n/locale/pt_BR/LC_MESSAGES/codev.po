@@ -9,6 +9,7 @@
 # Author: Felipe L. Ewald
 # Author: Luk3
 # Author: Nsharkey
+# Author: Suburbanno
 # Author: Tark
 # Author: Trigonometria87
 # Author: Warley Felipe C.
@@ -19,7 +20,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-09-24 13:52:53+0000\n"
+"PO-Revision-Date: 2020-10-02 07:03:25+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -3035,9 +3036,8 @@ msgid "Parent CommandSets"
 msgstr "CommandSets"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Add tasks (comma separated)"
-msgstr "Adicionar tarefa ao Command"
+msgstr "Adicionar tarefas (separadas por vírgulas)"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -5144,9 +5144,8 @@ msgstr "Não foi possível recuperar dados!"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
-#, fuzzy
 msgid "Fill period with timetracks"
-msgstr "Listar e editar timetracks"
+msgstr "Preencher o período com cronogramas"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #, fuzzy

@@ -1,6 +1,7 @@
 # Translation of CodevTT to Dutch (Nederlands)
 # Exported from translatewiki.net
 #
+# Author: Aranka
 # Author: Elroy
 # Author: Goefie
 # Author: Jeleniccz
@@ -15,7 +16,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-09-21 14:00:27+0000\n"
+"PO-Revision-Date: 2020-10-19 12:50:49+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3742,9 +3743,8 @@ msgid "User info"
 msgstr "Gebruiker"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Gebruiker"
+msgstr "Gebruikers-ID"
 
 #. tpl/user_info.html
 #, fuzzy
@@ -3958,16 +3958,14 @@ msgstr "Wekelijks"
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:62
-#, fuzzy
 msgid "Import issues"
-msgstr "Importeren"
+msgstr "Problemen importeren"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "File"
-msgstr "Bestandsnaam"
+msgstr "Bestand"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Set All"
@@ -3995,9 +3993,8 @@ msgid "Type not set on all issues"
 msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Import done !"
-msgstr "Importeren"
+msgstr "Importeren geslaagd!"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
@@ -4010,9 +4007,8 @@ msgstr "Voorbeeld importeren"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Import template"
-msgstr "Importeren/exporteren"
+msgstr "Importeersjabloon"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4084,9 +4080,8 @@ msgstr ""
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
-#, fuzzy
 msgid "week"
-msgstr "Volgende week"
+msgstr "week"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -4113,9 +4108,8 @@ msgid "Resolved bugs must be validated. This shows how many bugs have been Rejec
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "% Validated"
-msgstr "gevalideerd"
+msgstr "% Gevalideerd"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
@@ -4126,9 +4120,8 @@ msgid "status changed from 'resolved' to any higher status (and still in this st
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "% Rejected"
-msgstr "% Heropend"
+msgstr "% Verworpen"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
@@ -4234,9 +4227,8 @@ msgid "Update timetrack"
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Budget history"
-msgstr "Budgetdagen"
+msgstr "Budgetgeschiedenis"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift History Indicator"
@@ -4400,9 +4392,8 @@ msgstr ""
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "CodevTT Administratie"
+msgstr "Administratiehulpmiddelen"
 
 #. plugins/AdminTools/AdminTools.html
 #, fuzzy
@@ -4425,9 +4416,8 @@ msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Gebruikers"
+msgstr "gebruikers"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
@@ -4513,23 +4503,20 @@ msgstr "Wachtwoord verzenden per e-mail"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Generate password"
-msgstr "Wachtwoord"
+msgstr "Wachtwoord genereren"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "First name"
-msgstr "Bestandsnaam"
+msgstr "Voornaam"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Username"
-msgstr "Hernoemen"
+msgstr "Gebruikersnaam"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
@@ -4583,9 +4570,8 @@ msgid "Import users"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "You need to be manager to import issues."
-msgstr "U heb geen toestemming om gebruikers te importeren"
+msgstr "U moet beheerder zijn om problemen te importeren."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
@@ -4664,9 +4650,8 @@ msgstr "Taken per Gebruiker"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Display resolved issues"
-msgstr "Weergegeven taken"
+msgstr "Opgeloste problemen weergeven"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
 #: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:65
@@ -4674,9 +4659,8 @@ msgid "Submitted/Resolved Issues History"
 msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-#, fuzzy
 msgid "Values"
-msgstr "Waarde"
+msgstr "Waarden"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Submitted/Resolved issues"
@@ -4910,14 +4894,12 @@ msgid "Include sideTasks"
 msgstr "Neventaken"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Sorry, you need to be manager to use this plugin"
-msgstr "Sorry, je moet teamleider zijn om toegang te krijgen tot deze pagina."
+msgstr "Sorry, u moet beheerder zijn om toegang te krijgen tot deze plugin."
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task"
-msgstr "Geen opgeloste taken..."
+msgstr "Roottaak"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (default: include as folder only)"
@@ -4970,18 +4952,16 @@ msgid "Filter on Issue type"
 msgstr "Type Probleem"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "No filter"
-msgstr "Filters instellen"
+msgstr "Geen filter"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Bugs only"
 msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Tasks only"
-msgstr "Taken"
+msgstr "Alleen taken"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #, fuzzy
@@ -5058,9 +5038,8 @@ msgid "Nb days"
 msgstr "dagen"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Task backlog"
-msgstr "Taak Informatie"
+msgstr "Taakachterstand"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Fill Period With Timetracks"
@@ -5076,9 +5055,8 @@ msgid "It is not in the philosophy of CodevTT to allow users to enter several ti
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Error !"
-msgstr "Fouten"
+msgstr "Fout !"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #, fuzzy
@@ -5104,23 +5082,20 @@ msgid "Dates"
 msgstr "Datums"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Start"
-msgstr "Startdatum"
+msgstr "Start"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "End"
-msgstr "en"
+msgstr "Einde"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Destination"
-msgstr "Beschrijving"
+msgstr "Bestemming"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #, fuzzy
@@ -5920,9 +5895,8 @@ msgid "Provision"
 msgstr ""
 
 #: reports/issue_info_tools.php:39
-#, fuzzy
 msgid "No date defined"
-msgstr "niet gedefinieerd."
+msgstr "Geen datum gedefinieerd"
 
 #: reports/issue_info_tools.php:41
 msgid "No target version defined"
@@ -6025,9 +5999,8 @@ msgid "User not in team"
 msgstr ""
 
 #: timetracking/holidays_report.php:244
-#, fuzzy
 msgid "Other team"
-msgstr "voor het team"
+msgstr "Ander team"
 
 #: timetracking/team_monthly_activity_report.php:76
 #: timetracking/time_tracking.php:337 timetracking/team_activity_report.php:66
@@ -6124,17 +6097,14 @@ msgid "Allows Administrators & team members to send messages that will be displa
 msgstr ""
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
-#, fuzzy
 msgid "Low"
-msgstr "Logboek"
+msgstr "Laag"
 
 #: plugins/BlogPlugin/BlogPost.class.php:114
-#, fuzzy
 msgid "Normal"
 msgstr "Normaal"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
-#, fuzzy
 msgid "High"
 msgstr "Hoog"
 
@@ -6330,9 +6300,8 @@ msgid "Move timetracks from one issue to another"
 msgstr ""
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
-#, fuzzy
 msgid "Please, fill all fields"
-msgstr "Beschikbare velden"
+msgstr "Gelieve alle velden in te vullen"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
 msgid "This origin task doesn't exist"
@@ -6359,9 +6328,8 @@ msgstr ""
 #. self::$logger->error('max_execution_time = '.$max_time);
 #. Set task id list
 #: scheduler/scheduler.php:59
-#, fuzzy
 msgid "Select a task"
-msgstr "Alles selecteren"
+msgstr "Selecteer een taak"
 
 #: scheduler/scheduler.php:108
 msgid "Today"
@@ -6376,9 +6344,8 @@ msgid "First week of this month"
 msgstr ""
 
 #: scheduler/scheduler.php:116
-#, fuzzy
 msgid "2 weeks"
-msgstr "Volgende week"
+msgstr "2 weken"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
