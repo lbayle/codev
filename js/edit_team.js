@@ -28,20 +28,7 @@ jQuery(document).ready(function() {
    jQuery("#displayed_teamid").change(function() {
       jQuery("#displayTeamForm").submit();
    });
-// ----------
-   var updateTeamInfoForm = jQuery("#updateTeamInfoForm");
 
-   jQuery("#btupdateTeamCreationDate").click(function() {
-      updateTeamInfoForm.find("input[name=action]").val("updateTeamCreationDate");
-      updateTeamInfoForm.submit();
-   });
-   jQuery("#bt_teamEnabled").click(function() {
-      var isTeamEnabled = jQuery("#cb_teamEnabled").attr('checked')?1:0;
-      updateTeamInfoForm.find("input[name=isTeamEnabled]").val(isTeamEnabled);
-      updateTeamInfoForm.find("input[name=action]").val("setTeamEnabled");
-      updateTeamInfoForm.submit();
-   });
-// ----------
    // Set the date
    jQuery("#datepicker1").datepicker("setDate" ,editTeamSmartyData.datepicker1_arrivalDate);
    jQuery("#datepicker2").datepicker("setDate" ,editTeamSmartyData.datepicker2_departureDate);
@@ -652,8 +639,39 @@ jQuery(document).ready(function() {
       ]
    });
 
+   jQuery("#btUpdateTeamInfo").click(function() {
+      var form = $('#updateTeamInfoForm');
+      jQuery(".updateTeamInfoMsg").html('');
+      jQuery(".updateTeamErrorMsg").html('');
 
+      var isTeamEnabled = jQuery("#cb_teamEnabled").attr('checked')?1:0;
+      form.find("input[name=isTeamEnabled]").val(isTeamEnabled);
 
+      // TODO check teamName not empty
+
+      $.ajax({
+         url: editTeamSmartyData.ajaxPage,
+         type: form.attr('method'),
+         dataType:"json",
+         data: form.serialize(),
+         success: function(data) {
+            if (null === data) {
+               jQuery(".updateTeamErrorMsg").html("ERROR: Please contact your CodevTT administrator");
+            } else {
+               if ('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".updateTeamErrorMsg").html(data.statusMsg);
+               } else {
+                  jQuery(".updateTeamInfoMsg").html("SUCCESS !");
+               }
+            }
+         },
+         error:  function(data) {
+            console.error('ERROR data = ', data);
+            jQuery(".updateTeamErrorMsg").html("UpdateTeamInfo ERROR!");
+         }
+      });
+   });
 
 }); // document ready
 

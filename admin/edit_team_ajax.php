@@ -463,6 +463,42 @@ if(Tools::isConnectedUser() &&
          $jsonData = json_encode($data);
          echo $jsonData;
 
+      } else if ('updateTeamInfo' == $action) {
+         try {
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $teamName = trim(Tools::getSecurePOSTStringValue('teamName'));
+            $isTeamEnabled = (0 == Tools::getSecurePOSTIntValue("isTeamEnabled")) ? false : true;
+            $formatedDate = Tools::getSecurePOSTStringValue("date_createTeam");
+            $date_create = Tools::date2timestamp($formatedDate);
+
+            $errMsg = '';
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+
+            if ('' !== $teamName) {
+               $team->setName($teamName);
+            } else {
+               $errMsg .= T_("Invalid team name").', ';
+            }
+
+            if(!$team->setEnabled($isTeamEnabled)) {
+               $errMsg .= T_("Couldn't enable/disable team").', ';
+            }
+            if(!$team->setCreationDate($date_create)) {
+               $errMsg .= T_("Couldn't update the creation date");
+            }
+            if ('' === $errMsg) {
+               $data['statusMsg'] = 'SUCCESS';
+            } else {
+               $data['statusMsg'] = "ERROR: ".$errMsg;
+            }
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION setTeamName: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            $data['statusMsg'] = 'ERROR: '.$e->getMessage();
+         }
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
       } else {
          Tools::sendNotFoundAccess();
       }

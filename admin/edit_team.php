@@ -99,17 +99,6 @@ class EditTeamController extends Controller {
                      //$access_level = 70; // TODO mantis manager
                      //$leader->setProjectAccessLevel($stproj_id, $access_level);
                   }
-               } elseif ($action == "updateTeamCreationDate") {
-                  $formatedDate = Tools::getSecurePOSTStringValue("date_createTeam");
-                  $date_create = Tools::date2timestamp($formatedDate);
-                  if(!$team->setCreationDate($date_create)) {
-                     $this->smartyHelper->assign('error', T_("Couldn't update the creation date"));
-                  }
-               } elseif ($action == "setTeamEnabled") {
-                  $isTeamEnabled = (0 == Tools::getSecurePOSTIntValue("isTeamEnabled")) ? false : true;
-                  if(!$team->setEnabled($isTeamEnabled)) {
-                     $this->smartyHelper->assign('error', T_("Couldn't enable/disable team"));
-                  }
                } elseif ($action == "addTeamMember") {
                   $memberid = Tools::getSecurePOSTIntValue('memberid');
                   $memberAccess = Tools::getSecurePOSTIntValue('member_access');

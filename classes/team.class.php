@@ -1143,6 +1143,19 @@ class Team extends Model {
    }
 
    /**
+    * Set team name
+    * @return string name
+    */
+   public function setName($name) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "UPDATE codev_team_table SET name = ".$sql->db_param()." WHERE id = ".$sql->db_param();
+         $q_params[]=$name;
+         $q_params[]=$this->id;
+         $sql->sql_query($query, $q_params);
+         return true;
+   }
+
+   /**
     * Get all teams by name
     * @param bool $withDisabled if true, include disabled teams
     * @return string[int] : name[id]
