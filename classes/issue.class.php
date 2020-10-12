@@ -2540,12 +2540,12 @@ class Issue extends Model implements Comparable {
    public function getWbsPath($commandId) {
 
       if (NULL == $commandId) { return ''; }
-      
+
 
       // check if issue is in this command
       $cmdList = $this->getCommandList();
       if (!array_key_exists($commandId, $cmdList)) {
-         self::$logger->error("No, $row->bug_id) is not part of command $commandId !");
+         self::$logger->error("No, $this->bugId) is not part of command $commandId !");
          return '';
       }
 
@@ -2580,7 +2580,46 @@ class Issue extends Model implements Comparable {
 
    }
 
+   /**
+    *
+    * @param int $commandId
+    * @return array [wbsId,rootId,parentId] in the wbsTree of the given command
+    */
+   public function getWbsInfo($commandId) {
 
+      if (NULL == $commandId) {
+         $e = new Exception("Missing commandId (issueId=$this->bugId");
+         throw $e;
+      }
+      // check if issue is in this command
+      $cmdList = $this->getCommandList();
+      if (!array_key_exists($commandId, $cmdList)) {
+         $e = new Exception("No, $this->bugId is not part of command $commandId !");
+         throw $e;
+      }
+
+      $cmd = CommandCache::getInstance()->getCommand($commandId);
+      $rootId = $cmd->getWbsid();
+
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT id, parent_id FROM codev_wbs_table ".
+              " WHERE root_id = ".$sql->db_param().
+              " AND bug_id = ".$sql->db_param();
+      $result = $sql->sql_query($query, array($rootId, $this->bugId));
+      $row = $sql->fetchObject($result);
+
+      if (FALSE === $row) {
+         $e = new Exception("Issue $this->bugId not found in WBS($rootId) of command $commandId !");
+         throw $e;
+      }
+      $wbsInfo = array(
+         //'commandId' => $commandId,
+         'wbsId' => $row->id,
+         'rootId' => $rootId,
+         'parentId' => $row->parent_id,
+      );
+      return $wbsInfo;
+   }
 }
 
 Issue::staticInit();

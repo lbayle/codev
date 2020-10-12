@@ -25,7 +25,9 @@
 class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
 
    const OPTION_ISSUE_ID = 'issueId';
+   const OPTION_BUGID_LIST = 'bugidList';
    const OPTION_CMD_ID = 'commandId';
+   const OPTION_IS_ROOT_TASK_LIST = 'isRootTaskList';
    const OPTION_IS_INCLUDE_PARENT_ISSUE = 'isIncludeParentIssue';
    const OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS = 'isIncludeParentInItsOwnWbsFolder';
 
@@ -38,8 +40,10 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    // config options from Dashboard
    private $teamId;
    private $issueId;
+   private $bugidList;
    private $commandId;
    private $command;
+   private $isRootTaskList;
    private $isIncludeParentIssue;
    private $isIncludeParentInItsOwnWbsFolder;
 
@@ -119,6 +123,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: " . PluginDataProviderInterface::PARAM_TEAM_ID);
       }
+      $this->isRootTaskList = false;
       $this->isIncludeParentIssue = false;
       $this->isIncludeParentInItsOwnWbsFolder = true;
    }
@@ -132,17 +137,30 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
 
       if (NULL != $pluginSettings) {
          // override default with user preferences
-         if (array_key_exists(self::OPTION_ISSUE_ID, $pluginSettings)) {
-            $this->issueId = $pluginSettings[self::OPTION_ISSUE_ID];
-         }
          if (array_key_exists(self::OPTION_CMD_ID, $pluginSettings)) {
             $this->commandId = $pluginSettings[self::OPTION_CMD_ID];
+         }
+         if (array_key_exists(self::OPTION_IS_ROOT_TASK_LIST, $pluginSettings)) {
+            $this->isRootTaskList = (0 == $pluginSettings[self::OPTION_IS_ROOT_TASK_LIST]) ? false : true;
          }
          if (array_key_exists(self::OPTION_IS_INCLUDE_PARENT_ISSUE, $pluginSettings)) {
             $this->isIncludeParentIssue = $pluginSettings[self::OPTION_IS_INCLUDE_PARENT_ISSUE];
          }
          if (array_key_exists(self::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS, $pluginSettings)) {
             $this->isIncludeParentInItsOwnWbsFolder = (0 == $pluginSettings[self::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS]) ? false : true;
+         }
+
+         if (false == $this->isRootTaskList) {
+            if (array_key_exists(self::OPTION_ISSUE_ID, $pluginSettings)) {
+               $this->issueId = array($pluginSettings[self::OPTION_ISSUE_ID]);
+               $this->bugidList = $this->issueId;
+            }
+         } else {
+            if (array_key_exists(self::OPTION_BUGID_LIST, $pluginSettings)) {
+               $strBugidList = $pluginSettings[self::OPTION_BUGID_LIST];
+               $this->issueId = 0;
+               $this->bugidList = explode(',', $strBugidList);
+            }
          }
       }
    }
@@ -156,9 +174,12 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       $this->command = CommandCache::getInstance()->getCommand($this->commandId);
       $wbsRootId = $this->command->getWbsid();
 
-      $strActionLogs = "-------------\n";
-      $strActionLogs .= $this->addChild($this->issueId, $wbsRootId, $wbsRootId);
+      $strActionLogs = "------------------------------\n";
 
+      foreach ($this->bugidList as $bugId) {
+         $strActionLogs .= "--- rootElement: $bugId\n";
+         $strActionLogs .= $this->addChild($bugId, $wbsRootId, $wbsRootId);
+      }
       $data = array (
          'actionLogs' => htmlentities($strActionLogs),
          );
@@ -196,9 +217,10 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
             $folderId = $subFolderId;
 
             $subFolder = new WBSElement($subFolderId, $wbsRootId);
-            $prevTitle = $subFolder->getTitle();
+            //$prevTitle = $subFolder->getTitle();
             //$strActionLogs .= "wbsFolder already exists : $prevTitle\n";
 
+            // rename folder if issue summary has changed in mantis
             if ($folderName !== $subFolder->getTitle()) {
                $strActionLogs .= "rename wbsFolder to : $folderName\n";
                $subFolder->setTitle($folderName);
@@ -217,7 +239,6 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
             $this->command->addIssue($issueId, true, $folderId);
             $strActionLogs .= "add wbsFolder issue (inside): [$issueId] ".$issue->getSummary()."\n";
          }
-
 
          // now recursively add my children !
          foreach ($relationships[$relType] as $childId) {

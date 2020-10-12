@@ -19,9 +19,10 @@
             <fieldset>
                <table class="invisible">
                   <tr>
-                     <td><label>{t}Root task{/t}: </label></td>
+                     <td><input class="ImportRelationshipTreeToCommand_rootTaskListRadio" type="radio" name="ImportRelationshipTreeToCommand_rootTaskListRadio" value="0" CHECKED></td>
+                     <td><label id="ImportRelationshipTreeToCommand_rootTaskLabel">{t}Root task{/t}: </label></td>
                      <td>
-                        <select class="ImportRelationshipTreeToCommand_issueId" name="ImportRelationshipTreeToCommand_issueId" style="min-width:800px;">
+                        <select class="ImportRelationshipTreeToCommand_issueId" name="ImportRelationshipTreeToCommand_issueId" style="min-width:700px;">
                            <option value="0"></option>
                         {foreach from=$ImportRelationshipTreeToCommand_taskList key=id item=i}
                            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
@@ -30,6 +31,14 @@
                      </td>
                   </tr>
                   <tr>
+                     <td><input class="ImportRelationshipTreeToCommand_rootTaskListRadio" type="radio" name="ImportRelationshipTreeToCommand_rootTaskListRadio" value="1" ></td>
+                     <td><label class="help_font"  title="{t}comma separated{/t}" id="ImportRelationshipTreeToCommand_rootTaskListLabel">{t}Root task list{/t}: </label></td>
+                     <td>
+                        <input title="{t}comma separated{/t}" id="ImportRelationshipTreeToCommand_rootTaskList" name="ImportRelationshipTreeToCommand_rootTaskList" value="" DISABLED style="min-width:700px;"/>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td></td>
                      <td><label>{t}Command{/t}: </label></td>
                      <td>
                         <select class="ImportRelationshipTreeToCommand_commandId " name="ImportRelationshipTreeToCommand_commandId" style="min-width:200px;" >
@@ -41,6 +50,7 @@
                      </td>
                   </tr>
                   <tr>
+                     <td></td>
                      <td valign="top"><label>{t}Options{/t}: </label></td>
                      <td>
                         <input class="ImportRelationshipTreeToCommand_isIncludeParentIssue" type="checkbox"> {t}Also include parent-tasks in the tree (unchecked: include as folder only){/t}
@@ -49,6 +59,7 @@
                      </td>
                   </tr>
                   <tr>
+                     <td></td>
                      <td>
                         <input class="ImportRelationshipTreeToCommand_submit" type="submit" value="{t}Execute{/t}" />
                         <img class="ImportRelationshipTreeToCommand_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
@@ -101,13 +112,35 @@
       if ('0' === form.find("select[name=ImportRelationshipTreeToCommand_commandId]").val()) {
          errMsg += 'Command, ';
       }
-      if ('0' === form.find("select[name=ImportRelationshipTreeToCommand_issueId]").val()) {
-         errMsg += 'Task, ';
+
+      // depending on radio
+      var isRootTaskList=jQuery('input[type=radio][name=ImportRelationshipTreeToCommand_rootTaskListRadio]:checked').attr('value');
+      if ('0' === isRootTaskList) {
+         if ('0' === form.find("select[name=ImportRelationshipTreeToCommand_issueId]").val()) {
+            errMsg += 'Task, ';
+         }
+      } else {
+         // check comma-separated list
+         var bugidList = jQuery('#ImportRelationshipTreeToCommand_rootTaskList').val();
+         if ('' != bugidList) {
+            bugidList = jQuery.trim(bugidList);
+            bugidList = bugidList.replace(/\s/g, '');
+            bugidList = bugidList.replace(/[,]+/g, ',');
+            bugidList = bugidList.replace(/,$/g, '');
+            jQuery('#ImportRelationshipTreeToCommand_rootTaskList').val(bugidList);
+            var reg=new RegExp("^[0-9]+([,]*[0-9]+)*[,]*$","i");
+            if (!reg.test(bugidList)) {
+               errMsg += 'TaskList, ';
+            }
+         } else {
+            errMsg += 'TaskList, ';
+         }
+
       }
       if ('' === errMsg) {
          return 'SUCCESS';
       } else {
-         jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("{t}ERROR: Please check{/t} : " + errMsg);
+         jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("{t}ERROR, Please check{/t} : " + errMsg);
          return 'ERROR';
       }
    }
@@ -142,6 +175,28 @@
          jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("");
       });
 
+      jQuery(".ImportRelationshipTreeToCommand_rootTaskListRadio").change(function() {
+         var isRootTaskList=jQuery('input[type=radio][name=ImportRelationshipTreeToCommand_rootTaskListRadio]:checked').attr('value');
+
+         // update gui: disable unselected choice
+         var rootTaskListLabel=jQuery("#ImportRelationshipTreeToCommand_rootTaskListLabel");
+         var rootTaskLabel=jQuery("#ImportRelationshipTreeToCommand_rootTaskLabel");
+         if ('0' === isRootTaskList) {
+            // rootTask selected
+            rootTaskListLabel.addClass('help_font')
+            rootTaskLabel.removeClass('help_font');
+            jQuery("#ImportRelationshipTreeToCommand_rootTaskList").prop("disabled", true);
+            jQuery(".ImportRelationshipTreeToCommand_issueId").prop("disabled", false);
+         } else {
+            // rootTaskList selected
+            rootTaskListLabel.removeClass('help_font')
+            rootTaskLabel.addClass('help_font');
+            jQuery("#ImportRelationshipTreeToCommand_rootTaskList").prop("disabled", false);
+            jQuery(".ImportRelationshipTreeToCommand_issueId").prop("disabled", true);
+         }
+      });
+
+
       // ===== import tasks to Command
       jQuery('.ImportRelationshipTreeToCommand_submit').click(function(event) {
          /* stop form from submitting normally */
@@ -152,9 +207,11 @@
 
             var form = jQuery('#ImportRelationshipTreeToCommand_form');
             form.find("input[name=action]").val("importRelationshipTreeToCommand");
+            var isRootTaskList=jQuery('input[type=radio][name=ImportRelationshipTreeToCommand_rootTaskListRadio]:checked').attr('value');
 
             // add checkbox options
             var options = {};
+            options["isRootTaskList"] = ('0' === isRootTaskList) ? 0 : 1;
             options["isIncludeParentIssue"] = form.find(".ImportRelationshipTreeToCommand_isIncludeParentIssue").attr('checked') ? 1 : 0;
             options["isIncludeParentInItsOwnWbsFolder"] = form.find(".ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder").attr('checked') ? 1 : 0;
             // if more options, add here
@@ -168,15 +225,17 @@
                dataType:"json",
                data: form.serialize(),
                success: function(data) {
+                  var actionLogs = '';
                   if('SUCCESS' !== data.statusMsg) {
                      console.error(data.statusMsg);
                      jQuery(".ImportRelationshipTreeToCommand_errorMsg").text("ERROR !");
-                     // TODO display more error info ?
+                     actionLogs = data.statusMsg;
                   } else {
                      jQuery(".ImportRelationshipTreeToCommand_infoMsg").text("SUCCESS !");
-                     var prevLogs = jQuery("#ImportRelationshipTreeToCommand_tabLogs").find("textarea[name=ImportRelationshipTreeToCommand_actionLogs]").val();
-                     jQuery("#ImportRelationshipTreeToCommand_tabLogs").find("textarea[name=ImportRelationshipTreeToCommand_actionLogs]").html(prevLogs + data.actionLogs);
+                     actionLogs = data.actionLogs;
                   }
+                  var prevLogs = jQuery("#ImportRelationshipTreeToCommand_tabLogs").find("textarea[name=ImportRelationshipTreeToCommand_actionLogs]").val();
+                  jQuery("#ImportRelationshipTreeToCommand_tabLogs").find("textarea[name=ImportRelationshipTreeToCommand_actionLogs]").html(prevLogs + actionLogs);
                },
                error: function(jqXHR, textStatus, errorThrown) {
                   if(errorThrown == 'Forbidden') {

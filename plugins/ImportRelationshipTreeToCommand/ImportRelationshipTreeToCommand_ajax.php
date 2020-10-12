@@ -43,25 +43,34 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    if('importRelationshipTreeToCommand' == $action) {
 
-      $issueId = Tools::getSecurePOSTIntValue($prefix."issueId");
       $commandId = Tools::getSecurePOSTIntValue($prefix."commandId");
 
       $optionsJsonStr = Tools::getSecurePOSTStringValue('optionsJsonStr');
       $options = json_decode(stripslashes($optionsJsonStr), true);
       //$logger->error("options = ".var_export($options, true));
 
+      if (0 == $options['isRootTaskList']) {
+         $issueId = Tools::getSecurePOSTIntValue($prefix."issueId");
+         $bugidList = '';
+      } else {
+         $issueId = 0;
+         $bugidList = Tools::getSecurePOSTStringValue($prefix."rootTaskList");
+      }
 
       $indicator = new ImportRelationshipTreeToCommand($pluginDataProvider);
 
       // override plugin settings with current attributes
       $indicator->setPluginSettings(array(
          ImportRelationshipTreeToCommand::OPTION_ISSUE_ID => $issueId,
+         ImportRelationshipTreeToCommand::OPTION_BUGID_LIST => $bugidList,
          ImportRelationshipTreeToCommand::OPTION_CMD_ID => $commandId,
+         ImportRelationshipTreeToCommand::OPTION_IS_ROOT_TASK_LIST => $options['isRootTaskList'],
          ImportRelationshipTreeToCommand::OPTION_IS_INCLUDE_PARENT_ISSUE => $options['isIncludeParentIssue'],
          ImportRelationshipTreeToCommand::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS => $options['isIncludeParentInItsOwnWbsFolder'],
       ));
 
       // --- update display
+      try {
       $data = $indicator->importIssues();
 
 //      if ($data['elapsedTarget'] == $data['realElapsed']) {
@@ -69,7 +78,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 //      } else {
 //         $data['statusMsg'] = 'ERROR';
 //      }
-
+      } catch (Exception $e) {
+         $data['statusMsg'] = $e->getMessage();
+      }
       // return html data
       $jsonData = json_encode($data);
       echo $jsonData;
