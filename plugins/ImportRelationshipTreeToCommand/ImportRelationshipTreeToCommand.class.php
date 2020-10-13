@@ -68,7 +68,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    }
 
    public static function getName() {
-      return T_('Add issues to a command by following the relationship structure');
+      return T_('Import Mantis relationship-tree to command');
    }
    public static function getDesc($isShortDesc = true) {
       return T_('Import a mantis parent-child relationship issue structure to a command WBS structure');
