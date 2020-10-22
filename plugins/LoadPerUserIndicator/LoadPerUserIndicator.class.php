@@ -27,6 +27,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
    const OPTION_SHOW_SIDETASKS = 'showSidetasks';
    const OPTION_DATE_RANGE    = 'dateRange';
+   const OPTION_IS_ONLY_TEAM_MEMBERS = 'isOnlyActiveTeamMembers';
 
    // if false, display only the elapsed time on the IssueSel
    // if true, display elapsed user's complete activity (other, external, inactivity)
@@ -49,6 +50,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    private $showSidetasks;
    private $dateRange;  // defaultRange | currentWeek | currentMonth
    private $showAllActivity; // boolean
+   private $isOnlyActiveTeamMembers;
 
    // internal
    protected $execData;
@@ -148,6 +150,7 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
       $this->showSidetasks = false;
       $this->dateRange = 'defaultRange';
       $this->showAllActivity = false;
+      $this->isOnlyActiveTeamMembers= TRUE;
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
@@ -162,11 +165,19 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_IS_ONLY_TEAM_MEMBERS, $pluginSettings)) {
+            $this->isOnlyActiveTeamMembers = $pluginSettings[self::OPTION_IS_ONLY_TEAM_MEMBERS];
+         }
          if (array_key_exists(self::OPTION_SHOW_SIDETASKS, $pluginSettings)) {
             $this->showSidetasks = $pluginSettings[self::OPTION_SHOW_SIDETASKS];
          }
          if (array_key_exists(self::OPTION_SHOW_ALL_ACTIVITY, $pluginSettings)) {
-            $this->showAllActivity = $pluginSettings[self::OPTION_SHOW_ALL_ACTIVITY];
+            // WARNING: combine showAllActivity=true with isOnlyActiveTeamMembers=false will return full codevtt timetracks !!!!
+            if ($this->isOnlyActiveTeamMembers) {
+               $this->showAllActivity = $pluginSettings[self::OPTION_SHOW_ALL_ACTIVITY];
+            } else {
+               $this->showAllActivity = false;
+            }
          }
          if (array_key_exists(self::OPTION_DATE_RANGE, $pluginSettings)) {
             $this->dateRange = $pluginSettings[self::OPTION_DATE_RANGE];
@@ -214,9 +225,13 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
         $issueList = $this->inputIssueSel->getIssueList();
         $bugidList = array_keys($issueList);
 
-        $query = "SELECT * FROM codev_timetracking_table ".
-                 "WHERE userid IN (".$formatedUseridString.") ";
+        $query = "SELECT * FROM codev_timetracking_table WHERE 1 = 1 ";
 
+        if ($this->isOnlyActiveTeamMembers) {
+           $query .=  " AND userid IN (".$formatedUseridString.") ";
+        }
+
+        // WARN: combine showAllActivity=true with isOnlyActiveTeamMembers=false will return full timetracks !!!!
         if ((false == $this->showAllActivity) && (0 < count($bugidList))) {
            $formattedBugidList=implode( ', ', $bugidList);
            $query .= " AND bugid IN (".$formattedBugidList.") ";
@@ -400,7 +415,8 @@ class LoadPerUserIndicator extends IndicatorPluginAbstract {
          'loadPerUserIndicator_startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          'loadPerUserIndicator_endDate' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
          'loadPerUserIndicator_showSidetasks' =>  $this->showSidetasks,
-         'loadPerUserIndicator_showAllActivity' =>  $this->showAllActivity
+         'loadPerUserIndicator_showAllActivity' =>  $this->showAllActivity,
+         'loadPerUserIndicator_isOnlyActiveTeamMembers' =>  $this->isOnlyActiveTeamMembers
       );
 
       if (false == $isAjaxCall) {

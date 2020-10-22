@@ -14,6 +14,10 @@
       </td>
    </tr>
    <tr>
+      <td><input class="pluginAttribute" name="isOnlyActiveTeamMembers" type="checkbox" CHECKED /><br></td>
+      <td>{t}Only team members{/t}</td>
+   </tr>
+   <tr>
       <td>
          <input class="pluginAttribute" name="showSidetasks" type="checkbox" />
       </td>
@@ -27,9 +31,11 @@
          <input class="pluginAttribute" name="showAllActivity" type="checkbox" />
       </td>
       <td>
-         {t}Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns{/t}
+         {t}Show full activity:
+         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns.{/t}
+         <br> {t}WARN: this option will be disabled if 'Only team members' is unchecked{/t}
       </td>
    </tr>
 </table>
 
-         
+
