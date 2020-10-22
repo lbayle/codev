@@ -1122,7 +1122,7 @@ class User extends Model {
     * if not found, use defaults settings defined in constants.php
     *
     * id = 'id_timetrackingFilters'
-    * type = keyValue  "onlyAssignedTo:0,hideResolved:1,hideDevProjects:0"
+    * type = keyValue  "onlyAssignedTo:0,hideResolved:1,hideForbidenStatus:0"
     *
     * @param string $filterName 'onlyAssignedTo'
     * @return unknown_type returns filterValue
@@ -1160,13 +1160,8 @@ class User extends Model {
          ('' == $this->timetrackingFilters)) {
          $this->getTimetrackingFilter('onlyAssignedTo');
       }
-
       $this->timetrackingFilters[$filterName] = $value;
-
       $keyvalue = Tools::doubleImplode(':', ',', $this->timetrackingFilters);
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Write filters : $keyvalue");
-      }
 
       // save new settings
       Config::setValue(Config::id_timetrackingFilters, $keyvalue, Config::configType_keyValue, "filter for timetracking page", 0, $this->id);

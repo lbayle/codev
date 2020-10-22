@@ -258,9 +258,11 @@ class TimeTrackingController extends Controller {
             elseif ("setFiltersAction" == $action) {
                $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
                $isFilter_hideResolved = isset($_POST["cb_hideResolved"])   ? '1' : '0';
+               //$isFilter_hideForbidenStatus = isset($_POST["cb_hideForbidenStatus"])   ? '1' : '0';
 
                $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
                $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
+               //$managed_user->setTimetrackingFilter('hideForbidenStatus', $isFilter_hideForbidenStatus);
 
                if($defaultBugid != 0) {
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
@@ -290,7 +292,10 @@ class TimeTrackingController extends Controller {
             $isHideResolved = ('0' == $managed_user->getTimetrackingFilter('hideResolved')) ? false : true;
             $this->smartyHelper->assign('isHideResolved', $isHideResolved);
 
-            $availableIssues = TimeTrackingTools::getIssues($this->teamid, $defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid);
+            $isHideForbidenStatus = ('0' == $managed_user->getTimetrackingFilter('hideForbidenStatus')) ? false : true;
+            $this->smartyHelper->assign('isHideForbidenStatus', $isHideForbidenStatus);
+
+            $availableIssues = TimeTrackingTools::getIssues($this->teamid, $defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid);
             $this->smartyHelper->assign('issues', $availableIssues);
 
             $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray(TimeTrackingTools::getJobs($defaultProjectid, $this->teamid), $job));
@@ -336,8 +341,6 @@ class TimeTrackingController extends Controller {
                $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
                $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
             }
-
-            $this->smartyHelper->assign('isForbidAddTimetracksOnClosed', (1 == $team->getGeneralPreference('forbidAddTimetracksOnClosed')) ? true : false);
 
             $isTrackNoteDisplayed = (0 == $team->getGeneralPreference('useTrackNote')) ? false : true;
             $isTrackNoteMandatory = (0 == $team->getGeneralPreference('isTrackNoteMandatory')) ? false : true;

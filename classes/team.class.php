@@ -34,7 +34,6 @@ class Team extends Model {
       self::$logger = Logger::getLogger(__CLASS__);
 
       self::$defaultGeneralPrefsList = array(
-          'forbidAddTimetracksOnClosed' => 1,
           'displayCalculatedBacklogInDialogbox' => 0,
           'recreditBacklogOnTimetrackDeletion' => 0,
           'useTrackNote' => 1,
@@ -43,7 +42,6 @@ class Team extends Model {
          );
 
       self::$generalPrefsDescriptionList = array(
-          'forbidAddTimetracksOnClosed'         => 'Forbid adding timetracks on closed issues',
           'displayCalculatedBacklogInDialogbox' => 'Display calculated backlog as default value in the updateBacklog dialogbox',
           'recreditBacklogOnTimetrackDeletion'  => 'Recredit task backlog on timetrack deletion',
           'useTrackNote'                        => 'Add a timetrack note input field in the updateBacklog dialogbox',
@@ -92,6 +90,8 @@ class Team extends Model {
 
 
    private $consistencyCheckList;
+   private $timetrackingForbidenStatusList;
+
 
    private $userDailyCostObj;
 
@@ -1533,6 +1533,49 @@ class Team extends Model {
          $this->userDailyCostObj = new UserDailyCost($this->id);
       }
       return $this->userDailyCostObj->getUdcValue($userid, $timestamp, $targetCurrency, $isRaw);
+   }
+
+
+   /**
+    *
+    * @return array of status_id => status_name
+    */
+   function getTimetrackingForbidenStatusList($project_id = 0) {
+
+      $keyExists =  Config::keyExists(Config::id_timetrackingForbidenStatusList, array(0, $project_id, $this->id, 0, 0, 0));
+
+      // externalTasks should not be edited, but only allowed status is 'closed'
+      // sideTasks may be edited, but default is : only allowed status is 'closed'
+      $project = ProjectCache::getInstance()->getProject($project_id);
+      if (($project->isExternalTasksProject()) ||
+         ( (false == $keyExists) && $this->isSideTasksProject($project_id))) {
+         $stList = array();
+         foreach (Constants::$statusNames as $sid => $sName) {
+            if (Constants::$status_closed != $sid) {
+               $stList[] = $sid;
+            }
+         }
+      } else {
+         // regular projects
+         if (false == $keyExists) {
+            // no specific setting for this team, apply defaults
+            $stList = explode (',', Config::default_timetrackingForbidenStatusList);
+         } else {
+            $strFilters = Config::getValue(Config::id_timetrackingForbidenStatusList, array(0, $project_id, $this->id, 0, 0, 0), true);
+            if (null == $strFilters) {
+               // key found, no status forbiden, intentionnaly
+               // but this case should not happen, as 'new' is always forbiden
+               return array();
+            } else {
+               $stList = explode (',', $strFilters);
+            }
+         }
+      }
+      foreach ($stList as $fid) {
+         $statusName = (null == Constants::$statusNames[$fid]) ? 'unknown-'.$fid : Constants::$statusNames[$fid];
+         $timetrackingForbidenStatusList[$fid] = $statusName;
+      }
+      return $timetrackingForbidenStatusList;
    }
 
 } // class Team

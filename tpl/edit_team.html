@@ -518,8 +518,6 @@
 
          <form id="generalPrefsForm" name="generalPrefsForm" method="post" action="{$page}" class="formWithTabsHistory">
             <fieldset>
-
-
                <table class="invisible">
                {foreach from=$teamGeneralPrefs key=id item=i}
                   <tr>
@@ -537,6 +535,47 @@
             </fieldset>
          </form>
 
+         <br>
+         <h2>{t}Timetracking settings{/t}</h2>
+         <!-- Display previous entries -->
+         <div style="margin-top: 2em;">
+            <table>
+               <thead>
+                  <tr>
+                     <th>{t}Name{/t}</th>
+                     <th>{t}Timetracking disabled if task status in{/t}</th>
+                     <th title="{t}Edit Forbidden status list{/t}"></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$teamProjects key=id item=i}
+                  {if (2 == $i.type)} {* display only Regular projects *}
+                  <tr class="projectList_tr" data-projectId="{$i.projectid}" data-projectName="{$i.name}">
+                     <td title="{$i.projectid}">{$i.name}</td>
+                     <td class="projectStatusList">{$i.ttForbidenStatusList}</td>
+                     <td>
+                        <img class="editForbidenStatusList_link pointer" align="absmiddle" title="{t}Edit Forbidden status list{/t}" src="images/b_edit.png"/>
+                     </td>
+                  </tr>
+                  {/if}
+                  {/foreach}
+               </tbody>
+            </table>
+
+            <div id="editForbidenStatusList_dialog" title="{t}Edit Forbiden status list{/t}" class="ui-helper-hidden">
+               <div style="height:300px;overflow-x:hidden;overflow-y:auto;">
+               <table id="editForbidenStatusListDlg_tbl" class="invisible" data-projectId="0">
+                  <tbody>
+                     <tr class="editForbidenStatusListDlg_tr" data-statusId="0">
+                        <td class="right"><input class="opt_enabled" type="checkbox"></td>
+                        <td class="left opt_prjStatusName" title="0">statusName</td>
+                     </tr>
+                  </tbody>
+               </table>
+               </div>
+            </div>
+         </div>
+         <br>
          <h2>{t}Issue Tooltips{/t}</h2>
          <!-- Display issue tooltip settings -->
          <div style="margin-top: 2em;">
@@ -783,7 +822,8 @@
          i18n_noLongerOnDuty:"{t}This task will no longer be identified as an 'OnDuty' task.{/t}",
          i18n_save:"{t}save{/t}",
          i18n_updatedSuccessfully:"{t}Updated successfully !{/t}",
-         i18n_jobListForProject:"{t}Job list for project :{/t} "
+         i18n_jobListForProject:"{t}Job list for project :{/t} ",
+         i18n_forbidenStatusListForProject:"{t}Forbiden Status for project:{/t} "
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>

@@ -639,6 +639,7 @@ jQuery(document).ready(function() {
       ]
    });
 
+   // ------------------------------------------------------
    jQuery("#btUpdateTeamInfo").click(function() {
       var form = $('#updateTeamInfoForm');
       jQuery(".updateTeamInfoMsg").html('');
@@ -672,6 +673,122 @@ jQuery(document).ready(function() {
          }
       });
    });
+
+   // ------------------------------------------------------
+   jQuery(".editForbidenStatusList_link").click(function(e) {
+      e.preventDefault();
+      var trProject = $(this).parents('.projectList_tr');
+      var projectid = $(trProject).attr('data-projectId');
+      var projectName = $(trProject).attr('data-projectName');
+
+      $("#editForbidenStatusListDlg_tbl tbody").empty();
+
+      // get full JobList, with association info
+      jQuery.ajax({
+         url: editTeamSmartyData.ajaxPage,
+         async:false, // why ?
+         data: {
+            action: 'getForbidenStatusList',
+            displayed_teamid:editTeamSmartyData.displayedTeamId,
+            projectId: projectid
+         },
+         type: 'post',
+         success: function(data) {
+            data = JSON.parse(data);
+            if('SUCCESS' !== data.statusMsg) {
+               console.log(data.statusMsg);
+               // TODO inform user !
+            } else {
+               // add <tr> to editForbidenStatusListDlg_tbl
+               jQuery.each(data.prjStatusList, function( index, prjStatus ) {
+                  var cbObject = jQuery('<input type="checkbox">').addClass("opt_enabled");
+                  cbObject.attr('checked', prjStatus.checked);
+                  cbObject.prop( "disabled", prjStatus.disabled );
+
+                  var spanObject = jQuery('<span>').text(prjStatus.name);
+                  if (prjStatus.disabled) {
+                     spanObject.addClass("help_font");
+                  }
+
+                  var trObject = jQuery('<tr>').addClass("editForbidenStatusListDlg_tr").attr('data-statusId', prjStatus.id).append(
+                      jQuery('<td>').addClass("right").append(cbObject),
+                      jQuery('<td>').addClass("left").addClass("opt_prjStatusName").attr('title', prjStatus.id).append(spanObject)
+                  );
+
+
+
+                trObject.appendTo('#editForbidenStatusListDlg_tbl tbody');
+               });
+            }
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            console.error('ERROR getForbidenStatusList errorThrown', errorThrown);
+            // TODO inform user !
+         }
+      });
+
+      jQuery('#editForbidenStatusList_dialog').dialog('option', 'title', editTeamSmartyData.i18n_forbidenStatusListForProject + projectName);
+      jQuery("#editForbidenStatusListDlg_tbl").attr('data-projectId', projectid);
+
+      jQuery("#editForbidenStatusList_dialog").dialog( "open" );
+   });
+
+   jQuery("#editForbidenStatusList_dialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      height: 'auto',
+      width: 400,
+      modal: true,
+      buttons: [
+         {
+            text: editTeamSmartyData.i18n_update,
+            click: function() {
+               var prjStatusList = {};
+               $("#editForbidenStatusListDlg_tbl .editForbidenStatusListDlg_tr").each(function() {
+                  var prjStatusId  = $(this).attr('data-statusId');
+                  var prjStatusChecked = $(this).find(".opt_enabled").attr('checked') ? 1 : 0;
+                  prjStatusList[prjStatusId] = prjStatusChecked;
+               });
+
+               // send edited jobPrjAsso data
+               $.ajax({
+                  url: editTeamSmartyData.ajaxPage,
+                  type: "POST",
+                  dataType:"json",
+                  data: {
+                     action: 'saveForbidenStatusList',
+                     displayed_teamid: editTeamSmartyData.displayedTeamId,
+                     projectId: $("#editForbidenStatusListDlg_tbl").attr('data-projectId'),
+                     prjStatusListStr: JSON.stringify(prjStatusList)
+                  },
+                  success: function(data) {
+                     if ('SUCCESS' === data.statusMsg) {
+                        // UPDATE status list
+                        var myTr = $(".projectList_tr[data-projectId="+data.projectId+"]");
+                        myTr.find(".projectStatusList").text(data.prjStatusNameListStr);
+                     } else {
+                        console.error("Ajax statusMsg", data.statusMsg);
+                        alert(data.statusMsg);
+                     }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+               jQuery(this).dialog( "close" );
+            }
+         },
+         {
+            text: editTeamSmartyData.i18n_cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
+
+
 
 }); // document ready
 

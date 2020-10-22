@@ -36,7 +36,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    if(isset($action)) {
       $smartyHelper = new SmartyHelper();
       $team = TeamCache::getInstance()->getTeam($teamid);
-      
+
       // ================================================================
       if ("getIssuesAndDurations" == $action) {
 
@@ -50,8 +50,10 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $managedUser = UserCache::getInstance()->getUser($managedUserid);
          $isOnlyAssignedTo = ('0' == $managedUser->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
          $isHideResolved = ('0' == $managedUser->getTimetrackingFilter('hideResolved')) ? false : true;
+         //$isHideForbidenStatus = ('0' == $managedUser->getTimetrackingFilter('hideForbidenStatus')) ? false : true;
+         $isHideForbidenStatus=true;
 
-         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, 0);
+         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, $isHideForbidenStatus, 0);
          $jobs = TimeTrackingTools::getJobs($defaultProjectid, $teamid);
          $durations = TimeTrackingTools::getDurationList($teamid);
 
@@ -292,7 +294,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
          // return data
          echo $jsonData;
-         
+
       // ================================================================
       }
    }

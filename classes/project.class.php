@@ -826,58 +826,20 @@ class Project extends Model {
    }
 
    /**
-    * returns bugId list
-    *
-    * @param int $handler_id (if 0, all users)
-    * @param bool $isHideResolved
-    *
-    * @return int[] : array[bugid]
-    * @see Use ProjectCache::getInstance()->getProject($id)->getIssues($handler_id, $isHideResolved) if you need Issue[] and not just the IssueId[]
-    */
-   public function getBugidList($handler_id = 0, $isHideResolved = FALSE) {
-      if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
-
-      $key= ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
-
-      if (NULL == $this->bugidListsCache[$key]) {
-         $issueList = array();
-         $sql = AdodbWrapper::getInstance();
-
-         $query = "SELECT id FROM {bug} ".
-                  "WHERE project_id=".$sql->db_param();
-         $q_params[]=$this->id;
-         if (0 != $handler_id) {
-            $query  .= " AND handler_id =  ".$sql->db_param();
-            $q_params[]=$handler_id;
-         }
-         if ($isHideResolved) {
-            $query  .= " AND status < get_project_resolved_status_threshold(project_id) ";
-         }
-
-         $query  .= " ORDER BY id DESC";
-
-         $result = $sql->sql_query($query, $q_params);
-
-         while($row = $sql->fetchObject($result)) {
-            $issueList[] = $row->id;
-         }
-
-         $this->bugidListsCache[$key] = $issueList;
-      }
-      return $this->bugidListsCache[$key];
-   }
-
-   /**
     * returns issues list
     * @param int $handler_id (if 0, all users)
     * @param bool $isHideResolved
     * @param int $hideStatusAndAbove if 0:hide none
     * @return Issue[] : array[]
     */
-   public function getIssues($handler_id = 0, $isHideResolved = FALSE, $hideStatusAndAbove = 0) {
+   public function getIssues($handler_id = 0, $isHideResolved = FALSE, $hideStatusAndAbove = 0, $isHideForbidenStatus = 0, $teamid = 0) {
+
       if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
 
-      $key = ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
+      $key = $handler_id;
+      $key .= ($isHideResolved) ? '_true' : '_false';
+      $key .= '_'.$hideStatusAndAbove;
+      $key .= '_'.$isHideForbidenStatus;
 
       if (!array_key_exists($key, $this->bugidListsCache)) {
          $issueList = array();
@@ -897,21 +859,25 @@ class Project extends Model {
             $query  .= " AND status <  ".$sql->db_param();
             $q_params[]=$hideStatusAndAbove;
          }
-
+         if (($isHideForbidenStatus) && (0 != $teamid)) {
+            $team = TeamCache::getInstance()->getTeam($teamid);
+            $ttForbidenStatusList = $team->getTimetrackingForbidenStatusList($this->id);
+            if (!empty($ttForbidenStatusList)) {
+               $str = implode(',', array_keys($ttForbidenStatusList));
+               $query  .= " AND status NOT IN (".$str.') ';
+            }
+         }
          $query  .= " ORDER BY id DESC";
-
          $result = $sql->sql_query($query, $q_params);
 
          while($row = $sql->fetchObject($result)) {
             $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);;
          }
-
          $this->bugidListsCache[$key] = array_keys($issueList);
+      } else {
+         $issueList = Issue::getIssues($this->bugidListsCache[$key]);
       }
-
-      $bugidList = $this->getBugidList($handler_id, $isHideResolved);
-
-      return Issue::getIssues($bugidList);
+      return $issueList;
    }
 
    /**

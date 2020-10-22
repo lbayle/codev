@@ -401,10 +401,13 @@ class EditTeamController extends Controller {
          }
       }
 
-      // add jobList
+      // add jobList & ttForbidenStatusList
       foreach ($teamProjectsTuple as $id => $info) {
          $p = ProjectCache::getInstance()->getProject($info['projectid']);
          $teamProjectsTuple[$id]['jobs'] = implode(', ', $p->getJobList($info['type']));
+
+         $t = TeamCache::getInstance()->getTeam($teamid);
+         $teamProjectsTuple[$id]['ttForbidenStatusList'] = implode(', ', $t->getTimetrackingForbidenStatusList($info['projectid']));
       }
 
       return $teamProjectsTuple;

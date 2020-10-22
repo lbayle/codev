@@ -103,6 +103,7 @@ class Config {
    const id_mantisPath = "mantisPath";           // DEPRECATED since 0.99.18
    const id_bugResolvedStatusThreshold = "bug_resolved_status_threshold"; // WORKAROUND FIXME !
    const id_timetrackingFilters = "timetrackingFilters";
+   const id_timetrackingForbidenStatusList = 'timetrackingForbidenStatusList';
    const id_blogCategories = "blogCategories";
    const id_defaultTeamId = "defaultTeamId";
    const id_defaultLanguage = "defaultLanguage";
@@ -122,7 +123,8 @@ class Config {
    const id_schedulerOptions = 'schedulerOptions';
    const id_blogPluginOptions = 'blogPluginOptions';
 
-   const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
+   const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideForbidenStatus:1";
+   const default_timetrackingForbidenStatusList = "90"; // 90:closed (do not include 'new')
 
    // TODO Move to a more appropriate class
    public static $codevVersionHistory = array(
@@ -244,6 +246,24 @@ class Config {
     * @static
     * @param $id
     * $param $arr_subid (array primary keys : user_id, project_id, team_id, servicecontract_id, commandset_id, command_id)
+    * @return true if key exists
+    */
+   public static function keyExists($id, $arr_subid=NULL) {
+      $key = $id."_";
+
+      if ($arr_subid == NULL) {
+     	  $arr_subid = array(0, 0, 0, 0, 0, 0);
+      }
+      foreach ($arr_subid as $subid) {
+      	$key .= $subid;
+      }
+      return isset(self::$configVariables[$key]);
+   }
+
+   /**
+    * @static
+    * @param $id
+    * $param $arr_subid (array primary keys : user_id, project_id, team_id, servicecontract_id, commandset_id, command_id)
     * @return mixed
     */
    public static function getValue($id, $arr_subid=NULL, $isQuiet=NULL) {
@@ -261,7 +281,7 @@ class Config {
       if (NULL != $variable) {
          $value = $variable->value;
       } else {
-         self::$logger->warn("getValue($id): variable not found !");
+         //self::$logger->warn("getValue($id): variable not found !");
          if ($isQuiet != NULL) {
          	$tmp = self::$quiet;
          	self::setQuiet($isQuiet);

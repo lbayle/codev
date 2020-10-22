@@ -119,7 +119,7 @@ class TimeTrackingTools {
 
                $totalElapsed[$weekDates[$i]]['elapsed'] += $day;
             }
-/*          
+/*
             $deadline = $issue->getDeadLine();
 
             if (!is_null($deadline) || (0 != $deadline)) {
@@ -131,7 +131,7 @@ class TimeTrackingTools {
             } catch (Exception $e) {
             	$project = null;
             }
-            
+
             try {
                if ($project != null) {
                   if ((!$project->isSideTasksProject(array($teamid))) &&
@@ -267,7 +267,7 @@ class TimeTrackingTools {
 
    /**
     * Get issues
-    * 
+    *
     * @param int $projectid
     * @param boolean $isOnlyAssignedTo
     * @param int $userid
@@ -276,10 +276,10 @@ class TimeTrackingTools {
     * @param int $defaultBugid
     * @return mixed[]
     */
-   public static function getIssues($teamid, $projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $defaultBugid) {
+   public static function getIssues($teamid, $projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid) {
 
       $team = TeamCache::getInstance()->getTeam($teamid);
-      $hideStatusAndAbove = (1 == $team->getGeneralPreference('forbidAddTimetracksOnClosed')) ? Constants::$status_closed : 0;
+      $hideStatusAndAbove = 0; // deprecated, was used for forbidAddTimetracksOnClosed
 
       if (0 != $projectid) {
          // Project list
@@ -304,7 +304,7 @@ class TimeTrackingTools {
             $handler_id = 0; // all users
             $isHideResolved = false; // do not hide resolved
          }
-         $issueList = $project1->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
+         $issueList = $project1->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove, $isHideForbidenStatus, $teamid);
       } else {
          // no project specified: show all tasks
          $issueList = array();
@@ -315,17 +315,17 @@ class TimeTrackingTools {
                if (($proj->isSideTasksProject(array($teamid))) ||
                   ($proj->isNoStatsProject(array($teamid)))) {
                   // do not hide any task for SideTasks & ExternalTasks projects
-                  $buglist = $proj->getIssues(0, false, 0);
+                  $buglist = $proj->getIssues(0, false, 0, 0, 0);
                   $issueList = array_merge($issueList, $buglist);
                } else {
                   $handler_id = $isOnlyAssignedTo ? $userid : 0;
-                  $buglist = $proj->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
+                  $buglist = $proj->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove, $isHideForbidenStatus, $teamid);
                   $issueList = array_merge($issueList, $buglist);
                }
             } catch (Exception $e) {
                self::$logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
                // do not hide any task if unknown project type
-               $buglist = $proj->getIssues(0, false, 0);
+               $buglist = $proj->getIssues(0, false, 0, 0, 0);
                $issueList = array_merge($issueList, $buglist);
 
             }
@@ -340,7 +340,7 @@ class TimeTrackingTools {
          $schedulerManager = new SchedulerManager($userid, $teamid);
          $timePerTaskPerUser = $schedulerManager->getUserOption(SchedulerManager::OPTION_timePerTaskPerUser);
 
-         if ((NULL != $timePerTaskPerUser) && 
+         if ((NULL != $timePerTaskPerUser) &&
              (array_key_exists($handler_id, $timePerTaskPerUser))) {
 
             // GET current user's coassigned task list
@@ -428,7 +428,7 @@ class TimeTrackingTools {
       }
       return $duration;
    }
-   
+
    /**
     * get info to display the updateBacklog dialogbox
     *
@@ -445,6 +445,7 @@ class TimeTrackingTools {
    public static function getUpdateBacklogJsonData($bugid, $trackJobid, $teamid, $managedUserid, $trackDate=0, $trackDuration=0) {
 
       try {
+         $team = TeamCache::getInstance()->getTeam($teamid);
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $backlog = $issue->getBacklog();
          $summary = $issue->getSummary();
@@ -464,9 +465,11 @@ class TimeTrackingTools {
          $handlerId = $issue->getHandlerId();
          $handler = UserCache::getInstance()->getUser($handlerId);
          $handlerName = $handler->getName();
-         
+
          $managedUser = UserCache::getInstance()->getUser($managedUserid);
          $managedUserName = $managedUser->getName();
+
+         $ttForbidenStatusList = $team->getTimetrackingForbidenStatusList($issue->getProjectId());
       } catch (Exception $e) {
          $backlog = '!';
          $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
@@ -486,10 +489,11 @@ class TimeTrackingTools {
          $handlerId = 0;
          $handlerName = 'ERROR';
          $managedUserName = 'ERROR';
+         $ttForbidenStatusList = array();
       }
 
       // prepare json data for the BacklogDialogbox
-      
+
       $totalEE = $effortEstim;
       $issueInfo = array(
          'trackUserid' => $managedUserid,
@@ -513,6 +517,7 @@ class TimeTrackingTools {
          'trackJobid' => $trackJobid,
          'handlerId' => $handlerId,
          'handlerName' => $handlerName,
+         'ttForbidenStatusList' => $ttForbidenStatusList,
       );
 
       if (0 !== $trackDuration) {
@@ -522,7 +527,6 @@ class TimeTrackingTools {
       }
 
       // display calculatedBacklog depending on team settings
-      $team = TeamCache::getInstance()->getTeam($teamid);
       if (1 == $team->getGeneralPreference('displayCalculatedBacklogInDialogbox')) {
 
          // Note: if Backlog is NULL, the values to propose in the DialogBox

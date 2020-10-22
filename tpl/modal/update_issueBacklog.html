@@ -96,6 +96,9 @@
 
 <script type="text/javascript">
 
+      var g_ttForbidenStatusList;
+      var g_currentStatus;
+
 		function getUpdateBacklogData(bugid, userid, jobid, timeToAdd, trackDate) {
 			// ajax call to get DialogBox data
 			var formGetUpdateBacklogData = jQuery('#formGetUpdateBacklogData');
@@ -104,9 +107,9 @@
 			formGetUpdateBacklogData.find("input[name=trackJobid]").val(jobid);
 			formGetUpdateBacklogData.find("input[name=trackDuration]").val(timeToAdd);
 			formGetUpdateBacklogData.find("input[name=trackDate]").val(trackDate);
-         
+
 			var deferred = jQuery.Deferred();
-         
+
 			jQuery.ajax({
 				type: formGetUpdateBacklogData.attr("method"),
 				dataType:"json",
@@ -207,6 +210,9 @@
 				}
 			}
 
+         g_ttForbidenStatusList = data['ttForbidenStatusList'];
+         g_currentStatus = data['currentStatus'];
+
          // set assignedTo
          jQuery('#handlerid').empty();
          if (data['trackUserid'] != data['handlerId']) {
@@ -252,7 +258,7 @@
          }
 			jQuery("#update_backlog_dialog_form").dialog("open");
 		}
-      
+
       function changeBackLogValue(previousStatus) {
          var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
          var selectedStatusId = jQuery("#status").children(":selected").attr("id");
@@ -263,7 +269,7 @@
             $("#backlog").val("");
          }
       }
-      
+
 	jQuery(document).ready(function() {
 
       // add eventHandler to update formUpdateBacklog field when status is changed in combobox
@@ -275,14 +281,14 @@
          var selectedStatusId = jQuery("#status").children(":selected").attr("id");
          jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatusId);
       });
-      
+
       var backlog = $("#backlog");
       var timetrackNote = $("#issue_note");
       var tips = $("#validateTips");
-      
+
 		var allFields = $([]).add(backlog);
 		var allFields = $([]).add(timetrackNote);
-      
+
 		function updateTips(t) {
 			tips.text(t);
 			//tips.addClass("ui-state-highlight");
@@ -307,7 +313,7 @@
 		}
 
 		function checkStatus(backlog, selectedStatus, bugResolvedStatusThreshold, bugStatusNew, statusNameNew) {
-			if ((selectedStatus < bugResolvedStatusThreshold) && (0 == backlog.val())) {
+         if ((selectedStatus < bugResolvedStatusThreshold) && (0 == backlog.val())) {
 				backlog.addClass("ui-state-error");
 				updateTips("{t}Task not resolved, backlog cannot be '0'{/t}");
 				return false;
@@ -322,15 +328,24 @@
 				updateTips("{t}Task resolved, backlog must be '0'{/t}");
 				return false;
          }
+			if ("undefined" !== typeof g_ttForbidenStatusList[g_currentStatus]) {
+				backlog.addClass("ui-state-error");
+            var strStatusList = '';
+            for (var id in g_ttForbidenStatusList) {
+               strStatusList += g_ttForbidenStatusList[id] + ', ';
+            }
+				updateTips("{t}Timetracking disabled if current status in : {/t}" + strStatusList);
+				return false;
+			}
 			return true;
 		}
-      
+
 		function isBacklogDialogFieldsValid() {
 			var bValid = true;
          updateTips("");
 			backlog.removeClass("ui-state-error");
 			bValid = bValid && checkRegexp(jQuery("#backlog"), /^[0-9]+(\.[0-9][0-9]?5?)?$/i, "format:  '1',  '0.3'  or  '2.55' or '2.125'", false);
-			
+
 			var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();
 			var bugStatusNew = jQuery("#bugStatusNew").val();
 			var statusNameNew = jQuery("#statusNameNew").val();

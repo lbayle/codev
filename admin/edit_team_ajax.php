@@ -499,6 +499,74 @@ if(Tools::isConnectedUser() &&
          // return status & data
          $jsonData = json_encode($data);
          echo $jsonData;
+
+      } else if ('getForbidenStatusList' == $action) {
+         try {
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $projectId = Tools::getSecurePOSTIntValue('projectId');
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+
+            $statusNames = Constants::$statusNames;
+            $ttForbidenStatusList = $team->getTimetrackingForbidenStatusList($projectId);
+
+            $prjStatusList = array();
+            foreach ($statusNames as $sid => $sName) {
+               $prjStatusList[$sid] = array(
+                  'id' => $sid,
+                  'name' => "$sName",
+                  'checked' => array_key_exists($sid, $ttForbidenStatusList),
+                  'disabled' => (Constants::$status_new == $sid) ? 1 : 0,
+               );
+               // Note: tasks with forbidenStatus will not be displayed in taskList for timetracking.
+               // - on regular projects, 'new' tasks must be displayed, but CodevTT will force user to change status on addTimetrack
+               // - sidetasks & externalTasks should always be 'closed', so 'new' status don't need to be displayed
+               // so in any case, 'new' status should be disabled.
+            }
+            $data['statusMsg'] = 'SUCCESS';
+            $data['prjStatusList'] = $prjStatusList;
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION getForbidenStatusList: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            $data['statusMsg'] = 'ERROR: '.$e->getMessage();
+         }
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      } else if ('saveForbidenStatusList' == $action) {
+         $data = array();
+         try {
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $projectId = Tools::getSecurePOSTIntValue('projectId');
+            $prjStatusListStr = Tools::getSecurePOSTStringValue('prjStatusListStr');
+            $prjStatusList = json_decode(stripslashes($prjStatusListStr), true);
+
+            // save new values
+            foreach($prjStatusList as $sid => $isChecked) {
+               if ('0' == $isChecked) {
+                  unset($prjStatusList[$sid]);
+               }
+            }
+            $strForbidenStatusList = implode(',', array_keys($prjStatusList));
+            Config::setValue(Config::id_timetrackingForbidenStatusList, $strForbidenStatusList,
+               Config::configType_string, NULL, $projectId, 0, $displayed_teamid, 0, 0, 0);
+
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+            $statusNameListStr = implode(', ', $team->getTimetrackingForbidenStatusList($projectId));
+            $data['statusMsg'] = 'SUCCESS';
+            $data['projectId'] = $projectId;
+            $data['prjStatusNameListStr'] = $statusNameListStr;
+
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION saveForbidenStatusList: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            $data['statusMsg'] = 'ERROR: '.$e->getMessage();
+         }
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
       } else {
          Tools::sendNotFoundAccess();
       }
