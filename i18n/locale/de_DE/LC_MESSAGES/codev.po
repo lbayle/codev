@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 #
 # Author: Killarnee
+# Author: ManuelFranz
 # Author: Metalhead64
 # Author: Palmertim00
 # Author: ThePiscin
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-10-29 12:14:30+0000\n"
+"PO-Revision-Date: 2020-11-05 12:17:40+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -4820,7 +4821,7 @@ msgstr "Gebuchter Aufwand im Zeitraum"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr ""
+msgstr "Preis"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -5035,9 +5036,8 @@ msgid "It is not in the philosophy of CodevTT to allow users to enter several ti
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Error !"
-msgstr "Fehler"
+msgstr "Fehler!"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #, fuzzy
