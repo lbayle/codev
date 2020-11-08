@@ -30,7 +30,7 @@ class IssueSelection {
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
    }
-   
+
    public $name; // name for this selection
    public $elapsed;
    public $duration;
@@ -135,23 +135,40 @@ class IssueSelection {
          // compute total progress
 
          if (0 == $this->elapsed) {
-            $this->progress = 0;  // if no time spent, then no work done.
+
+            if (0 === count($this->issueList)) {
+               // if no issue, 0% seems more logical than 100%
+               $this->progress = 0;
+            } else {
+               $hasUnresolved = false;
+               foreach ($this->issueList as $issue) {
+                  if (!$issue->isResolved()) {
+                     // at least one open task, consider no work is done (0%)
+                     $this->progress = 0;
+                     $hasUnresolved = true;
+                  }
+               }
+               if (false == $hasUnresolved) {
+                  // no time spent, but all tasks resolved => 100% done
+                  $this->progress = 1;
+               }
+            }
          } elseif (0 == $this->duration) {
             $this->progress = 1;  // if no duration, then Project is 100% done.
          } else {
             $this->progress = $this->elapsed / $this->getReestimated();
          }
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("IssueSelection [$this->name] : progressUnique = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
-         }
+         //if(self::$logger->isDebugEnabled()) {
+         //   self::$logger->debug("IssueSelection [$this->name] : progressUnique = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
+         //}
       }
 
       return $this->progress;
    }
 
    /**
-    * 
+    *
     * @param type $timestamp
     */
    public function getMgrEffortEstim($timestamp = NULL) {
@@ -297,11 +314,11 @@ class IssueSelection {
       $formattedList = "";
 
       // make a copy, the initial issueList may be already sorted on different criteria
-      $sortedList = $this->issueList; 
+      $sortedList = $this->issueList;
       ksort($sortedList, SORT_NUMERIC);
 
       foreach ($sortedList as $bugid => $issue) {
-         
+
          if ("" != $formattedList) {
             $formattedList .= ', ';
          }
@@ -329,7 +346,7 @@ class IssueSelection {
    public function getDriftMgr() {
       $nbDaysDrift = 0;
       $myEstim = 0;
-      
+
       foreach ($this->issueList as $issue) {
          $nbDaysDrift += $issue->getDriftMgr();
          $myEstim += $issue->getMgrEffortEstim();
@@ -606,7 +623,7 @@ class IssueSelection {
             "WHERE id IN (".$formattedList.") ".
             " ORDER BY last_updated DESC";
          $result = $sql->sql_query($query, null, TRUE, $max); // LIMIT max
-      
+
       while ($row = $sql->fetchObject($result)) {
          $lastUpdatedList["$row->id"] = $row->last_updated;
       }
@@ -619,7 +636,7 @@ class IssueSelection {
 
    /**
     * get timetracks for each Issue
-    * 
+    *
     * @param array $useridList
     * @param type $startTimestamp
     * @param type $endTimestamp
@@ -638,7 +655,7 @@ class IssueSelection {
       $query = "SELECT * FROM codev_timetracking_table ".
                "WHERE bugid IN (".$formattedList.") ";
 
-      if (NULL != $useridList) { 
+      if (NULL != $useridList) {
          $query .= ' AND userid IN ('.implode( ', ', $useridList).') ';
       }
       if (NULL != $startTimestamp) { $query .= " AND date >=  ".$sql->db_param(); $q_params[]=$startTimestamp; }
