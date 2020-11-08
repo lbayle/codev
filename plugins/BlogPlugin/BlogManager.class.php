@@ -81,7 +81,7 @@ class BlogManager {
 
          // set default values (if new options are added, user may not have them)
          $userOptions = array(
-             BlogManager::OPTION_FILTER_RECIPIENT => 'all', // 'all', 'current_team', 'only_me'
+             BlogManager::OPTION_FILTER_RECIPIENT => 'current_team', // 'all', 'current_team', 'only_me'
              BlogManager::OPTION_FILTER_CATEGORY => 0, // all
              BlogManager::OPTION_FILTER_SEVERITY => 0, // all
              BlogManager::OPTION_FILTER_DISPLAY_HIDDEN_POSTS => 0, // hide
