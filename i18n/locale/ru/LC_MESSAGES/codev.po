@@ -8,6 +8,7 @@
 # Author: Kareyac
 # Author: Mouse21
 # Author: Movses
+# Author: MuratTheTurkish
 # Author: Nemo bis
 # Author: Nitch
 # Author: Okras
@@ -23,7 +24,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-10-29 12:14:36+0000\n"
+"PO-Revision-Date: 2020-11-09 11:34:17+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4870,14 +4871,12 @@ msgid "Include sideTasks"
 msgstr "Побочные задания"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Sorry, you need to be manager to use this plugin"
-msgstr "Извините, вы должны быть тим-лидером для доступа к этой странице."
+msgstr "Извините, вам нужно быть менеджером, чтобы использовать этот плагин"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task"
-msgstr "Возобновить задачи"
+msgstr "Корневая задача"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (default: include as folder only)"
@@ -4999,9 +4998,8 @@ msgid "EffortEstim reliability history"
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "to"
-msgstr "Автоматически"
+msgstr "до"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #, fuzzy
