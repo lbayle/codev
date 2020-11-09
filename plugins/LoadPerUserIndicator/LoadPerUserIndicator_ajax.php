@@ -60,16 +60,16 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_END_TIMESTAMP, $endTimestamp);
 
-      $indicator = new LoadPerUserIndicator($pluginDataProvider);
+      $plugin = new LoadPerUserIndicator($pluginDataProvider);
 
       // override plugin settings with current attributes
-      $indicator->setPluginSettings(array(
+      $plugin->setPluginSettings(array(
           LoadPerUserIndicator::OPTION_SHOW_SIDETASKS => $showSidetasks,
           LoadPerUserIndicator::OPTION_SHOW_ALL_ACTIVITY => $showAllActivity,
       ));
 
-      $indicator->execute();
-      $data = $indicator->getSmartyVariablesForAjax(); 
+      $plugin->execute();
+      $data = $plugin->getSmartyVariablesForAjax(); 
 
       // construct the html table
       foreach ($data as $smartyKey => $smartyVariable) {

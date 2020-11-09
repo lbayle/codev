@@ -56,6 +56,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
 
          $isOnlyActiveTeamMembers = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_ONLY_TEAM_MEMBERS]) ? false : true;
+         $isDisplayInvolvedUsers = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_INVOLVED_USERS]) ? false : true;
          $isDisplayCommands = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_COMMANDS]) ? false : true;
          $isDisplayProject = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_PROJECT]) ? false : true;
          $isDisplayCategory = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_DISPLAY_CATEGORY]) ? false : true;
@@ -74,6 +75,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // override plugin settings with current attributes
          $indicator->setPluginSettings(array(
              OngoingTasks::OPTION_IS_ONLY_TEAM_MEMBERS => $isOnlyActiveTeamMembers,
+             OngoingTasks::OPTION_IS_DISPLAY_INVOLVED_USERS => $isDisplayInvolvedUsers,
              OngoingTasks::OPTION_IS_DISPLAY_COMMANDS => $isDisplayCommands,
              OngoingTasks::OPTION_IS_DISPLAY_PROJECT => $isDisplayProject,
              OngoingTasks::OPTION_IS_DISPLAY_CATEGORY => $isDisplayCategory,

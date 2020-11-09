@@ -1,0 +1,54 @@
+<div class="float" style="width: 95%;">
+<div class="LoadPerUserGroups_ajax">
+   <span class="LoadPerUserGroups_generalErrorMsg error_font">{$LoadPerUserGroups_generalErrorMsg}</span>
+   {if $LoadPerUserGroups_groupDataArray}
+      <table class="LoadPerUserGroupsValuesTable display float datatable_csv" >
+         <thead>
+            <tr>
+               <th>{t}Group{/t}</th>
+               <th title="{t}Total elapsed{/t}">{t}Elapsed{/t}<br>{t}TOTAL{/t}</th>
+               <th>{t}Elapsed{/t}<br>({t}projects{/t})</th>
+               <th>{t}Elapsed{/t}<br>({t}sidetasks{/t})</th>
+               {if $LoadPerUserGroups_isDisplayInvolvedUsers}
+               <th>{t}Involved users{/t}</th>
+               {/if}
+               {if $LoadPerUserGroups_isDisplayTasks}
+               <th>{t}Tasks{/t}</th>
+               {/if}
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$LoadPerUserGroups_groupDataArray key=id item=i}
+            <tr class="LoadPerUserGroups_groupLine">
+               <td class='LoadPerUserGroups_groupName'>{$i.groupName}</td>
+               <td>{$i.groupTotalElapsed}</td>
+               <td>{$i.elapsedOnRegularPrj}</td>
+               <td>{$i.elapsedOnSidetasksPrj}</td>
+               {if $LoadPerUserGroups_isDisplayInvolvedUsers}
+               <td>{$i.involvedUsers}</td>
+               {/if}
+               {if $LoadPerUserGroups_isDisplayTasks}
+               <td>{$i.tasks}</td>
+               {/if}
+            </tr>
+            {/foreach}
+         </tbody>
+         <tfoot>
+            <td>{t}TOTAL{/t}</td>
+            <td>{$LoadPerUserGroups_totalElapsedOnPeriod}</td>
+            <td>{$LoadPerUserGroups_totalElapsedOnRegularPrj}</td>
+            <td>{$LoadPerUserGroups_totalElapsedOnSidetasksPrj}</td>
+            {if $LoadPerUserGroups_isDisplayInvolvedUsers}
+            <td></td>
+            {/if}
+            {if $LoadPerUserGroups_isDisplayTasks}
+            <td></td>
+            {/if}
+
+         </tfoot>
+      </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>
+</div>

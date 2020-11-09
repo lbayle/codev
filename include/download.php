@@ -54,6 +54,7 @@ if (Tools::isConnectedUser()) {
       'pdf' => 'application/pdf',
       'doc' => 'application/msword',
       'xls' => 'application/vnd.ms-excel',
+      'xlsx' => 'application/vnd.ms-excel',
       'ppt' => 'application/vnd.ms-powerpoint',
       'csv' => '',
       'docx' => 'application/msword',

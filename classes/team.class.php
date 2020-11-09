@@ -90,7 +90,7 @@ class Team extends Model {
 
 
    private $consistencyCheckList;
-   private $timetrackingForbidenStatusList;
+   private $userGroupList;
 
 
    private $userDailyCostObj;
@@ -546,7 +546,7 @@ class Team extends Model {
     *
     * @param int $startTimestamp date (if NULL, today)
     * @param int $endTimestamp date (if NULL, $startTimestamp)
-    * @return string[]
+    * @return array userId => userName
     */
    public function getActiveMembers($startTimestamp=NULL, $endTimestamp=NULL, $userRealName=FALSE) {
       if (NULL == $startTimestamp) {
@@ -1576,6 +1576,43 @@ class Team extends Model {
          $timetrackingForbidenStatusList[$fid] = $statusName;
       }
       return $timetrackingForbidenStatusList;
+   }
+
+   /**
+    *
+    * @param array $userGroupList [userid => groupName]
+    */
+   function setUserGroups($userGroupList) {
+      $jsonUserGroups = json_encode($userGroupList);
+      Config::setValue(Config::id_userGroups, $jsonUserGroups, Config::configType_string, NULL, 0, 0, $this->id);
+      $this->userGroupList = $userGroupList;
+   }
+
+   /**
+    *
+    * @return array [userid => groupName]
+    */
+   function getUserGroups() {
+
+      // {"74":"group 1","581":"group 1","615":"group 2","601":"group 2"}
+
+      if (NULL == $this->userGroupList) {
+         $userGroupList = array();
+
+         $keyExists =  Config::keyExists(Config::id_userGroups, array(0, 0, $this->id, 0, 0, 0));
+         if (false != $keyExists) {
+            $jsonUserGroups = Config::getValue(Config::id_userGroups, array(0, 0, $this->id, 0, 0, 0), true);
+            if (null != $jsonUserGroups) {
+               $userGroupList = json_decode($jsonUserGroups, true);
+               if (is_null($userGroupList)) {
+                  self::$logger->error("UserGroups: json could not be decoded !");
+               } else {
+                  $this->userGroupList = $userGroupList;
+               }
+            }
+         }
+      }
+      return $this->userGroupList;
    }
 
 } // class Team

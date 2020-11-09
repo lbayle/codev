@@ -122,6 +122,7 @@ class Config {
    const id_planningOptions = 'planningOptions';
    const id_schedulerOptions = 'schedulerOptions';
    const id_blogPluginOptions = 'blogPluginOptions';
+   const id_userGroups = 'userGroups';
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideForbidenStatus:1";
    const default_timetrackingForbidenStatusList = "90"; // 90:closed (do not include 'new')
