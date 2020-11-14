@@ -195,7 +195,7 @@ class FillPeriodWithTimetracks extends IndicatorPluginAbstract {
       $project = ProjectCache::getInstance()->getProject($projectid);
 
       $teamProjTypes = $team->getProjectsType();
-      $jobList = $project->getJobList($teamProjTypes[$projectid]);
+      $jobList = $project->getJobList($teamProjTypes[$projectid], $this->teamId);
 
       $data = array (
          'jobList' => $jobList,

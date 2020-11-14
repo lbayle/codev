@@ -107,7 +107,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
             $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
             $teamProjTypes = $team->getProjectsType();
-            $availableJobs = $project->getJobList($teamProjTypes[$issue->getProjectId()]);
+            $availableJobs = $project->getJobList($teamProjTypes[$issue->getProjectId()], $team->getId());
 
             // return data
             $data = array(

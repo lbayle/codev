@@ -693,6 +693,8 @@ function update_v19_to_v20() {
  */
 function update_v20_to_v21() {
 
+   $sql = AdodbWrapper::getInstance();
+
    $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v20_v21.sql';
    if (!file_exists($sqlScriptFilename)) {
       echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
@@ -707,6 +709,21 @@ function update_v20_to_v21() {
       exit;
    }
 
+   // replace global project_job asso with a team specific asso
+   $query0 = "SELECT project_id, job_id FROM codev_project_job_table WHERE team_id = 0";
+   $result0 = execQuery($query0);
+   while($row = $sql->fetchObject($result0)) {
+      // for each team having this project
+      echo "--- Found association prj=$row->project_id, job=$row->job_id, team=0<br/>";
+      $query1 = "SELECT team_id FROM `codev_team_project_table` where project_id = $row->project_id";
+      $result1 = execQuery($query1);
+      while($row1 = $sql->fetchObject($result1)) {
+         echo "   Create association prj=$row->project_id, job=$row->job_id, team=$row1->team_id<br/>";
+         Jobs::addJobProjectAssociation($row->project_id, $row->job_id, $row1->team_id);
+      }
+      echo "   Delete association prj=$row->project_id, job=$row->job_id, team=0<br/>";
+      Jobs::removeJobProjectAssociation($row->project_id, $row->job_id, 0);
+   }
 
 }
 

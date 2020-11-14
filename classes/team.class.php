@@ -915,10 +915,13 @@ class Team extends Model {
       } catch (Exception $e) {
          throw new Exception("Couldn't add the project to the team (insert project $projectid)");
       }
-      // jobs assignations are not (not yet) specific to a team.
+      // jobs assignations are specific to a team (since v1.6.0).
       // check if jobs already defined
-      $query2 = "SELECT count(1) as cnt FROM codev_project_job_table WHERE project_id = ".$sql->db_param();
+      $query2 = "SELECT count(1) as cnt FROM codev_project_job_table ".
+                " WHERE project_id = ".$sql->db_param().
+                " AND team_id = ".$sql->db_param();
       $q_params2[]=$projectid;
+      $q_params2[]=$this->id;
       try {
          $result2 = $sql->sql_query($query2, $q_params2);
       } catch (Exception $e) {
@@ -928,9 +931,10 @@ class Team extends Model {
       //self::$logger->error("count jobs = $count");
       if (0 == $count) {
          // if no job defined yet, then default jobs (previously: commonJobs) must be assigned.
-         $query3 = "INSERT INTO codev_project_job_table(project_id, job_id) ".
-                  "SELECT ".$sql->db_param().", job.id FROM codev_job_table job WHERE type = 0";
+         $query3 = "INSERT INTO codev_project_job_table(project_id, job_id, team_id) ".
+                  "SELECT ".$sql->db_param().", job.id, ".$sql->db_param()." FROM codev_job_table job WHERE type = 0";
          $q_params3[]=$projectid;
+         $q_params3[]=$this->id;
          try {
             $sql->sql_query($query3, $q_params3);
          } catch (Exception $e) {
@@ -1001,7 +1005,7 @@ class Team extends Model {
 
       // assign SideTaskProject specific Job
       #REM: 'N/A' job_id = 1, created by SQL file
-      Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
+      Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA, $this->id);
 
       return $projectid;
    }

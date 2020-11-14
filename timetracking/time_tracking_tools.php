@@ -260,7 +260,7 @@ class TimeTrackingTools {
       $project = ProjectCache::getInstance()->getProject($projectid);
 
       $ptype = $team->getProjectType($projectid);
-      $jobList = $project->getJobList($ptype);
+      $jobList = $project->getJobList($ptype, $teamid);
 
       return $jobList;
    }

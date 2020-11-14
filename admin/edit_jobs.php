@@ -64,33 +64,6 @@ class EditJobsController extends Controller {
                }
 
 
-            } elseif ('addAssociationProject' == $action) {
-
-               // TODO: associate multiple projects with multiple jobs
-               // joint cartesien
-               // INSERT INTO codev_project_job_table (project_id, job_id)
-               //    SELECT id, tbtmp.id_job FROM `mantis_project_table`,
-               //        (select id AS id_job FROM codev_job_table
-               //                             WHERE codev_job_table.id IN (18,19,20)
-               //        ) tbtmp
-               //         WHERE name LIKE "FDJ_%";
-
-               // Add multiple jobs to a unique project
-               $project_id = Tools::getSecurePOSTIntValue('project');
-               $jobs = explode(",",Tools::getSecurePOSTStringValue('formattedJobs'));
-               foreach($jobs as $job_id) {
-                  // TODO check if not already in table !
-
-                  // save to DB
-                  $query = "INSERT INTO codev_project_job_table  (project_id, job_id)".
-                           " VALUES (".$sql->db_param().",".$sql->db_param().")";
-                  try {
-                     $sql->sql_query($query, array($project_id, $job_id));
-                  } catch (Exception $e) {
-                     $this->smartyHelper->assign('error', T_("Couldn't add the job association"));
-                  }
-               }
-
             } elseif ('deleteJob' == $action) {
                $job_id = Tools::getSecurePOSTIntValue('job_id');
 
@@ -112,45 +85,12 @@ class EditJobsController extends Controller {
                      $this->smartyHelper->assign('error', T_("Couldn't delete the job"));
                   }
                }
-
-            } elseif ('deleteJobProjectAssociation' == $action) {
-               $asso_id = Tools::getSecurePOSTIntValue('asso_id');
-
-               $query = "DELETE FROM codev_project_job_table WHERE id = ".$sql->db_param();
-               try {
-                  $result = $sql->sql_query($query, array($asso_id));
-               } catch (Exception $e) {
-                  $this->smartyHelper->assign('error', T_("Couldn't remove the job association"));
-               }
             }
 
             $jobs = $this->getJobs();
             $this->smartyHelper->assign('jobs', $jobs);
-
-            //$this->smartyHelper->assign('assignedJobs', $this->getAssignedJobs($jobs));
-            $this->smartyHelper->assign('assignedJobs', $jobs);
-
-            $projects = Project::getProjects();
-            $this->smartyHelper->assign('jobAssignations', $this->getAssignedJobTuples($projects, $this->teamid));
-            unset($projects[Config::getInstance()->getValue(Config::id_externalTasksProject)]);
-            $this->smartyHelper->assign('projects', $projects);
          }
       }
-   }
-
-   /**
-    * Get assigned jobs
-    * @param array $jobs All jobs
-    * @return string[int] The assigned jobs
-    */
-   private function getAssignedJobs(array $jobs) {
-      $assignedJobs = array();
-      foreach($jobs as $id => $value) {
-         if($value['type'] == Job::type_assignedJob) {
-            $assignedJobs[$id] = $value['name'];
-         }
-      }
-      return $assignedJobs;
    }
 
    /**
@@ -195,47 +135,6 @@ class EditJobsController extends Controller {
 
       return $smartyJobs;
    }
-
-   /**
-    * Get assigned jobs
-    * @param array $plist The projects
-    * @return mixed[int] The assigned jobs
-    */
-   private function getAssignedJobTuples(array $plist, $teamid) {
-
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $sql = AdodbWrapper::getInstance();
-
-      $query = "SELECT job.id as job_id, job.name AS job_name, project_job.id, project_job.project_id ".
-         "FROM codev_job_table as job ".
-         "JOIN codev_project_job_table as project_job ON job.id = project_job.job_id ".
-         " ORDER BY project_job.project_id;";
-      $result = $sql->sql_query($query);
-
-      $projects = array();
-      while($row = $sql->fetchObject($result)) {
-         // if SuiviOp do not allow tu delete
-         $desc = $row->job_name." - ".$plist[$row->project_id];
-         $desc = str_replace("'", "\'", $desc);
-         $desc = str_replace('"', "\'", $desc);
-
-         // NA for sideTasks & externalTasks project are not remobable
-         $isRemovable =  (Config::getInstance()->getValue(Config::id_externalTasksProject) != $row->project_id) &&
-                             (!((Jobs::JOB_NA == $row->job_id) && ($team->isSideTasksProject($row->project_id))));
-
-         $projects[$row->id] = array(
-            "desc" => $desc,
-            "jobid" => $row->job_id,
-            "jobname" => $row->job_name,
-            "projectid" => $row->project_id,
-            "project" => $plist[$row->project_id],
-            "isRemovable" => $isRemovable
-         );
-      }
-
-      return $projects;
-   }
-
 }
 
 // ========== MAIN ===========

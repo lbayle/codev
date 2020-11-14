@@ -12,13 +12,6 @@
    <script type="text/javascript" src="js_min/datatable.min.js"></script>
    {if isset($jobType)}
 
-   <div id="tabsEditTeam" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
-      <ul class="{$ui_tabs_jquery_ul}">
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabJobs">{t}Jobs{/t}</a></li>
-         <li class="{$ui_tabs_jquery_li}"><a href="#tabAssignations">{t}Job Assignations{/t}</a></li>
-      </ul>
-
-      <div id="tabJobs" class="ui-widget-content">
          <div style="margin-top: 1em;padding: 0 1em 1em;">
          <form id="addJobForm" name="addJobForm" method="post" action="{$page}">
             <fieldset>
@@ -73,75 +66,6 @@
             </form>
          </div>
          </div>
-      </div>
-
-      <div id="tabAssignations" class="ui-widget-content ui-corner">
-         <div style="margin-top: 1em;padding: 0 1em 1em;">
-            <form id="addJobProjectAssociationForm" name="addJobProjectAssociationForm" class="formWithTabsHistory" method="post" action="{$page}">
-               <table class="invisible">
-                  <tr>
-                     <td title="{t}multiple selection{/t}">{t}Project{/t}:</td>
-                     <td title="{t}single selection{/t}">{t}Jobs{/t}:</td>
-                  </tr>
-                  <tr>
-                     <td>
-                        <select id="project"  name="project" class="select2" style="min-width: 300px;" >
-                           {foreach from=$projects key=id item=i}
-                           <option value="{$id}">{$i}</option>
-                           {/foreach}
-                        </select>
-                     </td>
-                     <td>
-                        <select id="jobs" name="jobs" multiple class="select2" style="min-width: 300px;"  placeHolder="{t}Jobs{/t}">
-                           {foreach from=$assignedJobs key=id item=i}
-                           <option value="{$id}">{$i.name}</option>
-                           {/foreach}
-                        </select>
-                     </td>
-                     <td>
-                        <input type="button" id="addAssociationProject" name="btAddAssociation" value="{t}Add{/t}" />
-                     </td>
-                  </tr>
-               </table>
-               <input type="hidden" name="formattedJobs" value="" />
-               <input type="hidden" name="action" value="addAssociationProject" />
-            </form>
-         </div>
-
-         <!-- Display previous entries -->
-         <div style="margin-top: 1em;">
-            <table  class="datatable_csv">
-               <!-- <caption>Assigned Jobs</caption> -->
-               <thead>
-                  <tr>
-                     <th></th>
-                     <th>{t}Project{/t}</th>
-                     <th>{t}Job Name{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach from=$jobAssignations key=id item=i}
-                     <tr>
-                        <td class="ui-state-error-text" style="width:1em;">
-                           {if (true == $i.isRemovable)}
-                           <a class="ui-icon" title="{t}delete Project Association{/t}" href="{$page}" onclick="deleteJobProjectAssociation('{$id}','{$i.desc}');return false;" ></a>
-                           {/if}
-                        </td>
-                        <td title="{$i.projectid}">{$i.project}</td>
-                        <td title="{$i.jobid}">{$i.jobname}</td>
-                     </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-
-            <form id="deleteJobProjectAssociationForm" name="deleteJobProjectAssociationForm" method="post" action="{$page}" class="ui-helper-hidden">
-               <fieldset>
-                  <input type="hidden" name="asso_id" value="0" />
-                  <input type="hidden" name="action" value="deleteJobProjectAssociation" />
-               </fieldset>
-            </form>
-         </div>
-      </div>
    </div>
 
    <script type="text/javascript">

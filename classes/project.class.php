@@ -763,7 +763,7 @@ class Project extends Model {
     * @param int $type
     * @return string[]
     */
-   public function getJobList($type = NULL) {
+   public function getJobList($type = NULL, $team_id=0) {
       $commonJobType = Job::type_commonJob;
       $sql = AdodbWrapper::getInstance();
 
@@ -788,8 +788,10 @@ class Project extends Model {
                $query = "SELECT job.id, job.name ".
                         " FROM codev_job_table as job ".
                         " JOIN codev_project_job_table as project_job ON job.id = project_job.job_id ".
-                        " WHERE project_job.project_id = ".$sql->db_param();
+                        " WHERE project_job.project_id = ".$sql->db_param().
+                        " AND project_job.team_id = ".$sql->db_param();
                $q_params[]=$this->id;
+               $q_params[]=$team_id;
                break;
             case self::type_workingProject:  // no break;
             case self::type_noStatsProject:  // no break;
@@ -799,8 +801,10 @@ class Project extends Model {
                         " LEFT OUTER JOIN codev_project_job_table as project_job ".
                         " ON job.id = project_job.job_id ".
                         " WHERE project_job.project_id =  ".$sql->db_param().
+                        " AND project_job.team_id = ".$sql->db_param();
                         " ORDER BY job.name ASC";
                $q_params[]=$this->id;
+               $q_params[]=$team_id;
                break;
             case (-1):
                // WORKAROUND no type specified, return all available jobs

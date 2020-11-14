@@ -23,7 +23,7 @@ require('../path.inc.php');
 class ProjectActivityReportController extends Controller {
 
    private static $logger;
-   
+
    /**
     * Initialize complex static variables
     * @static
@@ -72,8 +72,8 @@ class ProjectActivityReportController extends Controller {
                foreach ($data as $smartyKey => $smartyVariable) {
                   $this->smartyHelper->assign($smartyKey, $smartyVariable);
                }
-               
-               
+
+
                $data = $this->getWorkingDaysPerProjectPerUser($startTimestamp, $endTimestamp, $isExtTasksPrj, $isSideTasksPrj);
                foreach ($data as $smartyKey => $smartyVariable) {
                   $this->smartyHelper->assign($smartyKey, $smartyVariable);
@@ -82,9 +82,9 @@ class ProjectActivityReportController extends Controller {
          }
       }
    }
-   
-   
-   
+
+
+
    /**
     * Get project activity report
     * @param mixed[][][] $projectTracks
@@ -98,7 +98,7 @@ class ProjectActivityReportController extends Controller {
       foreach ($projectTracks as $projectId => $bugList) {
          $project = ProjectCache::getInstance()->getProject($projectId);
 
-         $jobList = $project->getJobList($team->getProjectType($projectId));
+         $jobList = $project->getJobList($team->getProjectType($projectId), $teamid);
          $jobTypeList = array();
          if ($isDetailed) {
             foreach($jobList as $jobId => $jobName) {
@@ -158,27 +158,27 @@ class ProjectActivityReportController extends Controller {
       return $projectActivityReport;
    }
 
-   
+
    private function getWorkingDaysPerProjectPerUser($startTimestamp, $endTimestamp, $isExtTasksPrj, $isSideTasksPrj) {
-      
+
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $activeMembers = $team->getActiveMembers($startTimestamp, $endTimestamp, TRUE);
       $activeMembersIds = array_keys($activeMembers);
       $usersData = array();
-      
+
       // Time spend by user for each project (depending on the chosen Timestamp)
       foreach($activeMembersIds as $user_id) {
          $user = UserCache::getInstance()->getUser($user_id);
          $timeTracks = $user->getTimeTracks($startTimestamp, $endTimestamp);
-         
+
          $userElapsedPerProject = array();
          foreach($timeTracks as $timeTrack) {
             $userElapsedPerProject[$timeTrack->getProjectId()] += $timeTrack->getDuration();
          }
          $usersData[$user_id] = $userElapsedPerProject;
       }
-      
-      
+
+
 
       // Check SideTask & ExternalTask
       $projList = $team->getProjects(true, true, $isSideTasksPrj);
@@ -186,8 +186,8 @@ class ProjectActivityReportController extends Controller {
          if (array_key_exists(Config::getInstance()->getValue(Config::id_externalTasksProject),$projList)){
             unset($projList[Config::getInstance()->getValue(Config::id_externalTasksProject)]);
          }
-      } 
-      
+      }
+
       // Time elapsed per user and per project (plus total per user)
       $usersSmartyData = array();
       foreach($activeMembers as $user_id => $realName) {
@@ -198,8 +198,8 @@ class ProjectActivityReportController extends Controller {
             $elapsedPerProject[$projId] = $val;
             $userTotal += $val;
          }
-         
-      // Formatting for Smarty   
+
+      // Formatting for Smarty
          $usersSmartyData[] = array (
             'id' => $user_id,
             'name' => $realName,
@@ -207,7 +207,7 @@ class ProjectActivityReportController extends Controller {
             'total' => $userTotal,
          );
       }
-      
+
       // Time elapsed per project plus total for all the projects
       $totalAllProj = 0;
       $totalPerProj = array();
@@ -218,14 +218,14 @@ class ProjectActivityReportController extends Controller {
          }
       }
       $totalPerProj['total'] = $totalAllProj;
-       
+
       $data = array(
-          'usersData' => $usersSmartyData, 
+          'usersData' => $usersSmartyData,
           'projList' => $projList,
           'totalPerProj' => $totalPerProj,
       );
       return $data;
- }  
+ }
 }
 
 // ========== MAIN ===========

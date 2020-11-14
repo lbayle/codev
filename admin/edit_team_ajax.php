@@ -395,7 +395,7 @@ if(Tools::isConnectedUser() &&
          $team = TeamCache::getInstance()->getTeam($displayed_teamid);
          $project = ProjectCache::getInstance()->getProject($projectId);
          $teamProjTypes = $team->getProjectsType();
-         $projectJobs = $project->getJobList($teamProjTypes[$projectId]);
+         $projectJobs = $project->getJobList($teamProjTypes[$projectId], $displayed_teamid);
 
          // get complete job list compatible with project type
          $sql = AdodbWrapper::getInstance();
@@ -435,19 +435,21 @@ if(Tools::isConnectedUser() &&
 
             // delete all previous job associations
             $sql = AdodbWrapper::getInstance();
-            $query = "DELETE FROM codev_project_job_table WHERE project_id = ".$sql->db_param();
-            $sql->sql_query($query, array($projectId));
+            $query = "DELETE FROM codev_project_job_table ".
+                     " WHERE project_id = ".$sql->db_param().
+                     " AND team_id = ".$sql->db_param();
+            $sql->sql_query($query, array($projectId, $displayed_teamid));
 
             // set new project-job associations
             foreach ($jobList as $job_id => $ischecked) {
                if ($ischecked) {
-                  Jobs::addJobProjectAssociation($projectId, $job_id);
+                  Jobs::addJobProjectAssociation($projectId, $job_id, $displayed_teamid);
                }
             }
             $team = TeamCache::getInstance()->getTeam($displayed_teamid);
             $project = ProjectCache::getInstance()->getProject($projectId);
             $teamProjTypes = $team->getProjectsType();
-            $projectJobs = $project->getJobList($teamProjTypes[$projectId]);
+            $projectJobs = $project->getJobList($teamProjTypes[$projectId], $displayed_teamid);
 
             $jobNameListStr = implode(', ', $projectJobs);
             $data['statusMsg'] = 'SUCCESS';

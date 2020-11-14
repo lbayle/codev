@@ -173,7 +173,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
             $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
             $projType = $team->getProjectType($issue->getProjectId());
-            $availableJobs = $project->getJobList($projType);
+            $availableJobs = $project->getJobList($projType, $teamid);
             $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
 
 

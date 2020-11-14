@@ -218,12 +218,12 @@ class SetHolidaysController extends Controller {
       // Job list
       if (0 != $defaultProjectid) {
          $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-         $jobList = $project1->getJobList(Project::type_sideTaskProject);
+         $jobList = $project1->getJobList(Project::type_sideTaskProject, $this->teamid);
       } else {
          $jobList = array();
          foreach ($projList as $pid2 => $pname) {
             $tmpPrj1 = ProjectCache::getInstance()->getProject($pid2);
-            $jobList += $tmpPrj1->getJobList(Project::type_sideTaskProject);
+            $jobList += $tmpPrj1->getJobList(Project::type_sideTaskProject, $this->teamid);
          }
       }
       // do not display selector if only one Job

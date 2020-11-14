@@ -118,7 +118,9 @@ CREATE TABLE IF NOT EXISTS "codev_project_job_table" (
   "id" INTEGER NOT NULL AUTO_INCREMENT,
   "project_id" INTEGER NOT NULL,
   "job_id" INTEGER NOT NULL,
-  PRIMARY KEY ("id")
+  "team_id" INTEGER NOT NULL DEFAULT '0',
+  PRIMARY KEY ("id"),
+  UNIQUE KEY "user_team_date" ("project_id","job_id", "team_id")
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 
