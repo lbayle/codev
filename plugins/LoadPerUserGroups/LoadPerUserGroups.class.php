@@ -299,7 +299,7 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
       foreach ($teamMembers as $uid => $uname) {
          if (!array_key_exists($uid, $this->userGroups)) {
             $user = UserCache::getInstance()->getUser($uid);
-            $this->userGroups[$uid] = '--'.T_('undefined').'--';
+            $this->userGroups[$uid] = '--undefined--';
             $this->userDataArray[$uid] = array(
                'userId' => $uid,
                'userName' => $uname,
@@ -322,7 +322,7 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
       if (!array_key_exists($userId, $this->userDataArray)) {
          //self::$logger->warn("No userGroup defined for user $userId in team $this->teamid");
          $user = UserCache::getInstance()->getUser($userId);
-         $this->userGroups[$userId] = '--'.T_('undefined').'--';
+         $this->userGroups[$userId] = '--undefined--';
          $this->userDataArray[$userId] = array(
             'userId' =>  $userId,
             'userName' =>  $user->getName(),
