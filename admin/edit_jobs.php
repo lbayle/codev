@@ -64,6 +64,23 @@ class EditJobsController extends Controller {
                }
 
 
+            } else if ('editJob' == $action) {
+               $job_id = Tools::getSecurePOSTIntValue('jobId');
+               $job_name = Tools::getSecurePOSTStringValue('jobName');
+               $job_type = Tools::getSecurePOSTIntValue('jobType');
+               $job_color = Tools::getSecurePOSTStringValue('jobColor');
+
+               //Check for a hex color string without hash 'c1c2b4'
+               $job_color_trim = trim(str_replace("#", "", $job_color));
+               if(preg_match('/^[a-f0-9]{6}$/i', $job_color_trim)) {
+                  try {
+                     Jobs::updateJob($job_id, $job_name, $job_type, $job_color_trim);
+                  } catch (Exception $ex) {
+                     $this->smartyHelper->assign('error', T_("Failed to update job : $job_name, $job_type, $job_color_trim"));
+                  }
+               } else {
+                  $this->smartyHelper->assign('error', T_("Invalid Color : '$job_color' ($job_color_trim)"));
+               }
             } elseif ('deleteJob' == $action) {
                $job_id = Tools::getSecurePOSTIntValue('job_id');
 

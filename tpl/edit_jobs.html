@@ -41,18 +41,22 @@
                      <th>{t}Job Name{/t}</th>
                      <th>{t}Type{/t}</th>
                      <th>{t}Color{/t}</th>
+                     <th></th>
                   </tr>
                </thead>
                <tbody>
                   {foreach from=$jobs key=id item=i}
-                  <tr>
+                  <tr class="jobList_tr" data-jobId="{$id}">
                      <td class="ui-state-error-text" style="width:1em;">{if isset($i.deletedJob) && $i.deletedJob}
                         <a class="ui-icon" title="{t}delete Job{/t}" href="{$page}"
                            onclick="deleteJob('{$id}', '{$i.name}');return false"></a>
                      {/if}</td>
-                     <td title="{$id}">{$i.name}</td>
-                     <td title="{$i.type}">{$i.typeName}</td>
-                     <td style="background-color: #{$i.color};">{$i.color}</td>
+                     <td class="jobList_tdName" title="{$id}">{$i.name}</td>
+                     <td class="jobList_tdType" title="{$i.type}" data-typeId="{$i.type}">{$i.typeName}</td>
+                     <td class="jobList_tdColor" style="background-color: #{$i.color};">{$i.color}</td>
+                     <td>
+                        <img class="editJob_link pointer" align="absmiddle" title="{t}Edit Job{/t}" src="images/b_edit.png"/>
+                     </td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -64,9 +68,42 @@
                   <input type="hidden" name="action" value="deleteJob" />
                </fieldset>
             </form>
+
+            <div id="editJob_dialog" title="{t}Edit Job list{/t}" class="ui-helper-hidden">
+               <form id="editJobForm" name="editJobForm" method="post" action="{$page}">
+                  <fieldset>
+                     <table class="invisible">
+                        <tr>
+                           <td>{t}Job Name{/t}</td>
+                           <td>:</td>
+                           <td><input name="jobName" id="editJob_jobName" value="0" /></td>
+                        </tr>
+                        <tr>
+                           <td>{t}Type{/t}</td>
+                           <td>:</td>
+                           <td>
+                              <select name="jobType" id="editJob_jobType">
+                                 {foreach from=$jobType key=id item=i}
+                                 <option value={$id}>{$i}</option>
+                                 {/foreach}
+                              </select>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>{t}Color{/t}</td>
+                           <td>:</td>
+                           <td><input name="jobColor" id="editJob_jobColor" value="0" /></td>
+                        </tr>
+
+                     </table>
+                     <input type="hidden" name="jobId" value="0" />
+                     <input type="hidden" name="action" value="editJob" />
+                  </fieldset>
+               </form>
+            </div>
          </div>
          </div>
-   </div>
+</div>
 
    <script type="text/javascript">
       jQuery.ajax({
@@ -145,6 +182,48 @@
                alert(msgString);
             }
          });
+
+   // ------------------------------------------------------
+   jQuery(".editJob_link").click(function(e) {
+      e.preventDefault();
+      var trJob = $(this).parents('.jobList_tr');
+      var jobId = $(trJob).attr('data-jobId');
+      var jobName = $(trJob).find(".jobList_tdName").text();
+      var jobType = $(trJob).find(".jobList_tdType").attr('data-typeId');
+      var jobColor = $(trJob).find(".jobList_tdColor").text();
+
+      // set values
+      var form = $('#editJobForm');
+      form.find("input[name=jobName]").val(jobName);
+      $("#editJob_jobType").val('' + jobType);
+      form.find("input[name=jobColor]").val(jobColor);
+      form.find("input[name=jobId]").val(jobId);
+
+      jQuery("#editJob_dialog").dialog( "open" );
+   });
+
+   jQuery("#editJob_dialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      height: 'auto',
+      width: 400,
+      modal: true,
+      buttons: [
+         {
+            text: "{t}OK{/t}",
+            click: function() {
+               var form = $('#editJobForm');
+               form.submit();
+            }
+         },
+         {
+            text: "{t}Cancel{/t}",
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
 
          // set select2 with width adapted to the content
          //$("#job_id").select2({ width: 'resolve' });

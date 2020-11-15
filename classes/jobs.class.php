@@ -186,6 +186,14 @@ class Jobs {
       return AdodbWrapper::getInstance()->getInsertId();
    }
 
+   public static function updateJob($job_id, $job_name, $job_type, $job_color) {
+      $sql = AdodbWrapper::getInstance();
+      $query = "UPDATE codev_job_table SET ".
+               " name = ".$sql->db_param().", type = ".$sql->db_param().", color = ".$sql->db_param().
+               " WHERE id = ".$sql->db_param();
+      $sql->sql_query($query, array($job_name,$job_type,$job_color, $job_id));
+   }
+
    /**
     * @static
     * @param int $project_id
