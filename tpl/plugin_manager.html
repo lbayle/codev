@@ -1,5 +1,6 @@
 <div class="pluginManger" style="margin-top:4em;margin-left:5em">
-   
+
+   {if isset($isEditGranted) && $isEditGranted}
    <div>
       <button  title="{t}Check for new plugins in 'plugins' directory.{/t}" onclick="discoverNewPlugins();return false;">
          <img align="absmiddle" border="0" src="images/b_refresh.png" alt="Add icon">
@@ -8,12 +9,15 @@
       <span class='error_font errorMsg'>{$errorMsg}</span>&nbsp;&nbsp;
       <span class='help_font infoMsg'>{$infoMsg}</span>
    </div>
-   
+   {/if}
+
    <div style="margin-top:2em">
    <table class="datatable_csv" style="width:50%">
       <thead>
          <tr>
+            {if isset($isEditGranted) && $isEditGranted}
             <th></th>
+            {/if}
             <th>{t}Status{/t}</th>
             <th>{t}Plugin{/t}</th>
             <th>{t}Version{/t}</th>
@@ -24,6 +28,7 @@
       <tbody>
          {foreach $availablePlugins as $plugin_id => $plugin}
          <tr>
+            {if isset($isEditGranted) && $isEditGranted}
             <td>
                {if 0 == $plugin.status}
                <a title="{t}Enable Plugin{/t}" href="{$page}" onclick="enablePlugin('{$plugin_id}');return false;">
@@ -38,6 +43,7 @@
                {if 2 == $plugin.status}
                {/if}
             </td>
+            {/if}
             <td {if 1 == $plugin.status}bgcolor="#BFFFC4"{/if}
                 {if 2 == $plugin.status}bgcolor="#E0E0E0"{/if}>{$plugin.statusName}</td>
             <td  title="{$plugin_id}"><div class="caption_font">{$plugin.name}</div><br>
@@ -84,5 +90,5 @@
             });
          });
    </script>
-   
+
 </div>

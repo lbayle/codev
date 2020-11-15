@@ -40,14 +40,16 @@ class PluginManagerController extends Controller {
 
       if(Tools::isConnectedUser()) {
 
+         $pm = PluginManager::getInstance();
+
          if (!$this->session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-            $this->smartyHelper->assign('accessDenied', TRUE);
+            $this->smartyHelper->assign('isEditGranted', FALSE);
          } else {
+            $this->smartyHelper->assign('isEditGranted', TRUE);
 
             $action = filter_input(INPUT_POST, 'action');
             if (empty($action)) { $action = 'display'; }
-            
-            $pm = PluginManager::getInstance();
+
 
             // === ACTIONS =====================================================
             if ('enablePlugin' == $action) {
@@ -67,43 +69,40 @@ class PluginManagerController extends Controller {
                   $this->smartyHelper->assign('errorMsg', T_('Could not create classmap: ').$e->getMessage());
                }
             }
-            
-            // === DISPLAY =====================================================
-
-            // set values to display plugin table
-            $plugins = $pm->getPlugins();
-            $formattedPlugins = array();
-            foreach ($plugins as $plugin) {
-
-               $className = $plugin['className'];
-
-               $formated_domains = array();
-               foreach ($plugin['domains'] as $domName) {
-                  array_push($formated_domains, T_($domName));
-               }
-               //sort($formated_domains);
-
-               $formated_categories = array();
-               foreach ($plugin['categories'] as $catName) {
-                  array_push($formated_categories, T_($catName));
-               }
-               //sort($formated_categories);
-
-               $formattedPlugins[$className] = array(
-               'name' => $plugin['displayedName'],
-               'status' => $plugin['status'],
-               'statusName' => pluginManager::getStatusName($plugin['status']),
-               'domains' => implode(',<br>', $formated_domains),
-               'categories' => implode(',<br>', $formated_categories),
-               'version' => $plugin['version'],
-               'description' => $plugin['description'],
-               );
-            }
-            $this->smartyHelper->assign('availablePlugins', $formattedPlugins);
-         
-         
-            
          }
+
+         // === DISPLAY =====================================================
+
+         // set values to display plugin table
+         $plugins = $pm->getPlugins();
+         $formattedPlugins = array();
+         foreach ($plugins as $plugin) {
+
+            $className = $plugin['className'];
+
+            $formated_domains = array();
+            foreach ($plugin['domains'] as $domName) {
+               array_push($formated_domains, T_($domName));
+            }
+            //sort($formated_domains);
+
+            $formated_categories = array();
+            foreach ($plugin['categories'] as $catName) {
+               array_push($formated_categories, T_($catName));
+            }
+            //sort($formated_categories);
+
+            $formattedPlugins[$className] = array(
+            'name' => $plugin['displayedName'],
+            'status' => $plugin['status'],
+            'statusName' => pluginManager::getStatusName($plugin['status']),
+            'domains' => implode(',<br>', $formated_domains),
+            'categories' => implode(',<br>', $formated_categories),
+            'version' => $plugin['version'],
+            'description' => $plugin['description'],
+            );
+         }
+         $this->smartyHelper->assign('availablePlugins', $formattedPlugins);
       }
    }
 
@@ -114,4 +113,3 @@ PluginManagerController::staticInit();
 $controller = new PluginManagerController('../', 'Plugin Manager','Admin');
 $controller->execute();
 
-?>
