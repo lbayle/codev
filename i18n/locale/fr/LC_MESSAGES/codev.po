@@ -6333,11 +6333,11 @@ msgstr "ATTENTION: Il faut assigner le champ personnalisé Mantis \"CodevTT_Prix
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:71
 msgid "Import Mantis relationship-tree to command"
-msgstr "Importer un arbre de tâches défini par les relations parent-enfant de mantis dans une commande"
+msgstr "Importer un arbre de tâches défini par les relations parent-enfant de mantis vers une commande"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:74
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
-msgstr "Importer un arbre de tâches défini par les relations parent-enfant de mantis dans une commande"
+msgstr "Importer un arbre de tâches défini par les relations parent-enfant de mantis vers une commande"
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
