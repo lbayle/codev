@@ -47,15 +47,19 @@
                <tbody>
                   {foreach from=$jobs key=id item=i}
                   <tr class="jobList_tr" data-jobId="{$id}">
-                     <td class="ui-state-error-text" style="width:1em;">{if isset($i.deletedJob) && $i.deletedJob}
+                     <td class="ui-state-error-text" style="width:1em;">
+                     {if isset($i.allowDeleteJob) && $i.allowDeleteJob}
                         <a class="ui-icon" title="{t}delete Job{/t}" href="{$page}"
                            onclick="deleteJob('{$id}', '{$i.name}');return false"></a>
-                     {/if}</td>
+                     {/if}
+                     </td>
                      <td class="jobList_tdName" title="{$id}">{$i.name}</td>
                      <td class="jobList_tdType" title="{$i.type}" data-typeId="{$i.type}">{$i.typeName}</td>
                      <td class="jobList_tdColor" style="background-color: #{$i.color};">{$i.color}</td>
                      <td>
+                     {if isset($i.allowEditJob) && $i.allowEditJob}
                         <img class="editJob_link pointer" align="absmiddle" title="{t}Edit Job{/t}" src="images/b_edit.png"/>
+                     {/if}
                      </td>
                   </tr>
                   {/foreach}
