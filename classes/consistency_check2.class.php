@@ -773,7 +773,24 @@ class ConsistencyCheck2 {
       return $cerrList;
    }
 
+   public static function checkDatabaseVersion() {
+      // check DB version
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * from codev_config_table WHERE config_id = 'database_version' ";
+      $result = $result = $sql->sql_query($query);
+      $row = $sql->fetchObject($result);
+      $currentDatabaseVersion=$row->value;
 
+      $cerrList = array();
+      if ($currentDatabaseVersion != Config::databaseVersion) {
+         $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
+            T_("Database version: $currentDatabaseVersion (expected:".Config::databaseVersion.
+               ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"));
+         $cerr->severity = ConsistencyError2::severity_error;
+         $cerrList[] = $cerr;
+      }
+      return $cerrList;
+   }
 }
 
 ConsistencyCheck2::staticInit();

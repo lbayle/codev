@@ -59,20 +59,22 @@ class IndexController extends Controller {
                // (no log, even logs could raise errors)
             }
          }
-         
+
          // if CodevTT installed since at least 6 month,
          // then display FairPlay message every 3 month (mar, jun, sep, dec) during 3 days.
-         if (($isManager || $isAdmin) && 
+         if (($isManager || $isAdmin) &&
              (0 == date('m') % 3) && (date('d') > 27) &&
-             (time() - Constants::$codevInstall_timestamp > (60*60*24 * 180))    
+             (time() - Constants::$codevInstall_timestamp > (60*60*24 * 180))
             ) {
             $this->smartyHelper->assign('displayFairPlay', true);
             $this->smartyHelper->assign('codevInstall_date', date('Y-m-d', Constants::$codevInstall_timestamp));
          }
-         
+
          if ($isAdmin) {
             // check global configuration
-            $cerrList = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
+            $cerrList1 = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
+            $cerrList2 = ConsistencyCheck2::checkDatabaseVersion();
+            $cerrList = array_merge($cerrList1, $cerrList2);
             // add more checks here
             if (count($cerrList) > 0) {
                $systemConsistencyErrors = array();
