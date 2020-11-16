@@ -18,11 +18,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-10-29 12:14:36+0000\n"
+"PO-Revision-Date: 2020-11-16 14:13:01+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2020-09-21 11:15:12+0000\n"
+"X-POT-Import-Date: 2020-11-16 14:00:58+0000\n"
 "X-Generator: MediaWiki 1.36.0-alpha; Translate 2020-10-28\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -60,7 +60,7 @@ msgstr ""
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#: classes/issue.class.php:2290 classes/issue_selection.class.php:310
+#: classes/issue.class.php:2290 classes/issue_selection.class.php:327
 #: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
 #: management/servicecontract_info.php:138 management/command_info.php:226
 #: management/commandset_info.php:141 reports/planning_report.php:234
@@ -120,7 +120,7 @@ msgstr "İş Başına Yük"
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
-msgstr "Proje Detayı"
+msgstr "Proje Ayrıntısı"
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
@@ -234,10 +234,12 @@ msgstr "fatura gün sayısı"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Formula"
 msgstr "Formül"
 
 #. tpl/productivity_report.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "projects"
 msgstr "projeler"
 
@@ -331,16 +333,19 @@ msgstr "EffortEstim Güvenilirlik"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Compares the effort estimation to the elapsed time."
 msgstr "Çaba tahminini geçen zamanla karşılaştırır."
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "(on resolved tasks only)"
 msgstr "(yalnızca çözümlenmiş görevlerde)"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
 msgstr "ortalama = 1 : tahmin mükemmeldi.<br>ortalama &lt; 1 : hafife<br>ortalama &gt; 1 : abartmış"
 
@@ -358,17 +363,20 @@ msgstr "ortalama = 1 : tahmin mükemmeldi.<br>ortalama &lt; 1 : hafife<br>ortala
 #. tpl/commandset_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#: reports/project_info.php:232
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:292 tools.php:1494
 msgid "EffortEstim"
 msgstr "EffortEstim"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "EffortAdd"
 msgstr "EffortAdd"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: classes/consistency_check2.class.php:442
 msgid "elapsed"
 msgstr "geçen"
@@ -387,12 +395,12 @@ msgstr "Burada deadLine bulunmayan görevler bildirilmez"
 #. tpl/command_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "Görevler"
@@ -624,6 +632,7 @@ msgstr "Yeniden tahmin edildi"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -631,10 +640,10 @@ msgstr "Yeniden tahmin edildi"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: reports/project_info.php:234 tests/filters.php:70
-#: plugins/TasksPivotTable/TasksPivotTable.class.php:294
+#: classes/issue.class.php:2275 reports/project_info.php:234
+#: tests/filters.php:70 plugins/TasksPivotTable/TasksPivotTable.class.php:294
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:227
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:381
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:396
 msgid "Elapsed"
 msgstr "Geçti"
 
@@ -751,7 +760,7 @@ msgstr "Durum"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. add task summary in front
 #. insert in front
-#: classes/issue_selection.class.php:311
+#: classes/issue_selection.class.php:328
 #: management/servicecontract_info.php:139 management/command_info.php:227
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: reports/planning_report.php:235 reports/planning_report.php:478
@@ -900,7 +909,6 @@ msgstr "iş günleri"
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Export to CSV"
 msgstr "CSV’ye Aktar"
@@ -1048,6 +1056,7 @@ msgstr "Hedef"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
@@ -1059,7 +1068,6 @@ msgstr "Hedef"
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:248
 msgid "User"
 msgstr "Kullanıcı"
 
@@ -1184,6 +1192,7 @@ msgstr "Git"
 #. tpl/commandset_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
@@ -1290,6 +1299,7 @@ msgstr "Bitiş tarihi"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AdminTools/AdminTools.html
@@ -1354,6 +1364,7 @@ msgstr "Hiçbir hüküm bulunamadı."
 #. tpl/time_tracking.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1370,6 +1381,7 @@ msgstr "Kimden"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1388,6 +1400,7 @@ msgstr "Başlangıç Tarihi"
 #. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1403,6 +1416,7 @@ msgstr "Kime"
 #. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1504,23 +1518,27 @@ msgstr "OnDuty görevleri"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
-#: admin/edit_team.php:172 admin/create_team.php:95
+#: admin/edit_team.php:161 admin/create_team.php:95
 msgid "Tools"
 msgstr "Araçlar"
+
+#. tpl/edit_team.html
+msgid "Team name"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Creation Date"
 msgstr "Oluşturulma Tarihi"
 
 #. tpl/edit_team.html
+msgid "Enabled"
+msgstr "Etkin"
+
+#. tpl/edit_team.html
 #. tpl/issue_info.html
 #. tpl/command_edit.html
 msgid "Update"
 msgstr "Güncelle"
-
-#. tpl/edit_team.html
-msgid "Enabled"
-msgstr "Etkin"
 
 #. tpl/edit_team.html
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
@@ -1595,6 +1613,7 @@ msgstr "oturum aç"
 #. tpl/set_holidays.html
 #. tpl/command_edit.html
 #. tpl/modal/change_managedUser.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Name"
 msgstr "İsim"
@@ -1660,6 +1679,7 @@ msgid "Jobs"
 msgstr "İşler"
 
 #. tpl/edit_team.html
+#. tpl/edit_jobs.html
 msgid "Edit Job list"
 msgstr "İş listesini düzenle"
 
@@ -1744,6 +1764,22 @@ msgid "User Daily Cost"
 msgstr "Kullanıcı Günlük Maliyeti"
 
 #. tpl/edit_team.html
+msgid "Timetracking settings"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Timetracking disabled if task status in"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Edit Forbidden status list"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Edit Forbiden status list"
+msgstr ""
+
+#. tpl/edit_team.html
 msgid "Issue Tooltips"
 msgstr "Sorun İpuçları"
 
@@ -1805,6 +1841,8 @@ msgstr "Bunlar, bir timetrack eklerken Zaman İzleme sayfasında önerilen değe
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -1866,6 +1904,7 @@ msgstr "Hareketsizlik görevi"
 #. tpl/tools/dashboard.html
 #. tpl/command_edit.html
 #. tpl/gantt.html
+#. tpl/edit_jobs.html
 #. tpl/command_info.html
 #. tpl/user_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -1901,6 +1940,10 @@ msgstr "Başarıyla güncellendi !"
 #. tpl/edit_team.html
 msgid "Job list for project :"
 msgstr "Proje için iş listesi:"
+
+#. tpl/edit_team.html
+msgid "Forbiden Status for project:"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2009,6 +2052,7 @@ msgid "Overview"
 msgstr "Genel bakış"
 
 #. tpl/forecasting_report.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 msgid "Task list"
 msgstr "Görev listesi"
 
@@ -2295,6 +2339,7 @@ msgstr "Atama"
 #. tpl/scheduler.html
 #. tpl/planning_report.html
 #. tpl/gantt.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -2612,8 +2657,8 @@ msgid "Hide resolved tasks"
 msgstr "Çözülen görevleri gizle"
 
 #. tpl/time_tracking.html
-msgid "Hide closed tasks"
-msgstr "Kapatılan görevleri gizle"
+msgid "Hide tasks with forbiden status (closed, ...)"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2700,7 +2745,7 @@ msgstr "Hataları göstermek için tıklayın"
 #: management/command_info.php:112 management/commandset_info.php:87
 #: reports/issue_info.php:96 reports/issue_info.php:97
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:336 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:341 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "Hatalar"
 
@@ -2727,9 +2772,9 @@ msgstr "nbDaysToDeadLine"
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:644 install/install_step3.php:649
-#: install/install_step3.php:654 install/install_step3.php:660
-#: install/install_step3.php:665
+#: install/install_step3.php:633 install/install_step3.php:644
+#: install/install_step3.php:649 install/install_step3.php:654
+#: install/install_step3.php:660 install/install_step3.php:665
 msgid "Color"
 msgstr "Renk"
 
@@ -2823,6 +2868,7 @@ msgstr "Ortalama İş Listesi"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -2904,7 +2950,7 @@ msgstr "Destek, Doktor, Eğitim, Viki, ..."
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: admin/create_team.php:89
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:384
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:399
 msgid "Inactivity"
 msgstr "Hareketsizlik"
 
@@ -3099,7 +3145,6 @@ msgid "Missing field"
 msgstr "Eksik alan"
 
 #. tpl/command_edit.html
-#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
 msgstr "HATA: Lütfen kontrol edin"
@@ -3327,6 +3372,7 @@ msgid "Filter"
 msgstr "Filtre"
 
 #. tpl/gantt.html
+#. tpl/edit_jobs.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/login.html
@@ -3410,10 +3456,6 @@ msgid "Please MANUALY delete the following projects:"
 msgstr "Lütfen aşağıdaki projeleri MANÜEL olarak silin:"
 
 #. tpl/edit_jobs.html
-msgid "Job Assignations"
-msgstr "İş Atamaları"
-
-#. tpl/edit_jobs.html
 msgid "Job Name"
 msgstr "İşin Adı"
 
@@ -3428,16 +3470,8 @@ msgid "delete Job"
 msgstr "İşi sil"
 
 #. tpl/edit_jobs.html
-msgid "multiple selection"
-msgstr "çoklu seçim"
-
-#. tpl/edit_jobs.html
-msgid "single selection"
-msgstr "tekli seçim"
-
-#. tpl/edit_jobs.html
-msgid "delete Project Association"
-msgstr "Proje Birliği'ni sil"
+msgid "Edit Job"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
@@ -3658,6 +3692,10 @@ msgid "Task resolved, backlog must be '0'"
 msgstr "Görev çözüldü, bekleme listesi '0' olmalı"
 
 #. tpl/modal/update_issueBacklog.html
+msgid "Timetracking disabled if current status in : "
+msgstr ""
+
+#. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
 msgstr "Zaman takip notu gerekli"
 
@@ -3771,6 +3809,7 @@ msgstr "Her kullanıcı için, atanan görevlerinin birikmiş işlerinin toplam�
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TasksPivotTable/TasksPivotTable_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -3998,6 +4037,7 @@ msgid "Preview import"
 msgstr "İçe aktarmayı önizle"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Import template"
 msgstr "Şablonu içe aktar"
@@ -4013,6 +4053,7 @@ msgid "Standard CSV format with :"
 msgstr "Standart CSV biçimi :"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "delimiter"
 msgstr "sınırlayıcı"
@@ -4152,6 +4193,117 @@ msgstr "Görev sütununu görüntüle"
 msgid "Check all the timetracks of the period and return their repartition per Job"
 msgstr "Dönemin tüm zaman çizelgelerini kontrol edin ve İş başına bölümlerini geri gönderin"
 
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+msgid "Total elapsed"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+msgid "sidetasks"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/OngoingTasks/OngoingTasks.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+msgid "Involved users"
+msgstr "Katılan kullanıcılar"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "User groups"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Define user groups and display the elapsed time for each group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/ImportUsers/ImportUsers.html
+msgid "Only team-leaders & administrators are allowed to do this action."
+msgstr "Bu eylemi yalnızca ekip liderleri ve yöneticiler yapabilir."
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "CSV File Format"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "1st column"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "2nd column"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/ImportUsers/ImportUsers.html
+msgid "Colors"
+msgstr "Renkler"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Team members assigned to a group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Users not assigned to any group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Not a team member, but assigned to a group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "CSV file"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "import"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Info"
+msgstr "Bilgi"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/AdminTools/AdminTools.html
+msgid "Actions executed !"
+msgstr "Eylemler yürütüldü !"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Please select a CSV file"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Please check table below and click 'OK' button to accept changes"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#, fuzzy
+msgid "Timetrack filter"
+msgstr "Zaman çizelgesi notu"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#, fuzzy
+msgid "Only team members"
+msgstr "Ekip üyesi ekle"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+msgid "Display options"
+msgstr "Görüntüleme seçenekleri"
+
 #. plugins/TasksPivotTable/TasksPivotTable_cfg.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:76
@@ -4177,25 +4329,6 @@ msgstr "DriftMgr"
 #, fuzzy
 msgid "Task ExtRef"
 msgstr "ExtRef"
-
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
-msgid "Timetrack filter"
-msgstr "Zaman çizelgesi notu"
-
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
-msgid "Only team members"
-msgstr "Ekip üyesi ekle"
-
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-msgid "Display options"
-msgstr "Görüntüleme seçenekleri"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4389,10 +4522,6 @@ msgstr "Seçilen eylemleri çalıştır"
 msgid "Execute"
 msgstr "Yürüt"
 
-#. plugins/AdminTools/AdminTools.html
-msgid "Actions executed !"
-msgstr "Eylemler yürütüldü !"
-
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr "Ana sayfada \"Mesaj\" eklentisinin görüntülenmesini zorla"
@@ -4542,6 +4671,8 @@ msgid "Import Done ! An email with login and password has been sent to each user
 msgstr "İçe Aktarma İşlemi Tamamlandı ! Her kullanıcıya giriş ve şifre içeren bir e-posta gönderildi."
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
+#. plugins/ImportUsers/ImportUsers.html
+#: plugins/ImportUsers/ImportUsers.class.php:67
 msgid "Import users"
 msgstr "Kullanıcıları içe aktar"
 
@@ -4554,14 +4685,6 @@ msgid "Only team administrators can create users"
 msgstr "Yalnızca ekip yöneticileri kullanıcı oluşturabilir"
 
 #. plugins/ImportUsers/ImportUsers.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
-#. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
-#: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
-msgid "Time per status"
-msgstr "Durum başına süre"
-
-#. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
 msgstr "Mantis kullanıcıları oluşturun"
 
@@ -4570,20 +4693,12 @@ msgid "Add users to CodevTT team & projects"
 msgstr "CodevTT ekibine ve projelerine kullanıcı ekle"
 
 #. plugins/ImportUsers/ImportUsers.html
-msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr "Bu eylemi yalnızca ekip liderleri ve yöneticiler yapabilir."
-
-#. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
 msgstr "Her kullanıcıya e-posta başına bir şifre gönderin"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
 msgstr "Oluşturulan bir şifreyi görüntüle (oluşturulan tüm kullanıcılar için ortaktır)"
-
-#. plugins/ImportUsers/ImportUsers.html
-msgid "Colors"
-msgstr "Renkler"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "username"
@@ -4686,6 +4801,13 @@ msgid "Costs Mgr"
 msgstr "Maliyet Mgr"
 
 #. plugins/CostsIndicator/CostsIndicator.html
+#. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
+#. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
+#: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
+msgid "Time per status"
+msgstr "Durum başına süre"
+
+#. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
 msgstr "Her zaman izlemenin maliyetini toplayın."
 
@@ -4734,25 +4856,25 @@ msgstr "Duruma göre zaman tahsisi"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:389
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:404
 msgid "Waste"
 msgstr "Atık"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:397
 msgid "Other"
 msgstr "Diğer"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:398
 msgid "External"
 msgstr "Harici"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:78
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:80
 msgid "Load per User"
 msgstr "Kullanıcı Başına Yükle"
 
@@ -4761,11 +4883,15 @@ msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n      
 msgstr "Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
-msgstr "Tam etkinliği göster: <br> İşaretlenirse, geçerli seçime dahil olmayan görevler için zaman çizelgeleri ek sütunlarda görüntülenir"
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr ""
+
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
+msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
+msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:81
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
 msgid "Check all the timetracks of the period and return their repartition per User"
 msgstr "Dönemin tüm zaman çizelgelerini kontrol edin ve bölümlerini Kullanıcı başına döndürün"
 
@@ -4871,13 +4997,29 @@ msgid "Root task"
 msgstr "Kök görevi"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-msgid "Also include parent-tasks in the tree (default: include as folder only)"
-msgstr "Ağaçta üst görevleri de dahil et (varsayılan: yalnızca klasör olarak dahil et)"
+msgid "comma separated"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Root task list"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Include parent-tasks in its own folder (unchecked: include above)"
+msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
 msgid "Import Relationship tree to command"
 msgstr "İlişki ağacını komuta aktarın"
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "ERROR, Please check"
+msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -4961,14 +5103,13 @@ msgid "The time spent on the task during the period (which can be less than the 
 msgstr "Dönem içinde göreve harcanan süre (görevin başlangıcından bu yana harcanan toplam süreden az olabilir)"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-msgid "Involved users"
-msgstr "Katılan kullanıcılar"
-
-#. plugins/OngoingTasks/OngoingTasks.html
 msgid "List the users having spent time on the task during the period"
 msgstr "Dönem boyunca görevde zaman geçirmiş kullanıcıları listeleyin"
+
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+msgid "WBS path"
+msgstr ""
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5110,47 +5251,35 @@ msgstr "Ekip silinemedi"
 msgid "Couldn't update the team leader"
 msgstr "Takım lideri güncellenemedi"
 
-#: admin/edit_team.php:106
-msgid "Couldn't update the creation date"
-msgstr "Oluşturma tarihi güncellenemedi"
-
-#: admin/edit_team.php:111
-msgid "Couldn't enable/disable team"
-msgstr "Ekip etkinleştirilemedi/devre dışı bırakılamadı"
-
-#: admin/edit_team.php:210
+#: admin/edit_team.php:199
 msgid "Couldn't add the project to the team"
 msgstr "Proje ekibe eklenemedi"
 
-#: admin/edit_team.php:216
+#: admin/edit_team.php:205
 msgid "Could NOT remove the project from the team"
 msgstr "Proje ekipten kaldırılamadı"
 
-#: admin/edit_team.php:286
+#: admin/edit_team.php:275
 msgid "Configure Tooltips"
 msgstr "Araç İpuçlarını Yapılandır"
 
-#: admin/edit_team.php:402
+#: admin/edit_team.php:391
 msgid "enabled"
 msgstr "etkin"
 
-#: admin/edit_team.php:402
+#: admin/edit_team.php:391
 msgid "disabled"
 msgstr "devre dışı"
 
-#: admin/edit_jobs.php:90
-msgid "Couldn't add the job association"
-msgstr "İş ilişkisi eklenemedi"
-
-#: admin/edit_jobs.php:98
+#: admin/edit_jobs.php:88
 msgid "This job must not be deleted."
 msgstr "Bu iş silinmemelidir."
 
-#: admin/edit_jobs.php:105 admin/edit_jobs.php:123
+#: admin/edit_jobs.php:95
 msgid "Couldn't remove the job association"
 msgstr "İş ilişkisi kaldırılamadı"
 
-#: admin/edit_jobs.php:112
+#: admin/edit_jobs.php:102
 msgid "Couldn't delete the job"
 msgstr "İş silinemedi"
 
@@ -5178,6 +5307,18 @@ msgstr "Kullanılabilir alanlar"
 #: admin/edit_team_ajax.php:95
 msgid "Tooltip"
 msgstr "İpucu"
+
+#: admin/edit_team_ajax.php:482
+msgid "Invalid team name"
+msgstr ""
+
+#: admin/edit_team_ajax.php:486
+msgid "Couldn't enable/disable team"
+msgstr "Ekip etkinleştirilemedi/devre dışı bırakılamadı"
+
+#: admin/edit_team_ajax.php:489
+msgid "Couldn't update the creation date"
+msgstr "Oluşturma tarihi güncellenemedi"
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
@@ -5261,28 +5402,28 @@ msgstr "Kaldırıldı"
 msgid "monitored"
 msgstr "izlendi"
 
-#: classes/user.class.php:1564
+#: classes/user.class.php:1559
 msgid "for team"
 msgstr "ekipten"
 
-#: classes/user.class.php:1566
+#: classes/user.class.php:1561
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Zaman çizelgesi hatırlatıcısı !"
 
-#: classes/user.class.php:1568 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1563 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "Sevgili "
 
-#: classes/user.class.php:1569
+#: classes/user.class.php:1564
 msgid "Please fill your CodevTT timesheet"
 msgstr "Lütfen CodevTT zaman çizelgenizi doldurun"
 
-#: classes/user.class.php:1580 classes/consistency_check2.class.php:733
+#: classes/user.class.php:1575 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
 msgstr "eksik (\\ eksik"
 
 #. skip dates in the future
-#: classes/user.class.php:1583 classes/consistency_check2.class.php:748
+#: classes/user.class.php:1578 classes/consistency_check2.class.php:748
 msgid "not defined."
 msgstr "tanımlanmamış."
 
@@ -5293,10 +5434,6 @@ msgstr "tanımlanmamış."
 #: scheduler/scheduler_ajax.php:390
 msgid "Error"
 msgstr "Hata"
-
-#: classes/consistency_check2.class.php:66
-msgid "Info"
-msgstr "Bilgi"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:270
 #: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
@@ -5837,6 +5974,7 @@ msgstr "Hüküm güncellemesi BAŞARISIZ !"
 
 #: management/command_edit_ajax.php:375
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:221
 #: plugins/ImportUsers/ImportUsers.class.php:237
 msgid "Please upload files with the following extension: "
 msgstr "Lütfen şu uzantıya sahip dosyaları yükleyin: "
@@ -5920,9 +6058,9 @@ msgid "Sorry, there are no projects defined for your team."
 msgstr "Maalesef, ekibiniz için tanımlanmış proje yok."
 
 #: timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:472
+#: timetracking/time_tracking_tools.php:475
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:445 timetracking/team_activity_report.php:199
+#: timetracking/time_tracking.php:448 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Hata: Mantis DB'sinde görev bulunamadı !"
 
@@ -5956,7 +6094,7 @@ msgid "Other team"
 msgstr "Diğer ekip"
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:337 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:342 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr "günler eksik veya tanımsız"
 
@@ -6020,6 +6158,31 @@ msgstr "Yeniden açılan hata geçmişini görüntüle"
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:279
 msgid "Management"
 msgstr "Yönetim"
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
+msgid "Load per user groups"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
+msgid "Check all the timetracks of the period and return their repartition per User groups"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:302
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:325
+msgid "undefined"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:309
+msgid "No group defined for team member"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:332
+msgid "No group defined"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.php:126
+msgid "Please contact your team leader to update UserGroups settings"
+msgstr ""
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
@@ -6174,11 +6337,11 @@ msgstr "SellingPrice = DailyPrice x Geçen süre"
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
 msgstr "UYARI: Aşağıdaki projelere \"CodevTT_DailyPrice\" customField öğesini atamanız gerekir: "
 
-#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:65
-msgid "Add issues to a command by following the relationship structure"
-msgstr "İlişki yapısını izleyerek bir komuta sorunlar ekleyin"
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:71
+msgid "Import Mantis relationship-tree to command"
+msgstr ""
 
-#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:68
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:74
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
 msgstr "Bir mantis üst-alt ilişkisi sorun yapısını bir komut WBS yapısına aktarın"
 
@@ -6214,11 +6377,11 @@ msgstr "Görev oluşturulduğundan beri görev biriktirme listesi güncellemeler
 msgid "Backlog (days)"
 msgstr "İş listesi (günler)"
 
-#: plugins/OngoingTasks/OngoingTasks.class.php:85
+#: plugins/OngoingTasks/OngoingTasks.class.php:88
 msgid "List the active tasks on a given period"
 msgstr "Belirli bir dönemdeki etkin görevleri listele"
 
-#: plugins/OngoingTasks/OngoingTasks.class.php:87
+#: plugins/OngoingTasks/OngoingTasks.class.php:90
 msgid "Tasks having received timetracks during the period"
 msgstr "Dönem içinde zaman çizelgesi alan görevler"
 

@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-10-29 12:14:32+0000\n"
+"PO-Revision-Date: 2020-11-16 14:12:58+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Generator: MediaWiki 1.36.0-alpha; Translate 2020-10-28\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2020-09-21 11:15:12+0000\n"
+"X-POT-Import-Date: 2020-11-16 14:00:58+0000\n"
 
 #. tpl/filters.html
 #. tpl/productivity_report.html
@@ -64,7 +64,7 @@ msgstr ""
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#: classes/issue.class.php:2290 classes/issue_selection.class.php:310
+#: classes/issue.class.php:2290 classes/issue_selection.class.php:327
 #: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
 #: management/servicecontract_info.php:138 management/command_info.php:226
 #: management/commandset_info.php:141 reports/planning_report.php:234
@@ -238,10 +238,12 @@ msgstr "Numero giorni fatturati"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Formula"
 msgstr "Formula"
 
 #. tpl/productivity_report.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "projects"
 msgstr "progetti"
 
@@ -335,16 +337,19 @@ msgstr "Affidabilità della stima di carico"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Compares the effort estimation to the elapsed time."
 msgstr "Compara il carico iniziale al tempo di elaborazione."
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "(on resolved tasks only)"
 msgstr "(solo sulle attività risolte)"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
 msgstr "tasso = 1 : stima perfetta.<br>tasso &lt; 1 : sottostimato<br>tasso &gt; 1 : sovrastimato"
 
@@ -362,17 +367,20 @@ msgstr "tasso = 1 : stima perfetta.<br>tasso &lt; 1 : sottostimato<br>tasso &gt;
 #. tpl/commandset_info.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
+#: reports/project_info.php:232
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:292 tools.php:1494
 msgid "EffortEstim"
 msgstr "Carico iniziale"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "EffortAdd"
 msgstr "Carico aggiunto"
 
 #. tpl/productivity_report.html
 #. tpl/statistics.html
+#. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: classes/consistency_check2.class.php:442
 msgid "elapsed"
 msgstr "elaborato"
@@ -391,12 +399,12 @@ msgstr "Le attività senza scadenza non sono rappresentate qui."
 #. tpl/command_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: reports/planning_report.php:77
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
 msgstr "Attività"
@@ -628,6 +636,7 @@ msgstr "Ristimato"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -635,10 +644,10 @@ msgstr "Ristimato"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: reports/project_info.php:234 tests/filters.php:70
-#: plugins/TasksPivotTable/TasksPivotTable.class.php:294
+#: classes/issue.class.php:2275 reports/project_info.php:234
+#: tests/filters.php:70 plugins/TasksPivotTable/TasksPivotTable.class.php:294
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:227
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:381
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:396
 msgid "Elapsed"
 msgstr "Durata"
 
@@ -755,7 +764,7 @@ msgstr "Stato"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. add task summary in front
 #. insert in front
-#: classes/issue_selection.class.php:311
+#: classes/issue_selection.class.php:328
 #: management/servicecontract_info.php:139 management/command_info.php:227
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: reports/planning_report.php:235 reports/planning_report.php:478
@@ -904,7 +913,6 @@ msgstr "giorni di lavoro"
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Export to CSV"
 msgstr "Esporta CSV"
@@ -1052,6 +1060,7 @@ msgstr "Obiettivo"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
@@ -1063,7 +1072,6 @@ msgstr "Obiettivo"
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#: install/install_step1.php:248
 msgid "User"
 msgstr "Utente"
 
@@ -1188,6 +1196,7 @@ msgstr "Vai a"
 #. tpl/commandset_info.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
@@ -1294,6 +1303,7 @@ msgstr "Data fine"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AdminTools/AdminTools.html
@@ -1358,6 +1368,7 @@ msgstr "Nessuna disposizione."
 #. tpl/time_tracking.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1374,6 +1385,7 @@ msgstr "Da"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1392,6 +1404,7 @@ msgstr "Data inizio"
 #. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1407,6 +1420,7 @@ msgstr "A"
 #. tpl/project_info.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
@@ -1508,23 +1522,27 @@ msgstr "Attività OnDuty"
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
-#: admin/edit_team.php:172 admin/create_team.php:95
+#: admin/edit_team.php:161 admin/create_team.php:95
 msgid "Tools"
 msgstr "Strumenti"
+
+#. tpl/edit_team.html
+msgid "Team name"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Creation Date"
 msgstr "Data di creazione"
 
 #. tpl/edit_team.html
+msgid "Enabled"
+msgstr "Abilitato"
+
+#. tpl/edit_team.html
 #. tpl/issue_info.html
 #. tpl/command_edit.html
 msgid "Update"
 msgstr "Aggiorna"
-
-#. tpl/edit_team.html
-msgid "Enabled"
-msgstr "Abilitato"
 
 #. tpl/edit_team.html
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
@@ -1599,6 +1617,7 @@ msgstr "entra"
 #. tpl/set_holidays.html
 #. tpl/command_edit.html
 #. tpl/modal/change_managedUser.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Name"
 msgstr "Nome"
@@ -1664,6 +1683,7 @@ msgid "Jobs"
 msgstr "Jobs"
 
 #. tpl/edit_team.html
+#. tpl/edit_jobs.html
 msgid "Edit Job list"
 msgstr "Modifica elenco lavori"
 
@@ -1748,6 +1768,22 @@ msgid "User Daily Cost"
 msgstr ""
 
 #. tpl/edit_team.html
+msgid "Timetracking settings"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Timetracking disabled if task status in"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Edit Forbidden status list"
+msgstr ""
+
+#. tpl/edit_team.html
+msgid "Edit Forbiden status list"
+msgstr ""
+
+#. tpl/edit_team.html
 msgid "Issue Tooltips"
 msgstr "Argomento suggerimento"
 
@@ -1809,6 +1845,8 @@ msgstr "Questi sono i valori proposti nella pagina delle tracce lavoro, quando s
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -1870,6 +1908,7 @@ msgstr "Inattività"
 #. tpl/tools/dashboard.html
 #. tpl/command_edit.html
 #. tpl/gantt.html
+#. tpl/edit_jobs.html
 #. tpl/command_info.html
 #. tpl/user_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -1905,6 +1944,10 @@ msgstr ""
 #. tpl/edit_team.html
 msgid "Job list for project :"
 msgstr "Elenco lavori per progetto:"
+
+#. tpl/edit_team.html
+msgid "Forbiden Status for project:"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2013,6 +2056,7 @@ msgid "Overview"
 msgstr "Panoramica"
 
 #. tpl/forecasting_report.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 msgid "Task list"
 msgstr "Lista Attività"
 
@@ -2299,6 +2343,7 @@ msgstr "Assegnazione"
 #. tpl/scheduler.html
 #. tpl/planning_report.html
 #. tpl/gantt.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -2616,8 +2661,8 @@ msgid "Hide resolved tasks"
 msgstr "Nascondi attività risolte"
 
 #. tpl/time_tracking.html
-msgid "Hide closed tasks"
-msgstr "Nascondi attività chiuse"
+msgid "Hide tasks with forbiden status (closed, ...)"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2704,7 +2749,7 @@ msgstr "Click per vedere gli errori"
 #: management/command_info.php:112 management/commandset_info.php:87
 #: reports/issue_info.php:96 reports/issue_info.php:97
 #: timetracking/team_monthly_activity_report.php:75
-#: timetracking/time_tracking.php:336 timetracking/team_activity_report.php:65
+#: timetracking/time_tracking.php:341 timetracking/team_activity_report.php:65
 msgid "Errors"
 msgstr "Errori"
 
@@ -2731,9 +2776,9 @@ msgstr "nbDaysToDeadLine"
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
-#: install/install_step3.php:644 install/install_step3.php:649
-#: install/install_step3.php:654 install/install_step3.php:660
-#: install/install_step3.php:665
+#: install/install_step3.php:633 install/install_step3.php:644
+#: install/install_step3.php:649 install/install_step3.php:654
+#: install/install_step3.php:660 install/install_step3.php:665
 msgid "Color"
 msgstr "Colore"
 
@@ -2827,6 +2872,7 @@ msgstr "Variazione media RAF"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -2908,7 +2954,7 @@ msgstr "Supporto, Doc, Formazione, Wiki, ..."
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: admin/create_team.php:89
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:384
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:399
 msgid "Inactivity"
 msgstr "Inattività"
 
@@ -3103,7 +3149,6 @@ msgid "Missing field"
 msgstr "Campo mancante"
 
 #. tpl/command_edit.html
-#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
 msgstr ""
@@ -3331,6 +3376,7 @@ msgid "Filter"
 msgstr "Filtra"
 
 #. tpl/gantt.html
+#. tpl/edit_jobs.html
 #. tpl/command_info.html
 #. tpl/modal/select_issues.html
 #. tpl/modal/login.html
@@ -3414,10 +3460,6 @@ msgid "Please MANUALY delete the following projects:"
 msgstr "Cancella MANUALMENTE i seguenti progetti:"
 
 #. tpl/edit_jobs.html
-msgid "Job Assignations"
-msgstr "Assegna il job"
-
-#. tpl/edit_jobs.html
 msgid "Job Name"
 msgstr "Nome del job"
 
@@ -3432,16 +3474,8 @@ msgid "delete Job"
 msgstr "Cancella il job"
 
 #. tpl/edit_jobs.html
-msgid "multiple selection"
-msgstr "Selezione multipla"
-
-#. tpl/edit_jobs.html
-msgid "single selection"
-msgstr "Selezione singola"
-
-#. tpl/edit_jobs.html
-msgid "delete Project Association"
-msgstr "Cancella l'associazione al progetto"
+msgid "Edit Job"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
@@ -3662,6 +3696,10 @@ msgid "Task resolved, backlog must be '0'"
 msgstr "Attività risolta, l'arretrato dovrebbe essere '0'"
 
 #. tpl/modal/update_issueBacklog.html
+msgid "Timetracking disabled if current status in : "
+msgstr ""
+
+#. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
 msgstr "E' richiesta una annotazione di una tabella oraria."
 
@@ -3775,6 +3813,7 @@ msgstr ""
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TasksPivotTable/TasksPivotTable_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -4003,6 +4042,7 @@ msgid "Preview import"
 msgstr "Anteprima importazione"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Import template"
 msgstr "Importa template"
@@ -4018,6 +4058,7 @@ msgid "Standard CSV format with :"
 msgstr "Formato standard CSV con:"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "delimiter"
 msgstr "separatore"
@@ -4160,6 +4201,119 @@ msgstr ""
 msgid "Check all the timetracks of the period and return their repartition per Job"
 msgstr ""
 
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+msgid "Total elapsed"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+msgid "sidetasks"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/OngoingTasks/OngoingTasks.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#, fuzzy
+msgid "Involved users"
+msgstr "Utenti assegnati"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "User groups"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Define user groups and display the elapsed time for each group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/ImportUsers/ImportUsers.html
+msgid "Only team-leaders & administrators are allowed to do this action."
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "CSV File Format"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "1st column"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "2nd column"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/ImportUsers/ImportUsers.html
+msgid "Colors"
+msgstr "Colori"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Team members assigned to a group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Users not assigned to any group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Not a team member, but assigned to a group"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "CSV file"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "import"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Info"
+msgstr "Info"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/AdminTools/AdminTools.html
+msgid "Actions executed !"
+msgstr "Azioni eseguite!"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Please select a CSV file"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Please check table below and click 'OK' button to accept changes"
+msgstr ""
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#, fuzzy
+msgid "Timetrack filter"
+msgstr "Annotazione tabella oraria"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#, fuzzy
+msgid "Only team members"
+msgstr "Membri del Team"
+
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#, fuzzy
+msgid "Display options"
+msgstr "Salva opzioni"
+
 #. plugins/TasksPivotTable/TasksPivotTable_cfg.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:76
@@ -4185,26 +4339,6 @@ msgstr "Mgr Tendenza"
 #, fuzzy
 msgid "Task ExtRef"
 msgstr "RefEst"
-
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
-msgid "Timetrack filter"
-msgstr "Annotazione tabella oraria"
-
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
-msgid "Only team members"
-msgstr "Membri del Team"
-
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
-msgid "Display options"
-msgstr "Salva opzioni"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4398,10 +4532,6 @@ msgstr "Esegui azioni selezionate"
 msgid "Execute"
 msgstr "Esegui"
 
-#. plugins/AdminTools/AdminTools.html
-msgid "Actions executed !"
-msgstr "Azioni eseguite!"
-
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr ""
@@ -4556,6 +4686,8 @@ msgid "Import Done ! An email with login and password has been sent to each user
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_cfg.html
+#. plugins/ImportUsers/ImportUsers.html
+#: plugins/ImportUsers/ImportUsers.class.php:67
 msgid "Import users"
 msgstr "Importa utenti"
 
@@ -4569,14 +4701,6 @@ msgid "Only team administrators can create users"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
-#. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
-#: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
-msgid "Time per status"
-msgstr "Tempo per stato"
-
-#. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
 msgstr "Crea utenti Mantis"
 
@@ -4586,20 +4710,12 @@ msgid "Add users to CodevTT team & projects"
 msgstr "Eliminazione dei progetti CodevTT"
 
 #. plugins/ImportUsers/ImportUsers.html
-msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr ""
-
-#. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
 msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
 msgstr ""
-
-#. plugins/ImportUsers/ImportUsers.html
-msgid "Colors"
-msgstr "Colori"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "username"
@@ -4702,6 +4818,13 @@ msgid "Costs Mgr"
 msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
+#. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
+#. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
+#: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
+msgid "Time per status"
+msgstr "Tempo per stato"
+
+#. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
 msgstr ""
 
@@ -4750,25 +4873,25 @@ msgstr "Ripartizione dei tempi per stato"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:389
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:404
 msgid "Waste"
 msgstr "Rifiuti"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:382
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:397
 msgid "Other"
 msgstr "Altro"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:383
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:398
 msgid "External"
 msgstr "Esterne"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:78
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:80
 msgid "Load per User"
 msgstr "Carico per utente"
 
@@ -4777,11 +4900,15 @@ msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n      
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity: <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns"
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr ""
+
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
+msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:81
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
 msgid "Check all the timetracks of the period and return their repartition per User"
 msgstr ""
 
@@ -4889,12 +5016,28 @@ msgid "Root task"
 msgstr "Attività pricipale"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-msgid "Also include parent-tasks in the tree (default: include as folder only)"
+msgid "comma separated"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Root task list"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Include parent-tasks in its own folder (unchecked: include above)"
 msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
 msgid "Import Relationship tree to command"
+msgstr ""
+
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "ERROR, Please check"
 msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4984,16 +5127,14 @@ msgid "The time spent on the task during the period (which can be less than the 
 msgstr ""
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
-msgid "Involved users"
-msgstr "Utenti assegnati"
-
-#. plugins/OngoingTasks/OngoingTasks.html
 #, fuzzy
 msgid "List the users having spent time on the task during the period"
 msgstr "Attività riaperte nel periodo"
+
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+msgid "WBS path"
+msgstr ""
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5143,47 +5284,35 @@ msgstr "Non è stato possibile cancellare il Team"
 msgid "Couldn't update the team leader"
 msgstr "Non è stato possibile aggiornare il team-leader"
 
-#: admin/edit_team.php:106
-msgid "Couldn't update the creation date"
-msgstr "Non è stato possibile aggiornare la data di creazione"
-
-#: admin/edit_team.php:111
-msgid "Couldn't enable/disable team"
-msgstr "Non è stato possibile abilitare/disabilitare il team"
-
-#: admin/edit_team.php:210
+#: admin/edit_team.php:199
 msgid "Couldn't add the project to the team"
 msgstr "Non è stato possibile aggiungere il progetto al team"
 
-#: admin/edit_team.php:216
+#: admin/edit_team.php:205
 msgid "Could NOT remove the project from the team"
 msgstr "Non è stato possibile cancellare il progetto dal team"
 
-#: admin/edit_team.php:286
+#: admin/edit_team.php:275
 msgid "Configure Tooltips"
 msgstr "Configura suggerimenti"
 
-#: admin/edit_team.php:402
+#: admin/edit_team.php:391
 msgid "enabled"
 msgstr "abilitato"
 
-#: admin/edit_team.php:402
+#: admin/edit_team.php:391
 msgid "disabled"
 msgstr "disabilitato"
 
-#: admin/edit_jobs.php:90
-msgid "Couldn't add the job association"
-msgstr "Non è stato possibile aggiungere l'associazione al job"
-
-#: admin/edit_jobs.php:98
+#: admin/edit_jobs.php:88
 msgid "This job must not be deleted."
 msgstr "Questo job non può essere cancellato."
 
-#: admin/edit_jobs.php:105 admin/edit_jobs.php:123
+#: admin/edit_jobs.php:95
 msgid "Couldn't remove the job association"
 msgstr "Non è stato possibile rimuovere l'associazione al job"
 
-#: admin/edit_jobs.php:112
+#: admin/edit_jobs.php:102
 msgid "Couldn't delete the job"
 msgstr "Non è stato possibile rimuovere il job"
 
@@ -5211,6 +5340,18 @@ msgstr "Campi disponibili"
 #: admin/edit_team_ajax.php:95
 msgid "Tooltip"
 msgstr "Suggerimenti"
+
+#: admin/edit_team_ajax.php:482
+msgid "Invalid team name"
+msgstr ""
+
+#: admin/edit_team_ajax.php:486
+msgid "Couldn't enable/disable team"
+msgstr "Non è stato possibile abilitare/disabilitare il team"
+
+#: admin/edit_team_ajax.php:489
+msgid "Couldn't update the creation date"
+msgstr "Non è stato possibile aggiornare la data di creazione"
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
@@ -5294,28 +5435,28 @@ msgstr "Rimosso"
 msgid "monitored"
 msgstr "monitorato"
 
-#: classes/user.class.php:1564
+#: classes/user.class.php:1559
 msgid "for team"
 msgstr "per la squadra"
 
-#: classes/user.class.php:1566
+#: classes/user.class.php:1561
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] Promemoria del foglio lavoro !"
 
-#: classes/user.class.php:1568 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1563 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "Caro/a"
 
-#: classes/user.class.php:1569
+#: classes/user.class.php:1564
 msgid "Please fill your CodevTT timesheet"
 msgstr "Per cortesia, compila il tuo foglio lavoro CodevTT:"
 
-#: classes/user.class.php:1580 classes/consistency_check2.class.php:733
+#: classes/user.class.php:1575 classes/consistency_check2.class.php:733
 msgid "incomplete (missing "
 msgstr "incompleto (mancante "
 
 #. skip dates in the future
-#: classes/user.class.php:1583 classes/consistency_check2.class.php:748
+#: classes/user.class.php:1578 classes/consistency_check2.class.php:748
 msgid "not defined."
 msgstr "non definito."
 
@@ -5326,10 +5467,6 @@ msgstr "non definito."
 #: scheduler/scheduler_ajax.php:390
 msgid "Error"
 msgstr "Errore"
-
-#: classes/consistency_check2.class.php:66
-msgid "Info"
-msgstr "Info"
 
 #: classes/consistency_check2.class.php:68 reports/export_odt.php:270
 #: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
@@ -5872,6 +6009,7 @@ msgstr "ERRORE durante l'aggiornamento delle disposizioni."
 
 #: management/command_edit_ajax.php:375
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:221
 #: plugins/ImportUsers/ImportUsers.class.php:237
 msgid "Please upload files with the following extension: "
 msgstr "Si prega di caricare i files con le seguenti estensioni: "
@@ -5957,9 +6095,9 @@ msgid "Sorry, there are no projects defined for your team."
 msgstr "Non ci sono progetti per il tuo Team."
 
 #: timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:472
+#: timetracking/time_tracking_tools.php:475
 #: timetracking/team_monthly_activity_report.php:130
-#: timetracking/time_tracking.php:445 timetracking/team_activity_report.php:199
+#: timetracking/time_tracking.php:448 timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Errore: attività non trovata sul DB Mantis!"
 
@@ -5993,7 +6131,7 @@ msgid "Other team"
 msgstr "Altra squadra"
 
 #: timetracking/team_monthly_activity_report.php:76
-#: timetracking/time_tracking.php:337 timetracking/team_activity_report.php:66
+#: timetracking/time_tracking.php:342 timetracking/team_activity_report.php:66
 msgid "days are incomplete or undefined"
 msgstr "I giorni sono incompleti o non definiti"
 
@@ -6060,6 +6198,31 @@ msgstr ""
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:279
 msgid "Management"
 msgstr "Management"
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
+msgid "Load per user groups"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
+msgid "Check all the timetracks of the period and return their repartition per User groups"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:302
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:325
+msgid "undefined"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:309
+msgid "No group defined for team member"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:332
+msgid "No group defined"
+msgstr ""
+
+#: plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.php:126
+msgid "Please contact your team leader to update UserGroups settings"
+msgstr ""
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
@@ -6219,11 +6382,11 @@ msgstr ""
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
 msgstr ""
 
-#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:65
-msgid "Add issues to a command by following the relationship structure"
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:71
+msgid "Import Mantis relationship-tree to command"
 msgstr ""
 
-#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:68
+#: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:74
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
 msgstr ""
 
@@ -6260,11 +6423,11 @@ msgstr ""
 msgid "Backlog (days)"
 msgstr "Backlog (giorni)"
 
-#: plugins/OngoingTasks/OngoingTasks.class.php:85
+#: plugins/OngoingTasks/OngoingTasks.class.php:88
 msgid "List the active tasks on a given period"
 msgstr ""
 
-#: plugins/OngoingTasks/OngoingTasks.class.php:87
+#: plugins/OngoingTasks/OngoingTasks.class.php:90
 #, fuzzy
 msgid "Tasks having received timetracks during the period"
 msgstr "Attività riaperte nel periodo"
