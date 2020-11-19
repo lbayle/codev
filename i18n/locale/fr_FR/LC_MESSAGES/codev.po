@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2020-11-16 14:12:57+0000\n"
+"PO-Revision-Date: 2020-11-19 14:45:09+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -1777,7 +1777,7 @@ msgstr "Imputation désactivée si le status de la tâche est "
 
 #. tpl/edit_team.html
 msgid "Edit Forbidden status list"
-msgstr "Editer la liste des status désactivés"
+msgstr "Modifier la liste des statuts interdits"
 
 #. tpl/edit_team.html
 msgid "Edit Forbiden status list"
@@ -1947,7 +1947,7 @@ msgstr "Liste de postes pour le projet :"
 
 #. tpl/edit_team.html
 msgid "Forbiden Status for project:"
-msgstr "Status désactivés pour le projet :"
+msgstr "Statuts interdits pour le projet :"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -4881,9 +4881,8 @@ msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n      
 msgstr "Afficher les pertes: tâches annexes de catégorie 'Incident' et 'Inactivité' <br>\n         (si désactivé, ce sera inclu dans le 'consommé')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-#, fuzzy
 msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr "Montrer toute l'activité: <br> Si activé, les imputations sur les tâches hors sélection seront affichées dans des colonnes suplémentaires"
+msgstr "Montrer toute l'activité:<br /> Si activé, les imputations sur les tâches hors sélection seront affichées dans des colonnes supplémentaires."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"

@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-16 14:12:59+0000\n"
+"PO-Revision-Date: 2020-11-19 14:45:11+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1514,7 +1514,7 @@ msgstr "Utiss"
 
 #. tpl/edit_team.html
 msgid "Team name"
-msgstr ""
+msgstr "Nòm ëd l'echip"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -1755,19 +1755,19 @@ msgstr "Cost cotidian utent"
 
 #. tpl/edit_team.html
 msgid "Timetracking settings"
-msgstr ""
+msgstr "Opsion d'anseriment"
 
 #. tpl/edit_team.html
 msgid "Timetracking disabled if task status in"
-msgstr ""
+msgstr "Anseriment disativà si lë statù dël travaj a l'é"
 
 #. tpl/edit_team.html
 msgid "Edit Forbidden status list"
-msgstr ""
+msgstr "Modifiché la lista djë statù disativà"
 
 #. tpl/edit_team.html
 msgid "Edit Forbiden status list"
-msgstr ""
+msgstr "Modifiché la lista sjë statù disativà"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1933,7 +1933,7 @@ msgstr "Lista ëd travaj për ël proget :"
 
 #. tpl/edit_team.html
 msgid "Forbiden Status for project:"
-msgstr ""
+msgstr "Statù disativà për ël proget:"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2648,7 +2648,7 @@ msgstr "Stërmé ij travaj livrà"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
-msgstr ""
+msgstr "Stërmé ij travaj con ëstatù disativà (sarà,...)"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -3460,7 +3460,7 @@ msgstr "dëscancelé 's travaj"
 
 #. tpl/edit_jobs.html
 msgid "Edit Job"
-msgstr ""
+msgstr "Modifiché ij pòst"
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
@@ -3682,7 +3682,7 @@ msgstr "Travaj arzolvù, la coa a dev esse '0'"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr ""
+msgstr "Anseriment disativà si lë stat atual a l'é : "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -4184,15 +4184,15 @@ msgstr "Verifiché tute le programassion dël perìod e smon-e soe arpartission 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "Partìa"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Total elapsed"
-msgstr ""
+msgstr "Total consumà"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "sidetasks"
-msgstr ""
+msgstr "Travajtacà"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
@@ -4204,11 +4204,11 @@ msgstr "Utent amplicà"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "Partìe d'utent"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Define user groups and display the elapsed time for each group"
-msgstr ""
+msgstr "Definì le partìe d'utent e smon-e ël temp consumà për minca na partìa"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4217,15 +4217,15 @@ msgstr "Mach ij cap d'echip e j'aministrator a son autorisà a fé s'assion."
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV File Format"
-msgstr ""
+msgstr "Formà d'archivi CSV"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "1st column"
-msgstr ""
+msgstr "1a colòna"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "2nd column"
-msgstr ""
+msgstr "2a colòna"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4234,19 +4234,19 @@ msgstr "Color"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Team members assigned to a group"
-msgstr ""
+msgstr "Mèmber d'echip assignà a na partìa"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Users not assigned to any group"
-msgstr ""
+msgstr "Utent assignà a gnun-a partìa"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Not a team member, but assigned to a group"
-msgstr ""
+msgstr "Utent nen ëd l'echip, ma assignà a na partìa"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV file"
-msgstr ""
+msgstr "Archivi CSV"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "import"

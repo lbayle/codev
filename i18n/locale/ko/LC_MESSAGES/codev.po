@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-16 14:12:58+0000\n"
+"PO-Revision-Date: 2020-11-19 14:45:10+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1519,7 +1519,7 @@ msgstr "도구"
 
 #. tpl/edit_team.html
 msgid "Team name"
-msgstr ""
+msgstr "팀 이름"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -4205,7 +4205,7 @@ msgstr ""
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "그룹"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Total elapsed"
@@ -4225,7 +4225,7 @@ msgstr "참여 중인 사용자"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "사용자 그룹"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Define user groups and display the elapsed time for each group"
@@ -4238,7 +4238,7 @@ msgstr ""
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV File Format"
-msgstr ""
+msgstr "CSV 파일 포맷"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "1st column"
@@ -4267,11 +4267,11 @@ msgstr ""
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV file"
-msgstr ""
+msgstr "CSV 파일"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "import"
-msgstr ""
+msgstr "가져오기"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Info"
@@ -4284,7 +4284,7 @@ msgstr "동작을 실행했습니다!"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please select a CSV file"
-msgstr ""
+msgstr "CSV 파일을 선택해 주십시오"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please check table below and click 'OK' button to accept changes"
@@ -5009,7 +5009,7 @@ msgstr "지연된 작업 없음."
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated"
-msgstr ""
+msgstr "쉼표 구분"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Root task list"
@@ -5122,7 +5122,7 @@ msgstr ""
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "WBS path"
-msgstr ""
+msgstr "WBS 경로"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -6179,7 +6179,7 @@ msgstr ""
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr ""
+msgstr "사용자 그룹별로 불러오기"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
@@ -6188,7 +6188,7 @@ msgstr ""
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:302
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:325
 msgid "undefined"
-msgstr ""
+msgstr "정의되지 않음"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:309
 msgid "No group defined for team member"
@@ -6196,7 +6196,7 @@ msgstr ""
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:332
 msgid "No group defined"
-msgstr ""
+msgstr "정의된 그룹이 없음"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.php:126
 msgid "Please contact your team leader to update UserGroups settings"

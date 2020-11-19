@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-16 14:13:01+0000\n"
+"PO-Revision-Date: 2020-11-19 14:45:13+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1517,7 +1517,7 @@ msgstr "工具"
 
 #. tpl/edit_team.html
 msgid "Team name"
-msgstr ""
+msgstr "團隊名稱"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -1758,19 +1758,19 @@ msgstr "用戶每日成本"
 
 #. tpl/edit_team.html
 msgid "Timetracking settings"
-msgstr ""
+msgstr "時間表設定"
 
 #. tpl/edit_team.html
 msgid "Timetracking disabled if task status in"
-msgstr ""
+msgstr "時間表停用，若任務狀態為"
 
 #. tpl/edit_team.html
 msgid "Edit Forbidden status list"
-msgstr ""
+msgstr "編輯禁止狀態清單"
 
 #. tpl/edit_team.html
 msgid "Edit Forbiden status list"
-msgstr ""
+msgstr "編輯禁止狀態清單"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1936,7 +1936,7 @@ msgstr "用於專案的工作清單："
 
 #. tpl/edit_team.html
 msgid "Forbiden Status for project:"
-msgstr ""
+msgstr "用於專案的禁止狀態："
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2651,7 +2651,7 @@ msgstr "隱藏已解決任務"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
-msgstr ""
+msgstr "隱藏帶有禁止狀態的任務（關閉…等等）"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -3463,7 +3463,7 @@ msgstr "刪除工作"
 
 #. tpl/edit_jobs.html
 msgid "Edit Job"
-msgstr ""
+msgstr "編輯工作"
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
@@ -3685,7 +3685,7 @@ msgstr "任務已解決，積壓日誌應為「0」"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr ""
+msgstr "時間表停用，若任務狀態為：\\"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -4187,15 +4187,15 @@ msgstr "檢查期間內所有時間表並回傳各工作的分配"
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "群組"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Total elapsed"
-msgstr ""
+msgstr "總流逝"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "sidetasks"
-msgstr ""
+msgstr "邊際任務"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
@@ -4208,11 +4208,11 @@ msgstr "已分配使用者"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "使用者群組"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Define user groups and display the elapsed time for each group"
-msgstr ""
+msgstr "定義使用者群組並顯示各群組流逝時間"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4221,15 +4221,15 @@ msgstr "僅有團隊領導人和管理者被允許作出此行為。"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV File Format"
-msgstr ""
+msgstr "CSV 檔案格式"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "1st column"
-msgstr ""
+msgstr "第一欄"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "2nd column"
-msgstr ""
+msgstr "第二欄"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4238,23 +4238,23 @@ msgstr "色彩"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Team members assigned to a group"
-msgstr ""
+msgstr "團隊成員已分配到群組"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Users not assigned to any group"
-msgstr ""
+msgstr "使用者尚未分配到任何群組"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Not a team member, but assigned to a group"
-msgstr ""
+msgstr "非團隊成員，但有分配到群組"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV file"
-msgstr ""
+msgstr "CSV 檔案"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "import"
-msgstr ""
+msgstr "匯入"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Info"
@@ -4267,11 +4267,11 @@ msgstr "操作已執行！"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please select a CSV file"
-msgstr ""
+msgstr "請選擇一個 CSV 檔案。"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please check table below and click 'OK' button to accept changes"
-msgstr ""
+msgstr "請檢查以下表格並點擊「確認」按鈕來接受變更"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
@@ -4876,11 +4876,11 @@ msgstr "顯示浪費的邊際任務：「事件」和「不活躍」分類<br>�
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
+msgstr "顯示全部活動：\n         <br>如果有勾選，任務上的時間表不包含在會被顯示於額外欄位的目前選項裡。"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
-msgstr ""
+msgstr "警告：若「僅團隊成員」為勾選，此選項將會停用"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
@@ -4990,19 +4990,19 @@ msgstr "根源任務"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated"
-msgstr ""
+msgstr "逗號區分"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Root task list"
-msgstr ""
+msgstr "根任務清單"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
-msgstr ""
+msgstr "另外包含在樹裡的父級任務（未勾選：僅包含為資料夾）"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Include parent-tasks in its own folder (unchecked: include above)"
-msgstr ""
+msgstr "包含在自已資料夾裡的父級任務（未勾選：包含上述內容）"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
@@ -5011,7 +5011,7 @@ msgstr "匯入關聯樹到命令"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "ERROR, Please check"
-msgstr ""
+msgstr "錯誤，請檢查"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -5103,7 +5103,7 @@ msgstr "於此週期任務已被重新開啟"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "WBS path"
-msgstr ""
+msgstr "WBS 路徑"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5305,7 +5305,7 @@ msgstr "提示"
 
 #: admin/edit_team_ajax.php:482
 msgid "Invalid team name"
-msgstr ""
+msgstr "無效的團隊名稱。"
 
 #: admin/edit_team_ajax.php:486
 msgid "Couldn't enable/disable team"
@@ -6154,28 +6154,28 @@ msgstr "管理"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr ""
+msgstr "載入各使用者群組"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
-msgstr ""
+msgstr "檢查期間內所有時間表並回傳各使用者群組的分配"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:302
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:325
 msgid "undefined"
-msgstr ""
+msgstr "未定義"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:309
 msgid "No group defined for team member"
-msgstr ""
+msgstr "沒有定義給團隊成員的群組"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:332
 msgid "No group defined"
-msgstr ""
+msgstr "沒有定義的群組"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.php:126
 msgid "Please contact your team leader to update UserGroups settings"
-msgstr ""
+msgstr "請聯絡您的團隊領導人來更新使用者群組設定"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
@@ -6332,7 +6332,7 @@ msgstr "警告：您需要分配「CodevTT_DailyPrice」自定義欄位給以下
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:71
 msgid "Import Mantis relationship-tree to command"
-msgstr ""
+msgstr "匯入 Mantis 關聯樹到命令"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:74
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"

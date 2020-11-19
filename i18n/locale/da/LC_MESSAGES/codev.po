@@ -10,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-16 14:12:56+0000\n"
+"PO-Revision-Date: 2020-11-19 14:45:08+0000\n"
 "Language: da\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4188,7 +4188,7 @@ msgstr ""
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "Gruppe"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Total elapsed"
@@ -4209,7 +4209,7 @@ msgstr "Importer brugere"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "Brugergrupper"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Define user groups and display the elapsed time for each group"

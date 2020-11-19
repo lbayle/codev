@@ -18,7 +18,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-16 14:13:01+0000\n"
+"PO-Revision-Date: 2020-11-19 14:45:12+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1524,7 +1524,7 @@ msgstr "Araçlar"
 
 #. tpl/edit_team.html
 msgid "Team name"
-msgstr ""
+msgstr "Ekip adı"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -1765,19 +1765,19 @@ msgstr "Kullanıcı Günlük Maliyeti"
 
 #. tpl/edit_team.html
 msgid "Timetracking settings"
-msgstr ""
+msgstr "Zaman izleme ayarları"
 
 #. tpl/edit_team.html
 msgid "Timetracking disabled if task status in"
-msgstr ""
+msgstr "Görev durumu açıksa zaman izleme devre dışı"
 
 #. tpl/edit_team.html
 msgid "Edit Forbidden status list"
-msgstr ""
+msgstr "Yasak durum listesini düzenle"
 
 #. tpl/edit_team.html
 msgid "Edit Forbiden status list"
-msgstr ""
+msgstr "Yasak durum listesini düzenle"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -1943,7 +1943,7 @@ msgstr "Proje için iş listesi:"
 
 #. tpl/edit_team.html
 msgid "Forbiden Status for project:"
-msgstr ""
+msgstr "Proje için Yasak Durum:"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -2658,7 +2658,7 @@ msgstr "Çözülen görevleri gizle"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
-msgstr ""
+msgstr "Yasak durumdaki görevleri gizle (kapalı, ...)"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -3471,7 +3471,7 @@ msgstr "İşi sil"
 
 #. tpl/edit_jobs.html
 msgid "Edit Job"
-msgstr ""
+msgstr "İşi Düzenle"
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
@@ -3693,7 +3693,7 @@ msgstr "Görev çözüldü, bekleme listesi '0' olmalı"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr ""
+msgstr "Şu konumdaki mevcut durumsa zaman izleme devre dışı bırakıldı: "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -4196,15 +4196,15 @@ msgstr "Dönemin tüm zaman çizelgelerini kontrol edin ve İş başına bölüm
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Total elapsed"
-msgstr ""
+msgstr "Toplam vakit geçmesi"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "sidetasks"
-msgstr ""
+msgstr "yan görevler"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
@@ -4216,11 +4216,11 @@ msgstr "Katılan kullanıcılar"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "Kullanıcı grupları"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Define user groups and display the elapsed time for each group"
-msgstr ""
+msgstr "Kullanıcı gruplarını tanımlayın ve her grup için geçen süreyi görüntüleyin"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4229,15 +4229,15 @@ msgstr "Bu eylemi yalnızca ekip liderleri ve yöneticiler yapabilir."
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV File Format"
-msgstr ""
+msgstr "CSV Dosya Biçimi"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "1st column"
-msgstr ""
+msgstr "1. sütun"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "2nd column"
-msgstr ""
+msgstr "2. sütun"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4246,23 +4246,23 @@ msgstr "Renkler"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Team members assigned to a group"
-msgstr ""
+msgstr "Bir gruba atanan ekip üyeleri"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Users not assigned to any group"
-msgstr ""
+msgstr "Herhangi bir gruba atanmamış kullanıcılar"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Not a team member, but assigned to a group"
-msgstr ""
+msgstr "Ekip üyesi değil, bir gruba atanmış"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV file"
-msgstr ""
+msgstr "CSV dosyası"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "import"
-msgstr ""
+msgstr "içe aktar"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Info"
@@ -4275,11 +4275,11 @@ msgstr "Eylemler yürütüldü !"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please select a CSV file"
-msgstr ""
+msgstr "Lütfen bir CSV dosyası seçin"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please check table below and click 'OK' button to accept changes"
-msgstr ""
+msgstr "Lütfen aşağıdaki tabloyu kontrol edin ve değişiklikleri kabul etmek için 'Tamam' düğmesine tıklayın"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
@@ -4884,11 +4884,11 @@ msgstr "Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<b
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
+msgstr "Tüm aktiviteyi göster:\n         <br> İşaretlenirse, mevcut seçime dahil olmayan görevlerle ilgili zaman çizelgeleri ek sütunlarda görüntülenecektir."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
-msgstr ""
+msgstr "UYARI: 'Yalnızca ekip üyeleri' işaretli değilse bu seçenek devre dışı bırakılacaktır."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
@@ -4998,19 +4998,19 @@ msgstr "Kök görevi"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated"
-msgstr ""
+msgstr "virgülle ayrılmış"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Root task list"
-msgstr ""
+msgstr "Kök görev listesi"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
-msgstr ""
+msgstr "Ağaçtaki üst görevleri de dahil et (işaretlenmemiş: yalnızca klasör olarak dahil et)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Include parent-tasks in its own folder (unchecked: include above)"
-msgstr ""
+msgstr "Üst görevleri kendi klasörüne dahil et (işaretlenmemiş: yukarıya dahil et)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
@@ -5019,7 +5019,7 @@ msgstr "İlişki ağacını komuta aktarın"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "ERROR, Please check"
-msgstr ""
+msgstr "HATA, Lütfen kontrol edin"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -5109,7 +5109,7 @@ msgstr "Dönem boyunca görevde zaman geçirmiş kullanıcıları listeleyin"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "WBS path"
-msgstr ""
+msgstr "WBS yolu"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5310,7 +5310,7 @@ msgstr "İpucu"
 
 #: admin/edit_team_ajax.php:482
 msgid "Invalid team name"
-msgstr ""
+msgstr "Geçersiz ekip adı"
 
 #: admin/edit_team_ajax.php:486
 msgid "Couldn't enable/disable team"
@@ -6161,28 +6161,28 @@ msgstr "Yönetim"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr ""
+msgstr "Kullanıcı grupları başına yükle"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
-msgstr ""
+msgstr "Dönemin tüm zaman çizelgelerini kontrol edin ve Kullanıcı gruplarına göre yeniden bölümlerini iade edin"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:302
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:325
 msgid "undefined"
-msgstr ""
+msgstr "tanımsız"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:309
 msgid "No group defined for team member"
-msgstr ""
+msgstr "Ekip üyesi için grup tanımlanmadı"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:332
 msgid "No group defined"
-msgstr ""
+msgstr "Grup tanımlanmadı"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.php:126
 msgid "Please contact your team leader to update UserGroups settings"
-msgstr ""
+msgstr "Kullanıcı Grupları ayarlarını güncellemek için lütfen ekip liderinizle iletişime geçin"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
@@ -6339,7 +6339,7 @@ msgstr "UYARI: Aşağıdaki projelere \"CodevTT_DailyPrice\" customField öğesi
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:71
 msgid "Import Mantis relationship-tree to command"
-msgstr ""
+msgstr "Mantis ilişki ağacını komuta aktarın"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:74
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
