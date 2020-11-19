@@ -23,9 +23,9 @@ require('../../path.inc.php');
 require_once('i18n/i18n.inc.php');
 
 if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
-   
+
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-   
+
    $logger = Logger::getLogger("LoadPerUserIndicator_ajax");
    $action = Tools::getSecureGETStringValue('action');
    $dashboardId = Tools::getSecureGETStringValue('dashboardId');
@@ -50,6 +50,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
       $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
 
+      $isOnlyActiveTeamMembers = ('on' !== $attributesArray[LoadPerUserIndicator::OPTION_IS_ONLY_TEAM_MEMBERS]) ? false : true;
+
       $showSidetasks = ('on' !== $attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]) ? false : true;
       //$logger->error("showSidetasks = ".var_export($showSidetasks, true).' attr '.$attributesArray[LoadPerUserIndicator::OPTION_SHOW_SIDETASKS]);
 
@@ -64,12 +66,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
       // override plugin settings with current attributes
       $plugin->setPluginSettings(array(
+          LoadPerUserIndicator::OPTION_IS_ONLY_TEAM_MEMBERS => $isOnlyActiveTeamMembers,
           LoadPerUserIndicator::OPTION_SHOW_SIDETASKS => $showSidetasks,
           LoadPerUserIndicator::OPTION_SHOW_ALL_ACTIVITY => $showAllActivity,
       ));
 
       $plugin->execute();
-      $data = $plugin->getSmartyVariablesForAjax(); 
+      $data = $plugin->getSmartyVariablesForAjax();
 
       // construct the html table
       foreach ($data as $smartyKey => $smartyVariable) {
