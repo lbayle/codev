@@ -1,0 +1,23 @@
+<div class="LoadHistoryIndicator_ajax"  style="width:100%;">
+   <table class="LoadHistoryIndicatorValuesTable datatable_minimal">
+      <thead>
+         <tr>
+            <th>{t}Start date{/t}</th>
+               <th title="{t}Total elapsed{/t}">{t}Elapsed{/t}<br>{t}TOTAL{/t}</th>
+               <th>{t}Elapsed{/t}<br>({t}projects{/t})</th>
+               <th>{t}Elapsed{/t}<br>({t}sidetasks{/t})</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$LoadHistoryIndicator_tableData key=name item=i}
+         <tr>
+            <td nowrap="nowrap">{$name}</td>
+            <td>{$i.elapsedTotal}</td>
+            <td>{$i.elapsedOnRegularPrj}</td>
+            <td>{$i.elapsedOnSidetasksPrj}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+
+   </table>
+</div>

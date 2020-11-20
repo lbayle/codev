@@ -1,0 +1,169 @@
+<div class="LoadHistoryIndicator">
+   <div class="pluginInitFunction"  style="display: none;">LoadHistoryIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">LoadHistoryIndicatorJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="LoadHistoryIndicator_dateRange_form" method="get" action="{$LoadHistoryIndicator_ajaxPhpURL}">
+      <fieldset>
+         <label for="LoadHistoryIndicator_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="LoadHistoryIndicator_startdatepicker datepicker" name="LoadHistoryIndicator_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="LoadHistoryIndicator_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="LoadHistoryIndicator_enddatepicker datepicker" name="LoadHistoryIndicator_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="LoadHistoryIndicator_submit" type="submit" value="{t}Display{/t}" />
+         <img class="LoadHistoryIndicator_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         <input type="hidden" name="action" value="getLoadHistoryIndicator" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+{if isset($LoadHistoryIndicator_tableData)}
+<div>
+   <div id="tabsLoadHistoryIndicator" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#LoadHistoryIndicator_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#LoadHistoryIndicator_tabValues">{t}Values{/t}</a></li>
+      </ul>
+      <div id="LoadHistoryIndicator_tabGraph">
+         <div class="LoadHistoryIndicator_jqPlot xlabels_chart chart" style="width: 100%;"></div>
+      </div>
+      <div id="LoadHistoryIndicator_tabValues" class="LoadHistoryIndicator_tabValues">
+         {include file="`$LoadHistoryIndicator_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="LoadHistoryIndicatorHelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <span class="float pointer">
+      <img onclick="$('.LoadHistoryIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'submittedResolvedIssues.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+   <div class="LoadHistoryIndicatorHelpDialog ui-helper-hidden" title="{t}Submitted/Resolved issues{/t}">
+      <p>
+         <strong>Description:</strong><br>
+         TODO
+         <br>
+      </p>
+   </div>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function LoadHistoryIndicatorJsDestroy() {
+      console.log('LoadHistoryIndicatorJsDestroy');
+      //jQuery(".LoadHistoryIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function LoadHistoryIndicatorJsInit() {
+      console.log('LoadHistoryIndicatorJsInit');
+      jQuery('.LoadHistoryIndicator_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".LoadHistoryIndicator_startdatepicker").datepicker("setDate" ,"{$LoadHistoryIndicator_startDate}");
+      var endDatePicker = jQuery(".LoadHistoryIndicator_enddatepicker").datepicker("setDate" ,"{$LoadHistoryIndicator_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.LoadHistoryIndicator_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         jQuery('.LoadHistoryIndicator_spinner').show(); // spinner img
+
+         var form = jQuery('.LoadHistoryIndicator_dateRange_form');
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'showSidetasks'
+         // Note: LoadHistoryIndicatorAttr is declared in dashboard.html
+         var attr = jQuery('.LoadHistoryIndicatorAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".addTeamAdminErrorMsg").html(data.statusMsg);
+               } else {
+                  jQuery(".LoadHistoryIndicator_tabValues").html(jQuery.trim(data['LoadHistoryIndicator_htmlContent']));
+
+                  if (data['LoadHistoryIndicator_jqplotData']) {
+                     var chart = jQuery('.LoadHistoryIndicator_jqPlot');
+                     var chartoptions = chart.data('plotoptions');
+                     chartoptions.axes.xaxis.ticks = jQuery.parseJSON(data['LoadHistoryIndicator_jqplotXaxes']);
+                     var jqplotData = jQuery.parseJSON(data['LoadHistoryIndicator_jqplotData']);
+                     chart.empty();
+                     chart.jqplot(jqplotData, chartoptions);
+                  }
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.LoadHistoryIndicator_spinner').hide(); // spinner img
+      });
+
+      jQuery(".LoadHistoryIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".LoadHistoryIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".LoadHistoryIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+
+      var chartoptions = jQuery('.LoadHistoryIndicator_jqPlot').data('plotoptions');
+
+      // overload .date_chart options (chart.js)
+      chartoptions.title = "{t}Elapsed on period{/t}";
+      chartoptions.legend.labels = ['{t}Total{/t}', '{t}Projects{/t}', '{t}Sidetasks{/t}'];
+      chartoptions.legend.placement = 'inside';
+      chartoptions.legend.location = 'nw';
+      chartoptions.axesDefaults.tickOptions.fontSize = '8pt'
+
+      //chartoptions.axes.xaxis.ticks = ['toto', 'titi', 'tutu', 'tata'];
+      //var data = [[5, 32, 40, 48],[32, 41, 44, 14]];
+      chartoptions.axes.xaxis.ticks = {$LoadHistoryIndicator_jqplotXaxes};
+      var data = {$LoadHistoryIndicator_jqplotData};
+
+      jQuery('.LoadHistoryIndicator_jqPlot').jqplot(data, chartoptions);
+
+   };
+</script>
+</div>

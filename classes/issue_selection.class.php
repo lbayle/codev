@@ -235,7 +235,7 @@ class IssueSelection {
     * @param int $endTimestamp
     * @return float
     */
-   public function getElapsed($startTimestamp = NULL, $endTimestamp = NULL) {
+   public function getElapsed($startTimestamp = NULL, $endTimestamp = NULL, $useridList = NULL) {
       if(count($this->issueList) > 0) {
          $sql = AdodbWrapper::getInstance();
 
@@ -244,6 +244,9 @@ class IssueSelection {
          $query = "SELECT SUM(duration) FROM codev_timetracking_table ".
                   " WHERE bugid IN (".$formattedList.") ";
 
+         if (NULL != $useridList) {
+            $query .= ' AND userid IN ('.implode( ', ', $useridList).') ';
+         }
          if (isset($startTimestamp)) {
             $query .= " AND date >=  ".$sql->db_param();
             $q_params[]=$startTimestamp;
