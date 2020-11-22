@@ -25,10 +25,9 @@ abstract class Install {
    const FILENAME_GREASEMONKEY = "../mantis_monkey.user.js";
    const FILENAME_TABLES = "codevtt_tables.sql";
    const FILENAME_PROCEDURES = "codevtt_procedures.sql";
-   const FILENAME_LOG4PHP_SAMPLE = "../log4php.xml.sample";
-   const FILENAME_LOG4PHP = "../log4php.xml";
+   const FILENAME_LOG4PHP_SAMPLE = "../config/log4php.xml.sample";
+   const FILENAME_LOG4PHP = "../config/log4php.xml";
 
 
 }
 
-?>

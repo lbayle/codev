@@ -809,6 +809,19 @@ class ConsistencyCheck2 {
          $cerrList[] = $cerr;
       }
 
+      if (!file_exists(dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'log4php.xml')) {
+      //if (file_exists(Constants::$config_file_old)) {
+         $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
+            T_("Please move log4php file to: ").dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'log4php.xml');
+         $cerr->severity = ConsistencyError2::severity_error;
+         $cerrList[] = $cerr;
+      } else if (file_exists(Constants::$log4php_file_old)) {
+         $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
+            T_("Please remove: ").Constants::$log4php_file_old);
+         $cerr->severity = ConsistencyError2::severity_warn;
+         $cerrList[] = $cerr;
+      }
+
       return $cerrList;
    }
 }

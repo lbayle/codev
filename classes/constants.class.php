@@ -32,6 +32,9 @@ class Constants {
    public static $config_file;
    public static $config_file_old;
 
+   public static $log4php_file;
+   public static $log4php_file_old;
+
    public static $codevInstall_timestamp;
 
    public static $mantisURL;
@@ -175,6 +178,9 @@ class Constants {
 
       self::$quiet = true;
 
+      self::$log4php_file_old = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'log4php.xml';
+      self::$log4php_file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'log4php.xml';
+
       self::$config_file_old = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config.ini';
       self::$config_file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.ini';
 
@@ -186,6 +192,16 @@ class Constants {
                self::$logger->error($errMsg);
             //}
             self::$config_file = self::$config_file_old;
+         }
+      }
+      // check previous configFile location (before v1.6.0)
+      if (!file_exists(self::$log4php_file)) {
+         if (file_exists(self::$log4php_file_old)) {
+            //if (!self::$quiet) {
+               $errMsg = "log4php.xml should be in ".dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR;
+               self::$logger->error($errMsg);
+            //}
+            self::$log4php_file = self::$log4php_file_old;
          }
       }
    }
