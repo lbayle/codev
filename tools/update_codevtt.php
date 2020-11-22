@@ -705,6 +705,10 @@ function update_v20_to_v21() {
    if (file_exists(Constants::$config_file_old)) {
       echo "<span class='warn_font'>Please move config file to: ".Constants::$codevRootDir."/config/config.ini</span><br/>";
    }
+   // this step is intentionaly manual, we want the admin to be aware about this change !
+   if (file_exists(Constants::$log4php_file_old)) {
+      echo "<span class='warn_font'>Please move log4php file to: ".Constants::$codevRootDir."/config/log4php.xml</span><br/>";
+   }
 
    // execute the SQL script
    echo "- Execute SQL script: $sqlScriptFilename<br>";

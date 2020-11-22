@@ -303,7 +303,7 @@ class UninstallController extends Controller {
             return false;
          }
       }
-      $log4php_file = Constants::$codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml';
+      $log4php_file = Constants::$log4php_file; // Constants::$codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml';
       if (file_exists($log4php_file) &&
           is_writable($log4php_file)) {
          $retCode = unlink($log4php_file);
