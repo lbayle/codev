@@ -4,6 +4,8 @@
 *.sublime-*
 config.ini
 log4php.xml
+config/config.ini
+config/log4php.xml
 constants.php
 mantis_monkey.user.js
 classmap.ser.old

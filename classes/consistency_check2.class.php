@@ -791,6 +791,27 @@ class ConsistencyCheck2 {
       }
       return $cerrList;
    }
+
+   /**
+    * since v1.6.0 config files have moved to ./config
+    */
+   public static function checkConfigFiles() {
+
+      if (!file_exists(dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.ini')) {
+      //if (file_exists(Constants::$config_file_old)) {
+         $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
+            T_("Please move config file to: ").dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.ini');
+         $cerr->severity = ConsistencyError2::severity_error;
+         $cerrList[] = $cerr;
+      } else if (file_exists(Constants::$config_file_old)) {
+         $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
+            T_("Please remove: ").Constants::$config_file_old);
+         $cerr->severity = ConsistencyError2::severity_warn;
+         $cerrList[] = $cerr;
+      }
+
+      return $cerrList;
+   }
 }
 
 ConsistencyCheck2::staticInit();

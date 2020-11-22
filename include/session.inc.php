@@ -2,8 +2,10 @@
 if (!isset($_SESSION)) {
 
    $basepath = realpath(dirname(__FILE__));
-   $configfile = dirname($basepath).'/config.ini';
-
+   $configfile = dirname($basepath).'/config/config.ini';
+   if (!file_exists($configfile)) {
+      $configfile = dirname($basepath).'/config.ini';
+   }
    // NOTE: doing a md5_file at each page call is very expensive !
    //if (file_exists($configfile)) {
    //$sname = 'codevtt_'.md5_file($configfile);
@@ -18,4 +20,4 @@ if (!isset($_SESSION)) {
    //setcookie( session_name($sname), session_id(), time() + 83200 ); // 1 day = 86400
    header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
-?>
+

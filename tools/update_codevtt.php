@@ -688,7 +688,7 @@ function update_v19_to_v20() {
 }
 
 /**
- * update 1.5.0 to 1.5.x (DB v20 to DB v21)
+ * update 1.5.0 to 1.6.0 (DB v20 to DB v21)
  *
  */
 function update_v20_to_v21() {
@@ -699,6 +699,11 @@ function update_v20_to_v21() {
    if (!file_exists($sqlScriptFilename)) {
       echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
       exit;
+   }
+
+   // this step is intentionaly manual, we want the admin to be aware about this change !
+   if (file_exists(Constants::$config_file_old)) {
+      echo "<span class='warn_font'>Please move config file to: ".Constants::$codevRootDir."/config/config.ini</span><br/>";
    }
 
    // execute the SQL script

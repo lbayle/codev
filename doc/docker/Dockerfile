@@ -1,5 +1,5 @@
 # Louis BAYLE, 2018-10-11
-# Version 0.4
+# Version 0.5
 
 # 2018-10-11: update apache 2.4.25 fur security updates
 # 2020-05-24: update to PHP v7.4
@@ -55,7 +55,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 /etc/pki/rpm-gpg/RPM-GPG-KE
 # ------------------
 # Reinstall glibc-common for i18n.
 # -> this fixes the case where only english is available in CodevTT
-RUN yum -y --setopt=override_install_langs=all reinstall glibc-common && yum clean all 
+RUN yum -y --setopt=override_install_langs=all reinstall glibc-common && yum clean all
 
 # ------------------
 # install tools
@@ -133,7 +133,7 @@ RUN sed -i "s/Require ip 127.0.0.1/Require ip 172.17/" /etc/httpd/conf.d/phpMyAd
 # ------------------
 # install MantisBT
 
-ENV MANTIS_VER 2.24.1
+ENV MANTIS_VER 2.24.3
 ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
 
@@ -192,7 +192,7 @@ ADD mantis_config/config_inc.php               /var/www/html/mantis/config
 ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config
 ADD mantis_config/custom_relationships_inc.php /var/www/html/mantis/config
 ADD mantis_config/custom_strings_inc.php       /var/www/html/mantis/config
-ADD codevtt_config/config.ini                  /var/www/html/codevtt
+ADD codevtt_config/config.ini                  /var/www/html/codevtt/config
 ADD codevtt_config/log4php.xml                 /var/www/html/codevtt
 ADD index.html                                 /var/www/html/index.html
 

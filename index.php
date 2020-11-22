@@ -74,7 +74,8 @@ class IndexController extends Controller {
             // check global configuration
             $cerrList1 = ConsistencyCheck2::checkMantisDefaultProjectWorkflow();
             $cerrList2 = ConsistencyCheck2::checkDatabaseVersion();
-            $cerrList = array_merge($cerrList1, $cerrList2);
+            $cerrList3 = ConsistencyCheck2::checkConfigFiles();
+            $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3);
             // add more checks here
             if (count($cerrList) > 0) {
                $systemConsistencyErrors = array();
