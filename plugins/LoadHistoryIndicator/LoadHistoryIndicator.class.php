@@ -23,6 +23,7 @@
  */
 class LoadHistoryIndicator extends IndicatorPluginAbstract {
 
+   const OPTION_IS_ONLY_TEAM_MEMBERS = 'isOnlyActiveTeamMembers';
    const OPTION_INTERVAL = 'interval'; // weekly, monthly
    #const OPTION_FILTER_ISSUE_TYPE = 'issueType';    // noFilter, bugsOnly, tasksOnly
    #const OPTION_FILTER_ISSUE_EXT_ID = 'issueExtId'; // noFilter, withExtId, withoutExtId
@@ -38,6 +39,7 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
 
    // config options from Dashboard
    private $interval;
+   private $isOnlyActiveTeamMembers;
 
    // internal
    protected $execData;
@@ -143,6 +145,7 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
          $this->interval = 'monthly';
       }
 
+      $this->isOnlyActiveTeamMembers= true;
    }
 
    /**
@@ -153,6 +156,9 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
    public function setPluginSettings($pluginSettings) {
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_IS_ONLY_TEAM_MEMBERS, $pluginSettings)) {
+            $this->isOnlyActiveTeamMembers = $pluginSettings[self::OPTION_IS_ONLY_TEAM_MEMBERS];
+         }
          if (array_key_exists(self::OPTION_INTERVAL, $pluginSettings)) {
             $this->interval = $pluginSettings[self::OPTION_INTERVAL];
          }
@@ -228,17 +234,26 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
          }
       }
 
+      $totalElapsedOnRegularPrj = 0;
+      $totalElapsedOnSidetasksPrj = 0;
+      $totalElapsedOnPeriod = 0;
+
       $periodData = array();
       foreach ($timestampRangeList as $label => $ttRange) {
          $startT = $ttRange['start'];
          $endT   = $ttRange['end'];
 
-         //if ($this->isOnlyActiveTeamMembers) {
+         if ($this->isOnlyActiveTeamMembers) {
+            // WARN: as the user-list can change depending on each date range,
+            // you may have some differences with other indicators that take userList
+            // on the global period.
+            // Nevertheless, this case will only happen if a user switches team during the period
+            // and both teams share the same mantis project (which is rare).
             $useridList = array_keys($team->getActiveMembers($startT, $endT));
-         //} else {
-            // include also timetracks of users not in the team (relevant on ExternalTasksProjects)
-         //   $useridList = NULL;
-         //}
+         } else {
+            // include also timetracks of users not in the team (commands WBS do that)
+            $useridList = NULL;
+         }
 
          $elapsedRegular  = $iselRegular->getElapsed($startT, $endT, $useridList);
          $elapsedSidetasks  = $iselSideTasks->getElapsed($startT, $endT, $useridList);
@@ -249,13 +264,20 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
             'elapsedOnSidetasksPrj' => round($elapsedSidetasks, 2),
             'elapsedTotal' => round($elapsedTotal, 2),
          );
+         $totalElapsedOnRegularPrj += $elapsedRegular;
+         $totalElapsedOnSidetasksPrj += $elapsedSidetasks;
+         $totalElapsedOnPeriod += $elapsedTotal;
       }
+
       $this->execData = array (
          #'startTimestamp' => $this->startTimestamp,
          'startDate' => date('Y-m-d', $this->startTimestamp),
          'endDate' => date('Y-m-d', $this->endTimestamp),
          'periodData' => $periodData,
-         );
+         'totalElapsedOnRegularPrj' => round($totalElapsedOnRegularPrj, 2),
+         'totalElapsedOnSidetasksPrj' => round($totalElapsedOnSidetasksPrj, 2),
+         'totalElapsedOnPeriod' => round($totalElapsedOnPeriod, 2),
+      );
    }
 
 
@@ -280,10 +302,14 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
          $smartyPrefix.'startDate' => $this->execData['startDate'],
          $smartyPrefix.'endDate'   => $this->execData['endDate'],
          $smartyPrefix.'tableData' => $this->execData['periodData'],
+         $smartyPrefix.'totalElapsedOnRegularPrj' => $this->execData['totalElapsedOnRegularPrj'],
+         $smartyPrefix.'totalElapsedOnSidetasksPrj' => $this->execData['totalElapsedOnSidetasksPrj'],
+         $smartyPrefix.'totalElapsedOnPeriod' => $this->execData['totalElapsedOnPeriod'],
          $smartyPrefix.'jqplotData' => json_encode($values),
          $smartyPrefix.'jqplotXaxes' => json_encode(array_keys($this->execData['periodData'])),
 
          // add pluginSettings (if needed by smarty)
+         $smartyPrefix.self::OPTION_IS_ONLY_TEAM_MEMBERS => $this->isOnlyActiveTeamMembers,
          $smartyPrefix.self::OPTION_INTERVAL => $this->interval,
       );
 

@@ -50,6 +50,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
       $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
       $interval = $attributesArray['interval'];
+      $isOnlyActiveTeamMembers = ('on' !== $attributesArray[LoadHistoryIndicator::OPTION_IS_ONLY_TEAM_MEMBERS]) ? false : true;
 
       // update dataProvider
       $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_START_TIMESTAMP, $startTimestamp);
@@ -57,7 +58,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
       $indicator = new LoadHistoryIndicator($pluginDataProvider);
       $indicator->setPluginSettings(array(
-          LoadHistoryIndicator::OPTION_INTERVAL => $interval,
+         LoadHistoryIndicator::OPTION_INTERVAL => $interval,
+         LoadHistoryIndicator::OPTION_IS_ONLY_TEAM_MEMBERS => $isOnlyActiveTeamMembers,
       ));
 
       $indicator->execute();
