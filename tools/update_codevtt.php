@@ -688,7 +688,7 @@ function update_v19_to_v20() {
 }
 
 /**
- * update 1.5.0 to 1.5.x (DB v20 to DB v21)
+ * update 1.5.0 to 1.6.0 (DB v20 to DB v21)
  *
  */
 function update_v20_to_v21() {
@@ -726,6 +726,36 @@ function update_v20_to_v21() {
    }
 
 }
+
+/**
+ * update 1.6.0 to 1.7.0 (DB v21 to DB v22)
+ *
+ */
+function update_v21_to_v22() {
+
+   $sql = AdodbWrapper::getInstance();
+
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v21_v22.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+   // this step is intentionaly manual, we want the admin to be aware about this change !
+   if (file_exists(Constants::$config_file_old)) {
+      echo "<span class='warn_font'>Please move config file to: ".Constants::$codevRootDir."/config/config.ini</span><br/>";
+   }
+
+   // execute the SQL script
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+}
+
 
 // ======================================================
 // toolbox

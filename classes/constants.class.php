@@ -30,6 +30,7 @@ class Constants {
 
 
    public static $config_file;
+   public static $config_file_old;
 
    public static $codevInstall_timestamp;
 
@@ -174,8 +175,19 @@ class Constants {
 
       self::$quiet = true;
 
-      self::$config_file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config.ini';
+      self::$config_file_old = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config.ini';
+      self::$config_file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.ini';
 
+      // check previous configFile location (before v1.7.0)
+      if (!file_exists(self::$config_file)) {
+         if (file_exists(self::$config_file_old)) {
+            //if (!self::$quiet) {
+               $errMsg = "config.ini should be in ".dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR;
+               self::$logger->error($errMsg);
+            //}
+            self::$config_file = self::$config_file_old;
+         }
+      }
    }
 
    /**
