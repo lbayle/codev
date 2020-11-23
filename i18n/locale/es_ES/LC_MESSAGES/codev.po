@@ -3,6 +3,7 @@
 #
 # Author: AlvaroMolina
 # Author: Codynguyen1116
+# Author: DannyS712
 # Author: Dgstranz
 # Author: Fitoschido
 # Author: Igv
@@ -19,7 +20,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-16 14:12:57+0000\n"
+"PO-Revision-Date: 2020-11-26 16:48:34+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4209,7 +4210,7 @@ msgstr ""
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Total elapsed"

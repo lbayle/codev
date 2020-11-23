@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-19 14:45:11+0000\n"
+"PO-Revision-Date: 2020-11-23 14:18:25+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4250,7 +4250,7 @@ msgstr "Archivi CSV"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "import"
-msgstr ""
+msgstr "amporté"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Info"
@@ -4263,11 +4263,11 @@ msgstr "Assion fàita!"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please select a CSV file"
-msgstr ""
+msgstr "Për piasì, ch'a selession-a n'archivi CSV"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please check table below and click 'OK' button to accept changes"
-msgstr ""
+msgstr "Ch'a verìfica la tàula sì-sota e ch'a sgnaca ël boton 'Va bin' për aceté le modìfiche"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
@@ -4868,11 +4868,11 @@ msgstr "Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inativit
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
+msgstr "Smon-e tuta l'atività:\n         <br> Si ativà, le programassion dij travaj nen comprèis ant la selession corenta a saran ësmonùe ans dle colòne adissionaj."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
-msgstr ""
+msgstr "ATENSION: costa opsion a sarà disativà si 'Mach mèmber ëd l'echip' a l'é nen selessionà"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
@@ -4979,19 +4979,19 @@ msgstr "Travaj rèis"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated"
-msgstr ""
+msgstr "separà da na còma"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Root task list"
-msgstr ""
+msgstr "Lista dij travaj rèis"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
-msgstr ""
+msgstr "Anclude ëdcò ij travaj ce ant l'erbo (si nen selessionà: anclude mach coma dossié)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Include parent-tasks in its own folder (unchecked: include above)"
-msgstr ""
+msgstr "Anclude ij travaj ce an so pròpi dossié (si nen selessionà: anclude dëdzora)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
@@ -5000,7 +5000,7 @@ msgstr "Amporté n'erbo ëd parentela pr'ij comand"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "ERROR, Please check"
-msgstr ""
+msgstr "EROR, për piasì ch'a contròla"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
@@ -5090,7 +5090,7 @@ msgstr "Listé j'utent che a l'han passà dël temp an sël travaj ant ël perì
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "WBS path"
-msgstr ""
+msgstr "Senté WBS"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5291,7 +5291,7 @@ msgstr "Gòla d'anformassion"
 
 #: admin/edit_team_ajax.php:482
 msgid "Invalid team name"
-msgstr ""
+msgstr "Nòm d'echip nen bon"
 
 #: admin/edit_team_ajax.php:486
 msgid "Couldn't enable/disable team"
@@ -6139,28 +6139,28 @@ msgstr "Gestion"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr ""
+msgstr "Caria për partìa d'utent"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
-msgstr ""
+msgstr "Verifiché tute le programassion dël perìod e smon-e soa arpartission për partìe d'utent."
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:302
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:325
 msgid "undefined"
-msgstr ""
+msgstr "nen definì"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:309
 msgid "No group defined for team member"
-msgstr ""
+msgstr "Gnun-a partìa definìa për ës mèmber dl'echip"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:332
 msgid "No group defined"
-msgstr ""
+msgstr "Gnun-a partìa definìa"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.php:126
 msgid "Please contact your team leader to update UserGroups settings"
-msgstr ""
+msgstr "Për piasì, ch'a contata ël cap ëd soa echip për agiorné ij paràmeter dle partìe dj'utent"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
@@ -6317,7 +6317,7 @@ msgstr "ATENSION: A dev assigné ël camp përsonalisà «CodevTT_PressiGiorna»
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:71
 msgid "Import Mantis relationship-tree to command"
-msgstr ""
+msgstr "Amporté n'erbo ëd relassion Mantis për fé na comanda"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:74
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
