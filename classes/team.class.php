@@ -977,6 +977,8 @@ class Team extends Model {
       $q_params[]=$this->id;
       $q_params[]=$extTasksProjectType;
       $sql->sql_query($query, $q_params);
+
+      Jobs::addJobProjectAssociation($externalTasksProject, Jobs::JOB_NA, $this->id);
    }
 
    /**
