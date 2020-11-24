@@ -433,18 +433,28 @@ if(Tools::isConnectedUser() &&
             $jobListStr = Tools::getSecurePOSTStringValue('jobListStr');
             $jobList = json_decode(stripslashes($jobListStr), true);
 
-            // delete all previous job associations
-            $sql = AdodbWrapper::getInstance();
-            $query = "DELETE FROM codev_project_job_table ".
-                     " WHERE project_id = ".$sql->db_param().
-                     " AND team_id = ".$sql->db_param();
-            $sql->sql_query($query, array($projectId, $displayed_teamid));
-
-            // set new project-job associations
+            $nbJobs = 0;
             foreach ($jobList as $job_id => $ischecked) {
-               if ($ischecked) {
-                  Jobs::addJobProjectAssociation($projectId, $job_id, $displayed_teamid);
+               if ($ischecked) { $nbJobs += 1; }
+            }
+
+            if (0 == $nbJobs) {
+               $data['statusMsg'] = T_('ERROR: joblist cannot be empty !');
+            } else {
+               // delete all previous job associations
+               $sql = AdodbWrapper::getInstance();
+               $query = "DELETE FROM codev_project_job_table ".
+                        " WHERE project_id = ".$sql->db_param().
+                        " AND team_id = ".$sql->db_param();
+               $sql->sql_query($query, array($projectId, $displayed_teamid));
+
+               // set new project-job associations
+               foreach ($jobList as $job_id => $ischecked) {
+                  if ($ischecked) {
+                     Jobs::addJobProjectAssociation($projectId, $job_id, $displayed_teamid);
+                  }
                }
+               $data['statusMsg'] = 'SUCCESS';
             }
             $team = TeamCache::getInstance()->getTeam($displayed_teamid);
             $project = ProjectCache::getInstance()->getProject($projectId);
@@ -452,7 +462,6 @@ if(Tools::isConnectedUser() &&
             $projectJobs = $project->getJobList($teamProjTypes[$projectId], $displayed_teamid);
 
             $jobNameListStr = implode(', ', $projectJobs);
-            $data['statusMsg'] = 'SUCCESS';
             $data['projectId'] = $projectId;
             $data['jobNameListStr'] = $jobNameListStr;
 

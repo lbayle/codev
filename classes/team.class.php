@@ -930,18 +930,23 @@ class Team extends Model {
       $count = $sql->sql_result($result2);
       //self::$logger->error("count jobs = $count");
       if (0 == $count) {
-         // if no job defined yet, then default jobs (previously: commonJobs) must be assigned.
-         $query3 = "INSERT INTO codev_project_job_table(project_id, job_id, team_id) ".
-                  "SELECT ".$sql->db_param().", job.id, ".$sql->db_param()." FROM codev_job_table job WHERE type = 0";
-         $q_params3[]=$projectid;
-         $q_params3[]=$this->id;
-         try {
-            $sql->sql_query($query3, $q_params3);
-         } catch (Exception $e) {
-            throw new Exception("Couldn't add the project to the team (add default jobs)");
+         if (Project::type_regularProject == $projecttype) {
+            // if no job defined yet, then default jobs (previously: commonJobs) must be assigned.
+            $query3 = "INSERT INTO codev_project_job_table(project_id, job_id, team_id) ".
+                      " SELECT ".$sql->db_param().", job.id, ".$sql->db_param().
+                      " FROM codev_job_table job WHERE type = 0";
+            $q_params3[]=$projectid;
+            $q_params3[]=$this->id;
+            try {
+               $sql->sql_query($query3, $q_params3);
+            } catch (Exception $e) {
+               throw new Exception("Couldn't add the project to the team (add default jobs)");
+            }
+         } else {
+            // add JOB_NA for all others (type_noStatsProject, type_sideTaskProject)
+            Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA, $this->id);
          }
       }
-
       return true;
    }
 
