@@ -374,7 +374,7 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
          $currentUserGroupName = $this->getGroupName($user->getId());
          $prjType = $team->getProjectType($track->getProjectId());
 
-         if ((Project::type_noCommonProject == $prjType) ||  // regular project
+         if ((Project::type_regularProject == $prjType) ||  // regular project
              (Project::type_sideTaskProject == $prjType)) {
 
             if (!array_key_exists($currentUserGroupName, $groupDataArray)) {
@@ -388,7 +388,7 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
                );
             }
             switch ($prjType) {
-               case Project::type_noCommonProject: // regular project
+               case Project::type_regularProject: // regular project
                   $groupDataArray[$currentUserGroupName]['elapsedOnRegularPrj'] += $track->getDuration();
                   $totalElapsedOnRegularPrj += $track->getDuration();
                   break;

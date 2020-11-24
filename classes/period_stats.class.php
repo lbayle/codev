@@ -54,7 +54,7 @@ class PeriodStats {
 
       // default values
       $this->projectTypeList[] = Project::type_workingProject;
-      $this->projectTypeList[] = Project::type_noCommonProject;
+      $this->projectTypeList[] = Project::type_regularProject;
    }
 
    /**

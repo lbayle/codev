@@ -512,7 +512,7 @@ function update_v16_to_v17() {
    }
 
    // convert workingProject (deprecated)  to noCommonJobProject
-   $query4 = "UPDATE codev_team_project_table SET type= ".Project::type_noCommonProject." WHERE type= ".Project::type_workingProject.';';
+   $query4 = "UPDATE codev_team_project_table SET type= ".Project::type_regularProject." WHERE type= ".Project::type_workingProject.';';
    execQuery($query4);
 
    // remove duplicates

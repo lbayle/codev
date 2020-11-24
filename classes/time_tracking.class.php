@@ -97,7 +97,7 @@ class TimeTracking {
                $this->sideTaskprojectList[] = $projectid;
                break;
             case Project::type_workingProject:  // no break;
-            case Project::type_noCommonProject:
+            case Project::type_regularProject:
                $this->prodProjectList[] = $projectid;
                break;
             case  Project::type_noStatsProject:

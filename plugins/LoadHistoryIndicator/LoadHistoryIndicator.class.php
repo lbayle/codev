@@ -229,7 +229,7 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
          $prjType = $team->getProjectType($issue->getProjectId());
          if (Project::type_sideTaskProject == $prjType) {
             $iselSideTasks->addIssue($bugid);
-         } else if (Project::type_noCommonProject == $prjType) {
+         } else if (Project::type_regularProject == $prjType) {
             $iselRegular->addIssue($bugid);
          }
       }

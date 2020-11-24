@@ -20,7 +20,7 @@ class Project extends Model {
 
    const type_workingProject = 0; // DEPRECATED normal projects are type 0
    const type_sideTaskProject = 1; // SuiviOp must be type 1
-   const type_noCommonProject = 2; // projects which have only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
+   const type_regularProject = 2; // projects which have only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
    const type_noStatsProject = 3; // projects that will be excluded from the statistics (ex: FDL)
 
    // REM: 'type' field in codev_project_category_table
@@ -47,7 +47,7 @@ class Project extends Model {
 
    public static $typeNames = array(
       //self::type_workingProject  => "Project", // DEPRECATED
-      self::type_noCommonProject => "Regular project", // previously "Project (no common jobs)"
+      self::type_regularProject => "Regular project", // previously "Project (no common jobs)"
       self::type_sideTaskProject => "SideTasks project",
       self::type_noStatsProject  => "External activity (excluded from statistics)",
    );
@@ -795,7 +795,7 @@ class Project extends Model {
                break;
             case self::type_workingProject:  // no break;
             case self::type_noStatsProject:  // no break;
-            case self::type_noCommonProject:
+            case self::type_regularProject:
                $query = "SELECT job.id, job.name ".
                         " FROM codev_job_table as job ".
                         " LEFT OUTER JOIN codev_project_job_table as project_job ".
