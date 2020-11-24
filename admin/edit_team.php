@@ -245,6 +245,9 @@ class EditTeamController extends Controller {
                   );
                }
 
+               // Import users from other teams to create MacroTeams
+               $this->smartyHelper->assign('importableTeams', Team::getTeams());
+
                $this->smartyHelper->assign('users', $smartyUserList);
                $this->smartyHelper->assign('adminCandidatesList', $smartyAdminCandidatesList);
                $this->smartyHelper->assign('teamAdminList', $smartyAdminList);
