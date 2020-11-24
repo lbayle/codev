@@ -101,7 +101,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // If user is allowed to import
          $sessionUser = UserCache::getInstance()->getUser($sessionUserId);
          if (($sessionUser->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) ||
-             ($sessionUser->isTeamManager($teamid))) {
+             ($sessionUser->isTeamManager($teamid)) ||
+             ($sessionUser->isTeamLeader($teamid))) {
 
             $plugin = new LoadPerUserGroups($pluginDataProvider);
 
@@ -141,7 +142,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $team->setUserGroups($userGroups);
 
          // TODO error handling !
-         
+
          $data = array(
             'statusMsg' => $statusMsg,
          );
