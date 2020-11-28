@@ -238,22 +238,29 @@ class LoadHistoryIndicator extends IndicatorPluginAbstract {
       $totalElapsedOnSidetasksPrj = 0;
       $totalElapsedOnPeriod = 0;
 
+         if ($this->isOnlyActiveTeamMembers) {
+            $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
+         } else {
+            // include also timetracks of users not in the team (commands WBS do that)
+            $useridList = NULL;
+         }
+
       $periodData = array();
       foreach ($timestampRangeList as $label => $ttRange) {
          $startT = $ttRange['start'];
          $endT   = $ttRange['end'];
 
-         if ($this->isOnlyActiveTeamMembers) {
+         //if ($this->isOnlyActiveTeamMembers) {
             // WARN: as the user-list can change depending on each date range,
             // you may have some differences with other indicators that take userList
             // on the global period.
             // Nevertheless, this case will only happen if a user switches team during the period
             // and both teams share the same mantis project (which is rare).
-            $useridList = array_keys($team->getActiveMembers($startT, $endT));
-         } else {
+         //   $useridList = array_keys($team->getActiveMembers($startT, $endT));
+         //} else {
             // include also timetracks of users not in the team (commands WBS do that)
-            $useridList = NULL;
-         }
+         //   $useridList = NULL;
+         //}
 
          $elapsedRegular  = $iselRegular->getElapsed($startT, $endT, $useridList);
          $elapsedSidetasks  = $iselSideTasks->getElapsed($startT, $endT, $useridList);
