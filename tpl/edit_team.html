@@ -141,7 +141,8 @@
          {/if}
       </div>
       <div id="tabTeamMembers">
-         <h2>{t}Team Members{/t}</h2>
+         <h2>{t}Team Members{/t}</h2><br>
+         <label>{t}Active team members{/t}: </label><label id="nbActiveTeamMembers_lbl">{$nbActiveTeamMembers}</label>
          <div style="margin-top: 2em;">
          <form id="addTeamMemberForm" name="addTeamMemberForm" class="formWithTabsHistory" method="post" action="{$page}">
             <fieldset>
@@ -204,7 +205,7 @@
             <table class="datatable_csv" id="teamMembers_table">
                <thead>
                   <tr>
-                     <th></th>
+                     <th id="nbTeamMembers_th" title="{t}Number of team members{/t}">{$teamMembers|@count}</th>
                      <th>{t}login{/t}</th>
                      <th>{t}Name{/t}</th>
                      <th title="{t}Arrival date in the team{/t}">{t}Arrival Date{/t}</th>

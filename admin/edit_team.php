@@ -260,6 +260,7 @@ class EditTeamController extends Controller {
 
                // teamMembers: used in teamMembers & UserDailyCost tab
                $this->smartyHelper->assign('teamMembers', $this->getTeamMembers($displayed_teamid));
+               $this->smartyHelper->assign('nbActiveTeamMembers', count($team->getActiveMembers()));
 
                $this->smartyHelper->assign('teamEnabled', $team->isEnabled());
                $this->smartyHelper->assign('otherProjects', $team->getOtherProjects());

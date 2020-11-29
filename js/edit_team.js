@@ -450,6 +450,11 @@ jQuery(document).ready(function() {
                   } else {
                      // remove line from teamMembers_table
                      jQuery(".teamMembers_tr[data-rowId='" + data.rowId + "']").remove();
+
+                     // update count
+                     var nbTeamMembers=parseInt(jQuery("#nbTeamMembers_th").text(), 10);
+                     nbTeamMembers -= 1;
+                     jQuery("#nbTeamMembers_th").text(nbTeamMembers);
                   }
                }
             },
