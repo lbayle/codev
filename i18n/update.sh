@@ -85,7 +85,7 @@ f_genFileList ()
   do
     SRC_FILES="$SRC_FILES $filename"
   done < $FILE_LIST
-  
+
   echo "  - nb php files found: $(cat $FILE_LIST | wc -l )"
 
   rm $FILE_LIST
@@ -99,25 +99,25 @@ f_createTemplateFile ()
 
   rm -f ${mergedPoFile}
   rm -f ${templatePoFile}
-  
+
   echo "  - parse php files and create template"
 
   #xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -L PHP -o ${templatePoFile} $SRC_FILES
   xgettext --add-comments -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -o ${templatePoFile} $SRC_FILES
- 
+
   # Remove "smarty.c" comments
   mv ${templatePoFile} ${templatePoFile}.old
   cat ${templatePoFile}.old | grep -v "smarty.c" > ${templatePoFile}
   rm ${templatePoFile}.old
 
-  if [ ! -f ${templatePoFile} ]  
+  if [ ! -f ${templatePoFile} ]
   then
     echo "ERROR: template file ${templatePoFile} not found !"
     exit 1
   else
     sed -i s/charset=CHARSET/charset=UTF-8/g ${templatePoFile}
     sed -i "s/Language: /Language: ${LOCALE}/g" ${templatePoFile}
-    
+
     if [ -f ${FILE_PO} ]
     then
       sed -i s/charset=CHARSET/charset=UTF-8/g ${FILE_PO}
@@ -211,7 +211,10 @@ else
   # be sure that gettext chooses the right FR file :
   # i18n/locale/fr    (translated by lbayle to his mother-tongue) is better than
   # i18n/locale/fr_FR (translatewiki.net)
-  cp ${DIR_CODEVTT}/i18n/locale/fr/LC_MESSAGES/codev.* ${DIR_CODEVTT}/i18n/locale/fr_FR/LC_MESSAGES
+
+  # 2020-11-30 translatewiki.net complained about this file changing manualy so I'll leave
+  # it as is (with all the wrong translations), just be sure not to use it !
+  #cp ${DIR_CODEVTT}/i18n/locale/fr/LC_MESSAGES/codev.* ${DIR_CODEVTT}/i18n/locale/fr_FR/LC_MESSAGES
 fi
 
 
