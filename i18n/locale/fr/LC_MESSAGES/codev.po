@@ -5135,7 +5135,7 @@ msgstr "Nb jours"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Task backlog"
-msgstr "Backlog de tâches"
+msgstr "RAF de la tâche"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Fill Period With Timetracks"
@@ -5160,7 +5160,7 @@ msgstr "Erreur !"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "days available on period"
-msgstr "Nombre de jours dispo sur la période"
+msgstr "jours dispo sur la période"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Could not retrieve task data !"
