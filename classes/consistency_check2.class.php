@@ -194,6 +194,7 @@ class ConsistencyCheck2 {
           'checkUnassignedTasks' => 0,
           'checkTimetracksOnRemovedIssues' => 0,
           #'checkDeliveryDate' => 0,
+          'checkIssuesNotInTeamProjects' => 1,
          );
 
       self::$checkDescriptionList = array(
@@ -207,6 +208,7 @@ class ConsistencyCheck2 {
           'checkCommandSetNotInServiceContract' => T_('CommandSets should be referenced in a ServiceContract'),
           'checkUnassignedTasks' => T_('Issues should be assigned to someone'),
           'checkTimetracksOnRemovedIssues' => T_('Check timetracks on removed issues (not needed if Mantis plugin is enabled)'), // for all timetracks of the team, check that the Mantis issue exist.
+          'checkIssuesNotInTeamProjects' => T_("Command issues should belong to the team's project-list"),
          );
 
 
@@ -791,6 +793,29 @@ class ConsistencyCheck2 {
       }
       return $cerrList;
    }
+
+   /**
+    * Commands are a set of tasks, there should not be tasks not assigned to the team
+    */
+   public function checkIssuesNotInTeamProjects() {
+      $cerrList = array();
+      if (0 != $this->teamId) {
+         $team = TeamCache::getInstance()->getTeam($this->teamId);
+         $teamProjects = $team->getProjects();
+
+         if(count($this->issueList) > 0) {
+            foreach ($this->issueList as $issue) {
+               if (!array_key_exists($issue->getProjectId(), $teamProjects)) {
+                  $cerr = new ConsistencyError2($issue->getId(), NULL, NULL, NULL, T_("Project not defined in the team's project-list"));
+                  $cerr->severity = ConsistencyError2::severity_error;
+                  $cerrList[] = $cerr;
+               }
+            }
+         }
+      }
+      return $cerrList;
+   }
+
 }
 
 ConsistencyCheck2::staticInit();
