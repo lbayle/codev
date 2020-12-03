@@ -6,6 +6,7 @@
          {include file="form/dateRangeSelector.html"}
          <input type="hidden" name="action" value="computeMonthlyActivityReport" />
          <input type="submit" value="{t}Compute{/t}" />
+         <label style="vertical-align: bottom;"><input type="checkbox" {if $isDetailed}checked="checked"{/if} name="cb_detailed" id="cb_detailed" />{t}Detailed{/t}</label>
       </fieldset>
     </form>
 

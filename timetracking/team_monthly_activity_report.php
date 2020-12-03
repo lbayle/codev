@@ -37,7 +37,7 @@ class TeamMonthlyActivityReportController extends Controller {
         if ((0 == $this->teamid) || ($this->session_user->isTeamCustomer($this->teamid))) {
             $this->smartyHelper->assign('accessDenied', TRUE);
         } else {
-             
+
             $isManager = $this->session_user->isTeamManager($this->teamid);
             $isObserver = $this->session_user->isTeamObserver($this->teamid);
             if ($isManager || $isObserver) {
@@ -58,15 +58,13 @@ class TeamMonthlyActivityReportController extends Controller {
             $this->smartyHelper->assign('endDate', $enddate);
             $endTimestamp = Tools::date2timestamp($enddate);
 
-            #$isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
-            #$this->smartyHelper->assign('isDetailed', $isDetailed);
+            $isDetailed = isset($_POST['cb_detailed']) ? TRUE : FALSE;
+            //$isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
+            $this->smartyHelper->assign('isDetailed', $isDetailed);
 
             if ('computeMonthlyActivityReport' == $_POST['action']) {
 
                $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $this->teamid);
-               $tracks = $timeTracking->getTimeTracks();
-
-               $this->smartyHelper->assign('monthlyActivityReport', $this->getMonthlyActivityReport($tracks));
 
                // ConsistencyCheck
                $consistencyErrors = $this->getConsistencyErrors($timeTracking);
@@ -75,6 +73,20 @@ class TeamMonthlyActivityReportController extends Controller {
                   $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
                   $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
                }
+
+               if ($isDetailed) {
+                  //INCLUDING tasks on projects not included in the team !
+                  $tracks = $timeTracking->getTimeTracks();
+
+               } else {
+                  // create issueSelection with issues from team projects
+                  $team = TeamCache::getInstance()->getTeam($this->teamid);
+                  $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
+                  $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');
+                  $teamIssueSelection->addIssueList($teamIssues);
+                  $tracks = $teamIssueSelection->getTimetracks(NULL, $startTimestamp, $endTimestamp);
+               }
+               $this->smartyHelper->assign('monthlyActivityReport', $this->getMonthlyActivityReport($tracks));
             }
         }
       }
