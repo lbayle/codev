@@ -84,7 +84,8 @@ class TeamMonthlyActivityReportController extends Controller {
                   $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
                   $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');
                   $teamIssueSelection->addIssueList($teamIssues);
-                  $tracks = $teamIssueSelection->getTimetracks(NULL, $startTimestamp, $endTimestamp);
+                  $teamUsers = $team->getActiveMembers($startTimestamp, $endTimestamp);
+                  $tracks = $teamIssueSelection->getTimetracks(array_keys($teamUsers), $startTimestamp, $endTimestamp);
                }
                $this->smartyHelper->assign('monthlyActivityReport', $this->getMonthlyActivityReport($tracks));
             }
