@@ -76,6 +76,7 @@ class PluginManagerController extends Controller {
          // set values to display plugin table
          $plugins = $pm->getPlugins();
          $formattedPlugins = array();
+         $nbEnabledPlugins = 0;
          foreach ($plugins as $plugin) {
 
             $className = $plugin['className'];
@@ -101,8 +102,12 @@ class PluginManagerController extends Controller {
             'version' => $plugin['version'],
             'description' => $plugin['description'],
             );
+            if (PluginManager::PLUGIN_STATUS_REMOVED != $plugin['status']) {
+               $nbPlugins += 1;
+            }
          }
          $this->smartyHelper->assign('availablePlugins', $formattedPlugins);
+         $this->smartyHelper->assign('nbPlugins', $nbPlugins);
       }
    }
 
