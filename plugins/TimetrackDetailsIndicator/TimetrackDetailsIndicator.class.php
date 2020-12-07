@@ -25,7 +25,7 @@
 class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
 
    const OPTION_DISPLAYED_TEAM = 'displayedTeam';
-   
+
    private static $logger;
    private static $domains;
    private static $categories;
@@ -150,7 +150,7 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
 
       // candidate teams
       $teamList = Team::getTeams(true);
-      
+
       if (!array_key_exists($this->displayedTeam,$teamList)) {
          $teamIds = array_keys($teamList);
          if(count($teamIds) > 0) {
@@ -159,12 +159,12 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
             $this->displayedTeam = 0;
          }
       }
-      
+
       // get timetracks
       $timetracks = array();
       if (0 != $this->displayedTeam) {
-         
-         $members = TeamCache::getInstance()->getTeam($this->displayedTeam)->getMembers();
+
+         $members = TeamCache::getInstance()->getTeam($this->displayedTeam)->getActiveMembers();
 
          if (!empty($members)) {
             $memberIdList = array_keys($members);

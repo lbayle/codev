@@ -590,11 +590,11 @@ class Team extends Model {
     * @param bool $addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
     * @return Issue[] : issueList
     */
-   public function getTeamIssueList($addUnassignedIssues = false, $withDisabledProjects = true) {
+   public function getTeamIssueList($addUnassignedIssues = false, $withDisabledProjects = true, $withNoStatsProjects = true, $withSideTasksProjects=true) {
 
       $issueList = array();
 
-      $projectList = $this->getProjects(true, $withDisabledProjects);
+      $projectList = $this->getProjects($withNoStatsProjects, $withDisabledProjects, $withSideTasksProjects);
       $memberList = $this->getMembers();
 
       $memberIdList = array_keys($memberList);

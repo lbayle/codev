@@ -1,0 +1,26 @@
+<div class="TimetrackingAnalysis_ajax"  style="width:100%;">
+   <table class="TimetrackingAnalysisValuesTable datatable_minimal">
+      <thead>
+         <tr>
+            <th>{t}Start date{/t}</th>
+            <th>{t}Average{/t}<br>{t}(in days){/t}</th>
+            <th>{t}Median{/t}<br>{t}(in days){/t}</th>
+            <th>{t}Mode{/t}<br>{t}(in days){/t}</th>
+            <th>{t}Nb timetracks{/t}</th>
+            <th>{t}Missing timetracks{/t}<br>{t}(in days){/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$TimetrackingAnalysis_tableData key=name item=i}
+         <tr>
+            <td nowrap="nowrap">{$name}</td>
+            <td>{$i.average}</td>
+            <td>{$i.median}</td>
+            <td>{$i.mode} ({$i.mode_pcent}%)</td>
+            <td>{$i.nbTimetracks}</td>
+            <td>{$i.missingDays}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>

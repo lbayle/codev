@@ -1,0 +1,170 @@
+<div class="TimetrackingAnalysis">
+   <div class="pluginInitFunction"  style="display: none;">TimetrackingAnalysisJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">TimetrackingAnalysisJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="TimetrackingAnalysis_dateRange_form" method="get" action="{$TimetrackingAnalysis_ajaxPhpURL}">
+      <fieldset>
+         <label for="TimetrackingAnalysis_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="TimetrackingAnalysis_startdatepicker datepicker" name="TimetrackingAnalysis_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="TimetrackingAnalysis_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="TimetrackingAnalysis_enddatepicker datepicker" name="TimetrackingAnalysis_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="TimetrackingAnalysis_submit" type="submit" value="{t}Display{/t}" />
+         <img class="TimetrackingAnalysis_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         <input type="hidden" name="action" value="getTimetrackingAnalysis" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+{if isset($TimetrackingAnalysis_tableData)}
+<div>
+   <div id="tabsTimetrackingAnalysis" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#TimetrackingAnalysis_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#TimetrackingAnalysis_tabValues">{t}Values{/t}</a></li>
+      </ul>
+      <div id="TimetrackingAnalysis_tabGraph">
+         <div class="TimetrackingAnalysis_jqPlot xlabels_chart chart" style="width: 100%;"></div>
+      </div>
+      <div id="TimetrackingAnalysis_tabValues" class="TimetrackingAnalysis_tabValues">
+         {include file="`$TimetrackingAnalysis_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="TimetrackingAnalysisHelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <span class="float pointer">
+      <img onclick="$('.TimetrackingAnalysisValuesTable').table2CSV({literal}{{/literal}filename : 'loadHistoryIndicator.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+   <div class="TimetrackingAnalysisHelpDialog ui-helper-hidden" title="{t}Timetracking analysis{/t}">
+      <p>
+         <strong>Description:</strong><br>
+         TODO
+         <br>
+      </p>
+   </div>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function TimetrackingAnalysisJsDestroy() {
+      console.log('TimetrackingAnalysisJsDestroy');
+      //jQuery(".TimetrackingAnalysisHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function TimetrackingAnalysisJsInit() {
+      console.log('TimetrackingAnalysisJsInit');
+      jQuery('.TimetrackingAnalysis_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".TimetrackingAnalysis_startdatepicker").datepicker("setDate" ,"{$TimetrackingAnalysis_startDate}");
+      var endDatePicker = jQuery(".TimetrackingAnalysis_enddatepicker").datepicker("setDate" ,"{$TimetrackingAnalysis_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.TimetrackingAnalysis_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         jQuery('.TimetrackingAnalysis_spinner').show(); // spinner img
+
+         var form = jQuery('.TimetrackingAnalysis_dateRange_form');
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'showSidetasks'
+         // Note: TimetrackingAnalysisAttr is declared in dashboard.html
+         var attr = jQuery('.TimetrackingAnalysisAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".addTeamAdminErrorMsg").html(data.statusMsg);
+               } else {
+                  jQuery(".TimetrackingAnalysis_tabValues").html(jQuery.trim(data['TimetrackingAnalysis_htmlContent']));
+
+                  if (data['TimetrackingAnalysis_jqplotData']) {
+                     var chart = jQuery('.TimetrackingAnalysis_jqPlot');
+                     var chartoptions = chart.data('plotoptions');
+                     chartoptions.axes.xaxis.ticks = jQuery.parseJSON(data['TimetrackingAnalysis_jqplotXaxes']);
+                     var jqplotData = jQuery.parseJSON(data['TimetrackingAnalysis_jqplotData']);
+                     chart.empty();
+                     chart.jqplot(jqplotData, chartoptions);
+                  }
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.TimetrackingAnalysis_spinner').hide(); // spinner img
+      });
+
+      jQuery(".TimetrackingAnalysisHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".TimetrackingAnalysisHelpDialog").dialog("open");
+      });
+      jQuery(".TimetrackingAnalysisHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+
+      var chartoptions = jQuery('.TimetrackingAnalysis_jqPlot').data('plotoptions');
+
+      // overload .date_chart options (chart.js)
+      chartoptions.title = "{t}Average delay between the timetrack date and it's creation date (in days){/t}";
+      chartoptions.legend.labels = ['{t}Average{/t}'];
+      chartoptions.legend.placement = 'inside';
+      chartoptions.legend.location = 'ne';
+      chartoptions.axesDefaults.tickOptions.fontSize = '8pt'
+      chartoptions.seriesDefaults.pointLabels.formatString = "%#.1f"
+
+      //chartoptions.axes.xaxis.ticks = ['toto', 'titi', 'tutu', 'tata'];
+      //var data = [[5, 32, 40, 48],[32, 41, 44, 14]];
+      chartoptions.axes.xaxis.ticks = {$TimetrackingAnalysis_jqplotXaxes};
+      var data = {$TimetrackingAnalysis_jqplotData};
+
+      jQuery('.TimetrackingAnalysis_jqPlot').jqplot(data, chartoptions);
+
+   };
+</script>
+</div>

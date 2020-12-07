@@ -2,7 +2,7 @@
 jQuery(document).ready(function() {
 
    jQuery.jqplot.config.enablePlugins = false;
-   
+
    // Chart by date
    jQuery('.date_chart').each(function() {
       jQuery(this).data("plotoptions", {
@@ -50,7 +50,7 @@ jQuery(document).ready(function() {
          }
       });
    });
-   
+
    jQuery('.day_date_chart').each(function() {
       jQuery(this).data("plotoptions", {
          // animate: true,
@@ -157,11 +157,12 @@ jQuery(document).ready(function() {
          }
       });
    });
-   
+
    // Chart with labels on X
    // var line1 = [14, 32, 41, 44];
    // chartoptions.axes.xaxis.ticks = ['toto', 'titi', 'tutu', 'tata'];
    // chartoptions.title = 'my graph title';
+   // chartoptions.seriesDefaults.pointLabels.formatString = "%#.1f"
    // jQuery('#chart1').jqplot([line1], chartoptions);
    jQuery('.xlabels_chart').each(function() {
       jQuery(this).data("plotoptions", {
