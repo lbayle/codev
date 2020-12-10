@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-26 16:48:35+0000\n"
+"PO-Revision-Date: 2020-12-10 12:43:38+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4288,7 +4288,7 @@ msgstr "CSV 파일을 선택해 주십시오"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please check table below and click 'OK' button to accept changes"
-msgstr ""
+msgstr "변경사항을 수락하려면 아래의 표를 확인하고 '확인' 단추를 클릭해 주십시오"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
@@ -5329,7 +5329,7 @@ msgstr "툴팁"
 
 #: admin/edit_team_ajax.php:482
 msgid "Invalid team name"
-msgstr ""
+msgstr "유효하지 않은 팀 이름"
 
 #: admin/edit_team_ajax.php:486
 msgid "Couldn't enable/disable team"

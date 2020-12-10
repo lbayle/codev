@@ -17,7 +17,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2020-11-23 14:18:27+0000\n"
+"PO-Revision-Date: 2020-12-10 12:43:42+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -931,7 +931,7 @@ msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Prepare"
-msgstr "{{Identical|Amade ke}}"
+msgstr "{{Identical|Prepare}}"
 
 #. tpl/prepare_project.html
 #. tpl/create_team.html
