@@ -325,7 +325,7 @@ class WBSElement extends Model {
       $result = $sql->sql_query($query);
       if ($result) {
          while ($row = $sql->fetchObject($result)) {
-            $subFolder = new WBSElement($row->id, $row->root_id, $row->bug_id, $row->parent_id, null, $row->title);
+            $subFolder = new WBSElement($row->id, $row->root_id, $row->bug_id, $row->parent_id, $row->wbs_order, $row->title);
             $this->addSubFolder($subFolder);
          }
       }
