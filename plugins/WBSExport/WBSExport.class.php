@@ -167,6 +167,7 @@ class WBSExport extends IndicatorPluginAbstract {
       $data = [];
       foreach ($rows as $key => $row) {
          $path = $row['path'];
+         /* @var $issue Issue */
          $issue = $row['issue'];
          $id = $issue->getId();
          $projectName = $issue->getProjectName();
@@ -193,7 +194,7 @@ class WBSExport extends IndicatorPluginAbstract {
          $data[$key][] = $issue->getMgrEffortEstim();
          $data[$key][] = $issue->getEffortEstim();
          $data[$key][] = $issue->getElapsed();
-         $data[$key][] = $issue->getBacklog();
+         $data[$key][] = $issue->getDuration(); // Yes Duration, not backlog, as Export will mostly be used in XLS...
          $data[$key][] = $issue->getDriftMgr();
          $data[$key][] = $issue->getSummary();
       }
