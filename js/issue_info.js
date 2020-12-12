@@ -51,36 +51,97 @@ jQuery(document).ready(function() {
       jQuery.datepicker.setDefaults($.datepicker.regional[issueInfoSmartyData.datepickerLocale]);
    }
 
+   jQuery("#btIssueInfoFilter").click(function(e) {
+      e.preventDefault();
+      jQuery("#editIssueInfoFilter_dialog").dialog( "open" );
+   });
+
+   jQuery("#editIssueInfoFilter_dialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      height: 'auto',
+      width: 'auto',
+      modal: true,
+      buttons: [
+         {
+            text: issueInfoSmartyData.i18n_update,
+            click: function() {
+               var issueInfoFilterList = {};
+               $("#editIssueInfoFilterDlg_tbl .editIssueInfoFilterDlg_tr").each(function() {
+                  var filterId  = $(this).attr('data-filterId');
+                  var isChecked = $(this).find(".opt_enabled").attr('checked') ? 1 : 0;
+                  issueInfoFilterList[filterId] = isChecked;
+               });
+
+               $.ajax({
+                  url: issueInfoSmartyData.ajaxPage,
+                  type: "GET",
+                  dataType:"json",
+                  data: {
+                     action: 'setIssueInfoFilters',
+                     projectId: jQuery("#projectid").val(),
+                     bugId: jQuery("#bugid").val(),
+                     issueInfoFilterListJson: JSON.stringify(issueInfoFilterList)
+                  },
+                  success: function(data) {
+                     if ('SUCCESS' === data.statusMsg) {
+                        // simply reload the page !
+                        window.location = issueInfoSmartyData.page;
+                     } else {
+                        console.error("Ajax statusMsg", data.statusMsg);
+                        alert(data.statusMsg);
+                     }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+               jQuery(this).dialog( "close" );
+            }
+         },
+         {
+            text: issueInfoSmartyData.i18n_cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
+   });
+
+
+
 // =================================================================
 // Task selection form
 
 jQuery("#projectid").change(function() {
-   var projectid = jQuery(this).val();
-   var bugid=jQuery("#bugid").val();
+   var projectid = jQuery("#projectid").val();
+   var bugid=0; // jQuery("#bugid").val();
 
    // WORKAROUND
-   if (null === bugid ) {
-      bugid = "0";
-   }
+   if (null === bugid )     { bugid = "0"; }
+   if (null === projectid ) { projectid = "0"; }
 
-   jQuery.ajax({
+   $.ajax({
+      url: issueInfoSmartyData.ajaxPage,
       type: "GET",
-      url: "smarty_tools_ajax.php",
-      data: "action=getProjectIssues&projectid="+projectid+"&bugid="+bugid,
+      dataType:"json",
+      data: {
+         action: 'setProjectAndIssue',
+         projectId: projectid,
+         bugId: bugid
+      },
       success: function(data) {
-         jQuery("#bugSelector").html(jQuery.trim(data));
-         updateWidgets("#bugSelector");
-
-         // Hide result because the form is no more consistent with the result
-         jQuery("#result").hide();
+         if ('SUCCESS' !== data.statusMsg) {
+            console.error("Ajax statusMsg", data.statusMsg);
+            alert(data.statusMsg);
+         }
+         // simply reload the page !
+         window.location = issueInfoSmartyData.page;
       },
       error: function(jqXHR, textStatus, errorThrown) {
-         if(errorThrown === 'Forbidden') {
-            window.location = issueInfoSmartyData.page;
-         } else {
-            console.error(textStatus, errorThrown);
-            alert(errorThrown);
-         }
+         console.error(textStatus, errorThrown);
+         alert("ERROR: Please contact your CodevTT administrator");
       }
    });
 });
@@ -500,7 +561,7 @@ function isTimetrackingFieldsValid() {
             }
          }
       ]
-      
+
    });
    jQuery("#formAddToCmd").submit(function(event) {
       event.preventDefault();

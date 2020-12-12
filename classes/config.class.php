@@ -118,6 +118,7 @@ class Config {
    const id_durationList = 'durationList';
    const id_issueTooltipFields = 'issue_tooltip_fields';
    const id_cmdStateFilters = 'cmdStateFilters';
+   const id_issueInfoFilters = 'issueInfoFilters';
    const id_dashboard = 'dashboard_'; // real key will be dashboard_<dashboard_ID>
    const id_planningOptions = 'planningOptions';
    const id_schedulerOptions = 'schedulerOptions';

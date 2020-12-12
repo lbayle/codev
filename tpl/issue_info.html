@@ -4,6 +4,9 @@
    <div class="center" style="margin-top: 2em">
       <form id="form1" name="form1" class="formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
+            <span class="pointer" title="{t}Set filters{/t}" id="btIssueInfoFilter" style="text-decoration: none">
+               <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="Set filters" />
+            </span>
             <select id="projectid" title="{t}Project{/t}">
               {foreach from=$projects key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
@@ -18,6 +21,34 @@
       </form>
    </div>
 
+   <div id="editIssueInfoFilter_dialog" title="{t}Set filters{/t}" class="ui-helper-hidden">
+      <div style="overflow-x:hidden;overflow-y:auto;">
+      <table id="editIssueInfoFilterDlg_tbl" class="invisible">
+         <tbody>
+            <tr class="editIssueInfoFilterDlg_tr" data-filterId="isOnlyAssignedToMe">
+               <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isOnlyAssignedToMe}checked="checked"{/if}></td>
+               <td class="left">{t}Hide tasks not assigned to me{/t}</td>
+            </tr>
+            <tr class="editIssueInfoFilterDlg_tr" data-filterId="isHideResolved">
+               <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isHideResolved}checked="checked"{/if}></td>
+               <td class="left">{t}Hide resolved tasks{/t}</td>
+            </tr>
+            <tr class="editIssueInfoFilterDlg_tr" data-filterId="isHideClosed">
+               <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isHideClosed}checked="checked"{/if}></td>
+               <td class="left">{t}Hide closed tasks{/t}</td>
+            </tr>
+            <tr class="editIssueInfoFilterDlg_tr" data-filterId="isHideObservedTeams">
+               <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isHideObservedTeams}checked="checked"{/if}></td>
+               <td class="left">{t}Hide tasks from observed teams{/t}</td>
+            </tr>
+         </tbody>
+      </table>
+      </div>
+   </div>
+
+   {if isset($errorMessage)}
+   <p class="center ui-state-error-text">{$errorMessage}</p>
+   {else}
    <div id="result">
 
       <!-- Title -->
@@ -71,7 +102,7 @@
 
             <!-- General info -->
             <h3>
-               <span id="updateTimetracking_link" >{t}Time tracking{/t} 
+               <span id="updateTimetracking_link" >{t}Time tracking{/t}
                   {if ! $isObserver}
                   &nbsp;&nbsp;<img class="pointer" align="absmiddle" title="{t}Update timetracking{/t}" src="images/b_edit.png"/>
                   {/if}
@@ -83,7 +114,7 @@
 
             <div id="divTaskInfo" style="margin-top:2em;">
                <h3>
-                  <span id="updateTaskInfo_link" >{t}Task Info{/t} 
+                  <span id="updateTaskInfo_link" >{t}Task Info{/t}
                      {if ! $isObserver}
                      &nbsp;&nbsp;<img class="pointer" align="absmiddle" title="{t}Update task info{/t}" src="images/b_edit.png"/>
                      {/if}
@@ -386,7 +417,7 @@
       </div>
 
    </div>
-
+   {/if}
 
    <script type="text/javascript">
       // this is to transmit SMARTY variables to time_tracking.js

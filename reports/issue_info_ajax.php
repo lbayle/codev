@@ -57,7 +57,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          $user = UserCache::getInstance()->getUser($userid);
          $cmd = CommandCache::getInstance()->getCommand($cmdid);
          $cmdTeamid = $cmd->getTeamid();
-         
+
          if ($user->isTeamManager($cmdTeamid)) {
             $cmd->removeIssue($bugid);
             $jsonData=json_encode(array('statusMsg' => 'SUCCESS', 'cmdid' => $cmdid));
@@ -67,7 +67,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          }
          // return ajax data
          echo $jsonData;
-         
+
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: removeFromCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
       }
@@ -79,13 +79,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       try {
          // user must be manager
          // issue must be in team's projects
-         
+
          $user = UserCache::getInstance()->getUser($userid);
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $team = TeamCache::getInstance()->getTeam($teamid);
          $prjList = $team->getProjects();
          $issueCmds = $issue->getCommandList();
-         
+
          if (!$user->isTeamManager($teamid)) {
             $logger->error("getCmdCandidates: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
             $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks to commands')));
@@ -106,11 +106,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          }
          // return ajax data
          echo $jsonData;
-         
+
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: getCmdCandidates bad values: user=$userid issue=$bugid cmd=$cmdid");
       }
-      
+
    } else if ('addToCmd' === $action) {
       $cmdid = Tools::getSecureGETIntValue('cmdid');
       $bugid = Tools::getSecureGETIntValue('bugid');
@@ -127,7 +127,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $team = TeamCache::getInstance()->getTeam($teamid);
          $prjList = $team->getProjects();
-         
+
          if (!$user->isTeamManager($teamid)) {
             $logger->error("addToCmd: NOT_MANAGER user=$userid issue=$bugid cmd=$cmdid");
             $jsonData=json_encode(array('statusMsg' => T_('Sorry, only managers can add tasks to commands')));
@@ -141,7 +141,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          }
          // return ajax data
          echo $jsonData;
-         
+
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: addToCmd bad values: user=$userid issue=$bugid cmd=$cmdid");
       }
@@ -430,10 +430,52 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          Tools::sendBadRequest("Error: updateTaskInfo bad values: user=$userid issue=$bugid");
       }
 
+   }  else if ('setProjectAndIssue' == $action) {
+      try {
+         $projectId  = Tools::getSecureGETIntValue('projectId', 0);
+         $bugId  = Tools::getSecureGETIntValue('bugId', 0);
+         $_SESSION['projectid'] = $projectId;
+         $_SESSION['bugid'] = $bugId;
+         $data['statusMsg'] = 'SUCCESS';
+      } catch (Exception $e) {
+         $logger->error("EXCEPTION setIssueInfoFilters: ".$e->getMessage());
+         $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         $data['statusMsg'] = 'ERROR: '.$e->getMessage();
+      }
+      // return status & data
+      $jsonData = json_encode($data);
+      echo $jsonData;
+
+   }  else if ('setIssueInfoFilters' == $action) {
+      $data = array();
+      try {
+         $teamid = $_SESSION['teamid'];
+         $userid = $_SESSION['userid'];
+         $projectId  = Tools::getSecureGETIntValue('projectId', 0);
+         $bugId  = Tools::getSecureGETIntValue('bugId', 0);
+         $issueInfoFilterListJson  = Tools::getSecureGETStringValue('issueInfoFilterListJson');
+
+         $user = UserCache::getInstance()->getUser($userid);
+
+         $issueInfoFilterList = json_decode($issueInfoFilterListJson);
+         foreach($issueInfoFilterList as $key => $val) {
+            $user->setIssueInfoFilter($key, $val, $teamid);
+         }
+         $data['statusMsg'] = 'SUCCESS';
+         // TODO return new ProjectLust & issueList
+
+      } catch (Exception $e) {
+         $logger->error("EXCEPTION setIssueInfoFilters: ".$e->getMessage());
+         $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         $data['statusMsg'] = 'ERROR: '.$e->getMessage();
+      }
+      // return status & data
+      $jsonData = json_encode($data);
+      echo $jsonData;
+
    } else {
       Tools::sendNotFoundAccess();
    }
-}
-else {
+} else {
    Tools::sendUnauthorizedAccess();
 }

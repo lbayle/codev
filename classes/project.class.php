@@ -834,16 +834,18 @@ class Project extends Model {
     * @param int $handler_id (if 0, all users)
     * @param bool $isHideResolved
     * @param int $hideStatusAndAbove if 0:hide none
+    * @param type $isHideForbidenStatus
+    * @param type $teamid mandatory if isHideForbidenStatus=true
     * @return Issue[] : array[]
     */
-   public function getIssues($handler_id = 0, $isHideResolved = FALSE, $hideStatusAndAbove = 0, $isHideForbidenStatus = 0, $teamid = 0) {
+   public function getIssues($handler_id = 0, $isHideResolved = FALSE, $hideStatusAndAbove = 0, $isHideForbidenStatus = FALSE, $teamid = 0) {
 
       if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
 
       $key = $handler_id;
       $key .= ($isHideResolved) ? '_true' : '_false';
       $key .= '_'.$hideStatusAndAbove;
-      $key .= '_'.$isHideForbidenStatus;
+      $key .= ($isHideForbidenStatus) ? '_true' : '_false';
 
       if (!array_key_exists($key, $this->bugidListsCache)) {
          $issueList = array();

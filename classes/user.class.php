@@ -1293,6 +1293,50 @@ class User extends Model {
    }
 
    /**
+    * set the Command State filters
+    * used to display less commands in the cmd selection combobox
+    *
+    * @param string $key
+    * @param any $value
+    * @param int $teamid
+    */
+   public function setIssueInfoFilter($key, $value, $teamid=0) {
+
+      $filters = $this->getIssueInfoFilters($teamid);
+      $filters[$key] = $value;
+
+      $filterStr = json_encode($filters);
+      Config::setValue(Config::id_issueInfoFilters, $filterStr, Config::configType_string, NULL, 0, $this->id, $teamid);
+   }
+
+
+   /**
+    * get the Filters used to display the issue_info.php page
+    * used to display less issues in the issue combobox
+    *
+    * @return array
+    */
+   public function getIssueInfoFilters($teamid=0) {
+
+      // default filter values
+      $filters = array(
+         'isOnlyAssignedToMe' => false,
+         'isHideResolved' => false,
+         'isHideClosed' => true,
+         'isHideObservedTeams' => true,
+      );
+      // override with user settings if exist
+      $filterStr = Config::getValue(Config::id_issueInfoFilters, array($this->id, 0, $teamid, 0, 0, 0), true);
+      if (NULL != $filterStr) {
+         $curFilters = json_decode($filterStr);
+         foreach ($curFilters as $key => $value) {
+            $filters[$key] = $value;
+         }
+      }
+      return $filters;
+   }
+
+   /**
     * set the language to set on login
     * @param int $lang
     */
