@@ -183,12 +183,12 @@ class WBSExport extends IndicatorPluginAbstract {
                $data[$key][] = '';
             }
          }
-
+         $user = UserCache::getInstance()->getUser($issue->getHandlerId());
          $status = Constants::$statusNames[$issue->getStatus()];
          $data[$key][] = $id;
          $data[$key][] = $issue->getTargetVersion();
          $data[$key][] = $issue->getTcId();
-         $data[$key][] = $issue->getHandlerId();
+         $data[$key][] = $user->getRealname();
          $data[$key][] = $issue->getType();
          $data[$key][] = (null == $status) ? '('.$issue->getStatus().')' : $status;
          $data[$key][] = round($issue->getProgress(), 4);
