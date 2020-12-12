@@ -23,16 +23,19 @@
  */
 class BlogPlugin extends IndicatorPluginAbstract {
 
+   const OPTION_SIZE = 'widgetSize'; // small, medium, large, huge
+
    private static $logger;
    private static $domains;
    private static $categories;
+   private static $widgetPxSize;
 
    // params from PluginDataProvider
    private $teamid;
    private $sessionUserId;
 
    // config options from Dashboard
-   private $userSettings;
+   private $widgetSize;
 
    protected $execData;
 
@@ -50,6 +53,13 @@ class BlogPlugin extends IndicatorPluginAbstract {
       // A plugin should have only one category
       self::$categories = array (
          self::CATEGORY_INTERNAL
+      );
+      // A plugin should have only one category
+      self::$widgetPxSize = array (
+         'small' => '350px',
+         'medium' => '650px',
+         'large' => '1000px',
+         'huge' => '1500px',
       );
    }
 
@@ -112,6 +122,7 @@ class BlogPlugin extends IndicatorPluginAbstract {
       }
 
       // set default pluginSettings (not provided by the PluginDataProvider)
+      $this->widgetSize = 'medium';
    }
 
 
@@ -121,10 +132,11 @@ class BlogPlugin extends IndicatorPluginAbstract {
     * @param type $pluginSettings
     */
    public function setPluginSettings($pluginSettings) {
-      //self::$logger->error("pluginSettings".var_export($pluginSettings, true));
-
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_SIZE, $pluginSettings)) {
+            $this->widgetSize = $pluginSettings[self::OPTION_SIZE];
+         }
       }
    }
 
@@ -154,7 +166,7 @@ class BlogPlugin extends IndicatorPluginAbstract {
           'severityList' => $severities,
           'userCandidates' => $userCandidates,
       );
-      
+
       return $this->execData;
    }
 
@@ -166,18 +178,21 @@ class BlogPlugin extends IndicatorPluginAbstract {
     */
    public function getSmartyVariables($isAjaxCall = false) {
 
+      $smartyPrefix = 'blogPlugin_';
       $smartyVariables = array(
-         'blogPlugin_isCodevAdmin' => $this->execData['isCodevAdmin'],
-         'blogPlugin_blogPosts'    => $this->execData['blogPosts'],
-         'blogPlugin_categoryList' => $this->execData['categoryList'],
-         'blogPlugin_severityList' => $this->execData['severityList'],
-         'blogPlugin_userCandidateList' => $this->execData['userCandidates'],
+         $smartyPrefix.'isCodevAdmin' => $this->execData['isCodevAdmin'],
+         $smartyPrefix.'blogPosts'    => $this->execData['blogPosts'],
+         $smartyPrefix.'categoryList' => $this->execData['categoryList'],
+         $smartyPrefix.'severityList' => $this->execData['severityList'],
+         $smartyPrefix.'userCandidateList' => $this->execData['userCandidates'],
+
          // add pluginSettings (if needed by smarty)
+         $smartyPrefix.self::OPTION_SIZE => self::$widgetPxSize[$this->widgetSize],
       );
 
       if (false == $isAjaxCall) {
-         $smartyVariables['blogPlugin_ajaxFile'] = self::getSmartySubFilename();
-         $smartyVariables['blogPlugin_ajaxPhpURL'] = self::getAjaxPhpURL();
+         $smartyVariables[$smartyPrefix.'ajaxFile'] = self::getSmartySubFilename();
+         $smartyVariables[$smartyPrefix.'ajaxPhpURL'] = self::getAjaxPhpURL();
       }
       return $smartyVariables;
    }

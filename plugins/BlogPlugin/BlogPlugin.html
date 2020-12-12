@@ -11,7 +11,7 @@
 {if isset($blogPlugin_blogPosts)}
 <div>
    <div>
-      <div class="blogPlugin_bpostsContainer float" style="background-color: #EDEDED; margin-top:1em; width:95%;height:350px;overflow-x:hidden;overflow-y:auto;">
+      <div class="blogPlugin_bpostsContainer float" style="background-color: #EDEDED; margin-top:1em; width:95%;height:{$blogPlugin_widgetSize};overflow-x:hidden;overflow-y:auto;">
       {foreach from=$blogPlugin_blogPosts key=id item=bpost}
          {include file="`$blogPlugin_ajaxFile`"}
       {/foreach}
@@ -216,7 +216,7 @@
       divContainer.off("click", ".blogPlugin_btUnhidePost");
 
       // --------------------------------------
-      // Note: use 'on' instead of 'click' because we need bubbeling 
+      // Note: use 'on' instead of 'click' because we need bubbeling
       // when new html content is added, buttons need to subscribe to existing events
       divContainer.on("click", ".blogPlugin_btAckPost", function(e) {
          var postId = jQuery(this).attr("data-bpostId");
