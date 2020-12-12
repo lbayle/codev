@@ -145,18 +145,18 @@ class WBSExport extends IndicatorPluginAbstract {
 
       $columnHeader = [
           'ID',
-          'Target',
-          'ExtRef',
-          'User',
-          'Type',
-          'Status',
-          'Progress',
-          'MgrEffortEstim',
-          'EffortEstim',
-          'Elapsed',
-          'Backlog',
-          'Drift Mgr',
-          'Summary'
+          T_('Target'),
+          T_('ExtRef'),
+          T_('User'),
+          T_('Type'),
+          T_('Status'),
+          T_('Progress'),
+          T_('MgrEffortEstim'),
+          T_('EffortEstim'),
+          T_('Elapsed'),
+          T_('Backlog'),
+          T_('Drift Mgr'),
+          T_('Summary')
       ];
       for ($i = $nbWBSColumnMax - 1; $i > 0; $i--) {
          array_unshift($columnHeader, 'Col ' . $i);
@@ -184,13 +184,14 @@ class WBSExport extends IndicatorPluginAbstract {
             }
          }
 
+         $status = Constants::$statusNames[$issue->getStatus()];
          $data[$key][] = $id;
          $data[$key][] = $issue->getTargetVersion();
          $data[$key][] = $issue->getTcId();
          $data[$key][] = $issue->getHandlerId();
          $data[$key][] = $issue->getType();
-         $data[$key][] = $issue->getStatus();
-         $data[$key][] = $issue->getProgress();
+         $data[$key][] = (null == $status) ? '('.$issue->getStatus().')' : $status;
+         $data[$key][] = round($issue->getProgress(), 4);
          $data[$key][] = $issue->getMgrEffortEstim();
          $data[$key][] = $issue->getEffortEstim();
          $data[$key][] = $issue->getElapsed();
