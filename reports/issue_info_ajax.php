@@ -459,7 +459,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
          $issueInfoFilterList = json_decode($issueInfoFilterListJson);
          foreach($issueInfoFilterList as $key => $val) {
-            $user->setIssueInfoFilter($key, $val, $teamid);
+            $user->setIssueInfoFilter($key, $val);
          }
          $data['statusMsg'] = 'SUCCESS';
          // TODO return new ProjectLust & issueList

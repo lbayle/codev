@@ -111,7 +111,7 @@ class IssueInfoController extends Controller {
          $user = $this->session_user;
          $currentTeam = TeamCache::getInstance()->getTeam($this->teamid);
 
-         $this->issueInfoFilters = $this->session_user->getIssueInfoFilters($this->teamid);
+         $this->issueInfoFilters = $this->session_user->getIssueInfoFilters();
 
          if (count($this->teamList) > 0) {
             // --- define the list of tasks the user can display
