@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
-/** English (English)
+/** Français (French)
  *
  * See the qqq 'language' for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -22,11 +22,11 @@
  * @ingroup Language
  * @file
  *
- * @author Alain D'EURVEILHER, alain.deurveilher@gmail.com
+ * @author mr.bricodage@gmail.com
  */
 
-$s_plugin_FilterBugList_title = 'Filter Bug List';
-$s_plugin_FilterBugList_description = 'Filter a selection by a range of bug id';
-$s_plugin_FilterBugList_field_label = 'Bug List';
+$s_plugin_FilterBugList_title = 'Filtrage d\'une liste de bogues ';
+$s_plugin_FilterBugList_description = 'Permet de filtrer des bogues à partir d\'une liste d\'identifiants';
+$s_plugin_FilterBugList_field_label = 'Liste d\'identifiants';
 
 ?>

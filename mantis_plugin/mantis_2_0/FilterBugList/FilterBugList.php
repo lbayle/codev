@@ -1,6 +1,6 @@
 <?php
-# MantisBT - a php based bugtracking system
-# Copyright (C) 2002 - 2011  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+# MantisBT - A PHP based bugtracking system
+
 # MantisBT is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 2 of the License, or
@@ -26,9 +26,9 @@ class FilterBugListPlugin extends MantisPlugin  {
         $this->name = plugin_lang_get( 'title' );
         $this->description = plugin_lang_get( 'description' );
         
-        $this->version = '1.0.0';
+        $this->version = '2.0.0';
         $this->requires = array(
-        	'MantisCore' => '2.0'
+        	'MantisCore' => '2.0.0'
         );
         
         $this->author = 'Alain D\'EURVEILHER';

@@ -5,6 +5,9 @@ Plugin for Mantis allowing to filter by a set of bug IDs in the 'View all' page
 By Alain D'EURVEILHER (alain.deurveilher@gmail.com)
 
 +------------------------------------------------------------------------------+
+Version 2.1.0:
+Update compatibility with Mantis 2.1.0
++------------------------------------------------------------------------------+
 Version 1.0.0:
 
 Creation of the plugin
