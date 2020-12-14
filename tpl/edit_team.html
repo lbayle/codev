@@ -158,7 +158,7 @@
                         <td>
                            <select style="width:300px" name="memberid" id="memberid"  class="select2">
                               <option value="0"></option>
-                              {foreach from=$users key=id item=i}
+                              {foreach from=$teamMemberCandidates key=id item=i}
                               <option value="{$id}">{$i.name}</option>
                               {/foreach}
                            </select>

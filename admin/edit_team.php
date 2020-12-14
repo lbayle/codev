@@ -215,18 +215,22 @@ class EditTeamController extends Controller {
                }
                $this->smartyHelper->assign('team', $team);
 
-               $smartyUserList = array();
+               $smartyTeamMemberCandidates = array();
                $smartyAdminCandidatesList = array();
                $userList = User::getUsers(TRUE);
                $teamAdminList = $team->getAdminList();
+               $teamMembers = $team->getMembers();
+
                //$selectedUserid = $team->getLeaderId();
                foreach ($userList as $id => $name) {
 
-                  // users (team member candidates)
-                  $smartyUserList[$id] = array(
-                     'id' => $id,
-                     'name' => $name,
-                  );
+                  // team member candidates (all except already members)
+                  if (!array_key_exists($id, $teamMembers)) {
+                     $smartyTeamMemberCandidates[$id] = array(
+                        'id' => $id,
+                        'name' => $name,
+                     );
+                  }
                   // Admin candidates (all except current team admins)
                   if (in_array($id, $teamAdminList)) { continue; }
                   $smartyAdminCandidatesList[$id] = array(
@@ -248,7 +252,7 @@ class EditTeamController extends Controller {
                // Import users from other teams to create MacroTeams
                $this->smartyHelper->assign('importableTeams', Team::getTeams());
 
-               $this->smartyHelper->assign('users', $smartyUserList);
+               $this->smartyHelper->assign('teamMemberCandidates', $smartyTeamMemberCandidates);
                $this->smartyHelper->assign('adminCandidatesList', $smartyAdminCandidatesList);
                $this->smartyHelper->assign('teamAdminList', $smartyAdminList);
                $this->smartyHelper->assign('teamCreationdate', date("Y-m-d", $team->getDate()));
@@ -259,7 +263,7 @@ class EditTeamController extends Controller {
                $this->smartyHelper->assign('departureDate', date("Y-m-d", time()));
 
                // teamMembers: used in teamMembers & UserDailyCost tab
-               $this->smartyHelper->assign('teamMembers', $this->getTeamMembers($displayed_teamid));
+               $this->smartyHelper->assign('teamMembers', $this->getSmartyTeamMembers($displayed_teamid));
                $this->smartyHelper->assign('nbActiveTeamMembers', count($team->getActiveMembers()));
 
                $this->smartyHelper->assign('teamEnabled', $team->isEnabled());
@@ -339,7 +343,7 @@ class EditTeamController extends Controller {
     * @param int $teamid
     * @return mixed[string]
     */
-   private function getTeamMembers($teamid) {
+   private function getSmartyTeamMembers($teamid) {
       try {
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT user.id as user_id, user.username, user.realname, ".
