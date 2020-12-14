@@ -183,6 +183,13 @@ jQuery(document).ready(function() {
             if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
                form1.find("input[name=action]").val("addTrack");
                form1.submit();
+            } else if ( 'timetrackNoteOnly' === updateBacklogJsonData['diagnostic'] ) {
+               // open dialogbox and send data without Ajax
+               jQuery("#setTimetrackNoteDlg_taskSummary").text(jQuery("#bugid option:selected" ).text());
+               jQuery("#setTimetrackNoteDlg_duration").text(jQuery("#duree option:selected" ).text());
+               jQuery("#setTimetrackNoteDlg_job").text(jQuery("#job option:selected" ).text());
+               jQuery("#setTimetrackNoteDlg_date").text(jQuery("#datepicker").val());
+               jQuery("#setTimetrackNoteDlg").dialog( "open" );
             } else {
                // by default formUpdateBacklog has a submit action to send data via ajax
                // so here, it must be deactivated to submit the form 'normaly'.
@@ -197,6 +204,32 @@ jQuery(document).ready(function() {
       } else {
          alert(msgString);
       }
+   });
+
+   jQuery("#setTimetrackNoteDlg").dialog({
+      autoOpen: false,
+      resizable: true,
+      height: 'auto',
+      width: 400,
+      modal: true,
+      buttons: [
+         {
+            text: timetrackingSmartyData.i18n_Ok,
+            click: function() {
+               var form1 = jQuery("#form1");
+               var ttNote = jQuery("#setTimetrackNoteDlg_timetrackNote").val();
+               form1.find("input[name=timetrackNote]").val(ttNote);
+               form1.find("input[name=action]").val("addTrack");
+               form1.submit();
+            }
+         },
+         {
+            text: timetrackingSmartyData.i18n_Cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
+         }
+      ]
    });
 
    //----------------------------------------------------------

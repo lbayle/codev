@@ -81,8 +81,14 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          if (($job == Jobs::JOB_SUPPORT) ||
             ($project->isSideTasksProject(array($teamid)) ||
             ($project->isExternalTasksProject()))) {
+
             // no backlog update for this task
-            $data = array('diagnostic' => 'BacklogUpdateNotNeeded');
+            $isTrackNoteDisplayed = (0 == $team->getGeneralPreference('useTrackNote')) ? false : true;
+            if ($isTrackNoteDisplayed) {
+               $data = array('diagnostic' => 'timetrackNoteOnly');
+            } else {
+               $data = array('diagnostic' => 'BacklogUpdateNotNeeded');
+            }
             $updateBacklogJsonData = json_encode($data);
          } else {
             $managedUserid  = Tools::getSecurePOSTIntValue('userid', 0);

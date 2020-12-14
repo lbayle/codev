@@ -101,12 +101,13 @@ class TimeTrackingController extends Controller {
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $job = Tools::getSecurePOSTStringValue('job');
                $duration = Tools::getSecurePOSTNumberValue('duree');
+               $timetrackNote = trim(filter_input(INPUT_POST, 'timetrackNote'));
 
                // dialogBox is not called, then track must be saved to DB
                try {
                   $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid, $this->teamid);
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("Track $trackid added  : userid=$managed_userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+                  if (!empty($timetrackNote)) {
+                     TimeTrack::setNote($defaultBugid, $trackid, $timetrackNote, $managed_userid);
                   }
                } catch (Exception $e) {
                   $this->smartyHelper->assign('error', 'Add track : FAILED.');
