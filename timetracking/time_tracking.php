@@ -195,54 +195,6 @@ class TimeTrackingController extends Controller {
                $job = 0;
                $duration = 0;
             }
-            elseif ("deleteTrack" == $action) {
-               $trackid = Tools::getSecurePOSTIntValue('trackid');
-               $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
-               $defaultBugid = $timeTrack->getIssueId();
-               $duration = $timeTrack->getDuration();
-               $job = $timeTrack->getJobId();
-               $defaultDate = date("Y-m-d", $timeTrack->getDate());
-
-               try {
-                  if (!TimeTrack::exists($trackid)) {
-                     $e = new Exception("track $trackid does not exist !");
-                     self::$logger->error("EXCEPTION deleteTrack: ".$e->getMessage());
-                     throw $e;
-                  }
-
-                  // check if backlog must be recredited
-                  $ttProject = ProjectCache::getInstance()->getProject($timeTrack->getProjectId());
-                  if (!$ttProject->isSideTasksProject(array($this->teamid)) &&
-                      !$ttProject->isExternalTasksProject()) {
-                     $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
-                  } else {
-                     // no backlog update for external & side tasks
-                     $isRecreditBacklog = false;
-                  }
-
-                  // delete track
-                  if(!$timeTrack->remove($this->session_userid, $isRecreditBacklog)) {
-                     $this->smartyHelper->assign('error', T_("Failed to delete the timetrack !"));
-                     self::$logger->error("Delete track $trackid  : FAILED.");
-                  }
-
-                  // pre-set form fields
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $defaultProjectid  = $issue->getProjectId();
-
-                  // if project not defined for current team, do not pre-set form fields.
-                  if (!in_array($defaultProjectid, array_keys($team->getProjects()))) {
-                     $defaultProjectid  = 0;
-                     $defaultBugid = 0;
-                  }
-               } catch (Exception $e) {
-                  $this->smartyHelper->assign('error', 'Delete track : FAILED.');
-                  $errMsg = "Delete trackid= $trackid, bugid = $defaultBugid, job = $job, timestamp = $defaultDate, duration = $duration, managedUser = $managed_userid, sessionUser = ".$this->session_userid;
-                  self::$logger->error($errMsg);
-                  $defaultProjectid  = 0;
-                  $defaultBugid = 0;
-               }
-            }
             elseif ("setBugId" == $action) {
                // pre-set form fields
                // find ProjectId to update categories

@@ -27,9 +27,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 	$logger = Logger::getLogger("TimeTrackingAjax");
 
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-   $session_user = $_SESSION['userid'];
+   $session_userid = $_SESSION['userid'];
 
-   // TODO check $session_user & teamid ?
+   // TODO check $session_userid & teamid ?
 
    $action = Tools::getSecurePOSTStringValue('action');
 
@@ -118,7 +118,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecurePOSTIntValue('weekid');
          $year = Tools::getSecurePOSTIntValue('year');
-         $userid = Tools::getSecurePOSTIntValue('userid',$session_user);
+         $userid = Tools::getSecurePOSTIntValue('userid',$session_userid);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
@@ -147,7 +147,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       // ================================================================
       } else if ($action == 'saveIssueNote') {
          $bugid       = Tools::getSecurePOSTIntValue('bugid');
-         $reporter_id = $session_user;
+         $reporter_id = $session_userid;
          $issueNoteText = filter_input(INPUT_POST, 'issuenote_text');
          $isTimesheetNote = Tools::getSecurePOSTIntValue('isTimesheetNote');
 
@@ -162,7 +162,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecurePOSTIntValue('weekid');
          $year = Tools::getSecurePOSTIntValue('year');
-         $userid = Tools::getSecurePOSTIntValue('userid',$session_user);
+         $userid = Tools::getSecurePOSTIntValue('userid',$session_userid);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
          $smartyHelper->display('ajax/weekTaskDetails');
@@ -253,7 +253,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $timetrackId = Tools::getSecurePOSTIntValue('timetrackId');
          $weekid = Tools::getSecurePOSTIntValue('weekid');
          $year = Tools::getSecurePOSTIntValue('year');
-         $userid = Tools::getSecurePOSTIntValue('userid',$session_user);
+         $userid = Tools::getSecurePOSTIntValue('userid',$session_userid);
 
          $team = TeamCache::getInstance()->getTeam($teamid);
 
@@ -302,6 +302,50 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          echo $jsonData;
 
       // ================================================================
+      } else if ('deleteTrack' == $action) {
+         try {
+            $trackid = Tools::getSecurePOSTIntValue('trackid');
+            $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
+            $defaultBugid = $timeTrack->getIssueId();
+            $duration = $timeTrack->getDuration();
+            $job = $timeTrack->getJobId();
+            $defaultDate = date("Y-m-d", $timeTrack->getDate());
+
+            if (!TimeTrack::exists($trackid)) {
+               $e = new Exception("track $trackid does not exist !");
+               throw $e;
+            }
+
+            // check if backlog must be recredited
+            $ttProject = ProjectCache::getInstance()->getProject($timeTrack->getProjectId());
+            if (!$ttProject->isSideTasksProject(array($teamid)) &&
+                !$ttProject->isExternalTasksProject()) {
+               $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
+            } else {
+               // no backlog update for external & side tasks
+               $isRecreditBacklog = false;
+            }
+
+            // delete track
+            if(!$timeTrack->remove($session_userid, $isRecreditBacklog)) {
+               $e = new Exception("Delete track $trackid  : FAILED");
+               throw $e;
+            }
+            $statusMsg = "SUCCESS";
+
+         } catch (Exception $e) {
+            $errMsg = "Delete trackid= $trackid, bugid = $defaultBugid, job = $job, timestamp = $defaultDate, duration = $duration, managedUser = $managed_userid, sessionUser = ".$session_userid;
+            $logger->error($errMsg);
+            $logger->error("EXCEPTION deleteTrack: ".$e->getMessage());
+            $statusMsg = T_("ERROR: Failed to delete the timetrack !");
+         }
+         $data = array(
+            'statusMsg' => $statusMsg,
+         );
+         $jsonData = json_encode($data);
+
+         // return data
+         echo $jsonData;
       }
    }
 }

@@ -321,7 +321,7 @@ jQuery(document).ready(function() {
             dataType:"json",
             success: function(data) {
                if ('SUCCESS' === data.statusMsg) {
-
+                  // update #formDeleteTrack
                   jQuery(".issue_summary").text(data.issueSummary);
                   jQuery("#desc_date").text(data.date);
                   jQuery("#desc_id").text(data.formatedId); // formatedId : "id / refExt"
@@ -345,18 +345,51 @@ jQuery(document).ready(function() {
    //----------------------------------------------------------
    // delete track dialogBox
    jQuery("#deleteTrack_dialog_form").dialog({
+
+      // the idea in doing the action by ajax and then reload the page
+      // (instead of doing both actions in one single request)
+      // is to avoid sending the action again if the user presses the 'F5' button
+
       autoOpen: false,
       resizable: true,
-      width: "auto",
+      height: 'auto',
+      width: 400,
       modal: true,
-      buttons: {
-         "Delete": function() {
-            jQuery("#formDeleteTrack").submit();
+      buttons: [
+         {
+            text: timetrackingSmartyData.i18n_Delete,
+            click: function() {
+               var form = $('#formDeleteTrack');
+               $.ajax({
+                  url: timetrackingSmartyData.ajaxPage,
+                  type: "POST",
+                  dataType:"json",
+                  data: form.serialize(),
+                  success: function(data) {
+                     if ('SUCCESS' === data.statusMsg) {
+                        // reload the page
+                        // TODO return 'bugid' on action "setBugId" to preset fields
+                        window.location = timetrackingSmartyData.page;
+                     } else {
+                        console.error("Ajax statusMsg", data.statusMsg);
+                        alert(data.statusMsg);
+                     }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     console.error(textStatus, errorThrown);
+                     alert("ERROR: Please contact your CodevTT administrator");
+                  }
+               });
+               jQuery(this).dialog( "close" );
+            }
          },
-         Cancel: function() {
-            jQuery(this).dialog("close");
+         {
+            text: timetrackingSmartyData.i18n_Cancel,
+            click: function() {
+               jQuery(this).dialog("close");
+            }
          }
-      }
+      ]
    });
 
    //----------------------------------------------------------

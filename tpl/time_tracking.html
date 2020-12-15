@@ -282,7 +282,7 @@
                </tbody>
             </table>
             <span class="help_font" id="backlogChangeInfo"></span>
-            <form id="formDeleteTrack" name="formDeleteTrack" method="post" action="{$page}" >
+            <form id="formDeleteTrack" name="formDeleteTrack" method="post" action="{$ajaxPage}" >
                <fieldset>
                   <input type="hidden" name="trackid" value="0" />
                   <input type="hidden" name="action"  value="deleteTrack" />
@@ -335,6 +335,7 @@
          userid:"{$userid}", // (managedUserid)
          weekid:"{$weekid}",
          year:"{$year}",
+         page:"{$page}",
          ajaxPage:"{$ajaxPage}",
          datepickerLocale:"{$locale}",
          datepickerDate:"{$date}",
@@ -344,6 +345,7 @@
          // i18n
          i18n_Ok:"{t}OK{/t}",
          i18n_Cancel:"{t}Cancel{/t}",
+         i18n_Delete:"{t}Delete{/t}",
          i18n_pleaseWait:"{t}Please wait...{/t}",
          i18n_someFieldsAreMissing:"{t}Some fields are missing:{/t}",
          i18n_task:"{t}Task{/t}",
