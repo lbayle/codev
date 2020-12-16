@@ -559,7 +559,7 @@ class TimeTrackingTools {
             $calculatedBacklog = $totalEE - $issue->getElapsed() - $trackDuration;
          }
          if ($calculatedBacklog < 0) { $calculatedBacklog = 0;}
-         $issueInfo['calculatedBacklog'] = $calculatedBacklog;
+         $issueInfo['calculatedBacklog'] = round($calculatedBacklog, 3);
       }
 
       if (!is_null($deadline) || (0 != $deadline)) {

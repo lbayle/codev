@@ -24,7 +24,7 @@
       <form id="form1" name="form1" method="post" action="{$page}">
          <fieldset>
             <label for="datepicker">{t}From{/t}:</label>
-            <input type="text" id="datepicker" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
+            <input type="text" id="datepicker" class="datepicker" name="trackDate" maxlength="10" size="10" title="{t}Date{/t}" />
             {if $projects}
             <select id="projectid" name="projectid" title="{t}Project{/t}">
                <option value="0">{t}(all){/t}</option>
@@ -48,7 +48,7 @@
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}{if $i.tcId} / {$i.tcId}{/if} : {$i.summary}</option>
                {/foreach}
             </select>
-            <select id="job" name="job" title="{t}Job{/t}" style="width: 100px;" >
+            <select id="job" name="trackJobid" title="{t}Job{/t}" style="width: 100px;" >
                {if count($jobs) > 1}
                <option value="0"></option>
                {/if}
@@ -56,7 +56,7 @@
                <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
                {/foreach}
             </select>
-            <select id="duree" name="duree" title="{t}Duration (in days){/t}">
+            <select id="duree" name="timeToAdd" title="{t}Duration (in days){/t}">
                <option  value="0"></option>
                {foreach from=$duration key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
@@ -66,8 +66,19 @@
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="userid" value="{$userid}" />
-            <input type="hidden" name="timetrackNote" value="" />
+            <!--input type="hidden" name="timetrackNote" value="" /-->
             <input type="button" name="btAddTrack" id="btAddTrack" value="{t}Add{/t}" />
+         </fieldset>
+      </form>
+
+      <form id="formReloadTimetrackingPage" method="post" action="{$page}" >
+         <fieldset>
+            <input type="hidden" name="action" value="setBugId" />
+            <input type="hidden" name="bugid" value="" />
+            <input type="hidden" name="date" value="" />
+            <input type="hidden" name="year" value="{$year}" />
+            <input type="hidden" name="weekid" value="{$weekid}" />
+            <input type="hidden" name="userid" value="{$userid}" />
          </fieldset>
       </form>
 
@@ -84,7 +95,7 @@
          <table class="invisible">
             <tbody>
                <tr>
-                  <td colspan="3"><hr></td>
+                  <td colspan="2"><hr></td>
                </tr>
                <tr>
                   <th>{t}Duration{/t} :</th>
@@ -361,6 +372,7 @@
          i18n_Ok:"{t}OK{/t}",
          i18n_Cancel:"{t}Cancel{/t}",
          i18n_Delete:"{t}Delete{/t}",
+         i18n_Update:"{t}Update{/t}",
          i18n_pleaseWait:"{t}Please wait...{/t}",
          i18n_someFieldsAreMissing:"{t}Some fields are missing:{/t}",
          i18n_task:"{t}Task{/t}",

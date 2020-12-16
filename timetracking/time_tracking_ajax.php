@@ -69,6 +69,32 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          echo $jsonData;
 
       // ================================================================
+      } elseif ("getJobList" == $action) {
+
+         $bugid = Tools::getSecurePOSTIntValue('bugid');
+         try {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            $projectid = $issue->getProjectId();
+
+            $ptype = $team->getProjectType($projectid);
+            $project = ProjectCache::getInstance()->getProject($projectid);
+            $jobs = $project->getJobList($ptype, $teamid);
+
+            // return data
+            $data = array(
+               'statusMsg' => 'SUCCESS',
+               'availableJobs' => $jobs,
+            );
+         }  catch (Exception $e) {
+            $logger->error("EXCEPTION deleteTrack: ".$e->getMessage());
+            $data = array(
+               'statusMsg' => 'Could not get jobList',
+            );
+         }
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
+      // ================================================================
       } elseif($action == 'getUpdateBacklogData') {
 
 			// get info to display the updateBacklog dialogbox
@@ -119,10 +145,18 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // the complete WeekTaskDetails Div must be updated
          $weekid = Tools::getSecurePOSTIntValue('weekid');
          $year = Tools::getSecurePOSTIntValue('year');
-         $userid = Tools::getSecurePOSTIntValue('userid',$session_userid);
+         $userid = Tools::getSecurePOSTIntValue('trackUserid',$session_userid);
 
          setWeekTaskDetails($smartyHelper, $weekid, $year, $userid, $teamid);
-         $smartyHelper->display('ajax/weekTaskDetails');
+         $htmlContent = $smartyHelper->fetch('ajax/weekTaskDetails');
+
+         // return data
+         $data = array(
+             'statusMsg' => 'SUCCESS',
+             'weekTaskDetailsHtml' => $htmlContent,
+         );
+         $jsonData = json_encode($data);
+         echo $jsonData;
 
       // ================================================================
       } else if ($action == 'getIssueNoteText') {
@@ -256,8 +290,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $year = Tools::getSecurePOSTIntValue('year');
          $userid = Tools::getSecurePOSTIntValue('userid',$session_userid);
 
-         $team = TeamCache::getInstance()->getTeam($teamid);
-
          $dateStr = Tools::getSecurePOSTStringValue('date');
          $date = strtotime($dateStr);
 
@@ -342,10 +374,94 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          }
          $data = array(
             'statusMsg' => $statusMsg,
+            'bugid' => $defaultBugid,
+            'trackDate' => $defaultDate,
          );
          $jsonData = json_encode($data);
 
          // return data
+         echo $jsonData;
+
+      } else if ('addTimetrack' == $action) {
+         try {
+            // updateBacklogDialogbox with 'addTimetrack' action
+            // add track AND update backlog & status & handlerId
+
+            $trackDate   = Tools::getSecurePOSTStringValue('trackDate');
+            $defaultBugid  = Tools::getSecurePOSTIntValue('bugid');
+            $job           = Tools::getSecurePOSTIntValue('trackJobid');
+            $duration      = Tools::getSecurePOSTNumberValue('timeToAdd'); // 'duree'
+            $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
+            $taskHandlerId = Tools::getSecurePOSTIntValue('handlerid', 0); // optional
+
+            $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+            $errMessage = '';
+
+            if (1 == $team->getGeneralPreference('useTrackNote')) {
+               $trackNote   = filter_input(INPUT_POST, 'issue_note');
+               if (1 == $team->getGeneralPreference('isTrackNoteMandatory') &&
+                   0 == strlen($trackNote)) {
+                  // forbid adding timetrack, return error
+                  $errMessage .= T_('Timetrack not added: Timetrack note is mandatory')."\n";
+               }
+            }
+            if(0 == $job) {
+               $errMessage .= T_("Timetrack not added: Job is not specified")."\n";
+            }
+            if(0 == $defaultBugid) {
+               $errMessage .= T_("Timetrack not added: bugid is not specified")."\n";
+            }
+            if(0 == $duration) {
+               $errMessage .= T_("Timetrack not added: duration is not specified");
+            }
+            if (!empty($errMessage)) {
+               $e = new Exception($errMessage);
+               throw $e;
+            }
+            // add timetrack
+            $timestamp = Tools::date2timestamp($trackDate);
+            $trackid = TimeTrack::create($trackUserid, $defaultBugid, $job, $timestamp, $duration, $session_userid, $teamid);
+
+            if (1 == $team->getGeneralPreference('useTrackNote') && strlen($trackNote)!=0) {
+               TimeTrack::setNote($defaultBugid, $trackid, $trackNote, $trackUserid);
+            }
+            // There is no backup/status update if sideTask or externalTask
+            $projType = $team->getProjectType($issue->getProjectId());
+
+            // sideTasks & externalTasks have no backlog nor status update
+            if ((Project::type_regularProject == $projType) &&
+                (Jobs::JOB_SUPPORT != $job)) {
+               $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
+               $newStatus        = Tools::getSecurePOSTIntValue('statusid');
+               $issue->setBacklog($formattedBacklog);
+               $issue->setStatus($newStatus);
+            }
+
+            // The taskHandler is not always specified,
+            // it is present on a regular updateBacklogDialogbox
+            // it is not specified if : timetrackNoteOnly, BacklogUpdateNotNeeded
+            if ((0 !== $taskHandlerId) && ($taskHandlerId != $issue->getHandlerId())) {
+               // TODO security check (userid exists/valid ?)
+               $issue->setHandler($taskHandlerId);
+            }
+
+            $statusMsg = "SUCCESS";
+
+         } catch (Exception $e) {
+            $logger->error("addTimetrack: issue=$defaultBugid, jobid=$job, duration=$duration date=$trackDate handlerId=$taskHandlerId sessionUser=$session_userid");
+            $logger->error("EXCEPTION addTimetrack: ".$e->getMessage());
+            $statusMsg = T_("ERROR: Failed to add timetrack !");
+            $defaultBugid = 0;
+         }
+         // return data
+         $data = array(
+            'statusMsg' => nl2br(htmlspecialchars($statusMsg)),
+            // return info needed to pre-fill the form on page reload
+            'bugid' => $defaultBugid,
+            'date' => $trackDate,
+            'weekid' => date('W', $timestamp),
+         );
+         $jsonData = json_encode($data);
          echo $jsonData;
       }
    }

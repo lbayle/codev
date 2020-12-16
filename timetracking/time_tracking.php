@@ -74,128 +74,17 @@ class TimeTrackingController extends Controller {
                }
             }
 
-            // developper & manager can add timeTracks
-            $mTeamList = $managed_user->getDevTeamList();
-            $managedTeamList = $managed_user->getManagedTeamList();
-            $teamList = $mTeamList + $managedTeamList;
-
             $action = Tools::getSecurePOSTStringValue('action','');
             $weekid = Tools::getSecurePOSTIntValue('weekid',date('W'));
 
-            $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));;
+            $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));
             $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
             $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',0);
-            $job = Tools::getSecurePOSTIntValue('job',0);
-            $duration = Tools::getSecurePOSTNumberValue('duree',0);
+            $job = Tools::getSecurePOSTIntValue('trackJobid',0);
+            $duration = Tools::getSecurePOSTNumberValue('timeToAdd',0);
 
-            if ("addTrack" == $action) {
-               self::$logger->debug("addTrack: called from form1");
-
-               // TODO merge addTrack & addTimetrack actions !
-
-               // called by form1 when no backlog has to be set.
-               // updateBacklogDialogBox must not raise up,
-               // track must be added, backlog & status must NOT be updated
-
-               $timestamp = Tools::date2timestamp($defaultDate);
-               $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               $job = Tools::getSecurePOSTStringValue('job');
-               $duration = Tools::getSecurePOSTNumberValue('duree');
-               $timetrackNote = trim(filter_input(INPUT_POST, 'timetrackNote'));
-
-               // dialogBox is not called, then track must be saved to DB
-               try {
-                  $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid, $this->teamid);
-                  if (!empty($timetrackNote)) {
-                     TimeTrack::setNote($defaultBugid, $trackid, $timetrackNote, $managed_userid);
-                  }
-               } catch (Exception $e) {
-                  $this->smartyHelper->assign('error', 'Add track : FAILED.');
-               }
-
-               // Don't show job and duration after add track
-               $job = 0;
-               $duration = 0;
-               $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
-            }
-            elseif ("addTimetrack" == $action) {
-               // updateBacklogDialogbox with 'addTimetrack' action
-               // add track AND update backlog & status & handlerId
-
-               // TODO merge addTrack & addTimetrack actions !
-
-               self::$logger->debug("addTimetrack: called from the updateBacklogDialogBox");
-
-               // add timetrack (all values mandatory)
-               $defaultDate  = Tools::getSecurePOSTStringValue('trackDate');
-               $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               $job          = Tools::getSecurePOSTIntValue('trackJobid');
-               $duration     = Tools::getSecurePOSTNumberValue('timeToAdd');
-               $handlerId    = Tools::getSecurePOSTNumberValue('handlerid');
-               $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
-               $newStatus = Tools::getSecurePOSTIntValue('statusid');
-
-               $errMessage = NULL;
-
-               if (1 == $team->getGeneralPreference('useTrackNote')) {
-                  $issue_note   = filter_input(INPUT_POST, 'issue_note');
-                  if (1 == $team->getGeneralPreference('isTrackNoteMandatory') &&
-                      0 == strlen($issue_note)) {
-                     // forbid adding timetrack, return error
-                     $errMessage = T_('Timetrack not added: Timetrack note is mandatory');
-                  }
-               }
-
-               if(0 == $job) {
-                  self::$logger->error("Add track : FAILED. issue=$defaultBugid, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
-                  $errMessage = T_("Timetrack not added: Job is not specified");
-               }
-               // check bug_id (this happens when user uses the 'back' button of the browser ?)
-               if(0 == $defaultBugid) {
-                  self::$logger->error("Add track : FAILED. issue=0, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
-                  $errMessage = T_("Timetrack not added: bugid is not specified");
-               }
-               // check duration (this happens when user uses the 'back' button of the browser ?)
-               if(0 == $duration) {
-                  self::$logger->error("Add track : FAILED. issue=0, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
-                  $errMessage = T_("Timetrack not added: duration is not specified");
-               }
-
-               if (NULL !== $errMessage) {
-                  $this->smartyHelper->assign('error', $errMessage);
-               } else {
-                  // add timetrack
-                  try {
-                     $timestamp = (0 !== $defaultDate) ? Tools::date2timestamp($defaultDate) : 0;
-                     $trackid = TimeTrack::create($managed_userid, $defaultBugid, $job, $timestamp, $duration, $this->session_userid, $this->teamid);
-
-                     if (1 == $team->getGeneralPreference('useTrackNote') && strlen($issue_note)!=0) {
-                        TimeTrack::setNote($defaultBugid, $trackid, $issue_note, $managed_userid);
-                     }
-                     $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                     $issue->setBacklog($formattedBacklog);
-                     $issue->setStatus($newStatus);
-
-                     // set handlerId
-                     if ($handlerId != $issue->getHandlerId()) {
-                        // TODO security check (userid exists/valid ?)
-                        $issue->setHandler($handlerId);
-                     }
-                     $defaultProjectid = $issue->getProjectId();
-                  } catch (Exception $e) {
-                     self::$logger->error("Add track : FAILED. issue=$defaultBugid, jobid=$job, duration=$duration date=$defaultDate managed_userid=$managed_userid");
-                     self::$logger->error("EXCEPTION: ".$e->getMessage());
-
-                     $this->smartyHelper->assign('error', 'Add track : FAILED.');
-                     $defaultProjectid  = 0;
-                     $defaultBugid = 0;
-                  }
-               }
-               // Don't show job and duration after add track
-               $job = 0;
-               $duration = 0;
-            }
-            elseif ("setBugId" == $action) {
+            // TODO faire une action "presetForm" plus generique qui permet de setter weekid, projectid, bugid, ...
+            if ("setBugId" == $action) {
                // pre-set form fields
                // find ProjectId to update categories
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
@@ -207,8 +96,8 @@ class TimeTrackingController extends Controller {
                   $defaultProjectid  = 0;
                   $defaultBugid = 0;
                }
-            }
-            elseif ("setFiltersAction" == $action) {
+
+            } elseif ("setFiltersAction" == $action) {
                $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
                $isFilter_hideResolved = isset($_POST["cb_hideResolved"]) ? '1' : '0';
                //$isFilter_hideForbidenStatus = isset($_POST["cb_hideForbidenStatus"])   ? '1' : '0';
@@ -308,10 +197,15 @@ class TimeTrackingController extends Controller {
             }
 
             $isTrackNoteDisplayed = (0 == $team->getGeneralPreference('useTrackNote')) ? false : true;
-            $isTrackNoteMandatory = (0 == $team->getGeneralPreference('isTrackNoteMandatory')) ? false : true;
-            $isForbidUpdateStatusOnTimetracking = (0 == $team->getGeneralPreference('isForbidUpdateStatusOnTimetracking')) ? false : true;
+            if ($isTrackNoteDisplayed) {
+               $isTrackNoteMandatory = (0 == $team->getGeneralPreference('isTrackNoteMandatory')) ? false : true;
+            } else {
+               $isTrackNoteMandatory = false;
+            }
             $this->smartyHelper->assign('isTrackNoteDisplayed', $isTrackNoteDisplayed);
             $this->smartyHelper->assign('isTrackNoteMandatory', $isTrackNoteMandatory);
+
+            $isForbidUpdateStatusOnTimetracking = (0 == $team->getGeneralPreference('isForbidUpdateStatusOnTimetracking')) ? false : true;
             $this->smartyHelper->assign('isForbidUpdateStatusOnTimetracking', $isForbidUpdateStatusOnTimetracking);
          }
       }

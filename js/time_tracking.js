@@ -15,6 +15,30 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+function updateJobList(availableJobs) {
+
+   // fill job combobox values
+   var jobSelect = jQuery('#job');
+   jobSelect.empty();
+   //var nbJobs = Object.keys(availableJobs).length; (IE not compatible with ecmascript5...)
+   var nbJobs = 0;
+   for(var k in availableJobs) {
+      if (availableJobs.hasOwnProperty(k)) {
+         nbJobs++;
+      }
+   }
+   if (nbJobs > 1) {
+      jobSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
+   }
+   for (var id in availableJobs) {
+      if (availableJobs.hasOwnProperty(id)) {
+         jobSelect.append(
+            jQuery('<option>').attr('value', id).append(availableJobs[id])
+         );
+      }
+   }
+}
+
 function getIssuesAndDurations(event) {
 
    /* stop form from submitting normally */
@@ -22,9 +46,6 @@ function getIssuesAndDurations(event) {
 
    var bValid = true;
    if (bValid) {
-      var projectid = jQuery("#projectid").val();
-      var formGetIssuesAndDurations = jQuery('#getIssuesAndDurationsForm');
-      formGetIssuesAndDurations.find("input[name=projectid]").val(projectid);
 
       // ajax call may be slow, empty the task list first.
       var bugidSelect = jQuery('#bugid');
@@ -34,9 +55,12 @@ function getIssuesAndDurations(event) {
 
       jQuery.ajax({
          url: timetrackingSmartyData.ajaxPage,
-         type: formGetIssuesAndDurations.attr("method"),
+         type: "POST",
          dataType:"json",
-         data: formGetIssuesAndDurations.serialize(),
+         data: { action: 'getIssuesAndDurations',
+                 managedUserid: timetrackingSmartyData.userid,
+                 projectid: jQuery("#projectid").val()
+         },
          success: function(data) {
 
             // fill job combobox values
@@ -71,27 +95,9 @@ function getIssuesAndDurations(event) {
                }
             }
             // fill job combobox values
-            var jobSelect = jQuery('#job');
-            jobSelect.empty();
             var availableJobs = data['availableJobs'];
-            //var nbJobs = Object.keys(availableJobs).length; (IE not compatible with ecmascript5...)
-            var nbJobs = 0;
-            for(var k in availableJobs) {
-               if (availableJobs.hasOwnProperty(k)) {
-                  nbJobs++;
-               }
-            }
+            updateJobList(availableJobs);
 
-            if (nbJobs > 1) {
-               jobSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
-            }
-            for (var id in availableJobs) {
-               if (availableJobs.hasOwnProperty(id)) {
-                  jobSelect.append(
-                     jQuery('<option>').attr('value', id).append(availableJobs[id])
-                  );
-               }
-            }
             // fill duration combobox values
             jQuery('#duree').empty();
             var availableDurationList = data['availableDurations'];
@@ -107,6 +113,46 @@ function getIssuesAndDurations(event) {
    }
 }
 
+// add timetrack and reload Timetracking page
+function addTimetrackAndReload(ttNote) {
+   var form1 = jQuery("#form1");
+   var bugid      = form1.find("select[name=bugid]").val();
+   var trackJobid = form1.find("select[name=trackJobid]").val();
+   var timeToAdd  = form1.find("select[name=timeToAdd]").val();
+   var trackDate  = jQuery("#datepicker").val();
+
+   // we want to dissociate addTimetrack from reloading the page
+   // to avoid F5 button to re-send an addTimetrack (using ajax blocks this behaviour)
+   jQuery.ajax({
+      type: "POST",
+      url:  timetrackingSmartyData.ajaxPage,
+      data: { action: 'addTimetrack',
+              bugid: bugid,
+              trackDate: trackDate,
+              trackJobid: trackJobid,
+              trackUserid: timetrackingSmartyData.userid, // managedUser
+              timeToAdd: timeToAdd,
+              issue_note: ttNote
+      },
+      dataType:"json",
+      success: function(data) {
+         if ('SUCCESS' === data.statusMsg) {
+            // reload page (almost full content must be updated, so best is to reload)
+            var formReloadPage = jQuery("#formReloadTimetrackingPage");
+            formReloadPage.find("input[name=bugid]").val(bugid);
+            formReloadPage.find("input[name=date]").val(trackDate);
+            formReloadPage.find("input[name=weekid]").val(timetrackingSmartyData.weekid);
+            formReloadPage.submit();
+         }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+         console.error(textStatus, errorThrown);
+         alert("ERROR: Please contact your CodevTT administrator");
+      }
+   });
+
+}
+
 // ================== DOCUMENT READY ====================
 jQuery(document).ready(function() {
 
@@ -120,6 +166,7 @@ jQuery(document).ready(function() {
    // on project change, taskList & jobList must be updated
    jQuery("#projectid").change(function(event) {
       // use ajax to update fields
+      // TODO add a spinner because reloading the bugid combobox may take time
       getIssuesAndDurations(event);
    });
 
@@ -130,17 +177,33 @@ jQuery(document).ready(function() {
 
    jQuery("#bugid").change(function() {
 
+      // Here we just want to set the correct job list:
+      // depending on the number of issues to display in the combobox,
+      // it can be very slow, so we accept not to update the projectName & bugid combobox
 
-      // if projectId not set: do it, to update jobs
-      // TODO do not use form1, use Ajax
       if ('0' === jQuery("#projectid").val()) {
-         var form1 = jQuery("#form1");
-         form1.find("input[name=action]").val("setBugId");
 
-         // Keep value of Week form
-         form1.find("input[name=weekid]").val(jQuery("#weekid").val());
-         form1.find("input[name=year]").val(jQuery("#year").val());
-         form1.submit();
+         var form1 = jQuery("#form1");
+         var bugid = form1.find("select[name=bugid]").val();
+
+         jQuery.ajax({
+            type: "POST",
+            url:  timetrackingSmartyData.ajaxPage,
+            data: { action: 'getJobList',
+                    bugid: bugid
+            },
+            dataType:"json",
+            success: function(data) {
+               if ('SUCCESS' === data.statusMsg) {
+                  var availableJobs = data['availableJobs'];
+                  updateJobList(availableJobs);
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.error(textStatus, errorThrown);
+               alert("ERROR: Please contact your CodevTT administrator");
+            }
+         });
       }
    });
 
@@ -151,8 +214,8 @@ jQuery(document).ready(function() {
 
       var form1 = jQuery("#form1");
       var bugid = form1.find("select[name=bugid]").val();
-      var jobid = form1.find("select[name=job]").val();
-      var trackDuration = form1.find("select[name=duree]").val();
+      var jobid = form1.find("select[name=trackJobid]").val();
+      var trackDuration = form1.find("select[name=timeToAdd]").val();
 
       //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
       if (('0' === bugid) || ('' === bugid)) {
@@ -179,12 +242,12 @@ jQuery(document).ready(function() {
          // set success callback
          deferred.done(function (updateBacklogJsonData) {
 
-            // if "BacklogUpdateNotNeeded" then submit form1, else raise UpdateBacklogDialogBox
             if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
-               form1.find("input[name=action]").val("addTrack");
-               form1.submit();
+               // no backlog nor Note needed, add timetrack with ajax
+               addTimetrackAndReload('');
+
             } else if ( 'timetrackNoteOnly' === updateBacklogJsonData['diagnostic'] ) {
-               // open dialogbox and send data without Ajax
+               // open dialogbox and send data with Ajax
                jQuery("#setTimetrackNoteDlg_taskSummary").text(jQuery("#bugid option:selected" ).text());
                jQuery("#setTimetrackNoteDlg_duration").text(jQuery("#duree option:selected" ).text());
                jQuery("#setTimetrackNoteDlg_job").text(jQuery("#job option:selected" ).text());
@@ -195,7 +258,7 @@ jQuery(document).ready(function() {
                // so here, it must be deactivated to submit the form 'normaly'.
                jQuery("#formUpdateBacklog").off('submit');
 
-               // open dialogbox and send data without Ajax
+               // open dialogbox and send data with Ajax
                openUpdateBacklogDialogbox(updateBacklogJsonData);
             }
          });
@@ -216,11 +279,8 @@ jQuery(document).ready(function() {
          {
             text: timetrackingSmartyData.i18n_Ok,
             click: function() {
-               var form1 = jQuery("#form1");
                var ttNote = jQuery("#setTimetrackNoteDlg_timetrackNote").val();
-               form1.find("input[name=timetrackNote]").val(ttNote);
-               form1.find("input[name=action]").val("addTrack");
-               form1.submit();
+               addTimetrackAndReload(ttNote);
             }
          },
          {
@@ -258,9 +318,6 @@ jQuery(document).ready(function() {
 
    //----------------------------------------------------------
    var formUpdateWeek = jQuery("#formUpdateWeek");
-   var formAddTimetrack = jQuery("#form1");
-   var formUpdateBacklog = jQuery("#formUpdateBacklog");
-
 
    function updateFormWeek() {
       formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
@@ -359,17 +416,19 @@ jQuery(document).ready(function() {
          {
             text: timetrackingSmartyData.i18n_Delete,
             click: function() {
-               var form = $('#formDeleteTrack');
+               var formDeleteTrack = $('#formDeleteTrack');
                $.ajax({
                   url: timetrackingSmartyData.ajaxPage,
                   type: "POST",
                   dataType:"json",
-                  data: form.serialize(),
+                  data: formDeleteTrack.serialize(),
                   success: function(data) {
                      if ('SUCCESS' === data.statusMsg) {
-                        // reload the page
-                        // TODO return 'bugid' on action "setBugId" to preset fields
-                        window.location = timetrackingSmartyData.page;
+                        // reload page (almost full content must be updated, so best is to reload)
+                        var formReloadPage = jQuery("#formReloadTimetrackingPage");
+                        formReloadPage.find("input[name=bugid]").val(data.bugid);
+                        formReloadPage.find("input[name=date]").val(data.trackDate);
+                        formReloadPage.submit();
                      } else {
                         console.error("Ajax statusMsg", data.statusMsg);
                         alert(data.statusMsg);
