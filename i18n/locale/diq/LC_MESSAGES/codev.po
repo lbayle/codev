@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2020-11-16 14:12:56+0000\n"
+"PO-Revision-Date: 2020-12-17 14:10:43+0000\n"
 "Language: diq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -178,7 +178,7 @@ msgstr "Timarkerê Procey"
 
 #. tpl/productivity_report.html
 msgid "Other SideTasks"
-msgstr ""
+msgstr "Jewbina SideTasks"
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -205,7 +205,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Others"
-msgstr ""
+msgstr "SideTasks: Jewbina"
 
 #. tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
@@ -213,11 +213,11 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Production Days : total"
-msgstr ""
+msgstr "Rocê Mexeli:Pero piya"
 
 #. tpl/productivity_report.html
 msgid "number of days billed"
-msgstr ""
+msgstr "Amarê roca faturayi"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -432,7 +432,7 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Drift - All tasks"
-msgstr ""
+msgstr "Drift - Wezifey pêro"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -458,7 +458,7 @@ msgstr "Drift"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Overflow day quantity"
-msgstr ""
+msgstr "Miktarê kırıştışê roci"
 
 #. tpl/productivity_report.html
 msgid "Computed on task Resolved/Closed in the given period"
@@ -515,7 +515,7 @@ msgstr "Abırriyayışê ğeyreti"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr ""
+msgstr "Texminê İdarekari"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -525,7 +525,7 @@ msgstr "İdarekar"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks Mgr"
-msgstr ""
+msgstr "Wezifey Mgr"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -550,7 +550,7 @@ msgstr "MgrEffortEstim"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
-msgstr ""
+msgstr "Agoznaye wezife çıniyo..."
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -684,7 +684,7 @@ msgstr "BL"
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift relatively to the managers Estimation"
-msgstr ""
+msgstr "Gorey idarekaran ra texminê kaşkerdışi"
 
 #. tpl/productivity_report.html
 #. tpl/servicecontract_info.html
@@ -972,7 +972,7 @@ msgstr "Tarix"
 #. tpl/project_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Projects Activity"
-msgstr ""
+msgstr "Aktivitey Proceyi"
 
 #. tpl/project_activity_report.html
 msgid "Users"
@@ -980,7 +980,7 @@ msgstr "Karberi"
 
 #. tpl/project_activity_report.html
 msgid "Tasks per project"
-msgstr ""
+msgstr "Serê herg procey wezifey"
 
 #. tpl/project_activity_report.html
 #. tpl/team_activity_report.html
@@ -1082,16 +1082,16 @@ msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
-msgstr ""
+msgstr "Pê proceyanê SideTasks"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
 msgid "ServiceContract"
-msgstr ""
+msgstr "ServiceContract"
 
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
-msgstr ""
+msgstr "--- ServiceContract Newe Vırazê ---"
 
 #. tpl/servicecontract_info.html
 #. tpl/servicecontract_edit.html
@@ -1859,7 +1859,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Delete duration"
-msgstr ""
+msgstr "Demi bıesternê"
 
 #. tpl/edit_team.html
 msgid "Deleted the following duration ?"
@@ -1972,7 +1972,7 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "SideTasks Projects"
-msgstr ""
+msgstr "SideTasks Proceyi"
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
@@ -2002,12 +2002,12 @@ msgstr "Ref"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
-msgstr ""
+msgstr "Komela Contract-CommandSet bıesternê"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 msgid "Remove CommandSet"
-msgstr ""
+msgstr "CommandSet Wedarne"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
