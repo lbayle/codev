@@ -510,7 +510,6 @@ INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "ve
 ('DeadlineAlertIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display unresolved tasks that should have been delivered'),
 ('DriftAlertIndicator', 1, 'Homepage,Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Display tasks where the elapsed time is greater than the estimated effort'),
 ('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the EffortEstim reliability rate history<br>rate = EffortEstim / elapsed (on resolved tasks only)'),
-('HelloWorldIndicator', 0, 'Homepage,Team,User', 'Quality', '1.0.0', 'A simple HelloWorld plugin'),
 ('ImportIssueCsv', 1, 'Import_Export', 'Import', '1.0.0', 'Import a list of issues to MantisBT / CodevTT from a CSV file'),
 ('ImportUsers', 1, 'Import_Export,TeamAdmin', 'Import', '1.0.0', 'Import a list of users to MantisBT / CodevTT'),
 ('IssueBacklogVariationIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Display task backlog updates since the task creation'),
