@@ -30,6 +30,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    const OPTION_IS_ROOT_TASK_LIST = 'isRootTaskList';
    const OPTION_IS_INCLUDE_PARENT_ISSUE = 'isIncludeParentIssue';
    const OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS = 'isIncludeParentInItsOwnWbsFolder';
+   const OPTION_IS_RESET_WBS = 'isResetWBS'; // remove all tasks & folders before the import (full reload)
 
    private static $logger;
    private static $domains;
@@ -41,7 +42,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    private $teamId;
    private $issueId;
    private $bugidList;
-   private $commandId;
+   private $commandId = 0;
    private $command;
    private $isRootTaskList;
    private $isIncludeParentIssue;
@@ -50,6 +51,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    // internal
    private $sessionUserId;
    protected $execData;
+   private $domain;
 
 
    /**
@@ -61,6 +63,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
 
       self::$domains = array (
          self::DOMAIN_IMPORT_EXPORT,
+         self::DOMAIN_COMMAND,
       );
       self::$categories = array (
          self::CATEGORY_IMPORT
@@ -123,6 +126,27 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: " . PluginDataProviderInterface::PARAM_TEAM_ID);
       }
+
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
+         $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
+      } else {
+         throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_DOMAIN);
+      }
+      switch ($this->domain) {
+         case IndicatorPluginInterface::DOMAIN_IMPORT_EXPORT:
+            // none
+            break;
+         case IndicatorPluginInterface::DOMAIN_COMMAND:
+            if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_COMMAND_ID)) {
+               $this->commandId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_COMMAND_ID);
+            } else {
+               throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_COMMAND_ID);
+            }
+            break;
+         default:
+            throw new Exception('Missing parameter related to domain : '.$this->domain);
+      }
+
       $this->isRootTaskList = false;
       $this->isIncludeParentIssue = false;
       $this->isIncludeParentInItsOwnWbsFolder = true;
@@ -257,6 +281,35 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       return $strActionLogs;
    }
 
+   private function getCommandOptions($commandId = 0) {
+
+      // default values
+      $cmdOptions = array(
+         'isRootTaskList' => 0, // determinates selected radioButton
+         'bugidList' => '',     // comma separated bugId list
+         'isIncludeParentIssue' => 0,
+         'isIncludeParentInItsOwnWbsFolder' => 1,
+      );
+
+      if (0 !== $commandId) {
+         $keyExists =  Config::keyExists(Config::id_importRelationshipTreeToCommandOptions, array(0, 0, 0, 0, 0, $commandId));
+         if (false != $keyExists) {
+            $jsonOptions = Config::getValue(Config::id_importRelationshipTreeToCommandOptions, array(0, 0, 0, 0, 0, $commandId), true);
+            if (null != $jsonOptions) {
+               $options = json_decode($jsonOptions, true);
+               if (is_null($options)) {
+                  self::$logger->error('ERROR: could not read settings for command '.$commandId);
+               } else {
+                  $cmdOptions = $options;
+                  $cmdOptions['isRootTaskList'] = 1; // use this option even if only one issue
+               }
+            }
+         }
+      }
+      //self::$logger->error("cmdOptions $commandId = ".var_export($cmdOptions, true));
+      return $cmdOptions;
+   }
+
   /**
     *
     */
@@ -265,15 +318,20 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       // check sesionUser must be Manager !
       $sessionUser = UserCache::getInstance()->getUser($this->sessionUserId);
       $accessDenied = $sessionUser->isTeamManager($this->teamId) ? '0' : '1';
+      $team = TeamCache::getInstance()->getTeam($this->teamId);
 
       // --- get command list
-      $team = TeamCache::getInstance()->getTeam($this->teamId);
-      $cmdList= $team->getCommands();
       $teamCommands = array();
-      foreach($cmdList as $cmdId => $cmd) {
-         $teamCommands[$cmdId] = $cmd->getName();
+      if (IndicatorPluginInterface::DOMAIN_COMMAND === $this->domain) {
+         $cmd = CommandCache::getInstance()->getCommand($this->commandId);
+         $teamCommands[$this->commandId] = $cmd->getName();
+      } else {
+         $teamCommands[0] = ' '; // default: none selected
+         $cmdList= $team->getCommands();
+         foreach($cmdList as $cmdId => $cmd) {
+            $teamCommands[$cmdId] = $cmd->getName();
+         }
       }
-
 
       // --- get all tasks (regularProjects + sidetasksProjects)
       $hideStatusAndAbove = 0;
@@ -294,9 +352,12 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
          'teamCommands' => $teamCommands,
          'taskList' => $taskList,
          'accessDenied' => $accessDenied,
-         );
-      return $this->execData;
+      );
 
+      // preset Cmd default values
+      $cmdOpts = $this->getCommandOptions($this->commandId);
+      $this->execData = array_merge($this->execData, $cmdOpts);
+      return $this->execData;
    }
 
    /**
@@ -309,18 +370,20 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       $prefix='ImportRelationshipTreeToCommand_';
 
       $taskListSmarty = SmartyTools::getSmartyArray($this->execData['taskList'], $this->issueId);
+      $cmdListSmarty = SmartyTools::getSmartyArray($this->execData['teamCommands'], $this->commandId);
 
-
-      $smartyVariables = array(
-         $prefix.'teamCommands' => $this->execData['teamCommands'],
-         $prefix.'taskList' => $taskListSmarty,
-         $prefix.'accessDenied' => $this->execData['accessDenied'],
-      );
+      $smartyVariables = array();
+      foreach($this->execData as $key => $data) {
+         $smartyVariables[$prefix.$key] = $data;
+      }
+      $smartyVariables[$prefix.'taskList'] = $taskListSmarty; // override
+      $smartyVariables[$prefix.'teamCommands'] = $cmdListSmarty; // override
 
       if (false == $isAjaxCall) {
          $smartyVariables[$prefix.'ajaxFile'] = self::getSmartySubFilename();
          $smartyVariables[$prefix.'ajaxPhpURL'] = self::getAjaxPhpURL();
       }
+      //self::$logger->error("smartyVariables = ".var_export($smartyVariables, true));
       return $smartyVariables;
    }
 

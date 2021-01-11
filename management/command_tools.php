@@ -98,7 +98,7 @@ class CommandTools {
 
          $formatedSummary = str_replace("'", "\'", $prov->getSummary());
          $formatedSummary = str_replace('"', "\'", $formatedSummary);
-         
+
          $provArray["$id"] = array(
             'id' => $id,
             'date' => date("Y-m-d", $prov->getDate()),
@@ -122,12 +122,12 @@ class CommandTools {
    private static function getProvisionTotalList(Command $command, $teamCurrency, int $type = NULL) {
 
       $provTotalArray =  NULL;
-      
+
       // compute data
       $provisions = $command->getProvisionList($type);
-      
+
       if (!empty($provisions)) {
-          
+
         foreach ($provisions as $id => $prov) {
 
             // a provision
@@ -295,12 +295,12 @@ class CommandTools {
       $cmdIssueSel = $cmd->getIssueSelection();
       $smartyHelper->assign('cmdNbIssues', $cmdIssueSel->getNbIssues());
       $smartyHelper->assign('cmdIssues', self::getCommandIssues($cmd));
-      
+
       // used to create mantis link to view_all_bug_page.php:
       // view_all_set.php?type=1&temporary=y&FilterBugList_list=5079,5073,5108,5107,49396,5006
       #$mantisFilterBugList= implode(',', array_keys($cmdIssueSel->getIssueList()));
       #$smartyHelper->assign('mantisFilterBugList', $mantisFilterBugList);
-      
+
    }
 
    /**
@@ -341,6 +341,7 @@ class CommandTools {
           IndicatorPluginInterface::CATEGORY_PLANNING,
           IndicatorPluginInterface::CATEGORY_RISK,
           IndicatorPluginInterface::CATEGORY_FINANCIAL,
+          IndicatorPluginInterface::CATEGORY_IMPORT,
          ));
       $dashboard->setTeamid($cmd->getTeamid());
       $dashboard->setUserid($userid);

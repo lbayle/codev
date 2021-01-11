@@ -1,4 +1,4 @@
-<?php 
+<?php
 require('../include/session.inc.php');
 /*
    This file is part of CodevTT
@@ -20,16 +20,16 @@ require('../include/session.inc.php');
 require('../path.inc.php');
 
 class ImportDashboardController extends Controller {
-	
+
 	/**
 	 * @var Logger The logger
 	 */
-	private static $logger;	
-	
+	private static $logger;
+
 	public static function staticInit() {
 		self::$logger = Logger::getLogger(__CLASS__);
 	}
-	
+
 	protected function display() {
 		if (Tools::isConnectedUser()) {
 
@@ -38,9 +38,11 @@ class ImportDashboardController extends Controller {
 
          // feed the PluginDataProvider
          $pluginDataProvider = PluginDataProvider::getInstance();
+         $dashboardDomain = IndicatorPluginInterface::DOMAIN_IMPORT_EXPORT;
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID, $this->session_userid);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_TEAM_ID, $this->teamid);
          $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_PROJECT_ID, $project_id);
+         $pluginDataProvider->setParam(PluginDataProviderInterface::PARAM_DOMAIN, $dashboardDomain);
 
          $dashboardName = 'Import'.$this->teamid;
 
@@ -49,7 +51,7 @@ class ImportDashboardController extends Controller {
 
          // create the Dashboard
          $dashboard = new Dashboard($dashboardName);
-         $dashboard->setDomain(IndicatorPluginInterface::DOMAIN_IMPORT_EXPORT);
+         $dashboard->setDomain($dashboardDomain);
          $dashboard->setCategories(array(
              IndicatorPluginInterface::CATEGORY_IMPORT,
             ));

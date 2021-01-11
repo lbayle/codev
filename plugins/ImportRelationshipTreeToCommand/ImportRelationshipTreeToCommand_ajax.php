@@ -41,7 +41,32 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    $prefix='ImportRelationshipTreeToCommand_';
    $smartyHelper = new SmartyHelper();
 
-   if('importRelationshipTreeToCommand' == $action) {
+   if('getCommandSettings' == $action) {
+
+      $commandId = Tools::getSecurePOSTIntValue("commandId");
+
+      $keyExists =  Config::keyExists(Config::id_importRelationshipTreeToCommandOptions, array(0, 0, 0, 0, 0, $commandId));
+      if (false != $keyExists) {
+         $jsonOptions = Config::getValue(Config::id_importRelationshipTreeToCommandOptions, array(0, 0, 0, 0, 0, $commandId), true);
+         if (null != $jsonOptions) {
+            $options = json_decode($jsonOptions, true);
+            if (is_null($options)) {
+               $data['statusMsg'] = 'ERROR: could not read settings for this command';
+            } else {
+               //$logger->error("options = ".var_export($options, true));
+               $data = $options;
+               $data['statusMsg'] = 'SUCCESS';
+               $data['isRootTaskList'] = 1; // use this option even if only one issue
+            }
+         }
+      } else {
+         $data['statusMsg'] = 'NOT_FOUND';
+      }
+      // return html data
+      $jsonData = json_encode($data);
+      echo $jsonData;
+
+   } else if('importRelationshipTreeToCommand' == $action) {
 
       $commandId = Tools::getSecurePOSTIntValue($prefix."commandId");
 
@@ -51,7 +76,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
       if (0 == $options['isRootTaskList']) {
          $issueId = Tools::getSecurePOSTIntValue($prefix."issueId");
-         $bugidList = '';
+         $bugidList = $issueId;
       } else {
          $issueId = 0;
          $bugidList = Tools::getSecurePOSTStringValue($prefix."rootTaskList");
@@ -71,13 +96,15 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
       // --- update display
       try {
-      $data = $indicator->importIssues();
-
-//      if ($data['elapsedTarget'] == $data['realElapsed']) {
+         $data = $indicator->importIssues();
          $data['statusMsg'] = 'SUCCESS';
-//      } else {
-//         $data['statusMsg'] = 'ERROR';
-//      }
+
+         // save options for this command
+         $options['bugidList'] = $bugidList;
+         $newOptionsJsonStr = json_encode($options);
+         Config::setValue(Config::id_importRelationshipTreeToCommandOptions, $newOptionsJsonStr, Config::configType_string, NULL, 0, 0, 0, $commandId);
+         //$logger->error("save options $commandId = ".var_export($options, true));
+
       } catch (Exception $e) {
          $data['statusMsg'] = $e->getMessage();
       }

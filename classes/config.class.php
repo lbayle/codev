@@ -124,6 +124,7 @@ class Config {
    const id_schedulerOptions = 'schedulerOptions';
    const id_blogPluginOptions = 'blogPluginOptions';
    const id_userGroups = 'userGroups';
+   const id_importRelationshipTreeToCommandOptions = 'importRelationshipTreeToCommandOptions';
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideForbidenStatus:1";
    const default_timetrackingForbidenStatusList = "90"; // 90:closed (do not include 'new')
