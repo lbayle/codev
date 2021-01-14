@@ -42,7 +42,7 @@ class Command extends Model {
    const state_payed = 9;
 
    public static $stateNames;
-   
+
    /**
     * @var Logger The logger
     */
@@ -54,7 +54,7 @@ class Command extends Model {
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
-      
+
       self::$stateNames = array(
       self::state_toBeSent => T_("to be sent"),
       self::state_sent => T_("Sent"),
@@ -66,7 +66,7 @@ class Command extends Model {
       self::state_billSent => T_("bill sent"),
       self::state_payed => T_("payed")
    );
-      
+
    }
 
    // codev_command_table
@@ -310,6 +310,39 @@ class Command extends Model {
       }
    }
 
+   /**
+    * Remove all issues from the command
+    * Remove all WBS elements (folders & issues)
+    * (optionnal) remove all provisions
+    *
+    * This is mainly used if you build your WBS from the
+    * mantis parent-child relationships
+    * (see plugin ImportRelationshipTreeToCommand)
+    */
+   public function flushCommand($isClearProvisions=false) {
+
+      $sql = AdodbWrapper::getInstance();
+
+      // --- remove all issues
+      $query0 = "DELETE FROM codev_command_bug_table ".
+                " WHERE command_id = ".$sql->db_param();
+      $sql->sql_query($query0, array($this->id));
+
+      if (!is_null($this->wbsid)) {
+         //--- remove all WBS Elements
+         $query1 = "DELETE FROM codev_wbs_table".
+                   " WHERE root_id = ".$sql->db_param();
+         $sql->sql_query($query1, array($this->wbsid));
+      }
+      if ($isClearProvisions) {
+         $provisions = $this->getProvisionList();
+         foreach ($provisions as $provId => $prov) {
+            $this->deleteProvision($provId);
+         }
+      }
+      $this->fixCommand(); // just in case
+   }
+
    public function getId() {
       return $this->id;
    }
@@ -458,7 +491,7 @@ class Command extends Model {
    }
 
    /**
-    * 
+    *
     * @deprecated since version 1.3.0
     */
    public function getAverageDailyRate() {

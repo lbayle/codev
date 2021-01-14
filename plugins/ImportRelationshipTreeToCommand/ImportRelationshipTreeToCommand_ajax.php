@@ -92,9 +92,10 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          ImportRelationshipTreeToCommand::OPTION_IS_ROOT_TASK_LIST => $options['isRootTaskList'],
          ImportRelationshipTreeToCommand::OPTION_IS_INCLUDE_PARENT_ISSUE => $options['isIncludeParentIssue'],
          ImportRelationshipTreeToCommand::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS => $options['isIncludeParentInItsOwnWbsFolder'],
+         ImportRelationshipTreeToCommand::OPTION_IS_FLUSH_COMMAND => $options['isFlushCommand'],
       ));
 
-      // --- update display
+      // --- do the job
       try {
          $data = $indicator->importIssues();
          $data['statusMsg'] = 'SUCCESS';

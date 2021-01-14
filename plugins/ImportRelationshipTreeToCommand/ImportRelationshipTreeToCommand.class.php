@@ -30,7 +30,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    const OPTION_IS_ROOT_TASK_LIST = 'isRootTaskList';
    const OPTION_IS_INCLUDE_PARENT_ISSUE = 'isIncludeParentIssue';
    const OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS = 'isIncludeParentInItsOwnWbsFolder';
-   const OPTION_IS_RESET_WBS = 'isResetWBS'; // remove all tasks & folders before the import (full reload)
+   const OPTION_IS_FLUSH_COMMAND = 'isFlushCommand'; // remove all tasks & folders before the import (full reload)
 
    private static $logger;
    private static $domains;
@@ -47,6 +47,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
    private $isRootTaskList;
    private $isIncludeParentIssue;
    private $isIncludeParentInItsOwnWbsFolder;
+   private $isFlushCommand;
 
    // internal
    private $sessionUserId;
@@ -150,6 +151,7 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       $this->isRootTaskList = false;
       $this->isIncludeParentIssue = false;
       $this->isIncludeParentInItsOwnWbsFolder = true;
+      $this->isFlushCommand = false;
    }
 
    /**
@@ -172,6 +174,9 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
          }
          if (array_key_exists(self::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS, $pluginSettings)) {
             $this->isIncludeParentInItsOwnWbsFolder = (0 == $pluginSettings[self::OPTION_IS_INCLUDE_PARENT_IN_ITS_OWN_WBS]) ? false : true;
+         }
+         if (array_key_exists(self::OPTION_IS_FLUSH_COMMAND, $pluginSettings)) {
+            $this->isFlushCommand = $pluginSettings[self::OPTION_IS_FLUSH_COMMAND];
          }
 
          if (false == $this->isRootTaskList) {
@@ -199,6 +204,11 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
       $wbsRootId = $this->command->getWbsid();
 
       $strActionLogs = "------------------------------\n";
+
+      if ($this->isFlushCommand) {
+         $this->command->flushCommand();
+         $strActionLogs .= "Flush: all tasks removed from command !\n";
+      }
 
       foreach ($this->bugidList as $bugId) {
          $strActionLogs .= "--- rootElement: $bugId\n";
@@ -285,10 +295,11 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
 
       // default values
       $cmdOptions = array(
-         'isRootTaskList' => 0, // determinates selected radioButton
+         'isRootTaskList' => $this->isRootTaskList ? 1 : 0, // determinates selected radioButton
          'bugidList' => '',     // comma separated bugId list
-         'isIncludeParentIssue' => 0,
-         'isIncludeParentInItsOwnWbsFolder' => 1,
+         'isIncludeParentIssue' => $this->isIncludeParentIssue ? 1 : 0,
+         'isIncludeParentInItsOwnWbsFolder' => $this->isIncludeParentInItsOwnWbsFolder ? 1 : 0,
+         'isFlushCommand' => $this->isFlushCommand ? 1 : 0,
       );
 
       if (0 !== $commandId) {

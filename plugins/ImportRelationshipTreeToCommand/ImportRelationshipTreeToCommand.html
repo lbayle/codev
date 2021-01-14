@@ -45,7 +45,7 @@
                      <td><input class="ImportRelationshipTreeToCommand_rootTaskListRadio" type="radio" name="ImportRelationshipTreeToCommand_rootTaskListRadio" value="1" {if $ImportRelationshipTreeToCommand_isRootTaskList}CHECKED{/if}></td>
                      <td><label class="help_font"  title="{t}comma separated{/t}" id="ImportRelationshipTreeToCommand_rootTaskListLabel">{t}Root task list{/t}: </label></td>
                      <td>
-                        <input title="{t}comma separated{/t}" id="ImportRelationshipTreeToCommand_rootTaskList" name="ImportRelationshipTreeToCommand_rootTaskList" value="{$ImportRelationshipTreeToCommand_bugidList}" style="min-width:700px;"/>
+                        <input title="{t}comma separated{/t}" id="ImportRelationshipTreeToCommand_rootTaskList" name="ImportRelationshipTreeToCommand_rootTaskList" value="{$ImportRelationshipTreeToCommand_bugidList}" style="min-width:700px;" placeholder="{t}comma separated list of mantis tasks{/t}"/>
                      </td>
                   </tr>
                   <tr>
@@ -55,6 +55,8 @@
                         <input class="ImportRelationshipTreeToCommand_isIncludeParentIssue" type="checkbox" {if $ImportRelationshipTreeToCommand_isIncludeParentIssue}CHECKED{/if}> {t}Also include parent-tasks in the tree (unchecked: include as folder only){/t}
                         <br>
                         <input class="ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder" type="checkbox" {if $ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder}CHECKED{/if}><span class="help_font ImportRelationshipTreeToCommand_spanIsIncludeParentInItsOwnWbsFolder">{t}Include parent-tasks in its own folder (unchecked: include above){/t}</span>
+                        <br>
+                        <input class="ImportRelationshipTreeToCommand_isFlushCommand" type="checkbox" {if $ImportRelationshipTreeToCommand_isFlushCommand}CHECKED{/if}><span class="ImportRelationshipTreeToCommand_spanIsFlushCommand">{t}Clear the WBS before import (remove all existing issues from the command){/t}</span>
                      </td>
                   </tr>
                   <tr>
@@ -174,6 +176,14 @@
       isIncludeParentIssue ? span_optionText.removeClass('help_font') : span_optionText.addClass('help_font');
    }
 
+   function isFlushCommandClicked() {
+      var isFlushCommand = jQuery(".ImportRelationshipTreeToCommand_isFlushCommand").attr('checked') ? 1 : 0;
+
+      // change text color if checked
+      var span_optionText=jQuery(".ImportRelationshipTreeToCommand_spanIsFlushCommand");
+      isFlushCommand ? span_optionText.addClass('error_font') : span_optionText.removeClass('error_font');
+   }
+
    // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
    function ImportRelationshipTreeToCommandJsDestroy() {
       console.log('ImportRelationshipTreeToCommandJsDestroy');
@@ -197,6 +207,7 @@
       // update checkboxes depending on default values (selected command)
       isIncludeParentIssueClicked();
       rootTaskListRadioChanged();
+      isFlushCommandClicked();
 
       // ------------------------
       jQuery(".ImportRelationshipTreeToCommand_issueId").change(function() {
@@ -239,6 +250,8 @@
                   jQuery(".ImportRelationshipTreeToCommand_isIncludeParentIssue").prop('checked', data.isIncludeParentIssue);
                   jQuery(".ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder").prop('checked', data.isIncludeParentInItsOwnWbsFolder);
                   isIncludeParentIssueClicked();
+                  jQuery(".ImportRelationshipTreeToCommand_isFlushCommand").prop('checked', data.isFlushCommand);
+                  isFlushCommandClicked();
                } else {
                   if('NOT_FOUND' === data.statusMsg) {
                      console.log("No presets for this command");
@@ -276,6 +289,7 @@
             options["isRootTaskList"] = ('0' === isRootTaskList) ? 0 : 1;
             options["isIncludeParentIssue"] = form.find(".ImportRelationshipTreeToCommand_isIncludeParentIssue").attr('checked') ? 1 : 0;
             options["isIncludeParentInItsOwnWbsFolder"] = form.find(".ImportRelationshipTreeToCommand_isIncludeParentInItsOwnWbsFolder").attr('checked') ? 1 : 0;
+            options["isFlushCommand"] = form.find(".ImportRelationshipTreeToCommand_isFlushCommand").attr('checked') ? 1 : 0;
             // if more options, add here
             var optionsJsonStr = JSON.stringify(options);
             form.find('input[name=optionsJsonStr]').val(optionsJsonStr);
@@ -312,7 +326,9 @@
       jQuery('.ImportRelationshipTreeToCommand_isIncludeParentIssue').click(function(event) {
          isIncludeParentIssueClicked();
       });
-
+      jQuery('.ImportRelationshipTreeToCommand_isFlushCommand').click(function(event) {
+         isFlushCommandClicked();
+      });
 
       // ------------------------
       jQuery(".ImportRelationshipTreeToCommandHelpDialog_link").click(function(e) {
