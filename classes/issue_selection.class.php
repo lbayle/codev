@@ -224,6 +224,30 @@ class IssueSelection {
    }
 
    /**
+    * the nb of days needed to finish the issue.
+    *
+    * for each task:
+    * if status >= resolved, return 0.
+    * if the 'backlog' (BL) field is not defined, return max(effortEstim+effortAdd, mgrEffortEstim)
+    *
+    * @return int the nb of days needed to finish the issueSel or NULL if not found (rare).
+    */
+   public function getDuration($timestamp = NULL) {
+
+      $duration = 0;
+      foreach ($this->issueList as $issue) {
+         $submission = $issue->getDateSubmission();
+
+         if ($submission <= $timestamp) {
+            $duration += $issue->getDuration($timestamp);
+         } else {
+            #echo "issue ".$issue->getId()." does not yet exist<br>";
+         }
+      }
+      return $duration;
+   }
+
+   /**
     * @return Issue[]
     */
    public function getIssueList() {

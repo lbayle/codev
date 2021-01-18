@@ -1,0 +1,169 @@
+<div class="BurnDownChart">
+   <div class="pluginInitFunction"  style="display: none;">BurnDownChartJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">BurnDownChartJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="BurnDownChart_dateRange_form" method="get" action="{$BurnDownChart_ajaxPhpURL}">
+      <fieldset>
+         <label for="BurnDownChart_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="BurnDownChart_startdatepicker datepicker" name="BurnDownChart_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="BurnDownChart_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="BurnDownChart_enddatepicker datepicker" name="BurnDownChart_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="BurnDownChart_submit" type="submit" value="{t}Display{/t}" />
+         <img class="BurnDownChart_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         <input type="hidden" name="action" value="getBurnDownChart" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+{if isset($BurnDownChart_tableData)}
+<div>
+   <div id="tabsBurnDownChart" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#BurnDownChart_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#BurnDownChart_tabValues">{t}Values{/t}</a></li>
+      </ul>
+      <div id="BurnDownChart_tabGraph">
+         <div class="BurnDownChart_jqPlot xlabels_chart chart" style="width: 100%;"></div>
+      </div>
+      <div id="BurnDownChart_tabValues" class="BurnDownChart_tabValues">
+         {include file="`$BurnDownChart_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="BurnDownChartHelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <span class="float pointer">
+      <img onclick="$('.BurnDownChartValuesTable').table2CSV({literal}{{/literal}filename : 'burnDownChart.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+   <div class="BurnDownChartHelpDialog ui-helper-hidden" title="{t}Burndown chart{/t}">
+      <p>
+         <strong>Description:</strong><br>
+         TODO
+         <br>
+      </p>
+   </div>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function BurnDownChartJsDestroy() {
+      console.log('BurnDownChartJsDestroy');
+      //jQuery(".BurnDownChartHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function BurnDownChartJsInit() {
+      console.log('BurnDownChartJsInit');
+      jQuery('.BurnDownChart_spinner').hide(); // hide spinner
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".BurnDownChart_startdatepicker").datepicker("setDate" ,"{$BurnDownChart_startDate}");
+      var endDatePicker = jQuery(".BurnDownChart_enddatepicker").datepicker("setDate" ,"{$BurnDownChart_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.BurnDownChart_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         jQuery('.BurnDownChart_spinner').show(); // spinner img
+
+         var form = jQuery('.BurnDownChart_dateRange_form');
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         // send attributesJsonStr because the ajax php need to know about 'showSidetasks'
+         // Note: BurnDownChartAttr is declared in dashboard.html
+         var attr = jQuery('.BurnDownChartAttr.attributesJsonStr');
+         form.find('input[name=attributesJsonStr]').val(attr.text());
+
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".addTeamAdminErrorMsg").html(data.statusMsg);
+               } else {
+                  jQuery(".BurnDownChart_tabValues").html(jQuery.trim(data['BurnDownChart_htmlContent']));
+
+                  if (data['BurnDownChart_jqplotData']) {
+                     var chart = jQuery('.BurnDownChart_jqPlot');
+                     var chartoptions = chart.data('plotoptions');
+                     chartoptions.axes.xaxis.ticks = jQuery.parseJSON(data['BurnDownChart_jqplotXaxes']);
+                     var jqplotData = jQuery.parseJSON(data['BurnDownChart_jqplotData']);
+                     chart.empty();
+                     chart.jqplot(jqplotData, chartoptions);
+                  }
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+         jQuery('.BurnDownChart_spinner').hide(); // spinner img
+      });
+
+      jQuery(".BurnDownChartHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".BurnDownChartHelpDialog").dialog("open");
+      });
+      jQuery(".BurnDownChartHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+
+      var chartoptions = jQuery('.BurnDownChart_jqPlot').data('plotoptions');
+
+      // overload .date_chart options (chart.js)
+      chartoptions.title = "{t}Backlog history{/t}";
+      chartoptions.legend.labels = ['{t}Backlog{/t}'];
+      chartoptions.legend.placement = 'inside';
+      chartoptions.legend.location = 'sw';
+      chartoptions.axesDefaults.tickOptions.fontSize = '8pt'
+
+      //chartoptions.axes.xaxis.ticks = ['toto', 'titi', 'tutu', 'tata'];
+      //var data = [[5, 32, 40, 48],[32, 41, 44, 14]];
+      chartoptions.axes.xaxis.ticks = {$BurnDownChart_jqplotXaxes};
+      var data = {$BurnDownChart_jqplotData};
+
+      jQuery('.BurnDownChart_jqPlot').jqplot(data, chartoptions);
+
+   };
+</script>
+</div>
