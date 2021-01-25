@@ -227,9 +227,14 @@ class Dashboard {
 
          $pClassName = $pluginAttributes['pluginClassName'];
          try {
+            if (empty($pClassName)) {
+               // config.ini file has an empty list of plugins for this dashboard
+               continue;
+            }
+
             // check that this plugin is allowed to be displayed in this dashboard
             if (!in_array($pClassName, $candidates)) {
-               self::$logger->error("Dashboard user settings: ".$pClassName.' is not a candidate !');
+               self::$logger->warn("Dashboard user settings: ".$pClassName.' is not a candidate !');
                continue;
             }
 
