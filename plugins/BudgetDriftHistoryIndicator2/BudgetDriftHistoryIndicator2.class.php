@@ -100,6 +100,7 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
          'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
          'lib/jquery.jqplot/plugins/jqplot.canvasOverlay.min.js',
          'js/chart.js',
+         'js_min/tabs.min.js',
       );
    }
 

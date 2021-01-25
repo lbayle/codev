@@ -1,64 +1,59 @@
 <div class="budgetDriftHistoryIndicator2">
 <div class="pluginInitFunction"  style="display: none;">budgetDriftHistoryIndicator2JsInit</div>
 <div class="pluginDestroyFunction"  style="display: none;">budgetDriftHistoryIndicator2JsDestroy</div>
+
 {if isset($budgetDriftHistoryIndicator2_jqplotPercentData)}
 <div>
-   <div class="budgetDriftHistoryIndicator2Chart date_chart_with_horizontal_line chart inlineBlock" style="width:95%;"></div>
-
-   <div class="inlineBlock" style="margin-top:1em;">
-      <ul>
-         <li>
-            <a class="budgetDriftHistoryIndicator2HelpDialog_link" href="">
-               <img title="help" src="images/help_icon.gif"/>
-            </a>
-         </li>
-         <li>
-            <a class="budgetDriftHistoryIndicator2ValuesDialog_link" href="">
-               <img alt="{t}show values{/t}" title="{t}show values{/t}" src="images/b_browse.png"/>
-            </a>
-         </li>
-         <li>
-            <a href="">
-               <img onclick="$('.budgetDriftHistoryIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
-            </a>
-         </li>
+   <div id="tabsbudgetDriftHistoryIndicator2" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#budgetDriftHistoryIndicator2_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#budgetDriftHistoryIndicator2_tabValues">{t}Values{/t}</a></li>
       </ul>
+      <div id="budgetDriftHistoryIndicator2_tabGraph">
+         <div class="budgetDriftHistoryIndicator2Chart date_chart_with_horizontal_line chart inlineBlock" style="width:95%;"></div>
+      </div>
+      <div id="budgetDriftHistoryIndicator2_tabValues" class="budgetDriftHistoryIndicator2_tabValues">
+         <table class="budgetDriftHistoryIndicator2ValuesTable">
+            <thead>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th title="{t}MgrEffortEstim + checked provisions{/t}">{t}Budget{/t}</th>
+                  <th title="{t}nb days{/t}" >{t}Drift{/t}</th>
+                  <th>% {t}Drift{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$budgetDriftHistoryIndicator2_tableData key=id item=i}
+               <tr>
+                  <td class="right">{$id}</td>
+                  <td class="right">{$i.provAndMeeDays}</td>
+                  <td class="right">{$i.driftDays}</td>
+                  <td class="right">{$i.driftPercent} %</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="budgetDriftHistoryIndicator2HelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <span class="float pointer">
+      <img onclick="$('.budgetDriftHistoryIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'budgetDrift.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+   <div class="budgetDriftHistoryIndicator2HelpDialog ui-helper-hidden" title="{t}Burndown chart{/t}">
+      <p>{t}Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks).{/t}<br>
+      </p>
+      <p>
+         <strong>{t}% Budget Drift{/t}</strong><br>
+         <br>
+         <span style="color:blue"><em>{t}Formula{/t} : {t}( reestimated - budget ) / budget{/t}</em></span>
+      </p>
    </div>
 </div>
-
-<div class="budgetDriftHistoryIndicator2HelpDialog ui-helper-hidden" title="{t}Budget Drift History Indicator{/t}">
-   <p>{t}Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks).{/t}<br>
-   </p>
-   <p>
-      <strong>{t}% Budget Drift{/t}</strong><br>
-      <br>
-      <span style="color:blue"><em>{t}Formula{/t} : {t}( reestimated - budget ) / budget{/t}</em></span>
-   </p>
-</div>
-
-<div class="budgetDriftHistoryIndicator2ValuesDialog ui-helper-hidden" title="{t}Budget Drift{/t}">
-    <table class="budgetDriftHistoryIndicator2ValuesTable">
-       <thead>
-          <tr>
-             <th>{t}Date{/t}</th>
-             <th title="{t}MgrEffortEstim + checked provisions{/t}">{t}Budget{/t}</th>
-             <th title="{t}nb days{/t}" >{t}Drift{/t}</th>
-             <th>% {t}Drift{/t}</th>
-          </tr>
-       </thead>
-       <tbody>
-          {foreach from=$budgetDriftHistoryIndicator2_tableData key=id item=i}
-          <tr>
-             <td class="right">{$id}</td>
-             <td class="right">{$i.provAndMeeDays}</td>
-             <td class="right">{$i.driftDays}</td>
-             <td class="right">{$i.driftPercent} %</td>
-          </tr>
-          {/foreach}
-       </tbody>
-    </table>
-</div>
-<div class="ui-helper-clearfix"></div>
 {else}
    {t}No data.{/t}
 {/if}
@@ -67,13 +62,12 @@
    // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
    function budgetDriftHistoryIndicator2JsDestroy() {
       jQuery(".budgetDriftHistoryIndicator2HelpDialog").dialog('destroy').remove();
-      jQuery(".budgetDriftHistoryIndicator2ValuesDialog").dialog('destroy').remove();
    }
 
    // this function will be run at jQuery(document).ready (see dashboard.html)
    // or when a new widget is added to the dashboard.
    function budgetDriftHistoryIndicator2JsInit() {
-      
+
       {if isset($budgetDriftHistoryIndicator2_jqplotPercentData)}
 
       jQuery(".budgetDriftHistoryIndicator2HelpDialog_link").click(function(e) {
@@ -83,17 +77,6 @@
       jQuery(".budgetDriftHistoryIndicator2HelpDialog").dialog({
          autoOpen: false,
          resizable: true,
-         width: "auto",
-         hide: "fade"
-      });
-
-      jQuery(".budgetDriftHistoryIndicator2ValuesDialog_link").click(function(e) {
-         e.preventDefault();
-         jQuery(".budgetDriftHistoryIndicator2ValuesDialog").dialog("open");
-      });
-      jQuery(".budgetDriftHistoryIndicator2ValuesDialog").dialog({
-         autoOpen: false,
-         height: 'auto',
          width: "auto",
          hide: "fade"
       });
