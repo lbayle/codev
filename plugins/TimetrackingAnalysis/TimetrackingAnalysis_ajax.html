@@ -7,7 +7,9 @@
             <th>{t}Median{/t}<br>{t}(in days){/t}</th>
             <th>{t}Mode{/t}<br>{t}(in days){/t}</th>
             <th>{t}Nb timetracks{/t}</th>
-            <th>{t}Missing timetracks{/t}<br>{t}(in days){/t}</th>
+            <th>{t}Elapsed{/t}<br>{t}(in days){/t}</th>
+            <th>{t}Missing{/t}<br>{t}(in days){/t}</th>
+            <th>{t}Missing{/t}<br>%</th>
          </tr>
       </thead>
       <tbody>
@@ -18,7 +20,9 @@
             <td>{$i.median}</td>
             <td>{$i.mode} ({$i.mode_pcent}%)</td>
             <td>{$i.nbTimetracks}</td>
+            <td>{$i.elapsedDays}</td>
             <td>{$i.missingDays}</td>
+            <td>{$i.missingDays_pcent}%</td>
          </tr>
          {/foreach}
       </tbody>

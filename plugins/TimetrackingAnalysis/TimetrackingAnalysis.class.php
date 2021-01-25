@@ -304,6 +304,7 @@ class TimetrackingAnalysis extends IndicatorPluginAbstract {
 
          $timetracks = $this->inputIssueSel->getTimetracks($useridList, $startT, $endT);
          $nbTimetracks = 0;
+         $elapsedDays = 0;
          $delayData = array(); // cound number of timetracks for each delay
 
          /* @var $track TimeTrack */
@@ -329,8 +330,8 @@ class TimetrackingAnalysis extends IndicatorPluginAbstract {
 
             $delayData[$delayInDays] += 1;
             $nbTimetracks += 1;
+            $elapsedDays += $track->getDuration();
          }
-//self::$logger->error($delayData);
 
          // compute average
          $delays = array_keys($delayData);
@@ -353,8 +354,8 @@ class TimetrackingAnalysis extends IndicatorPluginAbstract {
                }
             }
          }
-//self::$logger->error("mode = $mode, nbTimetracks = ".$delayData[$mode]);
 
+         $missingDays = $this->getMissingDays($startT, $endT);
          $periodData[$label] = array(
             'median' => $median,
             'mode' => $mode,
@@ -362,10 +363,11 @@ class TimetrackingAnalysis extends IndicatorPluginAbstract {
             'mode_pcent' => (0 == $nbTimetracks) ? 0 : round($delayData[$mode]/$nbTimetracks*100,2),
             'average' => round($average, 2),
             'nbTimetracks' => $nbTimetracks,
-            'missingDays' => round($this->getMissingDays($startT, $endT),2)
+            'elapsedDays' => round($elapsedDays, 2),
+            'missingDays' => round($missingDays,2),
+            'missingDays_pcent' => (0 == ($elapsedDays + $missingDays)) ? 0 : round($missingDays/($elapsedDays + $missingDays)*100,2),
          );
       }
-//self::$logger->error($periodData);
 
       $this->execData = array (
          #'startTimestamp' => $this->startTimestamp,
