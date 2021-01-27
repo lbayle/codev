@@ -39,7 +39,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
 
    // internal
    protected $execData;
-   protected $backlogData;
+   protected $durationData;
    protected $elapsedData;
 
    /**
@@ -74,7 +74,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
       return 'CodevTT (GPL v3)';
    }
    public static function getVersion() {
-      return '1.0.0';
+      return '1.1.0';
    }
    public static function getDomains() {
       return self::$domains;
@@ -100,6 +100,9 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
          'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
          'js_min/chart.min.js',
+         'js_min/table2csv.min.js',
+         'js_min/tabs.min.js',
+         'js_min/progress.min.js',
       );
    }
 
@@ -128,7 +131,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL)) {
          $this->interval = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_INTERVAL);
       } else {
-         $this->interval = 30;
+         $this->interval = 'oneMonth';
       }
       //self::$logger->debug('dataProvider '.PluginDataProviderInterface::PARAM_INTERVAL.'= '.$this->interval);
 
@@ -148,39 +151,68 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
       if (NULL != $pluginSettings) {
          // override default with user preferences
          if (array_key_exists(self::OPTION_INTERVAL, $pluginSettings)) {
-
-            switch ($pluginSettings[self::OPTION_INTERVAL]) {
-               case 'oneWeek':
-                  $this->interval = 7;
-                  break;
-               case 'twoWeeks':
-                  $this->interval = 14;
-                  break;
-               case 'oneMonth':
-                  $this->interval = 30;
-                  break;
-               default:
-                  self::$logger->warn('option '.self::OPTION_INTERVAL.'= '.$pluginSettings[self::OPTION_INTERVAL]." (unknown value)");
-            }
+            $this->interval = $pluginSettings[self::OPTION_INTERVAL];
          }
       }
    }
 
    /**
+    *
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @param string $interval [weekly,monthly]
+    */
+   private function createTimestampRangeList($startTimestamp, $endTimestamp, $interval = 'monthly') {
+      $timestampRangeList = array();
+
+      switch ($interval) {
+         case 'oneWeek':
+            $strtotimeStr = "next monday";
+            break;
+         case 'twoWeeks':
+            $strtotimeStr = "+2 weeks"; // we would like "monday in 2 weeks"
+            break;
+         case 'oneMonth':
+         default:
+            $strtotimeStr = "first day of next month";
+      }
+
+      $startT = $startTimestamp;
+      while ($startT < $endTimestamp) {
+         //$timestampRangeList[date('Y-m-d', $startT)] =
+         $timestampRangeList[] =
+             mktime(0, 0, 0, date('m', $startT), date('d', $startT), date('Y', $startT));
+
+         $startT = strtotime($strtotimeStr, $startT);
+      }
+      // latest value should be endTimestamp
+      //$timestampRangeList[date('Y-m-d', $this->endTimestamp)] =
+      $timestampRangeList[] = $endTimestamp;
+
+      return $timestampRangeList;
+   }
+
+   /**
+    * Duration = (backlog) ? backlog : max(MgrEffortEstim, EffortEstim)
+    *
+    * But here, for the need of the graph, we cannot use the regular getDuration()
+    * there is a special case when the issue does not exist at timestamp.
+    *
     * @param IssueSelection $inputIssueSel
     * @param int[] $timestampList
     */
-   private function getBacklogData(IssueSelection $inputIssueSel, array $timestampList) {
-      $this->backlogData = array();
+   private function getDurationData(IssueSelection $inputIssueSel, array $timestampList) {
+      $this->durationData = array();
 
       $mgrEffortEstimCache = array();
 
       // get a snapshot of the Backlog at each timestamp
       $issues = $inputIssueSel->getIssueList();
       krsort($timestampList);
-      foreach ($timestampList as $timestamp) {
+      foreach ($timestampList as $midnight_timestamp) {
+         $timestamp = mktime(23, 59, 59, date('m', $midnight_timestamp), date('d', $midnight_timestamp), date('Y', $midnight_timestamp));
+
          $backlog = 0;
-         #echo "=========getBacklogData ".date('Y-m-d H:i:s', $timestamp)."<br>";
          foreach ($issues as $issue) {
             if(!array_key_exists($issue->getId(),$mgrEffortEstimCache)) {
                if($timestamp >= $issue->getDateSubmission()) {
@@ -200,9 +232,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
 
                         $mgrEffortEstimCache[$issue->getId()] = $issueBacklog;
                      }
-
                   }
-
                } else {
                   // issue does not exist at this date, take max(MgrEffortEstim, EffortEstim)
                   // Note: getDuration() would return 0 which in this case is wrong
@@ -214,38 +244,20 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
             } else {
                $issueBacklog = $mgrEffortEstimCache[$issue->getId()];
             }
-            #echo "issue ".$issue->getId()." issueBacklog = $issueBacklog  getBacklog = $issueBL<br>";
             $backlog += $issueBacklog;
          }
-
-         #echo "backlog(".date('Y-m-d H:i:s', $timestamp).") = ".$backlog.'<br>';
-         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
-         $this->backlogData[$midnight_timestamp] = $backlog;
+         $this->durationData[$midnight_timestamp] = $backlog;
       }
-      // No need to sort, values are get by the index
-      //ksort($this->backlogData);
    }
 
    private function getElapsedData(IssueSelection $inputIssueSel, array $timestampList) {
       $this->elapsedData = array();
 
-      // there is no elapsed on first date
-      $this->elapsedData[] = 0;
-
-      for($i = 1, $size = count($timestampList); $i < $size; ++$i) {
-         $start = $timestampList[$i-1];
-         //$start = mktime(0, 0, 0, date('m', $timestampList[$i-1]), date('d',$timestampList[$i-1]), date('Y', $timestampList[$i-1]));
-
-         $lastDay = ($i + 1 < $size) ? strtotime("-1 day",$timestampList[$i]) : $timestampList[$i];
-         $end   = mktime(23, 59, 59, date('m', $lastDay), date('d',$lastDay), date('Y', $lastDay));
-
-         #   echo "nb issues = ".count($inputIssueSel->getIssueList());
-
-         $elapsed = $inputIssueSel->getElapsed($start, $end);
-
-         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
-         $this->elapsedData[$midnight_timestamp] += $elapsed; // Note: += is important
-         #echo "elapsed[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$this->elapsedData[$midnight_timestamp].'<br>';
+      // get a snapshot of the Backlog at each timestamp
+      foreach ($timestampList as $midnight_timestamp) {
+         $timestamp = mktime(23, 59, 59, date('m', $midnight_timestamp), date('d', $midnight_timestamp), date('Y', $midnight_timestamp));
+         $elapsed = $inputIssueSel->getElapsed(NULL, $timestamp);
+         $this->elapsedData[$midnight_timestamp] = $elapsed;
       }
    }
 
@@ -261,70 +273,60 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
     */
    public function execute() {
 
-      $startTimestamp = mktime(23, 59, 59, date('m', $this->startTimestamp), date('d', $this->startTimestamp), date('Y', $this->startTimestamp));
-      $endTimestamp   = mktime(23, 59, 59, date('m', $this->endTimestamp), date('d',$this->endTimestamp), date('Y', $this->endTimestamp));
+      $timestampList  = $this->createTimestampRangeList($this->startTimestamp, $this->endTimestamp, $this->interval);
 
-      #echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$this->interval."<br>";
-      $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->interval);
-
-
-      // -------- elapsed in the period
-      $startTimestamp = mktime(0, 0, 0, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
-      $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
-
-      //echo "Elapsed start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$this->interval."<br>";
-
-      $timestampList2 = Tools::createTimestampList($startTimestamp, $endTimestamp, $this->interval);
-
-
-      $this->getBacklogData($this->inputIssueSel, $timestampList);
-      $this->getElapsedData($this->inputIssueSel, $timestampList2);
+      $this->getDurationData($this->inputIssueSel, $timestampList);
+      $this->getElapsedData($this->inputIssueSel, $timestampList);
 
       // ------ compute
       $theoBacklog = array();
       $realBacklog = array();
+      $tableData = array();
+
       $iselMaxEE = max(array($this->inputIssueSel->mgrEffortEstim, $this->inputIssueSel->effortEstim));
       $sumElapsed = 0;
       $nbZeroDivErrors1 = 0;
       $nbZeroDivErrors2 = 0;
-      foreach ($timestampList as $timestamp) {
-         $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
+      foreach ($timestampList as $midnight_timestamp) {
+         $formattedMidnight = Tools::formatDate("%Y-%m-%d", $midnight_timestamp);
 
          // ========= RAF theorique
          // Indicateur = charge initiale - cumul consomé
          if(array_key_exists($midnight_timestamp,$this->elapsedData)) {
-            #echo "sumElapsed += ".$this->elapsedData[$midnight_timestamp]." from ".date('Y-m-d H:i:s', $midnight_timestamp)."<br>";
-            $sumElapsed += $this->elapsedData[$midnight_timestamp];
+            $sumElapsed = $this->elapsedData[$midnight_timestamp];
          }
          if (0 != $iselMaxEE) {
             $val1 = $sumElapsed / $iselMaxEE;
 
          } else {
-            // TODO
             $val1 = 0;
             $nbZeroDivErrors1 += 1;
             //self::$logger->error("Division by zero ! (mgrEffortEstim)");
          }
          if ($val1 > 1) {$val1 = 1;}
-         $theoBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val1 * 100, 2);
+         $theoBacklog[$formattedMidnight] = round($val1 * 100, 2);
 
          // =========  RAF reel
         // Indicateur = Conso. Cumulé / (Conso. Cumulé +  RAF)
 
-         $tmp = ($sumElapsed + $this->backlogData[$midnight_timestamp]);
+         $tmp = ($sumElapsed + $this->durationData[$midnight_timestamp]);
          if (0 != $tmp) {
             $val2 = $sumElapsed / $tmp;
          } else {
-            // TODO
             $val2 = 0;
             $nbZeroDivErrors2 += 1;
             //self::$logger->error("Division by zero ! (elapsed + realBacklog)");
          }
-         $realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val2 * 100, 2);
+         $realBacklog[$formattedMidnight] = round($val2 * 100, 2);
 
-         #echo "(".date('Y-m-d', $midnight_timestamp).") sumElapsed = $sumElapsed BacklogData = ".$this->backlogData[$midnight_timestamp]." MaxEE = ".$iselMaxEE.'<br>';
-         #echo "(".date('Y-m-d', $midnight_timestamp).") theoBacklog = ".$theoBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)]." realBacklog = ".$realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)].'<br>';
+         $reestimated = ($sumElapsed + $this->durationData[$midnight_timestamp]);
 
+         $tableData[$formattedMidnight] = array(
+           'progress' => (0 != $reestimated) ? round(($sumElapsed / $reestimated)*100, 2) : 0,
+           'reestimated' => round($reestimated, 2),
+           'elapsed' => $sumElapsed,
+           'backlog' => $this->durationData[$midnight_timestamp],
+         );
 
       } // foreach timestamp
 
@@ -340,6 +342,7 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
       $this->execData = array();
       $this->execData['theo'] = $theoBacklog;
       $this->execData['real'] = $realBacklog;
+      $this->execData['tableData'] = $tableData;
    }
 
    /**
@@ -354,14 +357,16 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
       $startTimestamp = $this->startTimestamp;
       $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
 
-      $interval = ceil($this->interval/20); // TODO why 20 ?
+      $interval = 1;
       $graphData = "[".Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog)."]";
 
+      $smartyPrefix = 'progressHistoryIndicator2_';
       $smartyVariables = array(
-         'progressHistoryIndicator2_jqplotData' => $graphData,
-         'progressHistoryIndicator2_plotMinDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
-         'progressHistoryIndicator2_plotMaxDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
-         'progressHistoryIndicator2_plotInterval' => $interval,
+         $smartyPrefix.'jqplotData' => $graphData,
+         $smartyPrefix.'plotMinDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
+         $smartyPrefix.'plotMaxDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
+         $smartyPrefix.'plotInterval' => $interval,
+         $smartyPrefix.'tableData' => $this->execData['tableData'],
 
          // add pluginSettings (if needed by smarty)
          'progressHistoryIndicator2_'.self::OPTION_INTERVAL => $this->interval,

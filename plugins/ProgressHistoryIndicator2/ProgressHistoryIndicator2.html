@@ -3,34 +3,72 @@
 <div class="pluginDestroyFunction"  style="display: none;">progressHistoryIndicator2JsDestroy</div>
 {if isset($progressHistoryIndicator2_jqplotData)}
 <div>
-   <div class="progressHistoryIndicator2Chart date_chart chart inlineBlock" style="width:95%;"></div>
-   <div class="inlineBlock" style="margin-top:1em;">
-      <ul>
-         <li>
-            <a class="progressHistoryIndicator2HelpDialog_link" href="">
-               <img title="help" src="images/help_icon.gif"/>
-            </a>
-         </li>
+   <div id="tabsProgressHistoryIndicator2" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#progressHistoryIndicator2_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#progressHistoryIndicator2_tabValues">{t}Values{/t}</a></li>
       </ul>
+      <div id="progressHistoryIndicator2_tabGraph">
+         <div class="progressHistoryIndicator2Chart date_chart chart inlineBlock" style="width:95%;"></div>
+      </div>
+      <div id="progressHistoryIndicator2_tabValues" class="progressHistoryIndicator2_tabValues">
+         <div class="progressHistoryIndicator2_ajax"  style="width:100%;">
+            <table class="progressHistoryIndicator2ValuesTable datatable_minimal">
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}Progress{/t}</th>
+                     <th>{t}Reestimated{/t}</th>
+                     <th>{t}Elapsed{/t}</th>
+                     <th>{t}Backlog{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$progressHistoryIndicator2_tableData key=name item=i}
+                  <tr>
+                     <td nowrap="nowrap">{$name}</td>
+                     <td><div class="progress">{$i.progress}%</div></td>
+                     <td>{$i.reestimated}</td>
+                     <td>{$i.elapsed}</td>
+                     <td>{$i.backlog}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="progressHistoryIndicator2HelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <span class="float pointer">
+      <img onclick="$('.progressHistoryIndicator2ValuesTable').table2CSV({literal}{{/literal}filename : 'progressHistory.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+
+   <div class="progressHistoryIndicator2HelpDialog ui-helper-hidden" title="{t}Progress History Indicator{/t}">
+      <p>{t}Evolution of the real progress vs the theoretical progress.{/t}<br>
+      </p>
+      <p>
+         <strong>{t}Theoretical progress{/t}</strong><br>
+         {t}Compares the EffortEstim to the Elapsed days{/t}
+         <br>
+         <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / max(MgrEffortEstim, EffortEstim){/t}</em></span>
+      </p>
+      <p>
+         <strong>{t}Real progress{/t}</strong><br>
+         {t}Displays the backlog{/t}
+         <br>
+         <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / (Elapsed +  Backlog){/t}</em></span>
+      </p>
    </div>
 </div>
 
-<div class="progressHistoryIndicator2HelpDialog ui-helper-hidden" title="{t}Progress History Indicator{/t}">
-   <p>{t}Evolution of the real progress vs the theoretical progress.{/t}<br>
-   </p>
-   <p>
-      <strong>{t}Theoretical progress{/t}</strong><br>
-      {t}Compares the EffortEstim to the Elapsed days{/t}
-      <br>
-      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / max(MgrEffortEstim, EffortEstim){/t}</em></span>
-   </p>
-   <p>
-      <strong>{t}Real progress{/t}</strong><br>
-      {t}Displays the backlog{/t}
-      <br>
-      <span style="color:blue"><em>{t}Formula{/t} : {t}Elapsed / (Elapsed +  Backlog){/t}</em></span>
-   </p>
-</div>
+
+
+
 {else}
    {t}No data.{/t}
 {/if}
@@ -45,7 +83,7 @@
    // or when a new widget is added to the dashboard.
    function progressHistoryIndicator2JsInit() {
       {if isset($progressHistoryIndicator2_jqplotData)}
-      
+
       jQuery(".progressHistoryIndicator2HelpDialog_link").click(function(e) {
          e.preventDefault();
          jQuery(".progressHistoryIndicator2HelpDialog").dialog("open");
