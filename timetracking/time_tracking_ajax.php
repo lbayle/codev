@@ -52,8 +52,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $isHideResolved = ('0' == $managedUser->getTimetrackingFilter('hideResolved')) ? false : true;
          //$isHideForbidenStatus = ('0' == $managedUser->getTimetrackingFilter('hideForbidenStatus')) ? false : true;
          $isHideForbidenStatus=true;
+         $hideNoActivitySince = $managedUser->getTimetrackingFilter('hideNoActivitySince');
 
-         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, $isHideForbidenStatus, 0);
+         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, $isHideForbidenStatus, 0, $hideNoActivitySince);
          $jobs = TimeTrackingTools::getJobs($defaultProjectid, $teamid);
          $durations = TimeTrackingTools::getDurationList($teamid);
 

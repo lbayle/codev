@@ -276,9 +276,9 @@ class TimeTrackingTools {
     * @param int $defaultBugid
     * @return mixed[]
     */
-   public static function getIssues($teamid, $projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid) {
+   public static function getIssues($teamid, $projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid, $hideNoActivitySince=0) {
 
-      $team = TeamCache::getInstance()->getTeam($teamid);
+      //$team = TeamCache::getInstance()->getTeam($teamid);
       $hideStatusAndAbove = 0; // deprecated, was used for forbidAddTimetracksOnClosed
 
       if (0 != $projectid) {
@@ -368,6 +368,25 @@ class TimeTrackingTools {
       }
       $issues = array();
       foreach ($issueList as $issue) {
+
+         if (0 != $hideNoActivitySince) {
+            $project1 = ProjectCache::getInstance()->getProject($issue->getProjectId());
+            $isSideTasksProject = $project1->isSideTasksProject(array($teamid));
+            $isNoStatsProject   = $project1->isNoStatsProject(array($teamid));
+
+            if ((false == $isSideTasksProject) && (false == $isNoStatsProject)) {
+               $tstamp = strtotime('-'.$hideNoActivitySince.' month');
+               $latestTimetrack = $issue->getLatestTimetrack();
+               if ((NULL != $latestTimetrack) &&
+                  ($issue->getLatestTimetrack()->getDate() < $tstamp)) {
+
+                  //self::$logger->error("HIDE ".$issue->getId()." ".date("Y-m-d", $latestTimetrack->getDate())." < ".date("Y-m-d", $tstamp));
+                  unset($issueList[$issue->getId()]);
+                  continue;
+               }
+            }
+         }
+
          //$issue = IssueCache::getInstance()->getIssue($bugid);
          $issues[$issue->getId()] = array(
             'id' => $issue->getId(),
@@ -409,6 +428,7 @@ class TimeTrackingTools {
          // insert in front
          $issues = $smartyRecentList + $issues;
       }
+      //self::$logger->error("Nb issues ".count($issues));
 
       return $issues;
    }

@@ -126,7 +126,7 @@ class Config {
    const id_userGroups = 'userGroups';
    const id_importRelationshipTreeToCommandOptions = 'importRelationshipTreeToCommandOptions';
 
-   const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideForbidenStatus:1";
+   const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideForbidenStatus:1,hideNoActivitySince:3";
    const default_timetrackingForbidenStatusList = "90"; // 90:closed (do not include 'new')
 
    // TODO Move to a more appropriate class
