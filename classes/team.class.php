@@ -39,6 +39,7 @@ class Team extends Model {
           'useTrackNote' => 1,
           'isTrackNoteMandatory' => 0,
           'sendTimesheetEmailNotification' => 1,
+          'isForbidUpdateStatusOnTimetracking' => 0,
          );
 
       self::$generalPrefsDescriptionList = array(
@@ -47,6 +48,7 @@ class Team extends Model {
           'useTrackNote'                        => 'Add a timetrack note input field in the updateBacklog dialogbox',
           'isTrackNoteMandatory'                => 'The timetrack note in the updateBacklog dialogbox is mandatory',
           'sendTimesheetEmailNotification'      => 'Send timesheet email reminder',
+          'isForbidUpdateStatusOnTimetracking'  => 'Do not allow to update the status when adding a timetrack',
          );
 
    }

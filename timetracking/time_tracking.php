@@ -309,8 +309,10 @@ class TimeTrackingController extends Controller {
 
             $isTrackNoteDisplayed = (0 == $team->getGeneralPreference('useTrackNote')) ? false : true;
             $isTrackNoteMandatory = (0 == $team->getGeneralPreference('isTrackNoteMandatory')) ? false : true;
+            $isForbidUpdateStatusOnTimetracking = (0 == $team->getGeneralPreference('isForbidUpdateStatusOnTimetracking')) ? false : true;
             $this->smartyHelper->assign('isTrackNoteDisplayed', $isTrackNoteDisplayed);
             $this->smartyHelper->assign('isTrackNoteMandatory', $isTrackNoteMandatory);
+            $this->smartyHelper->assign('isForbidUpdateStatusOnTimetracking', $isForbidUpdateStatusOnTimetracking);
          }
       }
    }

@@ -38,7 +38,7 @@
                </tr>
                <tr>
                   <th><label for="status">{t}Status{/t} :</label></th>
-                  <td><select id="status" name="status"> </select></td>
+                  <td><select id="status" name="status" {if $isForbidUpdateStatusOnTimetracking}disabled{/if}> </select></td>
                   <td></td>
                </tr>
                <tr id="tr_timeToAdd">
