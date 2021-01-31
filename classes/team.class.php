@@ -52,7 +52,6 @@ class Team extends Model {
    }
 
    // ---
-   // il n'y a qu'un seul teamLeader
    // il peut y avoir plusieurs observer
    // il peut y avoir plusieurs manager
    // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
@@ -66,7 +65,7 @@ class Team extends Model {
       self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
       self::accessLevel_manager  => "Manager", // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
       self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
-      self::accessLevel_customer  => "Customer" // can NOT modify, can NOT view stats
+      //self::accessLevel_customer  => "Customer" // can NOT modify, can NOT view stats
       //self::accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
    );
 
