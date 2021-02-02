@@ -42,7 +42,7 @@ class ImportUsers extends IndicatorPluginAbstract {
     private $teamId;
     // internal
     protected $execData;
-    
+
     public static $mantisAccessLevelList;
 
     /**
@@ -51,7 +51,7 @@ class ImportUsers extends IndicatorPluginAbstract {
      */
     public static function staticInit() {
         self::$logger = Logger::getLogger(__CLASS__);
-        
+
         self::convertConfAccessLevelToArray();
 
         self::$domains = array(
@@ -150,14 +150,14 @@ class ImportUsers extends IndicatorPluginAbstract {
         // set default pluginSettings
         $this->csvFilename = NULL;
     }
-    
+
     /**
      * Convert the string enumeration of access level to an array [id] => [name]
      */
     public static function convertConfAccessLevelToArray()
     {
         self::$mantisAccessLevelList = array();
-        
+
         $accessLevels = explode(',', str_replace(" ", "", self::CONF_MANTIS_ACCESS_LEVEL));
         foreach($accessLevels as $accessLevel)
         {
@@ -165,7 +165,7 @@ class ImportUsers extends IndicatorPluginAbstract {
             self::$mantisAccessLevelList[$accessLevelSplit[0]] = ucfirst($accessLevelSplit[1]);
         }
     }
-    
+
     public static function getMantisAccessLevelList()
     {
         return self::$mantisAccessLevelList;
@@ -193,7 +193,7 @@ class ImportUsers extends IndicatorPluginAbstract {
     }
 
     /**
-     * 
+     *
      * @return string the filename of the uploaded CSV file.
      * @throws Exception
      */
@@ -247,7 +247,7 @@ class ImportUsers extends IndicatorPluginAbstract {
         }
         return $tmpFilename;
     }
-    
+
      /**
      * @param string $filename
      * @param string $delimiter
@@ -273,8 +273,8 @@ class ImportUsers extends IndicatorPluginAbstract {
                 // mandatory fields
                 if ('' != $data[0] && '' != $data[1] && '' != $data[2]) {
 
-                    // "John MAC FERSON" => "jmacferson"
-                    $username = str_replace(' ', '', strtolower($data[1][0] . $data[0]));
+                    // "John MAC FERSON" => "j-macferson"
+                    $username = str_replace(' ', '', strtolower($data[1][0] .'-'. $data[0]));
 
                     $newUser = array();
                     $newUser['lineNum'] = $row - 1;
@@ -330,9 +330,9 @@ class ImportUsers extends IndicatorPluginAbstract {
      * @return array
      */
     public function getSmartyVariables($isAjaxCall = false) {
-        
+
         $smartyVariables['importUsers_teams'] = SmartyTools::getSmartyArray($this->execData['teams'], $this->teamid);
-        
+
         if (false == $isAjaxCall) {
             $smartyVariables['importUsers_ajaxFile'] = self::getSmartySubFilename();
         }
