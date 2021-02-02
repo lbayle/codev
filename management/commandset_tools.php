@@ -42,6 +42,44 @@ class CommandSetTools {
       return $commandsets;
    }
 
+   private static function getCommandSetIssues(IssueSelection $isel) {
+      $issueArray = array();
+
+      $issues = $isel->getIssueList();
+      foreach ($issues as $id => $issue) {
+         $driftMgr = $issue->getDriftMgr();
+         $driftMgrColor = $issue->getDriftColor($driftMgr);
+         $drift = $issue->getDrift();
+         $driftColor = $issue->getDriftColor($drift);
+
+         $user = UserCache::getInstance()->getUser($issue->getHandlerId());
+
+         $issueArray[$id] = array(
+            "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, TRUE),
+            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
+            'commandList' => implode(',<br>', $issue->getCommandList()),
+            "extRef" => $issue->getTcId(),
+            "project" => $issue->getProjectName(),
+            "category" => $issue->getCategoryName(),
+            "target" => $issue->getTargetVersion(),
+            "status" => $issue->getCurrentStatusName(),
+            "progress" => round(100 * $issue->getProgress()),
+            "effortEstim" => $issue->getEffortEstim(),
+            "mgrEffortEstim" => $issue->getMgrEffortEstim(),
+            "elapsed" => $issue->getElapsed(),
+            "driftMgr" => $driftMgr,
+            "driftMgrColor" => $driftMgrColor,
+            "drift" => $drift,
+            "driftColor" => $driftColor,
+            "duration" => $issue->getDuration(),
+            "summary" => $issue->getSummary(),
+            "type" => $issue->getType(),
+            "handlerName" => $user->getName()
+         );
+      }
+      return $issueArray;
+   }
+
    /**
     * @param CommandSet $cset
     * @return mixed[]
@@ -137,12 +175,12 @@ class CommandSetTools {
    private static function getProvisionTotalList(CommandSet $commandSet, $targetCurrency, int $type = NULL) {
 
       $provTotalArray =  NULL;
-      
+
       // compute data
       $provisions = $commandSet->getProvisionList(Command::type_general, $type);
-      
+
       if (!empty($provisions)) {
-          
+
         foreach ($provisions as $id => $prov) {
 
             // a provision
@@ -178,7 +216,7 @@ class CommandSetTools {
       }
       return $provTotalArray;
    }
-   
+
    /**
     * code factorisation
     *
@@ -245,6 +283,9 @@ class CommandSetTools {
       $csetTotalElapsed = $commandset->getIssueSelection(Command::type_general)->getElapsed();
       $smartyHelper->assign('commandsetTotalElapsed',$csetTotalElapsed);
 
+      $csetIssueSel = $commandset->getIssueSelection(CommandSet::type_general);
+      $smartyHelper->assign('csetNbIssues', $csetIssueSel->getNbIssues());
+      $smartyHelper->assign('csetIssues', self::getCommandSetIssues($csetIssueSel));
 
       $team = TeamCache::getInstance()->getTeam($teamid);
       $teamCurrency = $team->getTeamCurrency();

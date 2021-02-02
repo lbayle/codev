@@ -1,6 +1,6 @@
 
 <div id="content">
-{if (!isset($accessDenied) || (0 == $accessDenied)) }    
+{if (!isset($accessDenied) || (0 == $accessDenied)) }
    {if isset($teams) && isset($commandsets)}
    <div align="center">
       <!-- create form -->
@@ -56,6 +56,7 @@
    <div id="tabsCommandSet" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
       <ul class="{$ui_tabs_jquery_ul}">
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_charges">{t}Commands{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_tasks">{t}Tasks{/t} ({$csetNbIssues})</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_attributes">{t}Attributes{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_provisions">{t}Provisions{/t}</a></li>
          <li class="{$ui_tabs_jquery_li}"><a href="#tab_indicators">{t}Indicators{/t}</a></li>
@@ -119,6 +120,73 @@
          {t}No Command found.{/t}
          {/if}
       </div>
+      <div id="tab_tasks">
+         {if $csetIssues}
+         <div align="center">
+            <table id="issues_table" class="datatable_csv">
+               <thead>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}ExtRef{/t}</th>
+                     <th>{t}Commands{/t}</th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Category{/t}</th>
+                     <th>{t}Target{/t}</th>
+                     <!--th>{t}User{/t}</th-->
+                     <th>{t}Type{/t}</th>
+                     <th>{t}Status{/t}</th>
+                     <th>{t}Progress{/t}</th>
+                     {if $isManager || $isObserver}
+                     <th>{t}MgrEffortEstim{/t}</th>
+                     {/if}
+                     <th>{t}EffortEstim{/t}</th>
+                     <th>{t}Elapsed{/t}</th>
+                     <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+                     {if $isManager || $isObserver}
+                     <th>{t}Drift Mgr{/t}</th>
+                     {else}
+                     <th>{t}Drift{/t}</th>
+                     {/if}
+                     <th>{t}Summary{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach $csetIssues as $id => $issue}
+                  <tr>
+                     <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
+                     <td style="width:1em;" nowrap="nowrap">{$issue.bugid}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.extRef}</td>
+                     <td style="width:1em;" >{$issue.commandList}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.project}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.category}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.target}</td>
+                     <!--td style="width:1em;" nowrap="nowrap">{$issue.handlerName}</td-->
+                     <td style="width:1em;" nowrap="nowrap">{$issue.type}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.status}</td>
+                     <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
+                     <!--MgrEfforstEstim TD-->
+                     {if $isManager || $isObserver}
+                     <td style="width:1em; position: relative; z-index=9999;" nowrap="nowrap">{$issue.mgrEffortEstim}</td>
+                     {/if}
+                     <!--EffortEstim TD-->
+                     <td style="width:1em; position: relative; z-index=9999;" nowrap="nowrap">{$issue.effortEstim}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.elapsed}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.duration}</td>
+                     {if $isManager || $isObserver}
+                     <td class="td_drift_mgr" style="width:1em;{if isset($issue.driftMgrColor)}background-color:#{$issue.driftMgrColor}{/if}" nowrap="nowrap">{$issue.driftMgr}</td>
+                     {else}
+                     <td class="td_drift" style="width:1em;{if isset($issue.driftColor)}background-color:#{$issue.driftColor}{/if}" nowrap="nowrap">{$issue.drift}</td>
+                     {/if}
+                     <td>{$issue.summary}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No task found.{/t}
+         {/if}
+      </div>
       <div id="tab_indicators">
          {include file="tools/dashboard.html"}
       </div>
@@ -141,7 +209,7 @@
             </tr>
          </table>
       </div>
-      
+
        <div id="tab_provisions">
           {if isset($isManager) && $isManager}
 
@@ -227,6 +295,12 @@
 
 <script type="text/javascript">
    jQuery(document).ready(function() {
+
+      jQuery.ajax({
+         url: "js_min/datatable.min.js",
+         dataType: "script",
+         cache: true
+      });
 
       jQuery("#commandsetid").change(function() {
          if ('0' !== this.value) {
