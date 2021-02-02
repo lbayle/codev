@@ -3,9 +3,9 @@
 SET SQL_MODE='ANSI';
 
 -- Declare new customField, for SalesPricePerPeriod plugin
-INSERT INTO `codev_config_table`
-(`config_id`, `value`, `type`, `user_id`, `project_id`, `team_id`, `servicecontract_id`, `commandset_id`, `command_id`, `access_reqd`, `description`)  VALUES
-('customField_dailyPrice',(SELECT id FROM `mantis_custom_field_table` WHERE `name` = 'CodevTT_DailyPrice'),1,0,0,0,0,0,0,0,0);
+INSERT INTO "codev_config_table"
+("config_id", "value", "type", "user_id", "project_id", "team_id", "servicecontract_id", "commandset_id", "command_id", "access_reqd", "description")  VALUES
+('customField_dailyPrice',(SELECT id FROM "mantis_custom_field_table" WHERE "name" = 'CodevTT_DailyPrice'),1,0,0,0,0,0,0,0,0);
 
 -- Activate new plugins
 UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='AdminTools';
