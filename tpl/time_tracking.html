@@ -1,4 +1,14 @@
+<style type="text/css" media="screen">
 
+   #loading {
+      z-index: 100;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -64px;
+      margin-left: -64px;
+   }
+</style>
 
 <div id="content" class="center">
 
@@ -14,6 +24,10 @@
    {/if}
 
    <br/>
+
+   <div id="loading" class="ui-helper-hidden">
+      <img alt="giantSpinner" src="images/giantSpinner.gif">
+   </div>
 
    {if isset($error)}
    <!-- TODO used by deleteTrack. must be removed when delete done via Ajax -->

@@ -47,6 +47,8 @@ function getIssuesAndDurations(event) {
    var bValid = true;
    if (bValid) {
 
+      jQuery('#loading').show(); // spinner
+
       // ajax call may be slow, empty the task list first.
       var bugidSelect = jQuery('#bugid');
       bugidSelect.empty();
@@ -108,6 +110,12 @@ function getIssuesAndDurations(event) {
                   );
                }
             }
+            jQuery('#loading').hide();
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            jQuery('#loading').hide();
+            console.error(textStatus, errorThrown);
+            alert("ERROR: Please contact your CodevTT administrator");
          }
       });
    }
@@ -601,6 +609,5 @@ jQuery(document).ready(function() {
                   }
                }
    });
-
 });
 
