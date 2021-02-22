@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2021-01-28 17:45:38+0000\n"
+"PO-Revision-Date: 2021-02-22 15:34:27+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -2231,7 +2231,7 @@ msgstr "Actualiser les temps d’imputation"
 
 #. tpl/issue_info.html
 msgid "Remove from :"
-msgstr "Supprimer de :"
+msgstr "Supprimer de :"
 
 #. tpl/issue_info.html
 msgid "Add to Command"
@@ -2239,32 +2239,32 @@ msgstr "Ajouter à une commande"
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
-msgstr "ajouter/enlever la date jalon de la tâche"
+msgstr "ajouter / enlever la date jalon de la tâche"
 
 #. tpl/issue_info.html
 msgid "Delivery date"
-msgstr "Date Livraison"
+msgstr "Date de livraison"
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
-msgstr "ajouter/enlever la date de livraison"
+msgstr "ajouter / enlever la date de livraison"
 
 #. tpl/issue_info.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Task not resolved, backlog cannot be '0'"
-msgstr "Tâche non résolue, le RAF ne peut être nul"
+msgstr "Tâche non résolue, le RAF ne peut être à zéro"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
-msgstr "Tâche résolue, le RAF devrait être à zero"
+msgstr "Tâche résolue, le RAF devrait être à zéro"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr "Le RAF devrait pas être renseigné si les status est: "
+msgstr "Le RAF devrait pas être renseigné si l’état est : "
 
 #. tpl/commandset_edit.html
 msgid "New command set"
-msgstr "Nouvelle Macro Commande"
+msgstr "Nouvelle macro-commande"
 
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
@@ -2273,15 +2273,15 @@ msgstr "Champ non renseigné"
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
-msgstr "Nom de la Macro Commande"
+msgstr "Nom de la macro-commande"
 
 #. tpl/commandset_edit.html
 msgid "Delete CommandSet"
-msgstr "Suppression Macro Commande"
+msgstr "Supprimer la macro-commande"
 
 #. tpl/commandset_edit.html
 msgid "Delete this CommandSet ?"
-msgstr "Supprimer cette Macro Commande ?"
+msgstr "Supprimer cette macro-commande ?"
 
 #. tpl/commandset_edit.html
 msgid "Nb Commands"
@@ -2289,7 +2289,7 @@ msgstr "Nb commandes"
 
 #. tpl/commandset_edit.html
 msgid "Service Contracts"
-msgstr "Contrat de Service"
+msgstr "Contrat de service"
 
 #. tpl/commandset_edit.html
 msgid "--- New Command ---"
@@ -2297,20 +2297,20 @@ msgstr "--- Nouvelle commande ---"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr "Supprimer commande"
+msgstr "Enlever la commande"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
-msgstr "Retirer la commande de cette Macro Commande ?"
+msgstr "Enlever la commande de cette macro-commande ?"
 
 #. tpl/commandset_edit.html
 #. tpl/command_edit.html
 msgid "delete CommandSet-Command association"
-msgstr "supprimer l'association Commande-Macro Commande"
+msgstr "supprimer l’association commande – macro-commande"
 
 #. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
-msgstr "Créez la Macro Commande avant d'y ajouter des commandes."
+msgstr "Créez la macro-commande avant d’y ajouter des commandes."
 
 #. tpl/scheduler.html
 #. tpl/tools/wbsEditor.html
@@ -2322,14 +2322,14 @@ msgstr "Recharger"
 
 #. tpl/scheduler.html
 msgid "Export"
-msgstr "Export"
+msgstr "Exporter"
 
 #. tpl/scheduler.html
 #. tpl/doc.html
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "IMPORTANT: Les tâches non assignées ne sont pas affichées !"
+msgstr "IMPORTANT : les tâches non affectées ne sont pas affichées !"
 
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
@@ -2357,15 +2357,15 @@ msgstr "RAF"
 
 #. tpl/scheduler.html
 msgid "User assignment"
-msgstr "Affectations"
+msgstr "Affectations d’utilisateurs"
 
 #. tpl/scheduler.html
 msgid "Add user"
-msgstr "Ajout utilisateur"
+msgstr "Ajouter un utilisateur"
 
 #. tpl/scheduler.html
 msgid "Time on task"
-msgstr "Répartition de la charge"
+msgstr "Temps par tâche"
 
 #. tpl/scheduler.html
 msgid "Auto"
@@ -2391,7 +2391,7 @@ msgstr "Durée"
 
 #. tpl/scheduler.html
 msgid "Save user assignment for this task"
-msgstr "Enregistrer les affectations de cette tâche"
+msgstr "Enregistrer les affectations d’utilisateurs à cette tâche"
 
 #. tpl/scheduler.html
 #. tpl/tools/wbsEditor.html
@@ -2415,15 +2415,15 @@ msgstr "Date de début"
 
 #. tpl/scheduler.html
 msgid "Number of days to display"
-msgstr "nombre de jours à afficher"
+msgstr "Nombre de jours à afficher"
 
 #. tpl/scheduler.html
 msgid "Number of days to compute"
-msgstr "nombre de jours à calculer"
+msgstr "Nombre de jours à calculer"
 
 #. tpl/scheduler.html
 msgid "Task warning threshold (n days before dealine)"
-msgstr "Seuil d'alerte (n jours avant la deadline)"
+msgstr "Seuil d’alerte (n jours avant l’échéance)"
 
 #. tpl/scheduler.html
 msgid "Save options"
@@ -2439,11 +2439,11 @@ msgstr "Prise en charge NON incluse"
 
 #. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
-msgstr "maj du RAF"
+msgstr "mise à jour de l’arriéré des tâches"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
-msgstr "utilisateurs Affectés"
+msgstr "Utilisateurs affectés"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -2464,35 +2464,35 @@ msgstr "Durée (en jours)"
 
 #. tpl/set_holidays.html
 msgid "Monday"
-msgstr "Lundi"
+msgstr "lundi"
 
 #. tpl/set_holidays.html
 msgid "Tuesday"
-msgstr "Mardi"
+msgstr "mardi"
 
 #. tpl/set_holidays.html
 msgid "Wednesday"
-msgstr "Mercredi"
+msgstr "mercredi"
 
 #. tpl/set_holidays.html
 msgid "Thursday"
-msgstr "Jeudi"
+msgstr "jeudi"
 
 #. tpl/set_holidays.html
 msgid "Friday"
-msgstr "Vendredi"
+msgstr "vendredi"
 
 #. tpl/statistics.html
 msgid "Start Year"
-msgstr "Date Début"
+msgstr "Année de début"
 
 #. tpl/statistics.html
 msgid "Efficiency - System Disponibility"
-msgstr "Taux d'efficacité - Disponibilité système"
+msgstr "Efficacité – Disponibilité du système"
 
 #. tpl/statistics.html
 msgid "Reopened Rate"
-msgstr "Taux de Retour"
+msgstr "Taux de réouverture"
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
@@ -2503,11 +2503,11 @@ msgstr "Capacité de production"
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr "% Tâches"
+msgstr "% des tâches"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
-msgstr "Pourcentage de fiches livrées avant la deadLine"
+msgstr "Pourcentage de tâches livrées avant l’échéance"
 
 #. tpl/statistics.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
@@ -2520,15 +2520,15 @@ msgstr "afficher les valeurs"
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
-msgstr "% Tâches livrées à temps"
+msgstr "% des tâches livrées à temps"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période (par rapport à la 'Charge Manager')"
+msgstr "Dérive des tâches résolues (par rapport à la ChargeMgrEstim)"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr "Nbre de jours de dépassement sur les tâches résolues dans la période (par rapport à la 'Charge Initiale')"
+msgstr "Dérive des tâches résolues (par rapport à la ChargeInitiale)"
 
 #. tpl/statistics.html
 msgid "No Support"
@@ -2544,45 +2544,45 @@ msgstr "BS"
 
 #. tpl/statistics.html
 msgid "Effort Deviation (ExtRefOnly)"
-msgstr "Dérive (ExtRefOnly)"
+msgstr "Dérive (RéfExtSeulement)"
 
 #. tpl/statistics.html
 msgid "Exclude side tasks to get the percent of time spent working on the projects"
-msgstr "Pourcentage de temps passé sur les tâches projet par rapport au temps total consommé (TachesAnnexes inclues)."
+msgstr "Exclut les tâches annexes du calcul du pourcentage de temps passé sur les projets"
 
 #. tpl/statistics.html
 msgid "Efficiency"
-msgstr "Taux d'efficacité"
+msgstr "Efficacité"
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Efficiency"
-msgstr "% Efficacité"
+msgstr "% d’efficacité"
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Sys Disp."
-msgstr "% Disp Sys"
+msgstr "% disp. syst."
 
 #. tpl/statistics.html
 msgid "Sys Disp."
-msgstr "Disp Sys"
+msgstr "Disp. syst."
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
-msgstr "Nombre de fiches réouvertes (ayant une ReferenceExterne)"
+msgstr "Nombre de tâches externes rouvertes (ayant une RéfExterne)."
 
 #. tpl/statistics.html
 msgid "% Reopened"
-msgstr "% de retour"
+msgstr "% rouvertes"
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
-msgstr "Compare le nombre de fiches réouvertes au nombre de fiches résolues"
+msgstr "Compare le nombre de tâches rouvertes au nombre de tâches résolues"
 
 #. tpl/statistics.html
 msgid "Nb Reopened"
-msgstr "Nb de retour"
+msgstr "Nb de rouvertes"
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -2591,19 +2591,19 @@ msgstr "jour-homme"
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
-msgstr "Nbre de jours-hommes disponibles sur la période (taches annexes et externes exclues)"
+msgstr "Jours-hommes disponibles sur la période (tâches annexes et externes exclues)"
 
 #. tpl/statistics.html
 msgid "Developers Workload"
-msgstr "Capacité de production"
+msgstr "Charge des développeurs"
 
 #. tpl/statistics.html
 msgid "nb production days"
-msgstr "Nbre de jours de Production"
+msgstr "nb de jours de production"
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
-msgstr "Désolé, vous n'avez pas accès à cette page."
+msgstr "Désolé, vous n’avez pas accès à cette page."
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
@@ -2611,7 +2611,7 @@ msgstr "Les champs suivants doivent être renseignés"
 
 #. tpl/export_odt.html
 msgid "Reporters"
-msgstr "Émetteurs"
+msgstr "Rapporteurs"
 
 #. tpl/export_odt.html
 msgid "Handlers"
@@ -2628,11 +2628,11 @@ msgstr "Catégories"
 
 #. tpl/export_odt.html
 msgid "errorThrown"
-msgstr "errorThrown"
+msgstr "erreurDétectée"
 
 #. tpl/export_odt.html
 msgid "Reported by"
-msgstr "Émis par"
+msgstr "Signalé par"
 
 #. tpl/export_odt.html
 msgid "Download"
@@ -2650,19 +2650,19 @@ msgstr "ÉCHEC de la requête"
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr "Réduisez la liste des tâches en ajoutant des filtres"
+msgstr "Réduisez la liste des tâches en définissant des filtres"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
-msgstr "Cacher les tâches qui ne me sont pas assignées"
+msgstr "Masquer les tâches qui ne me sont pas affectées"
 
 #. tpl/time_tracking.html
 msgid "Hide resolved tasks"
-msgstr "Cacher les tâches résolues"
+msgstr "Masquer les tâches résolues"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
-msgstr "Cacher les tâches au status désactivé (fermé, ...)"
+msgstr "Masquer les tâches dans un état interdit (fermé, ...)"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2681,17 +2681,17 @@ msgstr "Semaine suivante"
 
 #. tpl/time_tracking.html
 msgid "Week timetracks"
-msgstr "Imputations hebdo"
+msgstr "Imputations hebdomadaires"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Ext.ID"
-msgstr "Réf.Ext"
+msgstr "ID ext."
 
 #. tpl/time_tracking.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Timetrack note"
-msgstr "Note d'imputation"
+msgstr "Note d’imputation"
 
 #. tpl/time_tracking.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -2704,7 +2704,7 @@ msgstr "Imputations futures"
 
 #. tpl/time_tracking.html
 msgid "Delete track"
-msgstr "Supprimer l'imputation"
+msgstr "Supprimer l’imputation"
 
 #. tpl/time_tracking.html
 #. tpl/plugin_manager.html
@@ -2719,7 +2719,7 @@ msgstr "Déconnecter"
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
-msgstr "En cas de problèmes, veuillez utiliser un navigateur respectant les standards du web, comme : "
+msgstr "Note : en cas de problèmes, veuillez utiliser un navigateur respectant les standards du web comme :"
 
 #. tpl/template.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -2728,11 +2728,11 @@ msgstr "ou"
 
 #. tpl/planning_report.html
 msgid "zoom in"
-msgstr "agrandir l'échelle"
+msgstr "agrandir l’échelle"
 
 #. tpl/planning_report.html
 msgid "zoom out"
-msgstr "réduire l'échelle"
+msgstr "réduire l’échelle"
 
 #. tpl/planning_report.html
 msgid "Planning Options"
@@ -2759,7 +2759,7 @@ msgstr "Tâches non assignées"
 
 #. tpl/planning_report.html
 msgid "Team's backlog"
-msgstr "Backlog de l'équipe"
+msgstr "Arriéré de travail de l’équipe"
 
 #. tpl/planning_report.html
 msgid "tasks"
@@ -2771,7 +2771,7 @@ msgstr "charge"
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr "NbJoursRestants"
+msgstr "nbJoursRestants"
 
 #. tpl/planning_report.html
 #. tpl/edit_jobs.html
@@ -2792,7 +2792,7 @@ msgstr "Priorité des tâches dans le planning et le gantt"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
-msgstr "La documentation est disponible sur le site "
+msgstr "La documentation est disponible sur "
 
 #. tpl/doc.html
 msgid "CodevTT Documentation Wiki"
@@ -2800,31 +2800,31 @@ msgstr "Documentation CodevTT"
 
 #. tpl/doc.html
 msgid "GreaseMonkey script: "
-msgstr "Script GreaseMonkey: "
+msgstr "Script GreaseMonkey : "
 
 #. tpl/doc.html
 msgid "You can help on translations: "
-msgstr "Aider à la traduction: "
+msgstr "Vous pouvez aider à la traduction : "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr "Statistiques"
+msgstr "statistiques"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr "Contacter l'auteur: "
+msgstr "Contacter l’auteur : "
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
-msgstr "La racine du WBS ne peut être renommée"
+msgstr "L’élément racine du WBS ne peut être renommé."
 
 #. tpl/tools/wbsEditor.html
 msgid "Root element cannot be deleted."
-msgstr "La racine du WBS ne peut être supprimée"
+msgstr "L’élément racine du WBS ne peut être supprimé."
 
 #. tpl/tools/wbsEditor.html
 msgid "Delete Failed: Folder must be empty."
-msgstr "Suppression impossible: le dossier doit être vide."
+msgstr "Suppression impossible : le dossier doit être vide."
 
 #. tpl/tools/wbsEditor.html
 msgid "New Folder"
@@ -2844,7 +2844,7 @@ msgstr "Ajouter un indicateur au tableau de bord"
 
 #. tpl/tools/dashboard.html
 msgid "Add Indicator"
-msgstr "Ajouter un Indicateur"
+msgstr "Ajouter un indicateur"
 
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
@@ -2853,7 +2853,7 @@ msgstr "Chargement"
 
 #. tpl/logs.html
 msgid "Logfile:"
-msgstr "Fichier du journal :"
+msgstr "Fichier du journal :"
 
 #. tpl/logs.html
 msgid "Line"
@@ -2861,11 +2861,11 @@ msgstr "Ligne"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "Log"
+msgstr "Journal"
 
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
-msgstr "Evolution de la moyenne des RAF"
+msgstr "Variation moyenne de l’arriéré des tâches"
 
 #. tpl/bvi.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
@@ -2894,11 +2894,11 @@ msgstr "Aucune donnée."
 
 #. tpl/create_team.html
 msgid "Team Info"
-msgstr "Description de l'équipe"
+msgstr "Description de l’équipe"
 
 #. tpl/create_team.html
 msgid "Team Name"
-msgstr "Nom de l'équipe"
+msgstr "Nom de l’équipe"
 
 #. tpl/create_team.html
 msgid "Team Administrator"
@@ -2906,7 +2906,7 @@ msgstr "Administrateur d’équipe"
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
-msgstr "Projets TachesAnnexes"
+msgstr "Projet TâchesAnnexes"
 
 #. tpl/create_team.html
 msgid "Add common ExternalTasks Project"
@@ -2914,19 +2914,19 @@ msgstr "Ajouter un projet commun de TâchesExternes"
 
 #. tpl/create_team.html
 msgid "Create specific SideTask Project"
-msgstr "Créer un projet de TâchesAnnexes spécifique"
+msgstr "Créer un projet spécifique de TâchesAnnexes"
 
 #. tpl/create_team.html
 msgid "WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing."
-msgstr "ATTENTION : Ne pas créer de projet TachesAnnexes n'est généralement PAS une bonne idée, et réservé à une utilisation avancée."
+msgstr "ATTENTION : désactiver la création de projet TâchesAnnexes n’est généralement PAS une bonne idée, à moins de savoir exactement ce que vous faites."
 
 #. tpl/create_team.html
 msgid "Project Name"
-msgstr "Nom du Projet"
+msgstr "Nom du projet"
 
 #. tpl/create_team.html
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
-msgstr "Réunion, Avant-vente, Suivi de projet, ..."
+msgstr "Réunion, avant-vente, gestion de projet, etc."
 
 #. tpl/create_team.html
 #: admin/create_team.php:92
@@ -2935,20 +2935,20 @@ msgstr "Incident"
 
 #. tpl/create_team.html
 msgid "Server or Platform down, ..."
-msgstr "Serveur inaccessible, ..."
+msgstr "Serveur inaccessible, etc."
 
 #. tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
-msgstr "Admin Sys, Scripts, ..."
+msgstr "Admin. système, scripts, etc."
 
 #. tpl/create_team.html
 #: admin/create_team.php:98
 msgid "Team Workshop"
-msgstr "Capitalisation"
+msgstr "Atelier d’équipe"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Soutien, Documentation, Formation, Wiki..."
+msgstr "Soutien, Documentation, Formation, Wiki, etc."
 
 #. tpl/create_team.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -2960,7 +2960,7 @@ msgstr "Inactivité"
 
 #. tpl/create_team.html
 msgid "On Duty, Waste, other special cases"
-msgstr "Astreinte, autre cas particuliers"
+msgstr "Astreinte, rebut, autre cas particuliers"
 
 #. tpl/create_team.html
 msgid "Custom Fields"
@@ -2968,27 +2968,27 @@ msgstr "Champs personnalisés"
 
 #. tpl/create_team.html
 msgid "CodevTT custom fields"
-msgstr "Champs CodevTT"
+msgstr "Champs personnalisés CodevTT"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr "Charge Mgr, Charge, RAF, DeadLine, Date de Livraison"
+msgstr "ChargeMgrEstim, ChargeInit, Arriérés, DateLimite, DateDeLivraison"
 
 #. tpl/create_team.html
 msgid "These are sample sideTasks, you can create more with Mantis"
-msgstr "Les tâches annexes ci-dessous sont à titre d'exemple, vous pouvez en créer d'autres avec Mantis"
+msgstr "Les tâches annexes ci-dessous sont à titre d’exemple, vous pouvez en créer d’autres avec Mantis"
 
 #. tpl/create_team.html
 msgid "Project management"
-msgstr "Pilotage projet"
+msgstr "Gestion de projet"
 
 #. tpl/create_team.html
 msgid "Team meeting"
-msgstr "Réunion d'équipe"
+msgstr "Réunion d’équipe"
 
 #. tpl/create_team.html
 msgid "Network is down"
-msgstr "Indisponibilité réseau"
+msgstr "Le réseau est indisponible"
 
 #. tpl/create_team.html
 msgid "Compilation scripts"
@@ -2996,7 +2996,7 @@ msgstr "Scripts de compilation"
 
 #. tpl/create_team.html
 msgid "Update team WIKI"
-msgstr "Mise à jour du WIKI"
+msgstr "Mise à jour du Wiki d’équipe"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
@@ -3015,7 +3015,7 @@ msgstr "Créer"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Recherche de nouveaux greffons dans le dossier 'plugins'"
+msgstr "Recherche de nouveaux greffons dans le dossier « plugins »"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
@@ -3044,15 +3044,15 @@ msgstr "Nouvelle commande"
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "Sold Charge"
-msgstr "Charges vendues"
+msgstr "Charge vendue"
 
 #. tpl/command_edit.html
 msgid "Delete Command"
-msgstr "Supprimer commande"
+msgstr "Supprimer la commande"
 
 #. tpl/command_edit.html
 msgid "Delete this Command ?"
-msgstr "Effacer cette commande ?"
+msgstr "Supprimer cette commande ?"
 
 #. tpl/command_edit.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -3066,39 +3066,39 @@ msgstr "WBS"
 
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
-msgstr "Macro Commandes parentes"
+msgstr "Macro-commandes parentes"
 
 #. tpl/command_edit.html
 msgid "Add tasks (comma separated)"
-msgstr "Ajouter des tâches (séparateur virgule)"
+msgstr "Ajouter des tâches (séparées par une virgule)"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
-msgstr "Créez la commande avant d'y ajouter des tâches."
+msgstr "Créez la commande avant d’y ajouter des tâches."
 
 #. tpl/command_edit.html
 msgid "delete Command-Task association"
-msgstr "supprimer l'association Tâche-Commande"
+msgstr "supprimer l’association Commande–Tâche"
 
 #. tpl/command_edit.html
 msgid "Remove Task"
-msgstr "Enlever la Tâche"
+msgstr "Enlever la tâche"
 
 #. tpl/command_edit.html
 msgid "Remove Task from this Command ?"
-msgstr "Retirer la tâche de cette commande ?"
+msgstr "Enlever la tâche de cette commande ?"
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
-msgstr "Créez la commande avant de l'ajouter à une Macro Commande."
+msgstr "Créez la commande avant de l’ajouter à une macro-commande."
 
 #. tpl/command_edit.html
 msgid "Remove this Command from the CommandSet ?"
-msgstr "Retirer la commande de cette Macro Commande ?"
+msgstr "Retirer la commande de cette macro-commande ?"
 
 #. tpl/command_edit.html
 msgid "Create the Command first."
-msgstr "Créez la commande avant d'y ajouter des tâches."
+msgstr "Créez la commande d’abord."
 
 #. tpl/command_edit.html
 msgid "CSV Import"
@@ -3106,27 +3106,27 @@ msgstr "Import CSV"
 
 #. tpl/command_edit.html
 msgid "Import templates"
-msgstr "Modèles d'import"
+msgstr "Modèles d’import"
 
 #. tpl/command_edit.html
 msgid "Add Provision"
-msgstr "Ajouter Provision"
+msgstr "Ajouter une provision"
 
 #. tpl/command_edit.html
 msgid "add to budget check"
-msgstr "Ajouter au 'check budget'"
+msgstr "ajouter à la vérification de budget"
 
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
-msgstr "Ajouter au 'check budget'"
+msgstr "Ajouter à la vérification de budget"
 
 #. tpl/command_edit.html
 msgid "Delete from the Command ?"
-msgstr "Effacer de la commande ?"
+msgstr "Effacer de la commande ?"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
-msgstr "Editer Provision"
+msgstr "Modifier la provision"
 
 #. tpl/command_edit.html
 msgid "Command name"
@@ -3134,15 +3134,15 @@ msgstr "Nom de la commande"
 
 #. tpl/command_edit.html
 msgid "Not a number"
-msgstr "Non numérique"
+msgstr "Pas un nombre"
 
 #. tpl/command_edit.html
 msgid "task id"
-msgstr "id tâche"
+msgstr "ID de tâche"
 
 #. tpl/command_edit.html
 msgid "Not a comma separated number list"
-msgstr "Entrez une liste de nombre séparée par des virgules"
+msgstr "Ce n’est pas une liste de nombres séparés par une virgule"
 
 #. tpl/command_edit.html
 msgid "Missing field"
@@ -3151,7 +3151,7 @@ msgstr "Champ manquant"
 #. tpl/command_edit.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
-msgstr "ERREUR: veuillez vérifier"
+msgstr "ERREUR : veuillez vérifier"
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -3164,7 +3164,7 @@ msgstr "CRAs"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
-msgstr "somme(RAF) des tâches assignées"
+msgstr "somme(arriéré) des tâches affectées"
 
 #. tpl/team_activity_report.html
 msgid "Workload"
@@ -3180,15 +3180,15 @@ msgstr "Toutes les tâches"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack notes"
-msgstr "Notes d'imputation"
+msgstr "Notes d’imputation"
 
 #. tpl/team_activity_report.html
 msgid "Timetrack Note"
-msgstr "Note d'imputation"
+msgstr "Note d’imputation"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
-msgstr "Vu par"
+msgstr "Lu par"
 
 #. tpl/team_activity_report.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
@@ -3212,7 +3212,7 @@ msgstr "Accueil"
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
-msgstr "Saisie des comptes-rendus d’activité (CRA) & Activité Équipe"
+msgstr "Comptes-rendus d’activité (CRA) et d’imputation de l’équipe"
 
 #. tpl/menu/global_menu.html
 msgid "Activity"
@@ -3224,7 +3224,7 @@ msgstr "Saisie des CRA"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
-msgstr "Suivi des Congés"
+msgstr "Suivi des congés"
 
 #. tpl/menu/global_menu.html
 msgid "Leaves"
@@ -3258,7 +3258,7 @@ msgstr "Informations sur une tâche"
 
 #. tpl/menu/global_menu.html
 msgid "Project Information"
-msgstr "Informations sur un projet"
+msgstr "Informations du projet"
 
 #. tpl/menu/global_menu.html
 msgid "Team Statistics"
@@ -3266,7 +3266,7 @@ msgstr "Statistiques de l’équipe"
 
 #. tpl/menu/global_menu.html
 msgid "User Statistics"
-msgstr "Statistiques utilisateur"
+msgstr "Statistiques de l’utilisateur"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -3274,7 +3274,7 @@ msgstr "Historique"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts & Commands"
-msgstr "Contrats & Commandes"
+msgstr "Contrats et commandes"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts"
@@ -3294,7 +3294,7 @@ msgstr "Import / Export"
 
 #. tpl/menu/global_menu.html
 msgid "Import/Export tools"
-msgstr "Outils Import/Export"
+msgstr "Outils d’import / export"
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
@@ -3302,7 +3302,7 @@ msgstr "Exporter vers LibreOffice"
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr "Blog"
+msgstr "Blogue"
 
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:870 install/install_menu.inc.php:68
@@ -3323,7 +3323,7 @@ msgstr "Admin"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr "Créer équipe"
+msgstr "Créer une équipe"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
@@ -3331,11 +3331,11 @@ msgstr "Modifier l’équipe"
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
-msgstr "Outils & Statistiques"
+msgstr "Outils et statistiques"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Jobs"
-msgstr "Editer Postes"
+msgstr "Modifier les postes"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
@@ -3343,11 +3343,11 @@ msgstr "Modifier les vacances"
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
-msgstr "Préparer les Projets "
+msgstr "Préparer les projets"
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
-msgstr "Cloner un Projet"
+msgstr "Cloner les projets"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
@@ -3357,7 +3357,7 @@ msgstr "Gestionnaire de greffons"
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Logs"
-msgstr "Logs"
+msgstr "Journaux"
 
 #. tpl/menu/global_menu.html
 #. tpl/uninstall.html
@@ -3367,12 +3367,12 @@ msgstr "Désinstaller"
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Task filter:"
-msgstr "Filtre sur les tâches"
+msgstr "Filtres de tâches :"
 
 #. tpl/gantt.html
 #. tpl/command_info.html
 msgid "Filter"
-msgstr "Filtre"
+msgstr "Filtrer"
 
 #. tpl/gantt.html
 #. tpl/edit_jobs.html
@@ -3385,15 +3385,15 @@ msgstr "OK"
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr "Voulez-vous désinstaller CodevTT de votre serveur Mantis ?"
+msgstr "Voulez-vous désinstaller CodevTT de votre serveur Mantis ?"
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr "Cette étape nettoiera la BDD Mantis"
+msgstr "Cette étape nettoiera la BDD Mantis."
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
-msgstr "Il est FORTEMENT recommandé de sauvegarder la BDD Mantis avant de continuer !"
+msgstr "Il est FORTEMENT recommandé de sauvegarder votre BDD Mantis avant de continuer !"
 
 #. tpl/uninstall.html
 msgid "Backup data"
@@ -3401,34 +3401,34 @@ msgstr "Sauvegarder les données"
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr "Le fichier de sauvegarde sera généré dans le répertoire des rapports"
+msgstr "Le fichier de sauvegarde sera généré dans le dossier des rapports de CodevTT"
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr "Nom du Fichier"
+msgstr "Nom de fichier"
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
-msgstr "Dump de la BDD Mantis vers"
+msgstr "Vidage de la BDD Mantis vers"
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
-msgstr "Sauvegarde réussie !"
+msgstr "Sauvegarde réussie !"
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
-msgstr "Désinstallation interrompue !"
+msgstr "Désinstallation interrompue !"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT from Mantis menu:"
-msgstr "Suppression CodevTT du menu de Mantis:"
+msgstr "Supprimer CodevTT du menu de Mantis :"
 
 #. tpl/uninstall.html
 #. plugins/AdminTools/AdminTools.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #: plugins/AdminTools/AdminTools.class.php:69
 msgid "TODO"
-msgstr "TODO"
+msgstr "À FAIRE"
 
 #. tpl/uninstall.html
 msgid "Failed"
@@ -3436,15 +3436,15 @@ msgstr "Échec"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr "Suppression des champs personnalisés de CodevTT :"
+msgstr "Enlever les champs personnalisés de CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "Suppression des tables de la BDD Mantis :"
+msgstr "Enlever les tables CodevTT de la BDD Mantis :"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
-msgstr "Suppression des fichiers de configuration de CodevTT :"
+msgstr "Enlever les fichiers de configuration de CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
@@ -3452,15 +3452,15 @@ msgstr "Retirer les greffons Mantis :"
 
 #. tpl/uninstall.html
 msgid "Remove ExternalTasks project:"
-msgstr "Suppression du Projet de taches externes:"
+msgstr "Suppression du projet TâchesExternes :"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr "Veuillez supprimer MANUELLEMENT les projets suivants :"
+msgstr "Veuillez supprimer MANUELLEMENT les projets suivants :"
 
 #. tpl/edit_jobs.html
 msgid "Job Name"
-msgstr "Nom du Poste"
+msgstr "Nom du poste"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_holidays.html
@@ -3470,19 +3470,19 @@ msgstr "Ouvrir un sélecteur de couleur dans un nouvel onglet"
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr "supprimer ce Poste"
+msgstr "supprimer le poste"
 
 #. tpl/edit_jobs.html
 msgid "Edit Job"
-msgstr "Editer Postes"
+msgstr "Modifier le poste"
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
-msgstr "Supprimer ce Poste"
+msgstr "Supprimer le poste"
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr "Enlever l'association"
+msgstr "Enlever ce lien :"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
@@ -3490,19 +3490,19 @@ msgstr "Couleur du poste"
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
-msgstr "Champs manquants :"
+msgstr "Champs manquants :"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
-msgstr "Êtes-vous sûr de vouloir changer"
+msgstr "Voulez-vous vraiment changer la configuration de"
 
 #. tpl/workflow.html
 msgid "settings ?"
-msgstr " ?"
+msgstr " ?"
 
 #. tpl/workflow.html
 msgid "Clonning"
-msgstr "Cloner"
+msgstr "Clonage"
 
 #. tpl/workflow.html
 msgid "into"
@@ -3510,7 +3510,7 @@ msgstr "dans"
 
 #. tpl/workflow.html
 msgid "Clone project settings"
-msgstr "Cloner la configuration de projet"
+msgstr "Cloner la configuration du projet"
 
 #. tpl/workflow.html
 msgid "Clone From"
@@ -3526,7 +3526,7 @@ msgstr "Cycle de vie"
 
 #. tpl/workflow.html
 msgid "Settings"
-msgstr "Options"
+msgstr "Configuration"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
@@ -3538,27 +3538,27 @@ msgstr "Option de configuration"
 
 #. tpl/workflow.html
 msgid "No configuration options defined, using default configuration."
-msgstr "Aucune option n'est définie, utilisation de la configuration par défaut."
+msgstr "Aucune option de configuration n’est définie, utilisation de la configuration par défaut."
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
-msgstr "Ajout de Congés"
+msgstr "Ajout de congés fixes"
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr "Ajoutez ici les fêtes nationales, fêtes religieuses ou la fermeture annuelle de l'entreprise."
+msgstr "Ajoutez ici les fêtes nationales, fêtes religieuses, la fermeture annuelle de l’entreprise, etc."
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
-msgstr "Note : Les RTT ne doivent pas être déclarés ici."
+msgstr "Note : ajouter ici les dates de RTT n’est pas une bonne idée, les utilisateurs pourraient décider de travailler malgré tout et les prévisions de jours de production peuvent être faux."
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
-msgstr "Description Congés"
+msgstr "Description des congés"
 
 #. tpl/edit_holidays.html
 msgid "Permanently remove this date ?"
-msgstr "Supprimer définitivement cette date ?"
+msgstr "Supprimer définitivement cette date ?"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
@@ -3566,11 +3566,11 @@ msgstr "supprimer la vacance"
 
 #. tpl/command_info.html
 msgid "Set command filters"
-msgstr "Filtrer les commandes"
+msgstr "Définir des filtres de commandes"
 
 #. tpl/command_info.html
 msgid "--- Create New Command ---"
-msgstr "-- Créer une Nouvelle commande ---"
+msgstr "--- Créer une nouvelle commande ---"
 
 #. tpl/command_info.html
 msgid "Command Filters"
@@ -3582,7 +3582,7 @@ msgstr "Réduisez la liste des commandes en ajoutant des filtres"
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr "Charge Mgr + Provision sélectionnées (jours)"
+msgstr "ChargeMgrEstim + Provisions vérifiées (jours)"
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -3594,7 +3594,7 @@ msgstr "Dérive (en jours)"
 
 #. tpl/command_info.html
 msgid "Drift (percent)"
-msgstr "Dérive (pourcent)"
+msgstr "Dérive (pourcentage)"
 
 #. tpl/command_info.html
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
@@ -3605,7 +3605,7 @@ msgstr "Jours"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr "La charge totale (Charge Mgr + Provisions) devrait être égale à la 'Charge vendue'"
+msgstr "La charge totale (ChargeMgrEstimée + Provisions) devrait être égale à la « charge vendue »"
 
 #. tpl/command_info.html
 msgid "balance"
@@ -3613,11 +3613,11 @@ msgstr "écart"
 
 #. tpl/command_info.html
 msgid "Default ADR"
-msgstr "TJM par défaut"
+msgstr "TQM par défaut"
 
 #. tpl/command_info.html
 msgid "Tasks & Provisions"
-msgstr "Tâches & Provisions"
+msgstr "Tâches et provisions"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
@@ -3627,12 +3627,12 @@ msgstr "Aucun"
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Provision included in 'check budget'"
-msgstr "Provision inclue dans 'check budget'"
+msgstr "Provision inclue dans la vérification de budget"
 
 #. tpl/command_info.html
 #. tpl/commandset_info.html
 msgid "Provision NOT included in 'check budget'"
-msgstr "Provision NON inclue dans 'check budget'"
+msgstr "Provision NON inclue dans la vérification de budget"
 
 #. tpl/command_info.html
 msgid "Show resolved tasks"
@@ -3640,11 +3640,11 @@ msgstr "Afficher les tâches résolues"
 
 #. tpl/command_info.html
 msgid "Warning"
-msgstr "Alerte"
+msgstr "Avertissement"
 
 #. tpl/command_info.html
 msgid "Reload page to update charges & indicators"
-msgstr "Rechargez la page pour mettre à jour charges & indicateurs"
+msgstr "Rechargez la page pour mettre à jour les charges et indicateurs"
 
 #. tpl/command_info.html
 msgid "Format"
@@ -3652,7 +3652,7 @@ msgstr "Format"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
-msgstr "Aucune tâche sélectionnée !"
+msgstr "Aucune tâche sélectionnée !"
 
 #. tpl/modal/select_issues.html
 msgid "Browse..."
@@ -3664,7 +3664,7 @@ msgstr "Sélectionner tout"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr "Si décoché, une note 'classique' de Mantis sera créée"
+msgstr "Si décoché, une note « classique » de Mantis sera créée"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
@@ -3672,39 +3672,39 @@ msgstr "Ajouter une note de CRA"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
-msgstr "Modifier la note"
+msgstr "Modifier la note d’emploi du temps"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
-msgstr "Supprimer la note de la tâche "
+msgstr "Supprimer la note d’emploi du temps pour la tâche "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
-msgstr "RAF actuel"
+msgstr "Arriéré des tâches actuel"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
-msgstr "Mise à jour du RAF"
+msgstr "Mise à jour de l’arriéré des tâches"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "Le status ne peut pas être : "
+msgstr "L’état ne peut pas être : "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
-msgstr "Tâche résolue, le RAF devrait être à zero"
+msgstr "Tâche résolue, l’arriéré doit être « 0 »"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr "Imputations désactivés si le status est : "
+msgstr "Imputation désactivée si l’état de la tâche est : "
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
-msgstr "Veuillez ajouter une note"
+msgstr "Veuillez ajouter une note d’imputation"
 
 #. tpl/modal/fairplay.html
 msgid "Fair play !"
-msgstr "Fair-play !"
+msgstr "Fair-play !"
 
 #. tpl/modal/fairplay.html
 msgid "You are using CodevTT since"
@@ -3712,7 +3712,7 @@ msgstr "Vous utilisez CodevTT depuis"
 
 #. tpl/modal/fairplay.html
 msgid "If you like this software, please consider making a donation."
-msgstr "Si ce logiciel vous convient, soutenez-nous !"
+msgstr "Si vous aimez ce logiciel, soutenez-nous par un don."
 
 #. tpl/modal/login.html
 msgid "Length of"
@@ -3732,11 +3732,11 @@ msgstr "Identification CodevTT"
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr "Mot de passe"
+msgstr "mot de passe"
 
 #. tpl/modal/login.html
 msgid "Login failed."
-msgstr "échec d'identification"
+msgstr "Échec de connexion."
 
 #. tpl/modal/login.html
 #. tpl/user_info.html
@@ -3751,7 +3751,7 @@ msgstr "Mot de passe"
 
 #. tpl/modal/login.html
 msgid "Lost your password?"
-msgstr "Mot de passe oublié ?"
+msgstr "Mot de passe oublié ?"
 
 #. tpl/modal/login.html
 msgid "Redirection"
@@ -3759,49 +3759,49 @@ msgstr "Redirection"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select User"
-msgstr "Changer de collaborateur"
+msgstr "Sélectionner un utilisateur"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select team user"
-msgstr "Sélectionner un membre de l'équipe"
+msgstr "Sélectionner un membre de l’équipe"
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr "Changer de collaborateur"
+msgstr "Changer d’utilisateur"
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
-msgstr "-- Créer une Nouvelle MacroCommande ---"
+msgstr "--- Créer une nouvelle macro-commande ---"
 
 #. tpl/commandset_info.html
 msgid "Service Contract"
-msgstr "Contrat de Service"
+msgstr "Contrat de service"
 
 #. tpl/user_info.html
 msgid "User info"
-msgstr "Information utilisateur"
+msgstr "Informations de l’utilisateur"
 
 #. tpl/user_info.html
 msgid "User ID"
-msgstr "ID utilisateur"
+msgstr "ID de l’utilisateur"
 
 #. tpl/user_info.html
 msgid "Team arrival date"
-msgstr "Date d'arrivée dans l'équipe"
+msgstr "Date d’arrivée dans l’équipe"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "No task with backlog"
-msgstr "Pas de tâche avec RAF"
+msgstr "Aucune tâche en arriéré"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
 msgid "Backlog per User"
-msgstr "RAF par utilisateur"
+msgstr "Arriéré par utilisateur"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
-msgstr "Pour chaque utilisateur, renvoie la somme du RAF de ses tâches"
+msgstr "Pour chaque utilisateur, renvoie la somme de l’arriéré des tâches qui lui sont affectées"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
@@ -3848,19 +3848,19 @@ msgstr "Titre"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 msgid "Task ID"
-msgstr "N° tâche"
+msgstr "Nº de tâche"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:77
 msgid "Check all the timetracks of the period and return their repartition per Project"
-msgstr "Affiche le consommé sur la période, réparti par projet"
+msgstr "Vérifie toutes les imputations de la période et retourne leur répartition par projet"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Date range"
-msgstr "Intervalle de Date"
+msgstr "Plage de dates"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -3872,37 +3872,37 @@ msgstr "Intervalle de Date"
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "dashboard default"
-msgstr "valeurs par defaut"
+msgstr "tableau de bord par défaut"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "current week"
-msgstr "Semaine courante"
+msgstr "cette semaine"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "current month"
-msgstr "Mois courant"
+msgstr "ce mois-ci"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
 msgid "Timetrack details"
-msgstr "Imputations détaillées"
+msgstr "Détails des imputations"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End Date"
-msgstr "Date Fin"
+msgstr "Date de fin"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 msgid "Committer"
-msgstr "Saisi par"
+msgstr "Validateur"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
@@ -3912,12 +3912,12 @@ msgstr "Date de saisie"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Progress History Indicator"
-msgstr "Evolution de l'avancement"
+msgstr "Indicateur historique d’avancement"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Evolution of the real progress vs the theoretical progress."
-msgstr "Evolution de l'avancement réel par rapport à l'avancement théorique."
+msgstr "Évolution de l’avancement réel par rapport à l’avancement théorique."
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -3927,40 +3927,40 @@ msgstr "Avancement théorique"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "Compare la Charge initiale au consommé"
+msgstr "Compare la charge initiale estimée aux jours passés"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / max(MgrEffortEstim, EffortEstim)"
-msgstr "Consommé / max(Charge Mgr, Charge Init)"
+msgstr "Consommé / max(ChargeMgrEstim, ChargeInitEstim)"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real progress"
-msgstr "Avancement Réel"
+msgstr "Avancement réel"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Displays the backlog"
-msgstr "Affiche le RAF"
+msgstr "Affiche l’arriéré des tâches"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / (Elapsed +  Backlog)"
-msgstr "Consommé / (Consommé + RAF)"
+msgstr "Consommé / (Consommé + Arriéré)"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Historical Progression Chart"
-msgstr "Historique de progression"
+msgstr "Graphique historique d’avancement"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 msgid "Mngt Elapsed"
-msgstr "Consommé Pilotage"
+msgstr "Consommé au pilotage"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 msgid "Mngt Provisions"
-msgstr "Provisions Pilotage"
+msgstr "Provisions du pilotage"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 msgid "Managemnt load history"
@@ -3993,7 +3993,7 @@ msgstr "Hebdomadaire"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:62
 msgid "Import issues"
-msgstr "Import tâches"
+msgstr "Importer des anomalies"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -4007,42 +4007,42 @@ msgstr "Appliquer à tous"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "TargetVersion"
-msgstr "Version ciblée"
+msgstr "Version cible"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
-msgstr "Fiches Mantis à créer :"
+msgstr "Problèmes Mantis à créer :"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "WBS Tree"
-msgstr "Dossiers WBS"
+msgstr "Arbre WBS"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Category not set on all issues"
-msgstr "La catégorie doit être définie pour toutes les tâches"
+msgstr "Une catégorie doit être définie pour chacun des problèmes"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Type not set on all issues"
-msgstr "Le type doit être définie pour toutes les tâches"
+msgstr "Le type doit être défini pour chacun des problèmes"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Import done !"
-msgstr "Import terminé !"
+msgstr "Import terminé !"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
-msgstr "Vous devez faire partie de l'équipe pour importer des tâches"
+msgstr "Vous devez faire partie de l’équipe pour importer des tâches"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Preview import"
-msgstr "Aperçu"
+msgstr "Aperçu de l’import"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Import template"
-msgstr "Modèle d'import"
+msgstr "Modèle d’import"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4052,7 +4052,7 @@ msgstr "Format de fichier"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Standard CSV format with :"
-msgstr "Fichier CSV standard avec :"
+msgstr "Fichier CSV standard avec :"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
@@ -4062,12 +4062,12 @@ msgstr "séparateur"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "enclosure"
-msgstr "Caractère d'encadrement de texte"
+msgstr "encadrement du texte"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Date format"
-msgstr "Format de Date"
+msgstr "Format des dates"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Number format"
@@ -4079,7 +4079,7 @@ msgstr "Encodage"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "Il est recommandé d'encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (MS-Windows) sont également pris en charge."
+msgstr "Il est recommandé d’encoder en <strong>UTF-8</strong> mais ASCII et ISO-8859-1 (page de code Windows-1252) sont également pris en charge."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
@@ -4091,20 +4091,20 @@ msgstr "Le fichier doit contenir 7 colonnes, la première ligne contenant le tit
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr "Titre ; Charge Mgr ; Charge ; Description ; DeadLine ; Ref Externe; branches WBS"
+msgstr "Résumé ; ChargeMgrEstim ; ChargeEstim ; Description ; DateÉchéance ; RéfExterne ; arbre WBS"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "No late task."
-msgstr "Pas de tâches en retard."
+msgstr "Aucune tâche en retard."
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 msgid "Deadline alerts"
-msgstr "Alertes sur dates jalon"
+msgstr "Alertes sur date d’échéance"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
 msgid "Reopened rate history"
-msgstr "Historique du taux de retour"
+msgstr "Historique du taux de réouverture"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
@@ -4132,68 +4132,68 @@ msgstr "mois"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "BugValidation History Indicator"
-msgstr "Taux de refus"
+msgstr "Indicateur historique de validation d’anomalies"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr "Donne le taux de refus lors de la phase de validation. Les corrections peuvent être acceptées ou refusées. Les bugs dont le status est 'résolu' (non encore validés) ne sont pas pris en compte."
+msgstr "Les anomalies résolues doivent être validées. Ceci montre combien d’anomalies ont été rejetée ou acceptée durant la phase de validation. Les anomalies dans l’état « résolu » (pas encore validées) ne sont pas prises en compte."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
-msgstr "% Validé"
+msgstr "% validé"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
-msgstr "Nbre de bugs ayant passé avec succès les tests de validation"
+msgstr "Affiche le pourcentage d’anomalies ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr "Le bug est passé à un status supérieur à 'résolu' (et est toujours dans cet état à la fin de la période)"
+msgstr "l’état est passé de « résolu » à un état supérieur (et est encore dans cet état en fin de période)."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
-msgstr "% Refus"
+msgstr "% rejeté"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
-msgstr "Affiche le pourcentage de bugs ayant échoué aux tests de validation"
+msgstr "Affiche le pourcentage d’anomalies ayant échoué aux tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr "Le bug est passé d'un status 'résolu' (ou supérieur) à un status inférieur (et est toujours non résolu à la fin de la période)"
+msgstr "l’état est passé de « résolu » (ou supérieur) à un état inférieur (et est encore non résolu en fin de période)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
-msgstr "Taux de refus"
+msgstr "Taux de refus d’anomalies"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr "Nb de bugs ayant échoué aux tests de validation"
+msgstr "Nombre d’anomalies ayant échoué aux tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
-msgstr "Nb Refus"
+msgstr "Nombre échoués"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr "Nb de bugs ayant passé avec succès les tests de validation"
+msgstr "Nombre de problèmes ayant passé avec succès les tests de validation"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
-msgstr "Nb Acceptés"
+msgstr "Nombre acceptés"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr "Aficher les tâches"
+msgstr "Afficher les tâches"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Display task column"
-msgstr "Afficher la colonne des tâches"
+msgstr "Afficher la colonne de tâche"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:79
 msgid "Check all the timetracks of the period and return their repartition per Job"
-msgstr "Affiche le consommé sur la période, réparti par poste"
+msgstr "Vérifie toutes les imputations de la période et retourne leur répartition par poste"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
@@ -4206,7 +4206,7 @@ msgstr "Total consommé"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "sidetasks"
-msgstr "TachesAnnexes"
+msgstr "TâchesAnnexes"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
@@ -4214,20 +4214,20 @@ msgstr "TachesAnnexes"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Involved users"
-msgstr "utilisateurs concernés"
+msgstr "Utilisateurs impliqués"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr "Groupes d'utilisateurs"
+msgstr "Groupes d’utilisateurs"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Define user groups and display the elapsed time for each group"
-msgstr "Afficher le consommé par groupe d'utilisateurs"
+msgstr "Définir les groupes d’utilisateurs et afficher le temps consommé pour chacun"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr "Seuls les Administrateurs sont autorisés à faire cette action."
+msgstr "Seuls les administrateurs et chefs d’équipe sont autorisés à faire cette action."
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV File Format"
@@ -4235,11 +4235,11 @@ msgstr "Format de fichier CSV"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "1st column"
-msgstr "1ère colonne"
+msgstr "1re colonne"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "2nd column"
-msgstr "2ème colonne"
+msgstr "2e colonne"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4248,15 +4248,15 @@ msgstr "Couleurs"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Team members assigned to a group"
-msgstr "Membres d'équipe assignés à un groupe"
+msgstr "Membres de l’équipe affectés à un groupe"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Users not assigned to any group"
-msgstr "Utilisateurs assignés à aucun groupe"
+msgstr "Utilisateurs non affectés à un groupe"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Not a team member, but assigned to a group"
-msgstr "Utilisateur assigné à un groupe mais ne faisant pas partie de l'équipe"
+msgstr "Utilisateur non membre de l’équipe, mais affecté à un groupe"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "CSV file"
@@ -4264,11 +4264,11 @@ msgstr "Fichier CSV"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "import"
-msgstr "Importer"
+msgstr "importer"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Info"
-msgstr "Info"
+msgstr "Infos"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/AdminTools/AdminTools.html
@@ -4277,17 +4277,17 @@ msgstr "Actions réalisées !"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please select a CSV file"
-msgstr "Veuillez Sélectionner un fichier CSV"
+msgstr "Veuillez sélectionner un fichier CSV"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Please check table below and click 'OK' button to accept changes"
-msgstr "Vérifiez la table ci-dessous puis valider avec 'OK'"
+msgstr "Vérifiez la table ci-dessous et cliquez sur « OK » pour accepter les modifications"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Timetrack filter"
-msgstr "Filtre d'imputations"
+msgstr "Filtre d’imputations"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
@@ -4295,14 +4295,14 @@ msgstr "Filtre d'imputations"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Only team members"
-msgstr "Membres de l'équipe uniquement"
+msgstr "Membres de l’équipe uniquement"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Display options"
-msgstr "Afficher les options"
+msgstr "Options d’affichage"
 
 #. plugins/TasksPivotTable/TasksPivotTable_cfg.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
@@ -4318,7 +4318,7 @@ msgstr "Déplacez et ordonnez les filtres"
 #: scheduler/SchedulerEvent.class.php:163 gantt/gantt_ajax.php:257
 #: tools.php:275
 msgid "DriftMgr"
-msgstr "Dérive Mgr"
+msgstr "DériveMgr"
 
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
@@ -4327,7 +4327,7 @@ msgstr "Dérive Mgr"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Task ExtRef"
-msgstr "RefExt Tâche"
+msgstr "RéfExt Tâche"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4341,43 +4341,43 @@ msgstr "Liste des imputations"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
-msgstr "Màj des imputations"
+msgstr "Actualiser les imputations"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 msgid "Budget history"
-msgstr "Evolution du budget"
+msgstr "Historique du budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift History Indicator"
-msgstr "Evolution de la Dérive Budget"
+msgstr "Indicateur historique de dérive du budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
-msgstr "Compare le budget (Charge Mgr + provisions sélectionnées) au réestimé (nb jours pour finir les tâches)."
+msgstr "Compare le budget (ChargeMgr + provisions vérifiées) au nouveau temps estimé (nb jours nécessaires pour finir les tâches)."
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "% Budget Drift"
-msgstr "% Dérive Budget"
+msgstr "% de dérive budgétaire"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
-msgstr "( réestimé - budget ) / budget"
+msgstr "(réestimé − budget) / budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift"
-msgstr "Dérive Budget"
+msgstr "Dérive du budget"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "MgrEffortEstim + checked provisions"
-msgstr "Charge Mgr + Provision sélectionnées"
+msgstr "ChargeMgrEstim + provisions vérifiées"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
-msgstr "Evolution de la Dérive Budget"
+msgstr "Graphique d’évolution de la dérive budgétaire"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
-msgstr "Rafraichir"
+msgstr "Actualiser"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
@@ -4393,15 +4393,15 @@ msgstr "Date exp."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
-msgstr "Date d'expiration (optionnel)"
+msgstr "Date d’expiration (facultatif)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr "Tous (toutes les équipes)"
+msgstr "Tout le monde (toutes les équipes)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
-msgstr "Options des messages"
+msgstr "Options du mur de messages"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
@@ -4409,7 +4409,7 @@ msgstr "Destinataire"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
-msgstr "Equipe en cours"
+msgstr "Équipe actuelle"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All my teams"
@@ -4417,11 +4417,11 @@ msgstr "Toutes mes équipes"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Assigned to me"
-msgstr "Assignés à moi"
+msgstr "Affectées à moi"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
-msgstr "Ecrits par moi"
+msgstr "Publiées par moi"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All"
@@ -4438,7 +4438,7 @@ msgstr "Masquer"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
-msgstr "Aide"
+msgstr "Aide du mur de messages"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
@@ -4454,15 +4454,15 @@ msgstr "Envoyer un nouveau message"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
-msgstr "Enregistrer les options"
+msgstr "Fixer les options du mur de messages"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
-msgstr "Marquer comme lu. Le message peut ensuite être masqué"
+msgstr "Marquer comme lu. Le message peut ensuite être masqué."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr "Masquer le message. Dépend de l'option \"Afficher les messages masqués\""
+msgstr "Masquer le message. Dépend de l’option « Afficher les messages masqués »"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
@@ -4470,27 +4470,27 @@ msgstr "Afficher"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
-msgstr "Rétablir un message masqué"
+msgstr "Démasquer un message caché"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
-msgstr "Supprimer le message"
+msgstr "Supprimer un message."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr "Voulez-vous supprimer ce message définitivement ?"
+msgstr "Ceci supprimera définitivement cette note ! voulez-vous vraiment le faire ?"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr "Validé par"
+msgstr "Reconnu par"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Submission date"
-msgstr "Date d'émission"
+msgstr "Date de soumission"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr "Date d'expiration"
+msgstr "Date d’expiration"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -4498,7 +4498,7 @@ msgstr "Auteur"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Dest"
-msgstr "Dest"
+msgstr "Dest."
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
@@ -4508,7 +4508,7 @@ msgstr "Mur de messages"
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
 msgid "Administration tools"
-msgstr "Outils d'administration"
+msgstr "Outils d’administration"
 
 #. plugins/AdminTools/AdminTools.html
 msgid "Run selected actions"
@@ -4522,7 +4522,7 @@ msgstr "Exécuter"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Force the display of the \"Message\" plugin on the homepage"
-msgstr "Forcer l'affichage du plugin des messages sur la page de garde"
+msgstr "Forcer l'affichage du greffon « Message » sur la page d’accueil"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "users"
@@ -4534,11 +4534,11 @@ msgstr "Effacer le tableau de bord"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "for user "
-msgstr "pour l'utilisateur "
+msgstr "pour l’utilisateur "
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
-msgstr "Capacité de production"
+msgstr "Force de travail"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
@@ -4547,15 +4547,15 @@ msgstr "Graphique"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph values"
-msgstr "valeurs du graphique"
+msgstr "Valeurs du graphique"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Range values"
-msgstr "valeurs période"
+msgstr "Valeurs de plage"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
-msgstr "Options - Capacité de production"
+msgstr "Options de capacité disponible"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
@@ -4563,11 +4563,11 @@ msgstr "Disponibilité"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Productivity Coefficient"
-msgstr "Coéficient de productivité"
+msgstr "Coefficient de productivité"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
-msgstr "Coef de prod."
+msgstr "Coef. de prod."
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "SUM(userWorkforce * availability * prodCoef)"
@@ -4579,11 +4579,11 @@ msgstr "Capacité de production"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "No errors"
-msgstr "Pas d'erreur"
+msgstr "Aucune erreur"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Consistency check"
-msgstr "Test d'intégrité"
+msgstr "Test d’intégrité"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:62
