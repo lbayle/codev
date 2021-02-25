@@ -1,0 +1,40 @@
+<div class="IssueSeniorityIndicator_ajax"  style="width:100%;">
+   <table class="IssueSeniorityIndicatorValuesTable datatable_minimal">
+      <thead>
+         <tr>
+            <th>{t}Submission date{/t}</th>
+            <th>{t}Nb Issues{/t}</th>
+            <th>{t}Nb new{/t}</th>
+            <th>{t}Nb open{/t}</th>
+            <th>{t}Backlog{/t}</th>
+{if $IssueSeniorityIndicator_isDisplayTasks}
+            <th>{t}Tasks{/t}</th>
+{/if}
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$IssueSeniorityIndicator_tableData key=category item=i}
+         <tr>
+            <td nowrap="nowrap" title="{$i.periodDesc}">{$i.periodName}</td>
+            <td>{$i.nbTasks}</td>
+            <td>{$i.nbNew}</td>
+            <td>{$i.nbOpen}</td>
+            <td>{$i.backlog}</td>
+{if $IssueSeniorityIndicator_isDisplayTasks}
+            <td>{$i.tasks}</td>
+{/if}
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <td>{t}TOTAL{/t}</td>
+         <td>{$IssueSeniorityIndicator_totalNbTasks}</td>
+         <td>{$IssueSeniorityIndicator_totalNbNew}</td>
+         <td>{$IssueSeniorityIndicator_totalNbOpen}</td>
+         <td>{$IssueSeniorityIndicator_totalBacklog}</td>
+{if $IssueSeniorityIndicator_isDisplayTasks}
+         <td></td>
+{/if}
+      </tfoot>
+   </table>
+</div>

@@ -1,0 +1,80 @@
+<div class="IssueSeniorityIndicator">
+   <div class="pluginInitFunction"  style="display: none;">IssueSeniorityIndicatorJsInit</div>
+   <div class="pluginDestroyFunction"  style="display: none;">IssueSeniorityIndicatorJsDestroy</div>
+
+{if isset($IssueSeniorityIndicator_tableData)}
+<div>
+   <div style="margin-top:1em;">
+      <b>{t}Task type filter{/t}:</b> {$IssueSeniorityIndicator_taskTypeFilter}
+   </div>
+
+   <div id="tabsIssueSeniorityIndicator" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#IssueSeniorityIndicator_tabGraph">{t}Graph{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#IssueSeniorityIndicator_tabValues">{t}Values{/t}</a></li>
+      </ul>
+      <div id="IssueSeniorityIndicator_tabGraph">
+         <div class="IssueSeniorityIndicator_jqPlot bar_chart chart" style="width: 100%;"></div>
+      </div>
+      <div id="IssueSeniorityIndicator_tabValues" class="IssueSeniorityIndicator_tabValues">
+         {include file="`$IssueSeniorityIndicator_ajaxFile`"}
+      </div>
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+   <a class="IssueSeniorityIndicatorHelpDialog_link float" href="">
+      <img title="Help" src="images/help_icon.gif"/>
+   </a>
+   <span class="float pointer">
+      <img onclick="$('.IssueSeniorityIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'IssueSeniorityIndicator.csv'{literal}}{/literal})" src="images/b_export_xls.gif" title="{t}Export to CSV{/t}" />
+   </span>
+   </div>
+   <div class="IssueSeniorityIndicatorHelpDialog ui-helper-hidden" title="{t}Load History{/t}">
+      <p>
+         <strong>Description:</strong><br>
+         {t}Check the submission date of the tasks{/t}
+         <br>
+      </p>
+   </div>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function IssueSeniorityIndicatorJsDestroy() {
+      console.log('IssueSeniorityIndicatorJsDestroy');
+      //jQuery(".IssueSeniorityIndicatorHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function IssueSeniorityIndicatorJsInit() {
+      console.log('IssueSeniorityIndicatorJsInit');
+
+      jQuery(".IssueSeniorityIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".IssueSeniorityIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".IssueSeniorityIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+
+      // overload .date_chart options (chart.js)
+      var chartoptions = jQuery('.IssueSeniorityIndicator_jqPlot').data('plotoptions');
+      chartoptions.title = "{t}Statistics on the age of open tasks{/t}";
+      chartoptions.legend.labels = ['{t}New{/t}', '{t}Open{/t}'];
+      chartoptions.axes.xaxis.ticks = {$IssueSeniorityIndicator_jqplotBarNames};
+      var data = {$IssueSeniorityIndicator_jqplotData};
+
+      jQuery('.IssueSeniorityIndicator_jqPlot').jqplot(data, chartoptions);
+
+   };
+</script>
+</div>

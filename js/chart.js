@@ -291,6 +291,63 @@ jQuery(document).ready(function() {
 
 });
 
+// vertical bar chart
+jQuery('.bar_chart').each(function() {
+   jQuery(this).data("plotoptions", {
+      title: 'bar_chart default title',
+      stackSeries: true,
+      captureRightClick: false,
+      legend: {
+         show: true,
+         placement: 'inside',
+         location: 'ne',
+         rowSpacing: '0px'
+      },
+      axes: {
+          xaxis: {
+              renderer: jQuery.jqplot.CategoryAxisRenderer
+              //ticks: ticks
+          }
+      },
+      seriesDefaults: {
+         renderer:jQuery.jqplot.BarRenderer,
+         rendererOptions: {
+            highlightMouseDown: true
+         },
+         pointLabels: {show: true, formatString: '%d'}
+      }
+   });
+});
+
+// horizontal bar chart
+jQuery('.bar_chart_horiz').each(function() {
+   jQuery(this).data("plotoptions", {
+      title: 'bar_chart default title',
+      stackSeries: true,
+      captureRightClick: false,
+      legend: {
+         show: true,
+         placement: 'inside',
+         location: 'ne',
+         rowSpacing: '0px'
+      },
+      axes: {
+          yaxis: {
+              renderer: jQuery.jqplot.CategoryAxisRenderer
+              //ticks: ticks
+          }
+      },
+      seriesDefaults: {
+         renderer:jQuery.jqplot.BarRenderer,
+         rendererOptions: {
+            highlightMouseDown: true,
+            barDirection: 'horizontal'
+         },
+         pointLabels: {show: true, formatString: '%d'}
+      }
+   });
+});
+
 function updateChart(chart, data) {
    chart.empty();
    if(data.length > 0) {
