@@ -99,7 +99,7 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
          'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
          'lib/jquery.jqplot/plugins/jqplot.canvasOverlay.min.js',
-         'js/chart.js',
+         'js_min/chart.min.js',
          'js_min/tabs.min.js',
       );
    }
@@ -289,7 +289,7 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
          'budgetDriftHistoryIndicator2_tableData' => $tableData,
          #'budgetDriftHistoryIndicator2_jqplotDaysData' => $graphDaysData,
          'budgetDriftHistoryIndicator2_jqplotPercentData' => $graphPercentData,
-         'budgetDriftHistoryIndicator2_jqplotMinDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
+         'budgetDriftHistoryIndicator2_jqplotMinDate' => Tools::formatDate("%Y-%m-%d", strtotime("first day of this month",$startTimestamp)),
          'budgetDriftHistoryIndicator2_jqplotMaxDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          'budgetDriftHistoryIndicator2_jqplotInterval' => $interval,
 

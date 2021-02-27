@@ -103,8 +103,10 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
       return array(
          'js_min/datepicker.min.js',
          'lib/jquery.jqplot/jquery.jqplot.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js',
          'lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
          'js_min/chart.min.js',
          'js_min/table2csv.min.js',
          'js_min/tabs.min.js',
@@ -303,24 +305,26 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
                $userRawWorkforce = $user->getAvailableWorkforce($startT, $endT, $this->teamid);
                $userWorkforce = $userRawWorkforce * $userSettings['availability'] /100 * $userSettings['prodCoef'];
                //self::$logger->error($startT." user ".$user_id." ".$userRawWorkforce." x ".$userSettings['availability']);
-               $userRangeDetail[$label] = (0 == $userWorkforce) ? '' : $userWorkforce;
+               $userRangeDetail[$label] = (0 == $userWorkforce) ? '' : round($userWorkforce, 2);
                $availWorkforceList[$label] += $userWorkforce;
             }
             $detailedAvailWorkforceList[$user_id] = $userRangeDetail;
          }
       }
 
-      $tableFooter = array_values($availWorkforceList);
-      array_unshift($tableFooter, T_('Total'));
+      $tableFooter = array(T_('Total'));
+      foreach ($availWorkforceList as $v) {
+         $tableFooter[] = round($v, 2);
+      }
 
       $tableHeader = array();
       $tableHeader[] = ''; //T_('User \ Period');
       foreach ($timestampRangeList as $label => $ttRange) {
          $startT = $ttRange['start'];
          if ('weekly' == $this->interval) {
-            $dateLabel = 'W'.date('W o', $startT);
+            $dateLabel = 'W'.date('W ++o', $startT);
          } else {
-            $dateLabel = date('m/o', $startT);
+            $dateLabel = date("M", $startT)."<br>".date("o", $startT);
          }
          $tableHeader[] = $dateLabel;
       }
@@ -328,6 +332,10 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
       list($startLabel, $endLabel) = Tools::getStartEndKeys($timestampRangeList);
       $graphMinTimestamp = $timestampRangeList[$startLabel]['start'];
       $graphMaxTimestamp = $timestampRangeList[$endLabel]['end'];
+
+      foreach($availWorkforceList as $label => $wf) {
+         $availWorkforceList[$label] = round($wf, 1);
+      }
 
       $this->execData = array (
           'graph_availWorkforceList' => $availWorkforceList,
@@ -348,28 +356,28 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
    public function getSmartyVariables($isAjaxCall = false) {
 
       $rangeData = $this->getTeamAvailWorkforce($this->startTimestamp, $this->endTimestamp);
-
+      $smartyPrefix = 'availableWorkforceIndicator_';
       $smartyVariables = array(
-         'availableWorkforceIndicator_jqplotData' => Tools::array2plot(array($this->execData['graph_availWorkforceList'])),
-         'availableWorkforceIndicator_jqplotMinDate' => date('Y-m-d', $this->execData['graph_minTimestamp']),
-         'availableWorkforceIndicator_jqplotMaxDate' => date('Y-m-d', $this->execData['graph_maxTimestamp']),
-         'availableWorkforceIndicator_tableHeader' => $this->execData['table_header'],
-         'availableWorkforceIndicator_tableData' => $this->execData['table_availWorkforceList'],
-         'availableWorkforceIndicator_tableFooter' => $this->execData['table_footer'],
-         'availableWorkforceIndicator_startDatepicker' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
-         'availableWorkforceIndicator_endDatepicker' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
-         'availableWorkforceIndicator_rangeValue' => $rangeData['rangeTeamWorkforce'],
-         'availableWorkforceIndicator_rangeUserDetails' => $rangeData['rangeUserDetails'],
-         'availableWorkforceIndicator_userSettings' => $this->userSettings,
+         $smartyPrefix.'jqplotXaxes' => json_encode(array_keys($this->execData['graph_availWorkforceList'])),
+         $smartyPrefix.'jqplotData' => json_encode(array(array_values($this->execData['graph_availWorkforceList']))),
+
+         $smartyPrefix.'tableHeader' => $this->execData['table_header'],
+         $smartyPrefix.'tableData' => $this->execData['table_availWorkforceList'],
+         $smartyPrefix.'tableFooter' => $this->execData['table_footer'],
+         $smartyPrefix.'startDatepicker' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
+         $smartyPrefix.'endDatepicker' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
+         $smartyPrefix.'rangeValue' => $rangeData['rangeTeamWorkforce'],
+         $smartyPrefix.'rangeUserDetails' => $rangeData['rangeUserDetails'],
+         $smartyPrefix.'userSettings' => $this->userSettings,
 
          // add pluginSettings (if needed by smarty)
-         'availableWorkforceIndicator_'.self::OPTION_INTERVAL => $this->interval,
+         $smartyPrefix.self::OPTION_INTERVAL => $this->interval,
       );
 
       if (false == $isAjaxCall) {
-         $smartyVariables['availableWorkforceIndicator_ajaxFile'] = self::getSmartySubFilename();
-         $smartyVariables['availableWorkforceIndicator_ajaxFile2'] = self::getSmartySubFilename2();
-         $smartyVariables['availableWorkforceIndicator_ajaxPhpURL'] = self::getAjaxPhpURL();
+         $smartyVariables[$smartyPrefix.'ajaxFile'] = self::getSmartySubFilename();
+         $smartyVariables[$smartyPrefix.'ajaxFile2'] = self::getSmartySubFilename2();
+         $smartyVariables[$smartyPrefix.'ajaxPhpURL'] = self::getAjaxPhpURL();
       }
       return $smartyVariables;
    }

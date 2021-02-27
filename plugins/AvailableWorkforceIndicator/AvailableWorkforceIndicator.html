@@ -27,7 +27,7 @@
          <li class="{$ui_tabs_jquery_li}"><a href="#availableWorkforceIndicator_tabRangeValues">{t}Range values{/t}</a></li>
       </ul>
       <div id="availableWorkforceIndicator_tabGraph">
-         <div class="availableWorkforceIndicatorChart date_chart chart" style="width:100%;"></div>
+         <div class="availableWorkforceIndicatorChart xlabels_chart chart" style="width:100%;"></div>
       </div>
       <div id="availableWorkforceIndicator_tabValues">
          {include file="`$availableWorkforceIndicator_ajaxFile`"}
@@ -236,12 +236,10 @@
                      if (data['availableWorkforceIndicator_jqplotData']) {
                         var chart = jQuery('.availableWorkforceIndicatorChart');
                         var chartoptions = chart.data('plotoptions');
-                        chartoptions.axes.xaxis.min = data['availableWorkforceIndicator_jqplotMinDate'];
-                        chartoptions.axes.xaxis.max = data['availableWorkforceIndicator_jqplotMaxDate'];
-
-                        var jsonData = jQuery.parseJSON(data['availableWorkforceIndicator_jqplotData']);
+                        chartoptions.axes.xaxis.ticks = jQuery.parseJSON(data['availableWorkforceIndicator_jqplotXaxes']);
+                        var jqplotData = jQuery.parseJSON(data['availableWorkforceIndicator_jqplotData']);
                         chart.empty();
-                        chart.jqplot(jsonData, chartoptions);
+                        chart.jqplot(jqplotData, chartoptions);
                      }
                      saveDashboard();
 
@@ -262,16 +260,20 @@
          }
       });
 
-      var chart = jQuery('.availableWorkforceIndicatorChart');
-      var chartoptions = chart.data('plotoptions');
+      var chartoptions = jQuery('.availableWorkforceIndicatorChart').data('plotoptions');
 
-      //chartoptions.title.text = "{t}Available workforce{/t}";
+      chartoptions.title = "{t}Available workforce{/t}";
       chartoptions.legend.location = 'se';
-      chartoptions.series[0].label = "{t}man-days{/t}";
-      chartoptions.axes.xaxis.min = "{$availableWorkforceIndicator_jqplotMinDate}";
-      chartoptions.axes.xaxis.max = "{$availableWorkforceIndicator_jqplotMaxDate}";
-      //chartoptions.axes.yaxis.min = 0;
-      chart.jqplot({$availableWorkforceIndicator_jqplotData}, chartoptions);
+      chartoptions.legend.labels = ['{t}man-days{/t}'];
+      chartoptions.seriesDefaults.rendererOptions.smooth = false;
+
+      chartoptions.axes.xaxis.ticks = {$availableWorkforceIndicator_jqplotXaxes};
+      var data = {$availableWorkforceIndicator_jqplotData};
+
+      jQuery('.availableWorkforceIndicatorChart').jqplot(data, chartoptions);
+
+
+
       {/if}
 
    };

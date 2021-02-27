@@ -75,9 +75,9 @@
       // PLEASE FIX ME !!
       // this line should not be neded, but if a plugin with another renderer is displayed
       // before this plugin, then the renderer = 'undefined' !!! but why ???
-console.error('before renderer WORKAROUND', chartoptions);
+console.error('before renderer WORKAROUND', chartoptions.seriesDefaults.renderer);
       chartoptions.seriesDefaults.renderer = jQuery.jqplot.BarRenderer;
-console.log('after renderer WORKAROUND', chartoptions);
+console.log('after renderer WORKAROUND', chartoptions.seriesDefaults.renderer);
 
       var data = {$IssueSeniorityIndicator_jqplotData};
 

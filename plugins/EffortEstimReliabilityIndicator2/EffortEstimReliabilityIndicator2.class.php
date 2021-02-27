@@ -326,7 +326,8 @@ class EffortEstimReliabilityIndicator2 extends IndicatorPluginAbstract {
 
       if (!is_null($this->execData)) {
          $timestamp = Tools::getStartEndKeys($this->execData['MEE']);
-         $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+         $startTT = strtotime("first day of this month",Tools::date2timestamp($timestamp[0]));
+         $start = Tools::formatDate("%Y-%m-01", $startTT);
          $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
 
          $jsonMEE = Tools::array2plot($this->execData['MEE']);

@@ -272,7 +272,7 @@ class ManagementLoadHistoryIndicator extends IndicatorPluginAbstract {
       }
       $smartyVariables = array(
          'managementLoadHistoryIndicator_jqplotData' => $graphData,
-         'managementLoadHistoryIndicator_plotMinDate' => Tools::formatDate("%Y-%m-%d", $startTimestamp),
+         'managementLoadHistoryIndicator_plotMinDate' => Tools::formatDate("%Y-%m-%d", strtotime("first day of this month",$startTimestamp)),
          'managementLoadHistoryIndicator_plotMaxDate' => Tools::formatDate("%Y-%m-%d", $endTimestamp),
          'managementLoadHistoryIndicator_plotInterval' => 2, //$interval,
 

@@ -40,12 +40,13 @@ jQuery(document).ready(function() {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
-                  formatString: "%b %Y"
+                  formatString: "%b%n%Y"
                },
                tickInterval: "1 month"
             },
             yaxis: {
-               // Nothing to do
+               tickOptions: {
+               }
             }
          }
       });
@@ -177,7 +178,10 @@ jQuery(document).ready(function() {
             showMarker:true,
             pointLabels: {
                show:true
-            }
+            },
+            rendererOptions: {
+                 smooth: true
+             }
          },
 //         highlighter: {
 //            show: true,
@@ -186,15 +190,18 @@ jQuery(document).ready(function() {
          axesDefaults: {
             tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer ,
             tickOptions: {
-               angle: -30
-               //fontSize: '10pt'
+               fontSize: '8pt'
             }
          },
          axes: {
             xaxis: {
                renderer: jQuery.jqplot.CategoryAxisRenderer,
                showTicks: true,
-        		   showTickMarks: true
+        		   showTickMarks: true,
+               tickOptions: {
+                  angle: -30,
+                  fontSize: '8pt'
+               }
             },
             yaxis: {
                min: 0
@@ -314,7 +321,7 @@ jQuery('.bar_chart').each(function() {
          rendererOptions: {
             highlightMouseDown: true
          },
-         pointLabels: {show: true, formatString: '%d'}
+         pointLabels: {show: true, stackedValue: true, formatString: '%d'}
       }
    });
 });

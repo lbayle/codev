@@ -98,15 +98,16 @@
       //chartoptions.title.text = '{t}Historical Progression Chart{/t}';
       chartoptions.legend.location = 'nw';
       chartoptions.series = [{
-         label : "{t}Theoric{/t}"
+         label : "% {t}Theoric{/t}"
       },{
-         label : "{t}Real{/t}"
+         label : "% {t}Real{/t}"
       }];
+      chartoptions.title='{t}% Progress{/t}';
       chartoptions.axes.xaxis.min = "{$progressHistoryIndicator2_plotMinDate}";
       chartoptions.axes.xaxis.max = "{$progressHistoryIndicator2_plotMaxDate}";
       chartoptions.axes.xaxis.tickInterval = "{$progressHistoryIndicator2_plotInterval} month";
-      chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
       chartoptions.axes.yaxis.min = 0;
+      chartoptions.axes.yaxis.tickOptions.suffix = '%';
       chart.jqplot({$progressHistoryIndicator2_jqplotData}, chartoptions);
       {/if}
    };
