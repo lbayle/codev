@@ -96,8 +96,8 @@ class IssueSeniorityIndicator extends IndicatorPluginAbstract {
    public static function getJsFiles() {
       return array(
          'lib/jquery.jqplot/jquery.jqplot.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.BarRenderer.min.js',
-         'lib/jquery.jqplot/plugins/jqplot.CategoryAxisRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.barRenderer.min.js',
+         'lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
          'js_min/chart.min.js',
          'js_min/table2csv.min.js',
          'js_min/tabs.min.js',

@@ -71,14 +71,6 @@
       chartoptions.title = "{t}Statistics on the age of open tasks{/t}";
       chartoptions.legend.labels = ['{t}New{/t}', '{t}Open{/t}'];
       chartoptions.axes.xaxis.ticks = {$IssueSeniorityIndicator_jqplotBarNames};
-
-      // PLEASE FIX ME !!
-      // this line should not be neded, but if a plugin with another renderer is displayed
-      // before this plugin, then the renderer = 'undefined' !!! but why ???
-console.error('before renderer WORKAROUND', chartoptions.seriesDefaults.renderer);
-      chartoptions.seriesDefaults.renderer = jQuery.jqplot.BarRenderer;
-console.log('after renderer WORKAROUND', chartoptions.seriesDefaults.renderer);
-
       var data = {$IssueSeniorityIndicator_jqplotData};
 
       jQuery('.IssueSeniorityIndicator_jqPlot').jqplot(data, chartoptions);
