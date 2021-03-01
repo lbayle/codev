@@ -88,10 +88,7 @@ class TimeTrackingController extends Controller {
                // pre-set form fields
                // find ProjectId to update categories
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
-               if (Issue::exists($defaultBugid)) {
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $defaultProjectid  = $issue->getProjectId();
-               } else {
+               if (!Issue::exists($defaultBugid)) {
                   self::$logger->error("setBugId: issue $defaultBugid not found in MantisDB !");
                   $defaultProjectid  = 0;
                   $defaultBugid = 0;
@@ -115,10 +112,10 @@ class TimeTrackingController extends Controller {
                $managed_user->setTimetrackingFilter('hideNoActivitySince', $hideNoActivitySince);
                //$managed_user->setTimetrackingFilter('hideForbidenStatus', $isFilter_hideForbidenStatus);
 
-               if($defaultBugid != 0) {
-                  $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $defaultProjectid = $issue->getProjectId();
-               }
+            }
+            if($defaultBugid != 0) {
+               $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+               $defaultProjectid = $issue->getProjectId();
             }
 
             // Display user name
