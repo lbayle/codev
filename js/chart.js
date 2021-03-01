@@ -310,18 +310,18 @@ jQuery('.bar_chart').each(function() {
          location: 'ne',
          rowSpacing: '0px'
       },
-      axes: {
-          xaxis: {
-              renderer: jQuery.jqplot.CategoryAxisRenderer
-              //ticks: ticks
-          }
-      },
       seriesDefaults: {
          renderer:jQuery.jqplot.BarRenderer,
          rendererOptions: {
             highlightMouseDown: true
          },
          pointLabels: {show: true, stackedValue: true, formatString: '%d'}
+      },
+      axes: {
+         xaxis: {
+            renderer: jQuery.jqplot.CategoryAxisRenderer
+            //ticks: ticks
+         }
       }
    });
 });
