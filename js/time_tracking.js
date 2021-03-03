@@ -347,6 +347,8 @@ jQuery(document).ready(function() {
          formUpdateWeek.find("select[name=weekid]").val(lastWeekPrevYear);
          formUpdateWeek.find("select[name=year]").val(prevYear);
       }
+      var trackDate  = jQuery("#datepicker").val();
+      formUpdateWeek.find("input[name=date]").val(trackDate);
       formUpdateWeek.submit();
    });
 
@@ -363,6 +365,9 @@ jQuery(document).ready(function() {
          formUpdateWeek.find("select[name=weekid]").val(1);
          formUpdateWeek.find("select[name=year]").val(nextYear);
       }
+      var trackDate  = jQuery("#datepicker").val();
+      formUpdateWeek.find("input[name=date]").val(trackDate);
+
       formUpdateWeek.submit();
    });
 
