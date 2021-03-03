@@ -351,8 +351,12 @@ class ProgressHistoryIndicator2 extends IndicatorPluginAbstract {
     */
    public function getSmartyVariables($isAjaxCall = false) {
 
-      $theoBacklog = $this->execData['theo'];
-      $realBacklog = $this->execData['real'];
+      $theoBacklog = array();
+      $realBacklog = array();
+      foreach ($this->execData['theo'] as $key => $theo) {
+         $theoBacklog[$key] = intval($theo);
+         $realBacklog[$key] = intval($this->execData['real'][$key]);
+      }
 
       $startTimestamp = $this->startTimestamp;
       $endTimestamp = strtotime(date("Y-m-d",$this->endTimestamp)." +1 month");
