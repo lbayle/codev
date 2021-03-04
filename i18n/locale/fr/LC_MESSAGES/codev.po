@@ -4300,7 +4300,7 @@ msgstr "Valeurs"
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:68
 msgid "Load History"
-msgstr "Historique de la charge"
+msgstr "Evolution du consommé"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
@@ -6487,7 +6487,7 @@ msgstr "+1 semaine"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:164
 msgid "+2 week"
-msgstr "2 semaines"
+msgstr "+2 semaines"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
