@@ -715,7 +715,7 @@ function update_v20_to_v21() {
    while($row = $sql->fetchObject($result0)) {
       // for each team having this project
       echo "--- Found association prj=$row->project_id, job=$row->job_id, team=0<br/>";
-      $query1 = "SELECT team_id FROM `codev_team_project_table` where project_id = $row->project_id";
+      $query1 = "SELECT team_id FROM codev_team_project_table where project_id = $row->project_id";
       $result1 = execQuery($query1);
       while($row1 = $sql->fetchObject($result1)) {
          echo "   Create association prj=$row->project_id, job=$row->job_id, team=$row1->team_id<br/>";
