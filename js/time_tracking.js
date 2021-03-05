@@ -300,6 +300,14 @@ jQuery(document).ready(function() {
       ]
    });
 
+   // ENTER => OK button
+    $("#setTimetrackNoteDlg").keydown(function (event) {
+        if (event.keyCode == jQuery.ui.keyCode.ENTER) {
+            $(this).parent().find("button:eq(0)").trigger("click");
+            return false;
+        }
+    });
+
    //----------------------------------------------------------
    jQuery("#setfilter_dialog_form" ).dialog({
       autoOpen: false,

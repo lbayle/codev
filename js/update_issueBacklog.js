@@ -358,6 +358,14 @@ jQuery(document).ready(function() {
       }
    });
 
+   // ENTER => OK button
+    $("#divBacklogDialog").keydown(function (event) {
+        if (event.keyCode == jQuery.ui.keyCode.ENTER) {
+            $(this).parent().find("button:eq(0)").trigger("click");
+            return false;
+        }
+    });
+
    // click on updateBacklog in timesheet
    jQuery('.js-updateBacklog-link').click(function(ev){
       ev.preventDefault();
