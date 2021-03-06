@@ -1,7 +1,7 @@
 <?php
 
 /*
-@version   v5.20.10  08-Mar-2018
+@version   v5.21.0  2021-02-27
 @copyright (c) 2000-2013 John Lim (jlim#natsoft.com). All rights reserved.
 @copyright (c) 2014      Damien Regad, Mark Newnham and the ADOdb community
          Contributed by Ross Smith (adodb@netebb.com).
@@ -41,8 +41,8 @@ class ADODB_Compress_Bzip2 {
 	/**
 	 */
 	function setBlockSize($block_size) {
-		assert('$block_size >= 1');
-		assert('$block_size <= 9');
+		assert($block_size >= 1);
+		assert($block_size <= 9);
 		$this->_block_size = (int) $block_size;
 	}
 
@@ -55,8 +55,8 @@ class ADODB_Compress_Bzip2 {
 	/**
 	 */
 	function setWorkLevel($work_level) {
-		assert('$work_level >= 0');
-		assert('$work_level <= 250');
+		assert($work_level >= 0);
+		assert($work_level <= 250);
 		$this->_work_level = (int) $work_level;
 	}
 
@@ -69,7 +69,7 @@ class ADODB_Compress_Bzip2 {
 	/**
 	 */
 	function setMinLength($min_length) {
-		assert('$min_length >= 0');
+		assert($min_length >= 0);
 		$this->_min_length = (int) $min_length;
 	}
 

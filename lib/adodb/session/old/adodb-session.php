@@ -1,6 +1,6 @@
 <?php
 /*
-@version   v5.20.10  08-Mar-2018
+@version   v5.21.0  2021-02-27
 @copyright (c) 2000-2013 John Lim (jlim#natsoft.com). All rights reserved.
 @copyright (c) 2014      Damien Regad, Mark Newnham and the ADOdb community
   Released under both BSD license and Lesser GPL library license.
@@ -8,7 +8,7 @@
   the BSD license will take precedence.
 	  Set tabs to 4 for best viewing.
 
-  Latest version of ADODB is available at http://php.weblogs.com/adodb
+  Latest version is available at https://adodb.org/
   ======================================================================
 
  This file provides PHP4 session management using the ADODB database
@@ -110,7 +110,7 @@ if (!defined('ADODB_SESSION')) {
  define('ADODB_SESSION_SYNCH_SECS',60);
 
  /*
-	Thanks Joe Li. See http://phplens.com/lens/lensforum/msgs.php?id=11487&x=1
+	Thanks Joe Li. See PHPLens Issue No: 11487&x=1
 */
 function adodb_session_regenerate_id()
 {
@@ -307,7 +307,7 @@ function adodb_sess_write($key, $val)
 		ADOConnection::outp( '
 -- Session Replace: '.$ADODB_SESS_CONN->ErrorMsg().'</p>',false);
 	}  else {
-		// bug in access driver (could be odbc?) means that info is not commited
+		// bug in access driver (could be odbc?) means that info is not committed
 		// properly unless select statement executed in Win2000
 		if ($ADODB_SESS_CONN->databaseType == 'access')
 			$rs = $ADODB_SESS_CONN->Execute("select sesskey from $ADODB_SESSION_TBL WHERE sesskey='$key'");
@@ -417,7 +417,6 @@ function adodb_sess_gc($maxlifetime)
 	return true;
 }
 
-session_module_name('user');
 session_set_save_handler(
 	"adodb_sess_open",
 	"adodb_sess_close",
