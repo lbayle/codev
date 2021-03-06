@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "codev_config_table" (
 
 
 INSERT INTO "codev_config_table" ("config_id", "value", "type") VALUES
-('database_version', 19, 1),
+('database_version', 21, 1),
 ('blogCategories', '1:General,2:Timetracking,3:Admin', 3);
 
 
