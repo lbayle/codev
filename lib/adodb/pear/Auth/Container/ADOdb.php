@@ -1,6 +1,6 @@
 <?php
 /*
-@version   v5.20.10  08-Mar-2018
+@version   v5.21.0  2021-02-27
 @copyright (c) 2000-2013 John Lim (jlim#natsoft.com). All rights reserved.
 @copyright (c) 2014      Damien Regad, Mark Newnham and the ADOdb community
   Released under both BSD license and Lesser GPL library license.
@@ -8,7 +8,7 @@
   the BSD license will take precedence. See License.txt.
   Set tabs to 4 for best viewing.
 
-  Latest version is available at http://adodb.sourceforge.net
+  Latest version is available at https://adodb.org/
 
 	Original Authors: Martin Jansen <mj#php.net>
 	Richard Tango-Lowy <richtl#arscognita.com>
@@ -24,7 +24,7 @@ require_once 'adodb-errorpear.inc.php';
  *
  * This storage driver can use all databases which are supported
  * by the ADBdb DB abstraction layer to fetch login data.
- * See http://php.weblogs.com/adodb for information on ADOdb.
+ * See https://adodb.org/ for information on ADOdb.
  * NOTE: The ADOdb directory MUST be in your PHP include_path!
  *
  * @author   Richard Tango-Lowy <richtl@arscognita.com>
@@ -58,7 +58,7 @@ class Auth_Container_ADOdb extends Auth_Container
     /**
      * Constructor of the container class
      *
-     * Initate connection to the database via PEAR::ADOdb
+     * Initiate connection to the database via PEAR::ADOdb
      *
      * @param  string Connection data or DB object
      * @return object Returns an error object if something went wrong
@@ -199,7 +199,7 @@ class Auth_Container_ADOdb extends Auth_Container
         /* Include additional fields if they exist */
         if(!empty($this->options['db_fields'])){
             if(is_array($this->options['db_fields'])){
-                $this->options['db_fields'] = join($this->options['db_fields'], ', ');
+                $this->options['db_fields'] = join(', ', $this->options['db_fields']);
             }
             $this->options['db_fields'] = ', '.$this->options['db_fields'];
         }
@@ -262,7 +262,7 @@ class Auth_Container_ADOdb extends Auth_Container
                     continue;
                 }
                 // Use reference to the auth object if exists
-                // This is because the auth session variable can change so a static call to setAuthData does not make sence
+                // This is because the auth session variable can change so a static call to setAuthData does not make sense
                 if(is_object($this->_auth_obj)){
                     $this->_auth_obj->setAuthData($key, $value);
                 } else {

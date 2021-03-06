@@ -1,13 +1,13 @@
 <?php
 /*
-@version   v5.20.10  08-Mar-2018
+@version   v5.21.0  2021-02-27
 @copyright (c) 2000-2013 John Lim (jlim#natsoft.com). All rights reserved.
 @copyright (c) 2014      Damien Regad, Mark Newnham and the ADOdb community
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
 
-  Latest version is available at http://adodb.sourceforge.net
+  Latest version is available at https://adodb.org/
 
   SQLite info: http://www.hwaci.com/sw/sqlite/
 
@@ -22,6 +22,7 @@ if (!defined('ADODB_DIR')) die();
 
 class ADODB_sqlite extends ADOConnection {
 	var $databaseType = "sqlite";
+	var $dataProvider = "sqlite";
 	var $replaceQuote = "''"; // string to use to replace quotes
 	var $concat_operator='||';
 	var $_errorNo = 0;
@@ -32,10 +33,6 @@ class ADODB_sqlite extends ADOConnection {
 	var $sysDate = "adodb_date('Y-m-d')";
 	var $sysTimeStamp = "adodb_date('Y-m-d H:i:s')";
 	var $fmtTimeStamp = "'Y-m-d H:i:s'";
-
-	function __construct()
-	{
-	}
 
 	function ServerInfo()
 	{
@@ -226,6 +223,8 @@ class ADODB_sqlite extends ADOConnection {
 
 	function SelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs2cache=0)
 	{
+		$nrows = (int) $nrows;
+		$offset = (int) $offset;
 		$offsetStr = ($offset >= 0) ? " OFFSET $offset" : '';
 		$limitStr  = ($nrows >= 0)  ? " LIMIT $nrows" : ($offset >= 0 ? ' LIMIT 999999999' : '');
 		if ($secs2cache) {
@@ -353,6 +352,63 @@ class ADODB_sqlite extends ADOConnection {
 		return $indexes;
 	}
 
+	/**
+	* Returns the maximum size of a MetaType C field. Because of the
+	* database design, sqlite places no limits on the size of data inserted
+	*
+	* @return int
+	*/
+	function charMax()
+	{
+		return ADODB_STRINGMAX_NOLIMIT;
+	}
+
+	/**
+	* Returns the maximum size of a MetaType X field. Because of the
+	* database design, sqlite places no limits on the size of data inserted
+	*
+	* @return int
+	*/
+	function textMax()
+	{
+		return ADODB_STRINGMAX_NOLIMIT;
+	}
+
+	/*
+	 * Converts a date to a month only field and pads it to 2 characters
+	 *
+	 * @param 	str		$fld	The name of the field to process
+	 * @return	str				The SQL Statement
+	 */
+	function month($fld)
+	{
+		$x = "strftime('%m',$fld)";
+
+		return $x;
+	}
+
+	/*
+	 * Converts a date to a day only field and pads it to 2 characters
+	 *
+	 * @param 	str		$fld	The name of the field to process
+	 * @return	str				The SQL Statement
+	 */
+	function day($fld) {
+		$x = "strftime('%d',$fld)";
+		return $x;
+	}
+
+	/*
+	 * Converts a date to a year only field
+	 *
+	 * @param 	str		$fld	The name of the field to process
+	 * @return	str				The SQL Statement
+	 */
+	function year($fld) {
+		$x = "strftime('%Y',$fld)";
+
+		return $x;
+	}
 }
 
 /*--------------------------------------------------------------------------------------
