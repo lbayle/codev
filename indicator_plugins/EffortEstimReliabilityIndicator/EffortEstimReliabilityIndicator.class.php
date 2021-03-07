@@ -36,7 +36,7 @@ class EffortEstimReliabilityIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public static function getSmartyFilename() {
-      return Constants::$codevRootDir.DS.self::indicatorPluginsDir.DS.__CLASS__.DS.__CLASS__.".html";
+      return Constants::$codevRootDir.DIRECTORY_SEPARATOR.self::indicatorPluginsDir.DIRECTORY_SEPARATOR.__CLASS__.DIRECTORY_SEPARATOR.__CLASS__.".html";
    }
 
   // ----------------------------------------------

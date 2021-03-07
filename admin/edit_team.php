@@ -493,7 +493,7 @@ class EditTeamController extends Controller {
    private function getOnDutyTasks(Team $team) {
 
       $bugidList = $team->getOnDutyTasks();
-      if (is_null($bugidList) || empty($bugidList)) { return NULL; }
+      if (is_null($bugidList) || empty($bugidList)) { return array(); }
 
       $onDutyTasks = array();
       foreach ($bugidList as $bugid) {

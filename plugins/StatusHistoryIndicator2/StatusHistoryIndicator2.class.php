@@ -130,7 +130,7 @@ class StatusHistoryIndicator2 extends IndicatorPluginAbstract {
       } else {
          $this->interval = 30;
       }
-      $this->isDisplayResolved = fasle;
+      $this->isDisplayResolved = false;
       //self::$logger->debug('dataProvider '.PluginDataProviderInterface::PARAM_INTERVAL.'= '.$this->interval);
    }
 

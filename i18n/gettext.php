@@ -98,7 +98,7 @@ class gettext_reader {
    * @param object Reader the StreamReader object
    * @param boolean enable_cache Enable or disable caching of strings (default on)
    */
-  function gettext_reader($Reader, $enable_cache = true) {
+  function __construct($Reader, $enable_cache = true) {
     // If there isn't a StreamReader, turn on short circuit mode.
     if (! $Reader || isset($Reader->error) ) {
       $this->short_circuit = true;
@@ -352,7 +352,7 @@ class gettext_reader {
   function select_string($n) {
     $string = $this->get_plural_forms();
     $string = str_replace('nplurals',"\$total",$string);
-    $string = str_replace("n",$n,$string);
+    $string = str_replace("n",(int)$n,$string);
     $string = str_replace('plural',"\$plural",$string);
 
     $total = 0;

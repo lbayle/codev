@@ -71,7 +71,7 @@ abstract class Controller {
          $this->session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $this->teamList = $this->session_user->getTeamList();
 
-         if (count($this->teamList) > 0) {
+         if ((NULL != $this->teamList) && (count($this->teamList) > 0)) {
             $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($this->teamList, $_SESSION['teamid']));
          }
 

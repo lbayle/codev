@@ -220,9 +220,9 @@ class PlanningReportController extends Controller {
       $cerrList  = $ccheck->checkBadBacklog();
       #$cerrList2 = $ccheck->checkUnassignedTasks();
 
-      $consistencyErrors = NULL;
-      if (count($cerrList) > 0 || count($cerrList2) > 0) {
-         $consistencyErrors = array();
+      $consistencyErrors = array();
+      if (count($cerrList) > 0) {
+      //if (count($cerrList) > 0 || count($cerrList2) > 0) {
          foreach ($cerrList as $cerr) {
             $user = UserCache::getInstance()->getUser($cerr->userId);
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);

@@ -73,7 +73,7 @@ class CheckController extends Controller {
 
       $cerrList = $ccheck->check();
 
-      $cerrs = NULL;
+      $cerrs = array();
       if (count($cerrList) > 0) {
          $i = 0;
          foreach ($cerrList as $cerr) {
@@ -117,4 +117,3 @@ CheckController::staticInit();
 $controller = new CheckController('../', 'Consistency Check','ConsistencyCheck');
 $controller->execute();
 
-?>

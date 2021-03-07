@@ -70,7 +70,7 @@ class SmartyTools {
          }
          return $smartyList;
       } else {
-         return NULL;
+         return array();
       }
    }
 

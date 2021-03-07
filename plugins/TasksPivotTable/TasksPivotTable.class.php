@@ -175,7 +175,7 @@ class TasksPivotTable extends IndicatorPluginAbstract {
 
             // cleanup selected filters (remove empty lines)
             $this->filterList = explode(',', $tmpSelectedFilters);
-            $this->filterList = array_filter($this->filterList, create_function('$a','return $a!="";'));
+            $this->filterList = array_filter($this->filterList, 'arrayFilter_fct');
          }
       }
    }
@@ -184,7 +184,7 @@ class TasksPivotTable extends IndicatorPluginAbstract {
 
       // cleanup allFilters (remove empty lines)
       $tmpList = explode(',', self::$allFilters);
-      $tmpList = array_filter($tmpList, create_function('$a','return $a!="";'));
+      $tmpList = array_filter($tmpList, 'arrayFilter_fct');
 
       $allFilterList = array();
       foreach ($tmpList as $class_name) {
@@ -404,6 +404,10 @@ class TasksPivotTable extends IndicatorPluginAbstract {
       return $smartyVariables;
    }
 
+}
+
+function arrayFilter_fct($a) {
+   return $a!="";
 }
 
 // Initialize complex static variables
