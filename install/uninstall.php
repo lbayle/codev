@@ -280,6 +280,16 @@ class UninstallController extends Controller {
     * remove CodevTT plugin, not FilterBugList
     */
    function removeMantisPlugins() {
+
+      // deactivate plugin
+      try {
+         $sql = AdodbWrapper::getInstance();
+         $query = "DELETE FROM {plugin} WHERE basename FROM {plugin} WHERE basename = ".$sql->db_param();
+         $sql->sql_query($query, array('CodevTT')) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
+      } catch (Exception $e) {
+         return false;
+      }
+
       $mantisPluginDir = Constants::$mantisPath . DIRECTORY_SEPARATOR . 'plugins';
       $codevttPluginDir = $mantisPluginDir . DIRECTORY_SEPARATOR . 'CodevTT';
 
