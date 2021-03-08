@@ -24,8 +24,8 @@ DROP FUNCTION IF EXISTS is_issue_in_team_commands;
 
 -- ------------------------
 
-DROP TABLE IF EXISTS `codev_blog_activity_table`;
-DROP TABLE IF EXISTS `codev_blog_table`;
+DROP TABLE IF EXISTS codev_blog_activity_table;
+DROP TABLE IF EXISTS codev_blog_table;
 DROP TABLE IF EXISTS codev_commandset_cmd_table;
 DROP TABLE IF EXISTS codev_commandset_table;
 DROP TABLE IF EXISTS codev_command_bug_table;
@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS codev_team_user_table;
 DROP TABLE IF EXISTS codev_userdailycost_table;
 DROP TABLE IF EXISTS codev_currencies_table;
 DROP TABLE IF EXISTS codev_timetracking_table;
-DROP TABLE IF EXISTS `codev_sidetasks_category_table`;
+DROP TABLE IF EXISTS codev_sidetasks_category_table;
 DROP TABLE IF EXISTS codev_command_provision_table;
 DROP TABLE IF EXISTS codev_wbs_table;
 DROP TABLE IF EXISTS codev_plugin_table;
