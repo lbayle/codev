@@ -35,7 +35,7 @@ class EditHolidaysController extends Controller {
       if(Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-            $this->smartyHelper->assign('defaultColor', Holidays::$defaultColor);
+            $this->smartyHelper->assign('defaultColor', '58CC77');
 
             if (isset($_POST['hol_color'])) {
                $formatedDate = Tools::getSecurePOSTStringValue('date');
