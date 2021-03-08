@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-04 12:57:04+0000\n"
+"PO-Revision-Date: 2021-03-08 14:48:02+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2716,7 +2716,7 @@ msgstr "(모두)"
 
 #. tpl/time_tracking.html
 msgid "Add timetrack"
-msgstr ""
+msgstr "타임트랙 추가"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -2959,7 +2959,6 @@ msgid "Discover new plugins"
 msgstr ""
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
 msgstr "플러그인"
 
@@ -4341,7 +4340,7 @@ msgstr ""
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average"
-msgstr ""
+msgstr "평균"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
@@ -4353,7 +4352,7 @@ msgstr ""
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
-msgstr ""
+msgstr "모드"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Nb timetracks"
@@ -4670,7 +4669,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "크기"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
@@ -5478,7 +5477,7 @@ msgstr ""
 
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Backlog history"
-msgstr ""
+msgstr "백로그 역사"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
@@ -6505,35 +6504,35 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
-msgstr ""
+msgstr "지난 주"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"
-msgstr ""
+msgstr "+1주"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:164
 msgid "+2 week"
-msgstr ""
+msgstr "+2주"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
-msgstr ""
+msgstr "+3주"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:166
 msgid "+1 months"
-msgstr ""
+msgstr "+1개월"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:167
 msgid "+2 months"
-msgstr ""
+msgstr "+2개월"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:168
 msgid "+3 months"
-msgstr ""
+msgstr "+3개월"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:169
 msgid "+6 months"
-msgstr ""
+msgstr "+6개월"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:170
 msgid "Over a year"
@@ -6541,7 +6540,7 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:253
 msgid "All (tasks & bugs)"
-msgstr ""
+msgstr "모두 (일감 및 버그)"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"

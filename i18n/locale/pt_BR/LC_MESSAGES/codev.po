@@ -9,6 +9,7 @@
 # Author: Eduardoaddad
 # Author: Felipe L. Ewald
 # Author: Luk3
+# Author: Mariagarbin
 # Author: Nsharkey
 # Author: Suburbanno
 # Author: Tark
@@ -21,7 +22,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-04 12:57:05+0000\n"
+"PO-Revision-Date: 2021-03-08 14:48:03+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
@@ -1985,7 +1986,7 @@ msgstr "Ocultar tarefas fechadas"
 
 #. tpl/issue_info.html
 msgid "Hide tasks from observed teams"
-msgstr ""
+msgstr "Esconder tarefas de times observados"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
@@ -2746,7 +2747,7 @@ msgstr "(todos)"
 
 #. tpl/time_tracking.html
 msgid "Add timetrack"
-msgstr ""
+msgstr "Adicionar monitor de tempo"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -2760,7 +2761,7 @@ msgstr "Reduzir a seleção de casos adicionando alguns filtros"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with no activity since"
-msgstr ""
+msgstr "Esconder tarefas sem atividade desde"
 
 #. tpl/time_tracking.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -3483,7 +3484,7 @@ msgstr "Remover equipe"
 
 #. tpl/edit_team.html
 msgid "Active team members"
-msgstr ""
+msgstr "Membros ativos do time"
 
 #. tpl/edit_team.html
 msgid "Add team member"
@@ -3509,7 +3510,7 @@ msgstr "Importar"
 
 #. tpl/edit_team.html
 msgid "Number of team members"
-msgstr ""
+msgstr "Número de membros no time"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -4313,7 +4314,7 @@ msgstr ""
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Task type filter"
-msgstr ""
+msgstr "Filtro de tipo de tarefa"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -4335,7 +4336,7 @@ msgstr "Casos"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Display task list"
-msgstr ""
+msgstr "Mostrar lista de tarefas"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
@@ -4344,15 +4345,15 @@ msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb Issues"
-msgstr ""
+msgstr "Problemas Nb"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb new"
-msgstr ""
+msgstr "Nb novo"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb open"
-msgstr ""
+msgstr "Nb aberto"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
@@ -4381,59 +4382,59 @@ msgstr "Valor"
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:68
 msgid "Load History"
-msgstr ""
+msgstr "Carregar histórico"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
-msgstr ""
+msgstr "Verifique a data de submissão das tarefas"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:71
 msgid "Statistics on the age of open tasks"
-msgstr ""
+msgstr "Estatisticas na idade de tarefas abertas"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "Novo"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "Aberto"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average"
-msgstr ""
+msgstr "Média"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
-msgstr ""
+msgstr "(em dias)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
-msgstr ""
+msgstr "Mediana"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
-msgstr ""
+msgstr "Modo"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Nb timetracks"
-msgstr ""
+msgstr "Cronogramas Nb"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Missing"
-msgstr ""
+msgstr "Faltando"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:69
 msgid "Timetracking analysis"
-msgstr ""
+msgstr "Análise de cronograma"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average delay between the timetrack date and it's creation date (in days)"
-msgstr ""
+msgstr "Atraso médio entre data do cronograma e a data de sua criação (em dias)"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -4741,23 +4742,23 @@ msgstr "Parede da mensagem"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
-msgstr ""
+msgstr "Pequeno"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Medium"
-msgstr ""
+msgstr "Média"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
-msgstr ""
+msgstr "Enorme"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
@@ -5638,7 +5639,7 @@ msgstr "Desculpe, arquivo de log não localizado:"
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
-msgstr ""
+msgstr "Desculpas, esse Trabalho não pode ser alterado"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
@@ -5679,7 +5680,7 @@ msgstr "Dica de ferramenta"
 
 #: admin/edit_team_ajax.php:442
 msgid "ERROR: joblist cannot be empty !"
-msgstr ""
+msgstr "Erro: lista de trabalhos não pode estar vazia!"
 
 #: admin/edit_team_ajax.php:491
 msgid "Invalid team name"
@@ -5908,7 +5909,7 @@ msgstr ""
 #. for all timetracks of the team, check that the Mantis issue exist.
 #: classes/consistency_check2.class.php:211
 msgid "Command issues should belong to the team's project-list"
-msgstr ""
+msgstr "Problemas de comando devem pertencer a lista de projetos do time"
 
 #: classes/consistency_check2.class.php:316
 msgid "Backlog should be 0 (not "
@@ -5968,7 +5969,7 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:809
 msgid "Project not defined in the team's project-list"
-msgstr ""
+msgstr "Projeto não definido na lista de projetos do time"
 
 #: filters/ProjectFilter.php:51
 #, fuzzy
@@ -6489,7 +6490,7 @@ msgstr ""
 
 #: timetracking/time_tracking_ajax.php:373
 msgid "ERROR: Failed to delete the timetrack !"
-msgstr ""
+msgstr "ERROR: Falha em apagar o cronograma !"
 
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking_ajax.php:405
@@ -6512,7 +6513,7 @@ msgstr "Lista de duração para contar o tempo"
 
 #: timetracking/time_tracking_ajax.php:453
 msgid "ERROR: Failed to add timetrack !"
-msgstr ""
+msgstr "ERRO: Falha em adicionar cronograma !"
 
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:495
@@ -6651,43 +6652,43 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
-msgstr ""
+msgstr "Semana passada"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"
-msgstr ""
+msgstr "+1 semana"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:164
 msgid "+2 week"
-msgstr ""
+msgstr "+2 semana"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
-msgstr ""
+msgstr "+3 semana"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:166
 msgid "+1 months"
-msgstr ""
+msgstr "+1 meses"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:167
 msgid "+2 months"
-msgstr ""
+msgstr "+2 meses"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:168
 msgid "+3 months"
-msgstr ""
+msgstr "+3 meses"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:169
 msgid "+6 months"
-msgstr ""
+msgstr "+6 meses"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:170
 msgid "Over a year"
-msgstr ""
+msgstr "Durante um ano"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:253
 msgid "All (tasks & bugs)"
-msgstr ""
+msgstr "Todos (tarefas e bugs)"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"
@@ -6899,7 +6900,7 @@ msgstr "Todos os projetos"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
-msgstr ""
+msgstr "Mostrar tempo decorrido durante um período"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"

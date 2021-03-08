@@ -5,10 +5,12 @@
 # Author: BaRaN6161 TURK
 # Author: Grkn gll
 # Author: Hedda
+# Author: Joseph
 # Author: Katpatuka
 # Author: Mirzali
 # Author: MrSchipunov
 # Author: MuratTheTurkish
+# Author: SaldırganSincap
 # Author: Sayginer
 # Author: Stonecy
 # Author: Trockya
@@ -18,7 +20,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-04 12:57:06+0000\n"
+"PO-Revision-Date: 2021-03-08 14:48:04+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1961,13 +1963,12 @@ msgid "Hide resolved tasks"
 msgstr "Çözülen görevleri gizle"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide closed tasks"
-msgstr "Kapatılan görevleri gizle"
+msgstr "Kapalı görevleri gizle"
 
 #. tpl/issue_info.html
 msgid "Hide tasks from observed teams"
-msgstr ""
+msgstr "Görevleri gözlenmiş takımlardan gizle"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
@@ -2721,7 +2722,7 @@ msgstr "(hepsi)"
 
 #. tpl/time_tracking.html
 msgid "Add timetrack"
-msgstr ""
+msgstr "Zamanizi ekle"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -2735,7 +2736,7 @@ msgstr "Bazı filtreler ayarlayarak görev seçimini azaltın"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with no activity since"
-msgstr ""
+msgstr "Şu tarihten beri herhangi bir faaliyet olmayan görevleri gizle"
 
 #. tpl/time_tracking.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -2963,9 +2964,8 @@ msgid "Discover new plugins"
 msgstr "Yeni eklentileri keşfedin"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
-msgstr "Eklenti"
+msgstr "Eklentiler"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
@@ -3446,7 +3446,7 @@ msgstr "Ekibi sil"
 
 #. tpl/edit_team.html
 msgid "Active team members"
-msgstr ""
+msgstr "Etkin takım üyeleri"
 
 #. tpl/edit_team.html
 msgid "Add team member"
@@ -3472,7 +3472,7 @@ msgstr "İçe aktar"
 
 #. tpl/edit_team.html
 msgid "Number of team members"
-msgstr ""
+msgstr "Takım üyesi sayısı"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -4251,7 +4251,7 @@ msgstr ""
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Task type filter"
-msgstr ""
+msgstr "Görev tipi süzgeci"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -4272,7 +4272,7 @@ msgstr "Yalnızca görevler"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Display task list"
-msgstr ""
+msgstr "Görev listesini görüntüle"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
@@ -4281,15 +4281,15 @@ msgstr "Teslim tarihi"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb Issues"
-msgstr ""
+msgstr "Nb Sorunlar"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb new"
-msgstr ""
+msgstr "Nb yeni"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb open"
-msgstr ""
+msgstr "Nb açık"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
@@ -4317,59 +4317,59 @@ msgstr "Değerler"
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:68
 msgid "Load History"
-msgstr ""
+msgstr "Geçmişi Yükle"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
-msgstr ""
+msgstr "Görevlerin bildirim tarihini kontrol et"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:71
 msgid "Statistics on the age of open tasks"
-msgstr ""
+msgstr "Açık görevlerin yaşı istatistikleri"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "Yeni"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "Açık"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average"
-msgstr ""
+msgstr "Ortalama"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
-msgstr ""
+msgstr "(gün)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
-msgstr ""
+msgstr "Orta"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
-msgstr ""
+msgstr "Mod"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Nb timetracks"
-msgstr ""
+msgstr "Nb zamanizleri"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Missing"
-msgstr ""
+msgstr "Eksik"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:69
 msgid "Timetracking analysis"
-msgstr ""
+msgstr "Zamanizleme analizi"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average delay between the timetrack date and it's creation date (in days)"
-msgstr ""
+msgstr "Zamanizi tarihiyle oluşturma tarihi arasındaki ortalama gecikme (gün olarak)"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -4408,7 +4408,7 @@ msgstr "Kök görev listesi"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated list of mantis tasks"
-msgstr ""
+msgstr "mantis görevlerinin virgülle ayrılmış listesi"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
@@ -4420,7 +4420,7 @@ msgstr "Üst görevleri kendi klasörüne dahil et (işaretlenmemiş: yukarıya 
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Clear the WBS before import (remove all existing issues from the command)"
-msgstr ""
+msgstr "İçe aktarımdan önce WBS’i temizle (tüm mevcut sorunları komuttan çıkar)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/AdminTools/AdminTools.html
@@ -4662,23 +4662,23 @@ msgstr "Mesaj duvarı"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "Boyut"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
-msgstr ""
+msgstr "Küçük"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Medium"
-msgstr ""
+msgstr "Orta"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Large"
-msgstr ""
+msgstr "Büyük"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
-msgstr ""
+msgstr "Çok büyük"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
@@ -5460,7 +5460,7 @@ msgstr "UYARI: 'Yalnızca ekip üyeleri' işaretli değilse bu seçenek devre d�
 
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Backlog history"
-msgstr ""
+msgstr "Birikmiş iş geçmişi"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
@@ -5513,7 +5513,7 @@ msgstr "Üzgünüz, günlük dosyası bulunamadı:"
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
-msgstr ""
+msgstr "Üzgünüz, bu İş değiştirilemez"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
@@ -5553,7 +5553,7 @@ msgstr "İpucu"
 
 #: admin/edit_team_ajax.php:442
 msgid "ERROR: joblist cannot be empty !"
-msgstr ""
+msgstr "HATA: işlistesi boş olamaz !"
 
 #: admin/edit_team_ajax.php:491
 msgid "Invalid team name"
@@ -5775,7 +5775,7 @@ msgstr "Kaldırılan sorunlarda zaman çizelgelerini kontrol edin (Mantis eklent
 #. for all timetracks of the team, check that the Mantis issue exist.
 #: classes/consistency_check2.class.php:211
 msgid "Command issues should belong to the team's project-list"
-msgstr ""
+msgstr "Komut sorunları takımın proje-listesine ait olmalıdır"
 
 #: classes/consistency_check2.class.php:316
 msgid "Backlog should be 0 (not "
@@ -5831,11 +5831,11 @@ msgstr "Varsayılan proje iş akışı tanımlanmadı, yapılandırma dosyasın�
 
 #: classes/consistency_check2.class.php:790
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
-msgstr ""
+msgstr ") Lütfen şunu çalıştırın: <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 
 #: classes/consistency_check2.class.php:809
 msgid "Project not defined in the team's project-list"
-msgstr ""
+msgstr "Proje, takımın proje-listesinde tanımlı değil."
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -6293,11 +6293,11 @@ msgstr "Üzgünüz, bu ekibin aktif bir üyesi değilsiniz"
 
 #: reports/issue_info.php:141
 msgid "You do not have permissions to display task :"
-msgstr ""
+msgstr "Görevi görüntülemeye yetkiniz yok :"
 
 #: reports/issue_info.php:152
 msgid "Task not found in Mantis DB :"
-msgstr ""
+msgstr "Görev Mantis veritabanında bulunamadı :"
 
 #: reports/project_info.php:322
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:389
@@ -6336,7 +6336,7 @@ msgstr "Maalesef, ekibiniz için tanımlanmış proje yok."
 
 #: timetracking/time_tracking_ajax.php:373
 msgid "ERROR: Failed to delete the timetrack !"
-msgstr ""
+msgstr "HATA: Zamanizi silinemedi !"
 
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking_ajax.php:405
@@ -6357,7 +6357,7 @@ msgstr "Zaman izleme eklenmedi: süre belirtilmedi"
 
 #: timetracking/time_tracking_ajax.php:453
 msgid "ERROR: Failed to add timetrack !"
-msgstr ""
+msgstr "HATA: Zamanizi eklenemedi !"
 
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:495
@@ -6488,47 +6488,47 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
-msgstr ""
+msgstr "Geçen hafta"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"
-msgstr ""
+msgstr "+1 hafta"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:164
 msgid "+2 week"
-msgstr ""
+msgstr "+2 hafta"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
-msgstr ""
+msgstr "+3 hafta"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:166
 msgid "+1 months"
-msgstr ""
+msgstr "+1 ay"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:167
 msgid "+2 months"
-msgstr ""
+msgstr "+2 ay"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:168
 msgid "+3 months"
-msgstr ""
+msgstr "+3 ay"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:169
 msgid "+6 months"
-msgstr ""
+msgstr "+6 ay"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:170
 msgid "Over a year"
-msgstr ""
+msgstr "Bir yıldan uzun"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:253
 msgid "All (tasks & bugs)"
-msgstr ""
+msgstr "Tümü (görevler & hatalar)"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"
-msgstr ""
+msgstr "Zamanizi tarihiyle oluşturma tarihi arasındaki gecikmeyi göster"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
@@ -6540,7 +6540,7 @@ msgstr "(bilinmiyor 0)"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:75
 msgid "Import Mantis relationship-tree to WBS"
-msgstr ""
+msgstr "Mantis bağlantı-ağacını WBS’e aktar"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:78
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
@@ -6723,7 +6723,7 @@ msgstr "Tüm Projeler"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
-msgstr ""
+msgstr "Bir dönemde geçen zamanı göster"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -6751,7 +6751,7 @@ msgstr "Zaman çizelgesi ekleyen "
 
 #: plugins/BurnDownChart/BurnDownChart.class.php:66
 msgid "Display the backlog history"
-msgstr ""
+msgstr "Birikmiş iş geçmişini göster"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"

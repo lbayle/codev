@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-04 12:57:02+0000\n"
+"PO-Revision-Date: 2021-03-08 14:48:00+0000\n"
 "Language: diq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1395,7 +1395,7 @@ msgstr "Wezifey Mgr"
 #. tpl/forecasting_report.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 msgid "Task list"
-msgstr ""
+msgstr "Lista wezifeyan"
 
 #. tpl/tools/wbsEditor.html
 #. tpl/tools/wbsReader.html
@@ -1466,7 +1466,7 @@ msgstr "Bıtexelne"
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
 msgid "Loading"
-msgstr ""
+msgstr "Bar beno"
 
 #. tpl/command_info.html
 msgid "Set command filters"
@@ -2325,7 +2325,7 @@ msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Select User"
-msgstr ""
+msgstr "Karberi weçine"
 
 #. tpl/modal/change_managedUser.html
 msgid "Select team user"
@@ -2333,7 +2333,7 @@ msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr ""
+msgstr "Karberi bıvurne"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
@@ -3829,11 +3829,11 @@ msgstr "İdarekar"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr ""
+msgstr "Taxım vıraze"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr ""
+msgstr "Taxımi bıvurne"
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
@@ -4317,11 +4317,11 @@ msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "Newe"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "Akerde"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
@@ -4458,7 +4458,7 @@ msgstr ""
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "Grube"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
@@ -4480,7 +4480,7 @@ msgstr ""
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "Grubên karberi"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Define user groups and display the elapsed time for each group"
@@ -4600,7 +4600,7 @@ msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr ""
+msgstr "Estuni"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
@@ -4654,15 +4654,15 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
-msgstr ""
+msgstr "Werdi"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Medium"
-msgstr ""
+msgstr "Miyanên"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Large"
-msgstr ""
+msgstr "Gırd"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
@@ -4731,7 +4731,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
-msgstr ""
+msgstr "Gocagi"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Add new message"
@@ -6479,7 +6479,7 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
-msgstr ""
+msgstr "Hefteyo verên"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"

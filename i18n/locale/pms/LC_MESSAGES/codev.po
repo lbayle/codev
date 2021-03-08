@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-04 12:57:05+0000\n"
+"PO-Revision-Date: 2021-03-08 14:48:03+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1951,13 +1951,12 @@ msgid "Hide resolved tasks"
 msgstr "Stërmé ij travaj livrà"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide closed tasks"
 msgstr "Stërmé ij travaj sarà"
 
 #. tpl/issue_info.html
 msgid "Hide tasks from observed teams"
-msgstr ""
+msgstr "Stërmé ij travaj ëd j'echip osservà"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
@@ -2710,7 +2709,7 @@ msgstr "(tuti)"
 
 #. tpl/time_tracking.html
 msgid "Add timetrack"
-msgstr ""
+msgstr "Gionté na programassion"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -2724,7 +2723,7 @@ msgstr "Ch'a arduva la selession dij travaj an piassand dij filtr"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with no activity since"
-msgstr ""
+msgstr "Stërmé ij travaj sensa atività da"
 
 #. tpl/time_tracking.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -2952,7 +2951,6 @@ msgid "Discover new plugins"
 msgstr "Arserché dle neuve anstalassion"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
 msgstr "Anstalassion"
 
@@ -3435,7 +3433,7 @@ msgstr "Eliminé l'echip"
 
 #. tpl/edit_team.html
 msgid "Active team members"
-msgstr ""
+msgstr "Mèmber ativ ëd l'echip"
 
 #. tpl/edit_team.html
 msgid "Add team member"
@@ -3461,7 +3459,7 @@ msgstr "Amporté"
 
 #. tpl/edit_team.html
 msgid "Number of team members"
-msgstr ""
+msgstr "Nùmer ëd mèmber ëd l'echip"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -4230,12 +4228,12 @@ msgstr "Gnun travaj an ritard."
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
-msgstr ""
+msgstr "Antichità dij problema duvert"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Task type filter"
-msgstr ""
+msgstr "Filtr ëd sòrt ëd travaj"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -4256,7 +4254,7 @@ msgstr "Mach ij travaj"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Display task list"
-msgstr ""
+msgstr "Smon-e la lista ëd travaj"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
@@ -4265,15 +4263,15 @@ msgstr "Dàita dë spedission"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb Issues"
-msgstr ""
+msgstr "Nùmer ëd problema"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb new"
-msgstr ""
+msgstr "Nùmer ëd neuv"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb open"
-msgstr ""
+msgstr "Nùmer ëd duvert"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
@@ -4301,59 +4299,59 @@ msgstr "Valor"
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:68
 msgid "Load History"
-msgstr ""
+msgstr "Carié la stòria"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
-msgstr ""
+msgstr "Controlé la dàita ëd presentassion dij travaj"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:71
 msgid "Statistics on the age of open tasks"
-msgstr ""
+msgstr "Statìstiche an sl'età dij travaj duvert"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "Neuv"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "Duvert"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average"
-msgstr ""
+msgstr "Media"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
-msgstr ""
+msgstr "(an di)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
-msgstr ""
+msgstr "Mesan-a"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
-msgstr ""
+msgstr "Mòda"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Nb timetracks"
-msgstr ""
+msgstr "Nùmer ëd programassion"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Missing"
-msgstr ""
+msgstr "Mancant"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:69
 msgid "Timetracking analysis"
-msgstr ""
+msgstr "Anàlisi dle programassion"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average delay between the timetrack date and it's creation date (in days)"
-msgstr ""
+msgstr "Ritard medi antra la dàita ëd programassion e soa dàita ëd creassion (an di)"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -4392,7 +4390,7 @@ msgstr "Lista dij travaj rèis"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated list of mantis tasks"
-msgstr ""
+msgstr "lista dij travaj ëd Mantis separà da na còma"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
@@ -4404,7 +4402,7 @@ msgstr "Anclude ij travaj ce an so pròpi dossié (si nen selessionà: anclude d
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Clear the WBS before import (remove all existing issues from the command)"
-msgstr ""
+msgstr "Dëscancelé la lòsa bianca prima d'amporté (gavé tuti ij problema esistent da la comanda)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/AdminTools/AdminTools.html
@@ -4646,23 +4644,23 @@ msgstr "Muraja dij mëssagi"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "Taja"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
-msgstr ""
+msgstr "Cit"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Medium"
-msgstr ""
+msgstr "Mesan"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Large"
-msgstr ""
+msgstr "Grand"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
-msgstr ""
+msgstr "Gigantesch"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
@@ -5265,7 +5263,7 @@ msgstr "Stim dlë sfòrs Mgr + proviste verificà"
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Burndown chart"
-msgstr ""
+msgstr "Diagrama ëd dzorcaria"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
@@ -5441,7 +5439,7 @@ msgstr "ATENSION: costa opsion a sarà disativà si 'Mach mèmber ëd l'echip' a
 
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Backlog history"
-msgstr ""
+msgstr "Stòria dij ritard"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
@@ -5494,7 +5492,7 @@ msgstr "An dëspias, l'archivi d'argistr a l'é nen ëstàit trovà:"
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
-msgstr ""
+msgstr "Darmagi, ës travaj a peul pa esse cangià"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
@@ -5534,7 +5532,7 @@ msgstr "Gòla d'anformassion"
 
 #: admin/edit_team_ajax.php:442
 msgid "ERROR: joblist cannot be empty !"
-msgstr ""
+msgstr "EROR: la lista dij travaj a peul nen esse veuida!"
 
 #: admin/edit_team_ajax.php:491
 msgid "Invalid team name"
@@ -5756,7 +5754,7 @@ msgstr "Controlé le programassion an sij problema gavà (nen necessari si l'uti
 #. for all timetracks of the team, check that the Mantis issue exist.
 #: classes/consistency_check2.class.php:211
 msgid "Command issues should belong to the team's project-list"
-msgstr ""
+msgstr "Ij problema ëd comanda a dovrìo aparten-e a la lista dij proget ëd l'echip"
 
 #: classes/consistency_check2.class.php:316
 msgid "Backlog should be 0 (not "
@@ -5812,11 +5810,11 @@ msgstr "Gnun fluss ëd travaj ëd proget a l'é definì për stàndard, ch'a con
 
 #: classes/consistency_check2.class.php:790
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
-msgstr ""
+msgstr ") Ch'a fasa marcé <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 
 #: classes/consistency_check2.class.php:809
 msgid "Project not defined in the team's project-list"
-msgstr ""
+msgstr "Proget nen definì ant la lista dij proget ëd l'echip"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -6271,11 +6269,11 @@ msgstr "An dëspias, chiel a l'é nen un mèmber ativ ëd s'echip."
 
 #: reports/issue_info.php:141
 msgid "You do not have permissions to display task :"
-msgstr ""
+msgstr "A l'ha nen ël drit ëd visualisé ël travaj:"
 
 #: reports/issue_info.php:152
 msgid "Task not found in Mantis DB :"
-msgstr ""
+msgstr "Travaj nen trovà ant la BëD Mantis:"
 
 #: reports/project_info.php:322
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:389
@@ -6314,7 +6312,7 @@ msgstr "An dëspias, a-i é gnun proget definì për soa echip."
 
 #: timetracking/time_tracking_ajax.php:373
 msgid "ERROR: Failed to delete the timetrack !"
-msgstr ""
+msgstr "EROR: La dëscancelassion ëd la programassion a l'ha falì!"
 
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking_ajax.php:405
@@ -6335,7 +6333,7 @@ msgstr "Cronologìa nen giontà: la durà a l'é nen ëspessificà."
 
 #: timetracking/time_tracking_ajax.php:453
 msgid "ERROR: Failed to add timetrack !"
-msgstr ""
+msgstr "EROR: Falì a gionté la programassion!"
 
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:495
@@ -6462,51 +6460,51 @@ msgstr "Smon-e ij travaj nen arzolvù ch'a dovrìo esse livrà"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:68
 msgid "Open issues seniority statistics"
-msgstr ""
+msgstr "Duverté le statìstiche d'antichità dij problema"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
-msgstr ""
+msgstr "La sman-a passà"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"
-msgstr ""
+msgstr "+1 sman-a"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:164
 msgid "+2 week"
-msgstr ""
+msgstr "+2 sman-e"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
-msgstr ""
+msgstr "+3 sman-e"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:166
 msgid "+1 months"
-msgstr ""
+msgstr "+1 mèis"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:167
 msgid "+2 months"
-msgstr ""
+msgstr "+2 mèis"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:168
 msgid "+3 months"
-msgstr ""
+msgstr "+3 mèis"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:169
 msgid "+6 months"
-msgstr ""
+msgstr "+6 mèis"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:170
 msgid "Over a year"
-msgstr ""
+msgstr "Pi che n'ann"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:253
 msgid "All (tasks & bugs)"
-msgstr ""
+msgstr "Tut (travaj e anomalìe)"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"
-msgstr ""
+msgstr "Smon-e ël ritard antra la dàita ëd programassion e soa dàita ëd creassion"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
@@ -6518,7 +6516,7 @@ msgstr "(nen conossù 0)"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:75
 msgid "Import Mantis relationship-tree to WBS"
-msgstr ""
+msgstr "Amporté l'erbo dle relassion Mantis an sla lòsa bianca"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:78
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
@@ -6701,7 +6699,7 @@ msgstr "Tuti ij proget"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
-msgstr ""
+msgstr "Smon-e ël temp passà ant un perìod"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -6729,7 +6727,7 @@ msgstr "Programassion giontà da "
 
 #: plugins/BurnDownChart/BurnDownChart.class.php:66
 msgid "Display the backlog history"
-msgstr ""
+msgstr "Smon-e la stòria dj'aretrà"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"

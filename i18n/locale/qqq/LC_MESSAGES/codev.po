@@ -10,6 +10,7 @@
 # Author: MuratTheTurkish
 # Author: Patriot Kur
 # Author: Robby
+# Author: Sabelöga
 # Author: Urhixidur
 # Author: Verdy p
 msgid ""
@@ -17,7 +18,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2021-03-04 12:57:07+0000\n"
+"PO-Revision-Date: 2021-03-08 14:48:06+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4321,7 +4322,7 @@ msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "{{identical|New}}"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
@@ -4653,7 +4654,7 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "{{identical|Size}}"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
