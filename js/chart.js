@@ -180,7 +180,7 @@ jQuery(document).ready(function() {
                show:true
             },
             rendererOptions: {
-                 smooth: true
+                 smooth: false
              }
          },
 //         highlighter: {
