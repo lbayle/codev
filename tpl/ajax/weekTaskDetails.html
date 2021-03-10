@@ -20,8 +20,8 @@
                jQuery("#job").val(jobid);
             } else {
                jQuery("#job").append($('<option>', { value : jobid, selected : 'selected' }));
+               modified = true;
             }
-            modified = true;
          }
 
          /* Don't set the duration
@@ -35,22 +35,24 @@
 
          if(bugid != jQuery("#bugid").val()) {
             if(jQuery("#bugid option[value="+bugid+"]").val() !== undefined) {
-               jQuery("#bugid").val(bugid);
+               jQuery("#bugid").select2("val", bugid);
             } else {
                jQuery("#bugid").append($('<option>', { value : bugid, selected : 'selected' }));
+               modified = true;
             }
-            modified = true;
          }
 
          if(modified) {
-            var form1 = jQuery("#form1");
-            form1.find("input[name=action]").val("setBugId");
+            // reload page (almost full content must be updated, so best is to reload)
+            var formReloadPage = jQuery("#formReloadTimetrackingPage");
+            formReloadPage.find("input[name=bugid]").val(bugid);
+            formReloadPage.find("input[name=job]").val(jobid);
+            formReloadPage.find("input[name=date]").val(dayValue);
+            formReloadPage.find("input[name=year]").val(jQuery("#year").val());
+            formReloadPage.find("input[name=weekid]").val(jQuery("#weekid").val());
+            formReloadPage.submit();
 
-            // Keep value of Week form
-            form1.find("input[name=weekid]").val(jQuery("#weekid").val());
-            form1.find("input[name=year]").val(jQuery("#year").val());
 
-            form1.submit();
          } else {
             jQuery("body").css('cursor','auto');
          }
