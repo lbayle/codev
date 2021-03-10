@@ -214,7 +214,20 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
             $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
             $projType = $team->getProjectType($issue->getProjectId());
-            $availableJobs = $project->getJobList($projType, $teamid);
+
+            if (null !== $projType) {
+               $availableJobs = $project->getJobList($projType, $teamid);
+            } else {
+               // if this timetrack is on a project not defined in this team,
+               // it is not possible to get the jobList. All we can do is
+               // to leave the existing job as only selection
+               $jobs = new Jobs();
+               $jobid = $tt->getJobId();
+               $availableJobs = array(
+                  $jobid => $jobs->getJobName($jobid)
+               );
+            }
+
             $isRecreditBacklog = (0 == $team->getGeneralPreference('recreditBacklogOnTimetrackDeletion')) ? false : true;
 
 
