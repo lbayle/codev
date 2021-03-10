@@ -14,25 +14,7 @@
             jQuery("#datepicker").val(dayValue);
          }
 
-         var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
-         if(jobid != jQuery("#job").val()) {
-            if(jQuery("#job option[value="+jobid+"]").val() !== undefined) {
-               jQuery("#job").val(jobid);
-            } else {
-               jQuery("#job").append($('<option>', { value : jobid, selected : 'selected' }));
-               modified = true;
-            }
-         }
-
-         /* Don't set the duration
-         * if(day.text() != jQuery("#duree").val()) {
-         *    jQuery("#duree").val(day.text());
-         * }
-         */
-         // reset the duration
-         jQuery("#duree").val("");
          var bugid = row.attr("id").replace("weekTasks-","");
-
          if(bugid != jQuery("#bugid").val()) {
             if(jQuery("#bugid option[value="+bugid+"]").val() !== undefined) {
                jQuery("#bugid").select2("val", bugid);
@@ -42,17 +24,53 @@
             }
          }
 
+         var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
+         if(!modified) {
+            if(jobid != jQuery("#job").val()) {
+               if(jQuery("#job option[value="+jobid+"]").val() !== undefined) {
+                  jQuery("#job").val(jobid);
+               } else {
+                  // update JobList by Ajax
+                  jQuery.ajax({
+                     type: "POST",
+                     url:  "{$ajaxPage}",
+                     data: { action: 'getJobList',
+                             bugid: bugid
+                     },
+                     dataType:"json",
+                     success: function(data) {
+                        if ('SUCCESS' === data.statusMsg) {
+                           var availableJobs = data['availableJobs'];
+                           updateJobList(availableJobs);
+                           jQuery("#job").val(jobid);
+                        } else {
+                           // failover: reload entire page
+                           console.error("getJobList failed: reload entire page");
+                           modified = true;
+                        }
+                     },
+                     error: function(jqXHR, textStatus, errorThrown) {
+                        console.error(textStatus, errorThrown);
+                        // failover: reload entire page
+                        console.log(": reload entire page");
+                        modified = true;
+                     }
+                  });
+               }
+            }
+         }
+         // reset the duration
+         jQuery("#duree").val("");
+
          if(modified) {
             // reload page (almost full content must be updated, so best is to reload)
             var formReloadPage = jQuery("#formReloadTimetrackingPage");
             formReloadPage.find("input[name=bugid]").val(bugid);
-            formReloadPage.find("input[name=job]").val(jobid);
+            formReloadPage.find("input[name=trackJobid]").val(jobid);
             formReloadPage.find("input[name=date]").val(dayValue);
             formReloadPage.find("input[name=year]").val(jQuery("#year").val());
             formReloadPage.find("input[name=weekid]").val(jQuery("#weekid").val());
             formReloadPage.submit();
-
-
          } else {
             jQuery("body").css('cursor','auto');
          }

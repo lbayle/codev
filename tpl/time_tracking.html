@@ -35,7 +35,7 @@
    {/if}
 
    <div>
-      <form id="form1" name="form1" method="post" action="{$page}">
+      <form id="form1" name="form1" method="post" action="{$ajaxPage}">
          <fieldset>
             <label for="datepicker">{t}From{/t}:</label>
             <input type="text" id="datepicker" class="datepicker" name="trackDate" maxlength="10" size="10" title="{t}Date{/t}" />
@@ -89,6 +89,7 @@
          <fieldset>
             <input type="hidden" name="action" value="setBugId" />
             <input type="hidden" name="bugid" value="" />
+            <input type="hidden" name="trackJobid" value="" />
             <input type="hidden" name="date" value="" />
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
