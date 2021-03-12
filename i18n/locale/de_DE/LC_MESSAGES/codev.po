@@ -1,6 +1,7 @@
 # Translation of CodevTT to German (Deutsch)
 # Exported from translatewiki.net
 #
+# Author: Anna7321
 # Author: Killarnee
 # Author: ManuelFranz
 # Author: Metalhead64
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-04 12:57:02+0000\n"
+"PO-Revision-Date: 2021-03-12 05:54:26+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -4337,16 +4338,16 @@ msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "Offen"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average"
-msgstr ""
+msgstr "Durchschnitt"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
-msgstr ""
+msgstr "(In einigen Tagen)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
@@ -4354,7 +4355,7 @@ msgstr ""
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
-msgstr ""
+msgstr "Art"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Nb timetracks"
@@ -4672,19 +4673,19 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
-msgstr ""
+msgstr "klein"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Medium"
-msgstr ""
+msgstr "Medium"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Large"
-msgstr ""
+msgstr "Groß"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
-msgstr ""
+msgstr "Riesig"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
@@ -6510,7 +6511,7 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
-msgstr ""
+msgstr "letzte Woche"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"
@@ -6522,7 +6523,7 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
-msgstr ""
+msgstr "+3 Wochen"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:166
 msgid "+1 months"
@@ -6538,11 +6539,11 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:169
 msgid "+6 months"
-msgstr ""
+msgstr "+6 Monate"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:170
 msgid "Over a year"
-msgstr ""
+msgstr "Mehr als ein Jahr"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:253
 msgid "All (tasks & bugs)"

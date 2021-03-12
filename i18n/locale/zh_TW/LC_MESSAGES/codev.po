@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-04 12:57:07+0000\n"
+"PO-Revision-Date: 2021-03-12 05:54:33+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1954,13 +1954,12 @@ msgid "Hide resolved tasks"
 msgstr "隱藏已解決任務"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide closed tasks"
 msgstr "隱藏已關閉任務"
 
 #. tpl/issue_info.html
 msgid "Hide tasks from observed teams"
-msgstr ""
+msgstr "隱藏來自觀察團隊的任務"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
@@ -2713,7 +2712,7 @@ msgstr "（全部）"
 
 #. tpl/time_tracking.html
 msgid "Add timetrack"
-msgstr ""
+msgstr "添加時間表"
 
 #. tpl/time_tracking.html
 #. tpl/form/selectFiltersDialogbox.html
@@ -2727,7 +2726,7 @@ msgstr "以透過設定一些過濾來減少任務選擇"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with no activity since"
-msgstr ""
+msgstr "隱藏不活躍任務，自"
 
 #. tpl/time_tracking.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -2955,7 +2954,6 @@ msgid "Discover new plugins"
 msgstr "發現新的外掛套件"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
 msgstr "外掛套件"
 
@@ -3438,7 +3436,7 @@ msgstr "刪除團隊"
 
 #. tpl/edit_team.html
 msgid "Active team members"
-msgstr ""
+msgstr "活躍團隊成員"
 
 #. tpl/edit_team.html
 msgid "Add team member"
@@ -3464,7 +3462,7 @@ msgstr "匯入"
 
 #. tpl/edit_team.html
 msgid "Number of team members"
-msgstr ""
+msgstr "團隊成員數目"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -3925,7 +3923,7 @@ msgstr "標題"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 msgid "Managemnt load history"
-msgstr "管理載入歷史"
+msgstr "管理負荷歷史"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
@@ -4234,12 +4232,12 @@ msgstr "沒有後續任務。"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
-msgstr ""
+msgstr "開放問題排行"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Task type filter"
-msgstr ""
+msgstr "任務類型篩選"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -4260,7 +4258,7 @@ msgstr "僅限任務"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Display task list"
-msgstr ""
+msgstr "顯示任務清單"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
@@ -4269,15 +4267,15 @@ msgstr "提交日期"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb Issues"
-msgstr ""
+msgstr "Nb 問題"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb new"
-msgstr ""
+msgstr "新 Nb"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb open"
-msgstr ""
+msgstr "開放 Nb"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
@@ -4305,59 +4303,59 @@ msgstr "值"
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:68
 msgid "Load History"
-msgstr ""
+msgstr "負荷歷史"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
-msgstr ""
+msgstr "檢查任務提交日期"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:71
 msgid "Statistics on the age of open tasks"
-msgstr ""
+msgstr "開放問題時間的統計"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "新"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "開放"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average"
-msgstr ""
+msgstr "平均"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
-msgstr ""
+msgstr "（數日）"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
-msgstr ""
+msgstr "中位數"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
-msgstr ""
+msgstr "眾數"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Nb timetracks"
-msgstr ""
+msgstr "Nb 時間表"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Missing"
-msgstr ""
+msgstr "遺失"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:69
 msgid "Timetracking analysis"
-msgstr ""
+msgstr "時間表分析"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average delay between the timetrack date and it's creation date (in days)"
-msgstr ""
+msgstr "時間表日期與其建立日期之間的平均延遲（數日）"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -4396,7 +4394,7 @@ msgstr "根任務清單"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated list of mantis tasks"
-msgstr ""
+msgstr "Mantis 任務的逗號分隔清單"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
@@ -4408,7 +4406,7 @@ msgstr "包含在自已資料夾裡的父級任務（未勾選：包含上述內
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Clear the WBS before import (remove all existing issues from the command)"
-msgstr ""
+msgstr "匯入之前清除 WBS（從命令移除現有的全部問題）"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/AdminTools/AdminTools.html
@@ -5276,7 +5274,7 @@ msgstr "管理成效估計 + 已確認供應"
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Burndown chart"
-msgstr ""
+msgstr "燃盡圖"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
@@ -5455,7 +5453,7 @@ msgstr "警告：若「僅團隊成員」為勾選，此選項將會停用"
 
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Backlog history"
-msgstr ""
+msgstr "積壓工作歷史"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
@@ -5508,7 +5506,7 @@ msgstr "很抱歉，找不到日誌檔："
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
-msgstr ""
+msgstr "很抱歉，工作不能更改"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
@@ -5548,7 +5546,7 @@ msgstr "提示"
 
 #: admin/edit_team_ajax.php:442
 msgid "ERROR: joblist cannot be empty !"
-msgstr ""
+msgstr "錯誤：工作清單不能為空！"
 
 #: admin/edit_team_ajax.php:491
 msgid "Invalid team name"
@@ -5770,7 +5768,7 @@ msgstr "檢查已移除問題的時間表（如果Mantis外掛套件已啟用則
 #. for all timetracks of the team, check that the Mantis issue exist.
 #: classes/consistency_check2.class.php:211
 msgid "Command issues should belong to the team's project-list"
-msgstr ""
+msgstr "應屬於團隊專案清單的命令問題"
 
 #: classes/consistency_check2.class.php:316
 msgid "Backlog should be 0 (not "
@@ -5826,11 +5824,11 @@ msgstr "沒有定義預設專案工作流程，請檢查設定檔案：\\"
 
 #: classes/consistency_check2.class.php:790
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
-msgstr ""
+msgstr "）請執行 <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 
 #: classes/consistency_check2.class.php:809
 msgid "Project not defined in the team's project-list"
-msgstr ""
+msgstr "專案未定義在團隊的專案清單裡"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -6286,11 +6284,11 @@ msgstr "很抱歉，您不是此團隊的活躍成員"
 
 #: reports/issue_info.php:141
 msgid "You do not have permissions to display task :"
-msgstr ""
+msgstr "您沒有權限來顯示任務："
 
 #: reports/issue_info.php:152
 msgid "Task not found in Mantis DB :"
-msgstr ""
+msgstr "沒有在 Mantis 資料庫發現任務："
 
 #: reports/project_info.php:322
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:389
@@ -6329,7 +6327,7 @@ msgstr "很抱歉，沒有定義為用於您團隊的專案。"
 
 #: timetracking/time_tracking_ajax.php:373
 msgid "ERROR: Failed to delete the timetrack !"
-msgstr ""
+msgstr "錯誤：刪除時間表失敗！"
 
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking_ajax.php:405
@@ -6350,7 +6348,7 @@ msgstr "時間表未添加：期間沒有指定"
 
 #: timetracking/time_tracking_ajax.php:453
 msgid "ERROR: Failed to add timetrack !"
-msgstr ""
+msgstr "錯誤：添加時間表失敗！"
 
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:495
@@ -6395,7 +6393,7 @@ msgstr "其他團隊"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
 msgid "Management load history"
-msgstr "管理載入歷史"
+msgstr "管理負荷歷史"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
 msgid "Compares the elapsed time on management sideTasks to the management provisions"
@@ -6477,51 +6475,51 @@ msgstr "顯示應已被交付的尚未解決任務"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:68
 msgid "Open issues seniority statistics"
-msgstr ""
+msgstr "開放問題排行統計"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
-msgstr ""
+msgstr "上週"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"
-msgstr ""
+msgstr "+1 週"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:164
 msgid "+2 week"
-msgstr ""
+msgstr "+2 週"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
-msgstr ""
+msgstr "+3 週"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:166
 msgid "+1 months"
-msgstr ""
+msgstr "+1 個月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:167
 msgid "+2 months"
-msgstr ""
+msgstr "+2 個月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:168
 msgid "+3 months"
-msgstr ""
+msgstr "+3 個月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:169
 msgid "+6 months"
-msgstr ""
+msgstr "+6 個月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:170
 msgid "Over a year"
-msgstr ""
+msgstr "超過一年"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:253
 msgid "All (tasks & bugs)"
-msgstr ""
+msgstr "全部（任務與錯誤）"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"
-msgstr ""
+msgstr "顯示時間表日期與其建立日期之間的延遲"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
@@ -6533,7 +6531,7 @@ msgstr "（未知 0）"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:75
 msgid "Import Mantis relationship-tree to WBS"
-msgstr ""
+msgstr "匯入 Mantis 關聯樹到 WBS"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:78
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
@@ -6716,7 +6714,7 @@ msgstr "所有專案"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
-msgstr ""
+msgstr "顯示在週期裡的流逝時間"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -6745,7 +6743,7 @@ msgstr "時間表添加由\\"
 
 #: plugins/BurnDownChart/BurnDownChart.class.php:66
 msgid "Display the backlog history"
-msgstr ""
+msgstr "顯示積壓工作歷史"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"

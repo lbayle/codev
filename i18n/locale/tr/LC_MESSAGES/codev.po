@@ -7,6 +7,7 @@
 # Author: Hedda
 # Author: Joseph
 # Author: Katpatuka
+# Author: Mim.saitkilic
 # Author: Mirzali
 # Author: MrSchipunov
 # Author: MuratTheTurkish
@@ -20,7 +21,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-08 14:48:04+0000\n"
+"PO-Revision-Date: 2021-03-12 05:54:32+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4246,7 +4247,7 @@ msgstr "Geç görev yok."
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
-msgstr ""
+msgstr "Açık konular kıdemı"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
@@ -5284,7 +5285,7 @@ msgstr "MgrEffortEstim + kontrol edilen hükümler"
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Burndown chart"
-msgstr ""
+msgstr "Açılış tablosu"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
@@ -6484,7 +6485,7 @@ msgstr "Teslim edilmesi gereken çözülmemiş görevleri göster"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:68
 msgid "Open issues seniority statistics"
-msgstr ""
+msgstr "Açık konular kıdemi istatistikleri"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:162
 msgid "Last week"
