@@ -61,7 +61,7 @@ class Holiday {
     * @param string $description
     * @param string $color
     */
-   public function Holiday($id, $timestamp, $description="", $color="D8D8D8") {
+   public function __construct($id, $timestamp, $description="", $color="D8D8D8") {
       $this->id = $id;
       $this->timestamp = $timestamp;
       $this->description = $description;
