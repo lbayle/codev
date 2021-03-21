@@ -71,6 +71,14 @@ if (file_exists(Constants::$config_file)) {
    }
    $checkList['PHP version (&gt;= 5.3)'] = $test_result;
 
+   if (strnatcmp(phpversion(),"8.0") <= 0) {
+      $error = ('FAILED').' (current PHP version is '.phpversion().')';
+      $test_result = "<span class='error_font'>$error</span>";
+   } else {
+      $test_result = '<span class="success_font">'.('SUCCESS').'</span>';
+   }
+   $checkList['PHP version (&lt; 8.0)'] = $test_result;
+
    // ---------- timezone
    if (!date_default_timezone_get()) {
       $isReady = FALSE;
@@ -104,7 +112,7 @@ if (file_exists(Constants::$config_file)) {
       $test_result = '<span class="success_font">'.('SUCCESS').'</span>';
    }
    $checkList['Write access to classmap.ser'] = $test_result;
-   
+
 
    echo "<h3>Pre-install check</h3>";
    echo "<table class='invisible'>\n";
