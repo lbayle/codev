@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-04 04:05+0100\n"
+"POT-Creation-Date: 2021-03-21 20:04+0100\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -1640,7 +1640,7 @@ msgstr "Jours de Production"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:76
 msgid "Load per Job"
-msgstr "Charge par Poste"
+msgstr "Consommé par Poste"
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
@@ -1651,7 +1651,7 @@ msgstr "Détail du Projet"
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:74
 msgid "Load per Project"
-msgstr "Charge par Projet"
+msgstr "Consommé par Projet"
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
@@ -3921,7 +3921,7 @@ msgstr "Titre"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 msgid "Managemnt load history"
-msgstr "Historique de la charge de pilotage"
+msgstr "Historique du consommé de pilotage"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
@@ -5245,7 +5245,7 @@ msgstr "Taux de fiabilité de la Charge_Mgr"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:70
 msgid "Load per project categories"
-msgstr "Charge par catégories projet"
+msgstr "Consommé par catégories projet"
 
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
@@ -5385,7 +5385,7 @@ msgstr "Remplir une période avec des imputations"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:80
 msgid "Load per User"
-msgstr "Charge par utilisateur"
+msgstr "Consommé par utilisateur"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
@@ -6325,28 +6325,28 @@ msgstr "Test : exporter in ODT"
 msgid "Sorry, there are no projects defined for your team."
 msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
-#: timetracking/time_tracking_ajax.php:373
+#: timetracking/time_tracking_ajax.php:386
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr "ERREUR: Impossible de supprimer l'imputation !"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:405
+#: timetracking/time_tracking_ajax.php:418
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Imputation non créée: la note doit être spécifié"
 
-#: timetracking/time_tracking_ajax.php:409
+#: timetracking/time_tracking_ajax.php:422
 msgid "Timetrack not added: Job is not specified"
 msgstr "Imputation non créée: le poste doit être spécifié"
 
-#: timetracking/time_tracking_ajax.php:412
+#: timetracking/time_tracking_ajax.php:425
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Imputation non créée: tâche non spécifiée"
 
-#: timetracking/time_tracking_ajax.php:415
+#: timetracking/time_tracking_ajax.php:428
 msgid "Timetrack not added: duration is not specified"
 msgstr "Imputation non créée: la durée doit être spécifié"
 
-#: timetracking/time_tracking_ajax.php:453
+#: timetracking/time_tracking_ajax.php:466
 msgid "ERROR: Failed to add timetrack !"
 msgstr "ERREUR: Impossible d'ajouter l'imputation !"
 
@@ -6393,7 +6393,7 @@ msgstr "Autre équipe"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
 msgid "Management load history"
-msgstr "Historique de la charge de pilotage"
+msgstr "Historique du consommé de pilotage"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
 msgid "Compares the elapsed time on management sideTasks to the management provisions"
@@ -6555,7 +6555,7 @@ msgstr "Veuillez contacter votre manager pour mettre à jour les groupes"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr "Charge par groupe d'utilisateurs"
+msgstr "Consommé par groupe d'utilisateurs"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
@@ -7212,7 +7212,7 @@ msgstr "Date Livraison"
 #~ msgstr "Nombre de jours-homme disponibles sur la période (hors vacances et taches externes)"
 
 #~ msgid "Working days per Job"
-#~ msgstr "Charge par Poste"
+#~ msgstr "Consommé par Poste"
 
 #~ msgid "SideTask"
 #~ msgstr "TachesAnnexe"

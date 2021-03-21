@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-04 03:35+0100\n"
+"POT-Creation-Date: 2021-03-21 20:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6392,28 +6392,28 @@ msgstr ""
 msgid "Sorry, there are no projects defined for your team."
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:373
+#: timetracking/time_tracking_ajax.php:386
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr ""
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:405
+#: timetracking/time_tracking_ajax.php:418
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:409
+#: timetracking/time_tracking_ajax.php:422
 msgid "Timetrack not added: Job is not specified"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:412
+#: timetracking/time_tracking_ajax.php:425
 msgid "Timetrack not added: bugid is not specified"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:415
+#: timetracking/time_tracking_ajax.php:428
 msgid "Timetrack not added: duration is not specified"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:453
+#: timetracking/time_tracking_ajax.php:466
 msgid "ERROR: Failed to add timetrack !"
 msgstr ""
 
