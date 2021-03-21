@@ -132,6 +132,10 @@ f_release()
   rm ${DIR_RELEASE}/.buildpath
   rm -rf ${DIR_RELEASE}/nbproject
 
+  echo "force i18n FR..."
+  cp ${DIR_RELEASE}/i18n/locale/fr/LC_MESSAGES/codev.* ${DIR_RELEASE}/i18n/locale/fr_FR/LC_MESSAGES
+
+  echo "r/w classmap.ser..."
   chmod a+rw ${DIR_RELEASE}/classmap.ser
 }
 
