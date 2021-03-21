@@ -133,7 +133,7 @@ RUN sed -i "s/Require ip 127.0.0.1/Require ip 172.17/" /etc/httpd/conf.d/phpMyAd
 # ------------------
 # install MantisBT
 
-ENV MANTIS_VER 2.24.1
+ENV MANTIS_VER 2.25.0
 ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
 
@@ -149,7 +149,7 @@ RUN set -xe \
 # ------------------
 # install CodevTT
 
-ENV CODEVTT_VER 1.5.0
+ENV CODEVTT_VER 1.6.0
 ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
 ENV CODEVTT_URL http://codevtt.org/site/index.php?sdmon=files/${CODEVTT_FILE}
 
