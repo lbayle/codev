@@ -8,11 +8,11 @@
 
 -- create WBS tables
 
--- TODO
+SET SQL_MODE='ANSI';
 
 
 -- prepare team users to have an averageDaylyRate (TJM)
-ALTER TABLE `codev_team_user_table` ADD `average_daily_rate` int(11) DEFAULT NULL AFTER `departure_date`;
+ALTER TABLE "codev_team_user_table" ADD "average_daily_rate" int(11) DEFAULT NULL AFTER "departure_date";
 
 -- tag version
-UPDATE `codev_config_table` SET `value`='12' WHERE `config_id`='database_version';
+UPDATE "codev_config_table" SET "value"='12' WHERE "config_id"='database_version';

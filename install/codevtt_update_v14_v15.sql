@@ -1,25 +1,25 @@
 
 -- this script is to be executed to update CodevTT DB v14 to v15.
-
+SET SQL_MODE='ANSI';
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_plugin_table`
+-- Structure de la table "codev_plugin_table"
 --
 
-CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
-  `name` varchar(64) NOT NULL,
-  `status` int(11) NOT NULL default 0,
-  `domains` varchar(250) NOT NULL,
-  `categories` varchar(250) NOT NULL,
-  `version` varchar(10) NOT NULL,
-  `description` varchar(250) default NULL,
-  PRIMARY KEY  (`name`)
+CREATE TABLE IF NOT EXISTS "codev_plugin_table" (
+  "name" varchar(64) NOT NULL,
+  "status" int(11) NOT NULL default 0,
+  "domains" varchar(250) NOT NULL,
+  "categories" varchar(250) NOT NULL,
+  "version" varchar(10) NOT NULL,
+  "description" varchar(250) default NULL,
+  PRIMARY KEY  ("name")
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
-INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `version`, `description`) VALUES
+INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "version", "description") VALUES
 ('AvailableWorkforceIndicator', 1, 'Team', 'Planning', '1.0.0', 'Man-days available in period, except leaves and external tasks'),
 ('BacklogPerUserIndicator', 1, 'Team,User,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Répartition du RAF des tâches de la sélection par utilisateur'),
 ('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche la dérive Budget'),
@@ -39,4 +39,4 @@ INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `ve
 ('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Affiche des informations suplémentaires sur les imputations');
 
 -- tag version
-UPDATE `codev_config_table` SET `value`='15' WHERE `config_id`='database_version';
+UPDATE "codev_config_table" SET "value"='15' WHERE "config_id"='database_version';
