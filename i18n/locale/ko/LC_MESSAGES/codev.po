@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-08 14:48:02+0000\n"
+"PO-Revision-Date: 2021-03-22 14:36:16+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6373,7 +6373,7 @@ msgstr "타임트랙이 추가되지 않았습니다: 기간이 지정되지 않
 
 #: timetracking/time_tracking_ajax.php:453
 msgid "ERROR: Failed to add timetrack !"
-msgstr ""
+msgstr "오류: 타임트랙 추가를 실패했습니다 !"
 
 #: timetracking/time_tracking_tools.php:70
 #: timetracking/time_tracking_tools.php:495
