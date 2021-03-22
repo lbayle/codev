@@ -86,17 +86,17 @@ check_latest_version = 1
 
 [dashboardDefaultPlugins]
 Homepage = "BlogPlugin"
-;User = ""
-Project = "TasksPivotTable"
+User = "LoadPerProjectIndicator,OngoingTasks"
+Project = "IssueSeniorityIndicator,SubmittedResolvedHistoryIndicator,StatusHistoryIndicator2"
 Task = "IssueBacklogVariationIndicator"
-Team = "AvailableWorkforceIndicator,LoadPerUserIndicator,BacklogPerUserIndicator,LoadPerJobIndicator2"
+Team = "AvailableWorkforceIndicator,BacklogPerUserIndicator,LoadPerUserIndicator"
 User = "TimetrackList"
-Command = "LoadPerUserIndicator,ProgressHistoryIndicator2"
+Command = "ProgressHistoryIndicator2, WBSExport"
 CommandSet = "ProgressHistoryIndicator2"
 ServiceContract = "ManagementCosts,ManagementLoadHistoryIndicator"
 Import_Export = "ImportIssueCsv"
 Admin = "AdminTools,TimetrackDetailsIndicator,UserTeamList"
-TeamAdmin = "ImportUsers,MoveIssueTimetracks"
+TeamAdmin = "ImportUsers,FillPeriodWithTimetracks,MoveIssueTimetracks"
 
 [email]
 ; --- cronjob (every Friday at 2:00 AM):
