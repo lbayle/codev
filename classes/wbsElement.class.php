@@ -684,16 +684,22 @@ class WBSElement extends Model {
 
                   // add tooltip
                   $user = UserCache::getInstance()->getUser($issue->getHandlerId());
-                  $titleAttr = array(
-                      T_('Project') => $issue->getProjectName(),
-                      T_('Category') => $issue->getCategoryName(),
-                      T_('Status') => Constants::$statusNames[$issue->getStatus()],
-                      T_('Assigned to') => $user->getRealname(),
-                      T_('Tags') => implode(',', $issue->getTagList()),
-                  );
+                  $tooltipAttr = $issue->getTooltipItems($teamid, 0, $isManager);
+                  unset($tooltipAttr[T_('Commands')]);
+
+                  if (!array_key_exists(T_('Assigned to'), $tooltipAttr)) {
+                     // add in front
+                     $tooltipAttr = array(T_('Assigned to') => $user->getRealname()) + $tooltipAttr;
+                  }
+                  if (!array_key_exists(T_('Project'), $tooltipAttr)) {
+                     $tooltipAttr[T_('Project')] = $issue->getProjectName();
+                  }
+                  if (!array_key_exists(T_('Status'), $tooltipAttr)) {
+                     $tooltipAttr[T_('Status')] = Constants::$statusNames[$issue->getStatus()];
+                  }
+                  $childArray['htmlTooltip'] = Tools::getTooltip($tooltipAttr);
+
                   $childArray['href'] = Constants::$codevURL.'/reports/issue_info.php?bugid='.$issue->getId();
-                  #$childArray['htmlTooltip'] = Tools::getTooltip($issue->getTooltipItems($teamid, 0, $isManager));
-                  $childArray['htmlTooltip'] = Tools::getTooltip($titleAttr);
 
                   #$childArray['icon'] = 'mantis_ico.gif';
 
