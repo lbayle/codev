@@ -590,10 +590,10 @@ class Tools {
       $result = $sql->sql_query($request);
 
       if (is_null($sql->sql_result($result, 0))) {
-         $error = 'ERROR : could not LOAD_FILE ('.$sqlFile.')';
-         echo "<span class='error_font'>$error</span><br>";
-         $error = 'RETRY with SQL query...';
-         echo "<span class='success_font'>$error</span>";
+         //$error = 'ERROR : could not LOAD_FILE ('.$sqlFile.')';
+         //echo "<span class='error_font'>$error</span><br>";
+         //$error = 'RETRY with SQL query...';
+         //echo "<span class='success_font'>$error</span>";
 
          // SELECT LOAD_FILE doesn't work on all OS !
          $request = "";
