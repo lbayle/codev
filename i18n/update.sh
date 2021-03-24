@@ -213,8 +213,8 @@ else
   # i18n/locale/fr_FR (translatewiki.net)
 
   # 2020-11-30 translatewiki.net complained about this file changing manualy so I'll leave
-  # it as is (with all the wrong translations), just be sure not to use it !
-  #cp ${DIR_CODEVTT}/i18n/locale/fr/LC_MESSAGES/codev.* ${DIR_CODEVTT}/i18n/locale/fr_FR/LC_MESSAGES
+  # the .po as is (with all the wrong translations), just be sure not to use it !
+  cp ${DIR_CODEVTT}/i18n/locale/fr/LC_MESSAGES/codev.mo ${DIR_CODEVTT}/i18n/locale/fr_FR/LC_MESSAGES
 fi
 
 
