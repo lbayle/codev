@@ -216,8 +216,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
          }  else {
             // update values
             if ($user->isTeamManager($teamid)) {
-               $newMgrEffortEstim = Tools::getSecureGETNumberValue('fut_issueMgrEffortEstim');
-               if ($newMgrEffortEstim != $issue->getMgrEffortEstim()) {
+               // newMgrEffortEstim can be NULL (empty string)
+               $newMgrEffortEstim = filter_input(INPUT_GET, 'fut_issueMgrEffortEstim');
+               if ( ('' !== $newMgrEffortEstim) && (!is_numeric($newMgrEffortEstim))) {
+                  self::sendBadRequest('Attempt to set non_numeric value ('.$newMgrEffortEstim.') for fut_issueMgrEffortEstim');
+                  die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+               }
+               if ($newMgrEffortEstim !== $issue->getMgrEffortEstim()) {
                   $issue->setMgrEffortEstim($newMgrEffortEstim);
                }
             }

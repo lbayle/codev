@@ -200,8 +200,8 @@ function isTimetrackingFieldsValid() {
    var fut_validateTips = jQuery("#fut_validateTips");
    fut_allFields.removeClass("ui-state-error");
    fut_validateTips.text('');
-   if (issueInfoSmartyData.isManager) {
-   bValid = bValid && checkRegexp(fut_issueMgrEffortEstim, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
+   if ((issueInfoSmartyData.isManager) && ('' != fut_issueMgrEffortEstim.val())) {
+      bValid = bValid && checkRegexp(fut_issueMgrEffortEstim, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
    }
    bValid = bValid && checkRegexp(fut_issueEffortEstim, /^[0-9]+(\.[0-9][0-9]?5?)?$/i, fut_validateTips, "format:  '1',  '0.3'  or  '2.55' or '2.125'");
    bValid = bValid && checkStatus(fut_backlog, fut_validateTips);
