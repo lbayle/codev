@@ -89,7 +89,7 @@ check_latest_version = 1
 [dashboardDefaultPlugins]
 Homepage = "BlogPlugin"
 User = "LoadPerProjectIndicator,OngoingTasks"
-Project = "IssueSeniorityIndicator,SubmittedResolvedHistoryIndicator,StatusHistoryIndicator2"
+Project = "SubmittedResolvedHistoryIndicator,StatusHistoryIndicator2"
 Task = "IssueBacklogVariationIndicator"
 Team = "AvailableWorkforceIndicator,BacklogPerUserIndicator,LoadPerUserIndicator"
 User = "TimetrackList"
