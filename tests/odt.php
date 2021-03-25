@@ -15,7 +15,7 @@ $logger = Logger::getLogger("odt_test");
 
 function displayProjectSelectionForm($originPage, $projList, $defaultProjectid = 0) {
    global $logger;
-   
+
    // Display form
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' action='$originPage'>\n";
@@ -63,17 +63,10 @@ function genProjectODT(Project $project, $odtTemplate, $session_userid, $userid 
 
    $isHideResolved = true;
    $issueList = $project->getIssues($userid, $isHideResolved);
-   if($logger->isDebugEnabled()) {
-      $logger->debug("nb issues = ".count($issueList));
-   }
 
    $q_id = 0;
    $issueSegment = $odf->setSegment('issueSelection');
 
-   if($logger->isDebugEnabled()) {
-      $logger->debug('XML='.$issueSegment->getXml());
-   }
-   
    foreach($issueList as $issue) {
       $q_id += 1;
 
@@ -86,9 +79,6 @@ function genProjectODT(Project $project, $odtTemplate, $session_userid, $userid 
             $userName = "user_".$issue->getHandlerId();
          }
       }
-      if($logger->isDebugEnabled()) {
-         $logger->debug("issue ".$issue->getId().": handlerName = ".$userName);
-      }
 
       if (0 == $issue->getReporterId()) {
          $reporterName = T_('unknown');
@@ -98,9 +88,6 @@ function genProjectODT(Project $project, $odtTemplate, $session_userid, $userid 
          if (empty($reporterName)) {
             $reporterName = "user_".$issue->getReporterId();
          }
-      }
-      if($logger->isDebugEnabled()) {
-         $logger->debug("issue ".$issue->getId().": reporterName = ".$reporterName);
       }
 
       // add issue
@@ -129,9 +116,6 @@ function genProjectODT(Project $project, $odtTemplate, $session_userid, $userid 
       $noteId = 0;
       foreach ($issueNotes as $id => $issueNote) {
          $noteId += 1;
-         if($logger->isDebugEnabled()) {
-            $logger->debug("issue ".$issue->getId().": note $id = $issueNote->note");
-         }
 
          $noteReporter     = UserCache::getInstance()->getUser($issueNote->reporter_id);
          try { $noteReporterName = utf8_decode($noteReporter->getRealname()); } catch (Exception $e) {};
@@ -149,11 +133,8 @@ function genProjectODT(Project $project, $odtTemplate, $session_userid, $userid 
    // "wrong .odt file encoding"
    //ob_end_clean();
    //$odf->exportAsAttachedFile();
-   
+
    $myFile = Constants::$codevOutputDir.'/reports/odtphp_test_'.time().'.odt';
-   if($logger->isDebugEnabled()) {
-      $logger->debug("save odt file ".$myFile);
-   }
    $odf->saveToDisk($myFile);
    echo "<br>";
    echo "<br>";
@@ -163,9 +144,6 @@ function genProjectODT(Project $project, $odtTemplate, $session_userid, $userid 
 #==== MAIN =====
 $session_userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
 
-if($logger->isDebugEnabled()) {
-   $logger->debug ("session_userid = $session_userid");
-}
 
 if (isset($session_userid)) {
    $session_user = UserCache::getInstance()->getUser($session_userid);
@@ -180,10 +158,6 @@ if (isset($session_userid)) {
       $defaultProject = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
       $projectid = Tools::getSecurePOSTIntValue('projectid', $defaultProject);
       $_SESSION['projectid'] = $projectid;
-
-      if($logger->isDebugEnabled()) {
-         $logger->debug ("projectid = $projectid");
-      }
 
       displayProjectSelectionForm("odt.php", $projList, $projectid);
 

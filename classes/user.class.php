@@ -663,16 +663,6 @@ class User extends Model {
                         'title' => $issue->getSummary()
                      );
                   }
-                  if(self::$logger->isDebugEnabled()) {
-                     $date = date("j", $timeTrack->getDate());
-                     $extTask = "";
-                     if(array_key_exists($date,$extTasks)) {
-                        $extTask = $extTasks[$date];
-                     }
-                     if(self::$logger->isDebugEnabled()) {
-                        self::$logger->debug("user $this->id ExternalTasks[" . $date . "] = " . $extTask . " (+".$timeTrack->getDuration().")");
-                     }
-                  }
                }
             } catch (Exception $e) {
                self::$logger->warn("getExternalTasksInPeriod: " . $e->getMessage());
@@ -712,10 +702,6 @@ class User extends Model {
       // restrict timestamp to the period where the user is working on the project
       $startT = ($arrivalDate > $startTimestamp) ? $arrivalDate : $startTimestamp;
       $endT = ($departureDate < $endTimestamp) ? $departureDate : $endTimestamp;
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getAvailableWorkload user.startT=" . date("Y-m-d H:i:s", $startT) . " user.endT=" . date("Y-m-d H:i:s", $endT));
-      }
 
       $timeTracks = $this->getTimeTracks($startT, $endT);
       $issueIds = array();
@@ -938,12 +924,7 @@ class User extends Model {
          while ($row = $sql->fetchObject($result)) {
             $projList[$row->id] = $row->name;
          }
-      } else {
-         // this happens if User is not a Developper (Manager or Observer)
-         // if(self::$logger->isDebugEnabled()) {
-         //    self::$logger->debug("ERROR: User $this->id is not member of any team !");
-         // }
-      }
+      } 
 
       return $projList;
    }
@@ -986,10 +967,6 @@ class User extends Model {
       while ($row = $sql->fetchObject($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
          $totalBacklog += $issue->getDuration();
-      }
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("user $this->id getForecastWorkload($formatedProjList) = ".$totalBacklog);
       }
       return $totalBacklog;
    }
@@ -1170,9 +1147,6 @@ class User extends Model {
     * @param int $teamid
     */
    public function setDefaultTeam($teamid) {
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("User $this->id Set defaultTeam  : $teamid");
-      }
 
       // save new settings
       Config::setValue(Config::id_defaultTeamId, $teamid, Config::configType_int, "prefered team on login", 0, $this->id);
@@ -1211,9 +1185,6 @@ class User extends Model {
     * @param int $teamid
     */
    public function setDefaultProject($projectid) {
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("User $this->id Set defaultProject  : $projectid");
-      }
 
       // save new settings
       Config::setValue(Config::id_defaultProjectId, $projectid, Config::configType_int, "prefered project on login", 0, $this->id);
@@ -1256,9 +1227,6 @@ class User extends Model {
 
       // Note: check type with !== is mandatory
       if ($filterStr !== $prevFilters) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("User $this->id Set Command State Filters for team $teamid : $filterStr");
-         }
          // stored as configType_string because we need a string at extraction (perf)
          Config::setValue(Config::id_cmdStateFilters, $filterStr, Config::configType_string, NULL, 0, $this->id, $teamid);
       }
@@ -1283,9 +1251,6 @@ class User extends Model {
             $filters = "";
          }
          $this->cmdStateFiltersCache["$teamid"] = $filters;
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getCmdStateFilters($teamid) filters=" . $filters);
-         }
       }
       return $filters;
    }
@@ -1339,9 +1304,6 @@ class User extends Model {
     * @param int $lang
     */
    public function setDefaultLanguage($lang) {
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("User $this->id Set defaultLanguage  : $lang");
-      }
 
       // save new settings
       Config::setValue(Config::id_defaultLanguage, $lang, Config::configType_int, "prefered language on login", 0, $this->id);
@@ -1508,9 +1470,6 @@ class User extends Model {
       while($row = $sql->fetchObject($result)) {
          $value = round($row->count, 3);
          if ($value != 1) {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("user $this->id incompleteDays[$row->date]=".$value);
-            }
             $incompleteDays[$row->date] = $value;
          }
       }
@@ -1645,9 +1604,6 @@ class User extends Model {
       $this->planningOptions = $planningOptions;
 
       $keyvalue = Tools::doubleImplode(':', ',', $this->planningOptions);
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Write user $this->id, team $team_id, planningOptions = $keyvalue");
-      }
 
       // save new settings
       Config::setValue(Config::id_planningOptions, $keyvalue, Config::configType_keyValue, NULL, 0, $this->id, $team_id );
@@ -1679,9 +1635,6 @@ class User extends Model {
          }
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("user $this->id team $this->id planningOptions = ". Tools::doubleImplode(':', ',',  $this->planningOptions));
-      }
       return $this->planningOptions;
    }
 

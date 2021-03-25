@@ -72,11 +72,6 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
          $this->filterCriteria = array();
       }
       $this->filterCriteria[] = $tag;
-
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
-      }
-
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
@@ -95,9 +90,6 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
                self::$logger->warn("Parameter 'filterCriteria' skipped: empty array !");
             } else {
                $this->filterCriteria = $params['filterCriteria'];
-               if (self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
-               }
             }
          }
       }
@@ -126,10 +118,6 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
                   $tag = $type;
                   $displayName = $type;
                }
-               if (self::$logger->isDebugEnabled()) {
-                  self::$logger->trace('execute: Issue '.$issue->getId().' Type = '.$tag);
-               }
-
                if (!array_key_exists($tag, $this->outputList)) {
                   $this->outputList["$tag"] = new IssueSelection($displayName);
                }
@@ -137,12 +125,6 @@ class IssueCodevTypeFilter implements IssueSelectionFilter {
             }
          }
          ksort($this->outputList);
-      }
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug('input Nb Issues ='.$inputIssueSel->getNbIssues());
-         foreach ($this->outputList as $tag => $iSel) {
-            self::$logger->debug('Type {'.$tag.'} Nb Issues ='.$iSel->getNbIssues());
-         }
       }
       return $this->outputList;
    }

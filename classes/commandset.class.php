@@ -351,10 +351,6 @@ class CommandSet extends Model {
          return NULL;
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Add command $cmdid to commandset $this->id");
-      }
-
       if (NULL == $this->getCommandIds($type)) {
          $this->cmdidByTypeList[$type] = array();
       }
@@ -412,9 +408,6 @@ class CommandSet extends Model {
             $srvContract = ServiceContractCache::getInstance()->getServiceContract($row->id, $row);
 
             $this->serviceContractList[$row->id] = $srvContract;
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("CommandSet $this->id is in ServiceContract $row->id (" . $srvContract->getName() . ")");
-            }
          }
       }
       return $this->serviceContractList;

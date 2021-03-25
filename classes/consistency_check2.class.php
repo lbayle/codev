@@ -94,27 +94,15 @@ class ConsistencyError2 implements Comparable {
     */
    function compareTo($cerrB) {
       if ($this->severity < $cerrB->severity) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
-         }
          return false;
       }
       if ($this->severity > $cerrB->severity) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
-         }
          return true;
       }
 
       if ($this->bugId > $cerrB->bugId) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
-         }
          return false;
       } else {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
-         }
          return true;
       }
    }
@@ -130,14 +118,8 @@ class ConsistencyError2 implements Comparable {
     */
    public static function compare(Comparable $cerrA, Comparable $cerrB) {
       if ($cerrA->severity < $cerrB->severity) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compare FALSE (".$cerrA->bugId.'-'.$cerrA->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
-         }
          return 1;
       } else if ($cerrA->severity > $cerrB->severity) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compare TRUE (".$cerrA->bugId.'-'.$cerrA->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
-         }
          return -1;
       }
       if (0 == $cerrA->userId) {
@@ -148,14 +130,8 @@ class ConsistencyError2 implements Comparable {
 
 
       if ($cerrA->bugId > $cerrB->bugId) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compare FALSE (".$cerrA->bugId." >  ".$cerrB->bugId.")");
-         }
          return 1;
       } else {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("ConsistencyError2.compare TRUE  (".$cerrA->bugId." < ".$cerrB->bugId.")");
-         }
          return -1;
       }
       return 0;
@@ -267,18 +243,11 @@ class ConsistencyCheck2 {
 
       if (is_null($checkList)) { $checkList = $this->checkList; }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug('checkList = '.Tools::doubleImplode(':', ',', $checkList));
-      }
-
       // each key of the checkList is a methodName
       $reflectionObject = new ReflectionObject($this);
       foreach ($checkList as $callback => $isEnabled) {
 
          if (0 != $isEnabled) {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug('execute '.$callback);
-            }
             try {
                $method = $reflectionObject->getMethod($callback);
                $tmpCerrList = $method->invoke($this);
@@ -609,9 +578,6 @@ class ConsistencyCheck2 {
                      }
                   }
                }
-            }
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("checkIssuesNotInCommand(): issue ".$issue->getId()." referenced in $nbTuples Commands.");
             }
          }
       }

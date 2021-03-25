@@ -86,13 +86,6 @@ class IssuePublicPrivateFilter implements IssueSelectionFilter {
          $this->outputList = array();
          $this->outputList[IssuePublicPrivateFilter::tag_private] = $privateIssueSel;
          $this->outputList[IssuePublicPrivateFilter::tag_public] = $publicIssueSel;
-
-         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug('input Nb Issues ='.$inputIssueSel->getNbIssues());
-            foreach ($this->outputList as $tag => $iSel) {
-               self::$logger->debug('Tag {'.$tag.'} Nb Issues ='.$iSel->getNbIssues());
-            }
-         }
       }
       return $this->outputList;
    }

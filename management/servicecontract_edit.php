@@ -65,9 +65,6 @@ class ServiceContractEditController extends Controller {
             if (0 == $servicecontractid) {
                //  CREATE service contract
                if ("createContract" == $action) {
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("create new ServiceContract for team $this->teamid<br>");
-                  }
 
                   $contractName = Tools::getSecurePOSTStringValue('servicecontractName');
                   try {
@@ -109,7 +106,7 @@ class ServiceContractEditController extends Controller {
                } else if ("removeCmdSet" == $action) {
                   $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
                   $contract->removeCommandSet($commandsetid);
-                  
+
                } else if ("updateContractInfo" == $action) {
                   $this->updateServiceContractInfo($contract);
                   header('Location:servicecontract_info.php');
@@ -125,9 +122,6 @@ class ServiceContractEditController extends Controller {
                   $projectid = Tools::getSecurePOSTIntValue('projectid');
                   $contract->removeSidetaskProject($projectid);
                } else if ("deleteContract" == $action) {
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("delete ServiceContract servicecontractid (".$contract->getName().")");
-                  }
                   ServiceContract::delete($servicecontractid);
                   unset($_SESSION['servicecontractid']);
                   header('Location:servicecontract_info.php');

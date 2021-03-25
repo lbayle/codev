@@ -204,10 +204,6 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
          $latestStatus = $issue->getStatus($end);
          if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
             $bugidList[] = $row->id;
-         } else {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("reopened but then resolved: $row->id");
-            }
          }
 
       }
@@ -250,10 +246,6 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
          $latestStatus = $issue->getStatus($end);
          if ($latestStatus > $issue->getBugResolvedStatusThreshold()) {
             $bugidList[] = $row->id;
-         } else {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug( "validated but then reopened: $row->id");
-            }
          }
       }
 
@@ -264,7 +256,7 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
 
    /**
     * Returns all Issues resolved in the period, including re-opened and validated.
-    * 
+    *
     * @param array $formattedBugidList comma-separated list to be included in SQL request
     * @param int $startTimestamp
     * @param int $endTimestamp
@@ -299,7 +291,7 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
 
    /**
     *
-    * 
+    *
     *
     *
     * @param IssueSelection $inputIssueSel
@@ -392,11 +384,6 @@ class ReopenedRateIndicator2 extends IndicatorPluginAbstract {
                                      'dateTooltip' => date('d M H:i:s', $start).' - '.date('d M H:i:s', $end)
                                     );
 
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("reopened [".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbReopened." reopened  : ".implode(', ', $reopenedBugidList));
-               self::$logger->debug("validated[".date('Y-m-d H:i:s', $midnight_timestamp)."] (".date('Y-m-d H:i:s', $start)." - ".date('Y-m-d H:i:s', $end).") = ".$nbValidated." validated : ".implode(', ', $validatedBugidList));
-               #echo '---<br>';
-            }
          }
 
          $this->execData['nbReopened'] = $nbReopenedList;

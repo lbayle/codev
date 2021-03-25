@@ -692,9 +692,6 @@ class Command extends Model {
 
       $id = NULL;
       if ( !array_key_exists($this->id, $issue->getCommandList())) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("Add issue $bugid to command $this->id");
-         }
 
          $sql = AdodbWrapper::getInstance();
          $query = "INSERT INTO codev_command_bug_table (command_id, bug_id)"
@@ -706,14 +703,7 @@ class Command extends Model {
          // add to specific WBS folder element (not always $this->wbsid)
          $parentId = is_null($wbsParentId) ? $this->wbsid : $wbsParentId;
          $wbsChild = new WBSElement(/* $id */ NULL, /* $root_id */ $this->wbsid, $bugid, $parentId);
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("Add issue $bugid from command $this->id to WBS root_id=$this->wbsid wbse_id=".$wbsChild->getId());
-         }
 
-      } else {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("addIssue($bugid) to command $this->id: already in !");
-         }
       }
 
       if (!$isDBonly) {
@@ -774,9 +764,6 @@ class Command extends Model {
          while($row = $sql->fetchObject($result)) {
             $cmdset = CommandSetCache::getInstance()->getCommandSet($row->id, $row);
             $this->commandSetList[$row->id] = $cmdset;
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("Command $this->id is in commandset $row->id (".$cmdset->getName().")");
-            }
          }
       }
       return $this->commandSetList;

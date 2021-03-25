@@ -154,9 +154,6 @@ class LoadPerProjectIndicator extends IndicatorPluginAbstract {
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->dateRange = 'defaultRange';
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
-      }
    }
 
    /**

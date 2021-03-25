@@ -108,10 +108,6 @@ class WBSExport extends IndicatorPluginAbstract {
       } else {
          throw new Exception("Missing parameter: " . $commandId);
       }
-
-      if (self::$logger->isDebugEnabled()) {
-//         self::$logger->debug("checkParams() startTimestamp=" . $this->startTimestamp);
-      }
    }
 
    /**

@@ -119,10 +119,6 @@ class TimetrackDetailsIndicator extends IndicatorPluginAbstract {
       } else {
          $this->displayedTeam = 0;
       }
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("checkParams() startTimestamp=".$this->startTimestamp);
-      }
    }
 
    /**

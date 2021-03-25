@@ -165,13 +165,13 @@ class ExportODTController extends Controller {
             'selected' => in_array(0, $selectedUseridList)
          );
       foreach($memberList as $id => $name) {
-         
+
           // we want ActiveMembers + Customers
          $user = UserCache::getInstance()->getUser($id);
          if ($user->isTeamObserver($this->teamid)) {
              continue;
          }
-          
+
          $selected = in_array($id, $selectedUseridList);
          $members[] = array(
             'id' => $id,
@@ -246,9 +246,6 @@ class ExportODTController extends Controller {
       } catch (Exception $e) { };
 
       $issueList = $iSel->getIssueList();
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("nb issues = " . count($issueList));
-      }
 
       $q_id = 0;
       try {
@@ -257,10 +254,6 @@ class ExportODTController extends Controller {
          self::$logger->error("generateODT: TAG 'issueSelection'");
          self::$logger->error("generateODT: "+$e->getMessage());
          return "FAILED: error on segment 'issueSelection'.";
-      }
-
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug('XML=' . $issueSegment->getXml());
       }
 
       foreach ($issueList as $issue) {
@@ -275,9 +268,6 @@ class ExportODTController extends Controller {
                $userName = "user_" . $issue->getHandlerId();
             }
          }
-         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug("issue " . $issue->getId() . ": handlerName = " . $userName);
-         }
 
          if (0 == $issue->getReporterId()) {
             $reporterName = T_('unknown');
@@ -287,9 +277,6 @@ class ExportODTController extends Controller {
             if (empty($reporterName)) {
                $reporterName = "user_" . $issue->getReporterId();
             }
-         }
-         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug("issue " . $issue->getId() . ": reporterName = " . $reporterName);
          }
 
          // add issue
@@ -302,7 +289,7 @@ class ExportODTController extends Controller {
          try {
             $timestamp = $issue->getLatestStatusOccurrence($issue->getBugResolvedStatusThreshold());
             if (is_null($timestamp)) {
-               $issueSegment->setVars('dateResolved', ''); 
+               $issueSegment->setVars('dateResolved', '');
             } else {
                $issueSegment->setVars('dateResolved', date('d/m/Y', $timestamp));
             }
@@ -329,9 +316,6 @@ class ExportODTController extends Controller {
          $noteId = 0;
          foreach ($issueNotes as $id => $issueNote) {
             $noteId += 1;
-            if (self::$logger->isDebugEnabled()) {
-               self::$logger->debug("issue " . $issue->getId() . ": note $id = ".$issueNote->getNote());
-            }
 
             $noteReporter = UserCache::getInstance()->getUser($issueNote->getReporterId());
             try { $noteReporterName = utf8_decode($noteReporter->getRealname()); } catch (Exception $e) { };
@@ -354,9 +338,6 @@ class ExportODTController extends Controller {
       // 2nd solution : show link in page
       $odtFilename = basename($odtTemplate, ".odt").'_'.$project->getName().'_'.date('Ymd').'.odt';
       $filepath = Constants::$codevOutputDir . '/reports/' . $odtFilename ;
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("save odt file " . $filepath);
-      }
       $odf->saveToDisk($filepath);
 
       return $filepath;
@@ -384,7 +365,7 @@ class ExportODTController extends Controller {
             $odtTemplate = NULL;
 
             $action = Tools::getSecurePOSTStringValue('action', '');
-            
+
             if ('downloadODT' == $action) {
 
                $projectid = Tools::getSecurePOSTIntValue('projectid', NULL);

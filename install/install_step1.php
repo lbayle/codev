@@ -54,7 +54,7 @@ $logger = Logger::getLogger("install");
          alert(msgString);
       }
    }
-   
+
    jQuery(document).ready(function() {
       var form = jQuery('#databaseForm');
 
@@ -65,7 +65,7 @@ $logger = Logger::getLogger("install");
          jQuery('#proxy_port').prop('disabled', !jQuery('#cb_proxyEnabled').attr('checked'));
       });
    });
-   
+
 </script>
 
 <div id="content">
@@ -139,9 +139,6 @@ function checkDBprivileges($sql) {
 
    while ($row = $sql->fetchArray($result)) {
       if (FALSE != strstr($row[0], "`$db_mantis_database`")) {
-         if($logger->isDebugEnabled()) {
-            $logger->debug("Privileges: " . $row[0]);
-         }
 
          // all privileges should be ok !
          if (FALSE != strstr($row[0], "GRANT ALL PRIVILEGES")) {
@@ -195,7 +192,7 @@ function createConfigFile($db_mantis_host = 'localhost',
    if (!is_null($proxy_host) && !is_null($proxy_port)) {
       Constants::$proxy = $proxy_host.':'.$proxy_port;
    }
-   
+
    // this writes an INCOMPLETE config.ini file (containing only DB access variables)
    $retCode = Constants::writeConfigFile();
 
@@ -269,7 +266,7 @@ function displayDatabaseForm($originPage,
    echo "    <td>".T_("Port").": <input size='4' type='text' name='proxy_port'  id='proxy_port' value='8080' disabled></td>\n";
    echo "  </tr>\n";
    echo "</table>\n";
-   
+
    echo "  <br/>\n";
    echo "  <br/>\n";
    echo "<div  style='text-align: center;'>\n";

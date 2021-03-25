@@ -64,16 +64,9 @@ class CheckController extends Controller {
     * @return mixed[]
     */
    private function getTeamConsistencyErrors($teamid) {
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getTeamConsistencyErrors teamid=$teamid");
-      }
 
       // get team projects
       $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false);
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getTeamConsistencyErrors nbIssues=".count($issueList));
-      }
 
       #$ccheck = new ConsistencyCheck2($issueList);
       $ccheck = new ConsistencyCheck2($issueList, $teamid);

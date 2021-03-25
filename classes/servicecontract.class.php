@@ -425,10 +425,6 @@ class ServiceContract extends Model {
          return NULL;
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
-      }
-
       if (NULL == $this->getCommandSetIds($type)) {
          $this->cmdsetidByTypeList[$type] = array();
       }
@@ -478,10 +474,6 @@ class ServiceContract extends Model {
          self::$logger->error("addCommandSet($project_id): CommandSet $project_id does not exist !");
          echo "<span style='color:red'>ERROR: CommandSet '$project_id' does not exist !</span>";
          return NULL;
-      }
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
       }
 
       $this->getProjects();
@@ -568,9 +560,6 @@ class ServiceContract extends Model {
                   $issueCmdidList = array_keys($issue->getCommandList());
                   $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
                   if ($isInCommands) {
-                     if(self::$logger->isDebugEnabled()) {
-                        self::$logger->debug("getSidetasksPerCategoryType(): skip issue ".$issue->getId()." because already declared in a Command");
-                     }
                      continue;
                   }
                }

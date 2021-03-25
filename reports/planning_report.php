@@ -155,12 +155,12 @@ class PlanningReportController extends Controller {
 
                // get planningOptions
                $keyvalue = Tools::getSecurePOSTStringValue('planningOptions', '');
-               if (!empty($keyvalue)) { 
+               if (!empty($keyvalue)) {
                   $planningOptions = Tools::doubleExplode(':', ',', $keyvalue);
                   $this->session_user->setPlanningOptions($this->teamid, $planningOptions);
                }
                $this->smartyHelper->assign('planningOptions', $this->getPlanningOptions());
-               
+
                $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
                $graphSize = ("undefined" != $pageWidth) ? $pageWidth - 150 : 800;
 
@@ -176,9 +176,6 @@ class PlanningReportController extends Controller {
                   if ((!$user->isTeamDeveloper($this->teamid)) &&
                      (!$user->isTeamManager($this->teamid))) {
 
-                     if(self::$logger->isDebugEnabled()) {
-                        self::$logger->debug("user ".$user->getId()." excluded from scheduled users on team $this->teamid");
-                     }
                      continue;
                   }
                   if ((NULL != $user->getDepartureDate($this->teamid)) && ($user->getDepartureDate($this->teamid) < $today)) { continue; }

@@ -692,9 +692,6 @@ class Project extends Model {
       $sql->sql_query($query, $q_params);
       $bugt_id = $sql->getInsertId();
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
-      }
       return $bugt_id;
    }
 
@@ -730,10 +727,6 @@ class Project extends Model {
          } else {
             $this->bug_submit_status = Constants::$status_new;
          }
-         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug("$this->name getBugSubmitStatus() = $this->bug_submit_status");
-         }
-         #echo "DEBUG $this->name getBugSubmitStatus() = $this->bug_submit_status<br>\n";
       }
       return $this->bug_submit_status;
 
@@ -900,9 +893,6 @@ class Project extends Model {
          $result = $sql->sql_query($query, $q_params);
 
          while($row = $sql->fetchObject($result)) {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
-            }
             $this->teamTypeList["$row->team_id"] = $row->type;
          }
       }
@@ -947,9 +937,6 @@ class Project extends Model {
       foreach ($teamidList as $teamid) {
          if (!array_key_exists($teamid,$this->teamTypeList)) {
             // project not defined for this team, skip it.
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getProjectType(): team $teamid skipped: Project $this->id not defined fot this team.");
-            }
             continue;
          }
 
@@ -964,13 +951,6 @@ class Project extends Model {
                self::$logger->warn("getProjectType(): EXCEPTION $msg");
                throw new Exception($msg);
             }
-         }
-      }
-
-      if (self::$logger->isDebugEnabled()) {
-         $formattedList = implode(',', $teamidList);
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
          }
       }
       return $globalType;
@@ -1151,10 +1131,6 @@ class Project extends Model {
       $query = "SELECT DISTINCT config_id FROM {config} ".
                "WHERE project_id = ".$sql->db_param();
 
-      #if(self::$logger->isDebugEnabled()) {
-      #   self::$logger->debug("cloneAllProjectConfig: Src query=$query");
-      #}
-
       $result = $sql->sql_query($query, array($srcProjectId));
       $srcConfigList = array();
       while($row = $sql->fetchObject($result)) {
@@ -1163,9 +1139,6 @@ class Project extends Model {
 
       // remove all destProject config
       $formatedSrcConfigList = $formatedTeamMembers = implode( ', ', $srcConfigList);
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
-      }
 
       $query = "DELETE FROM {config} ".
                "WHERE project_id=".$sql->db_param();
@@ -1173,9 +1146,6 @@ class Project extends Model {
       if (!$strict) {
          // delete only config defined for srcProject
          $query .= " AND config_id IN (".$formatedSrcConfigList.") ";
-      }
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("cloneAllProjectConfig: deleteQuery = $query");
       }
       $sql->sql_query($query, $q_params);
 
@@ -1191,9 +1161,6 @@ class Project extends Model {
          $q_params2[]=$destProjectId;
          $q_params2[]=$srcProjectId;
          $q_params2[]=$cid;
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("cloneAllProjectConfig: cloneQuery = $query2");
-         }
          $sql->sql_query($query2, $q_params2);
       }
 
@@ -1247,9 +1214,6 @@ class Project extends Model {
 
          $targetVersionDate = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));
-         }
          $this->versionDateCache[$target_version] = ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
       }
 
@@ -1443,10 +1407,6 @@ class Project extends Model {
          $query .= " AND user_id IN (0, ".$sql->db_param().") ";
          $q_params[]=$userid;
          $query .= " ORDER by project_id DESC, team_id DESC, user_id DESC";
-
-         #if(self::$logger->isDebugEnabled()) {
-         #   self::$logger->debug("getIssueTooltipFields($teamid, $userid) query = $query");
-         #}
 
          $result = $sql->sql_query($query, $q_params);
 

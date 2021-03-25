@@ -66,11 +66,6 @@ class IssueExtIdFilter implements IssueSelectionFilter {
          $this->filterCriteria = array();
       }
       $this->filterCriteria[] = $tag;
-
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
-      }
-
    }
 
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
@@ -88,9 +83,6 @@ class IssueExtIdFilter implements IssueSelectionFilter {
                self::$logger->warn("Parameter 'filterCriteria' skipped: empty array !");
             } else {
                $this->filterCriteria = $params['filterCriteria'];
-               if (self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("Return only issues types: ".implode(',', $this->filterCriteria));
-               }
             }
          }
       }
@@ -128,9 +120,6 @@ class IssueExtIdFilter implements IssueSelectionFilter {
                }
                $this->outputList[IssueExtIdFilter::tag_with_extRef]->addIssue($issue->getId());
 
-               if (self::$logger->isDebugEnabled()) {
-                  self::$logger->trace('execute: Issue '.$issue->getId().' extId = '.$extId);
-               }
             } else {
 
                if (!array_key_exists(IssueExtIdFilter::tag_no_extRef, $this->outputList)) {
@@ -139,20 +128,9 @@ class IssueExtIdFilter implements IssueSelectionFilter {
                }
                $this->outputList[IssueExtIdFilter::tag_no_extRef]->addIssue($issue->getId());
 
-               if (self::$logger->isDebugEnabled()) {
-                  self::$logger->trace('execute: Issue '.$issue->getId().' extId Not defined');
-               }
-            }
-         }
-
-         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug('input Nb Issues ='.$inputIssueSel->getNbIssues());
-            foreach ($this->outputList as $tag => $iSel) {
-               self::$logger->debug('Tag {'.$tag.'} Nb Issues ='.$iSel->getNbIssues());
             }
          }
       }
-
       return $this->outputList;
    }
 

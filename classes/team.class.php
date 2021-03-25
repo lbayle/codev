@@ -617,10 +617,6 @@ class Team extends Model {
       $formatedMembers = implode( ', ', $memberIdList);
 
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
-      }
-
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT * ".
                "FROM {bug} ".
@@ -633,9 +629,6 @@ class Team extends Model {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
-      }
       return $issueList;
    }
 
@@ -656,10 +649,6 @@ class Team extends Model {
       if ($addUnassignedIssues) {
          $formatedMembers .= ', 0';
       }
-
-      #if(self::$logger->isDebugEnabled()) {
-      #   self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
-      #}
 
       // get Issues that are not Resolved/Closed
       $sql = AdodbWrapper::getInstance();
@@ -688,9 +677,6 @@ class Team extends Model {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
-      }
       return $issueList;
    }
 
@@ -714,9 +700,6 @@ class Team extends Model {
          }
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
-      }
       return $this->commandList;
    }
 
@@ -740,9 +723,6 @@ class Team extends Model {
          }
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
-      }
       return $this->commandSetList;
    }
 
@@ -766,9 +746,6 @@ class Team extends Model {
          }
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
-      }
       return $this->serviceContractList;
    }
 
@@ -1107,9 +1084,6 @@ class Team extends Model {
          $result = $sql->sql_query($query, $q_params);
 
          while($row = $sql->fetchObject($result)) {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
-            }
             $this->projTypeList[$row->project_id] = $row->type;
          }
       }
@@ -1136,9 +1110,6 @@ class Team extends Model {
    }
 
    public function isSideTasksProject($projectid) {
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
-      }
       return (Project::type_sideTaskProject == $this->getProjectType($projectid));
    }
 
@@ -1317,9 +1288,6 @@ class Team extends Model {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getUnassignedTasks(teamid=$this->id) nbIssues=".count($issueList));
-      }
       return $issueList;
    }
 
@@ -1348,10 +1316,6 @@ class Team extends Model {
          }
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("team $this->id consistencyCheckList = ". Tools::doubleImplode(':', ',',  $this->consistencyCheckList));
-      }
-
       return $this->consistencyCheckList;
 
    }
@@ -1364,9 +1328,6 @@ class Team extends Model {
       $this->consistencyCheckList = $checkList;
 
       $keyvalue = Tools::doubleImplode(':', ',', $this->consistencyCheckList);
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Write team $this->id consistencyCheckList : $keyvalue");
-      }
 
       // save new settings
       Config::setValue(Config::id_consistencyCheckList, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);
@@ -1399,10 +1360,6 @@ class Team extends Model {
          }
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("team $this->id generalPrefsList = ". Tools::doubleImplode(':', ',',  $this->generalPrefsList));
-      }
-
       return $this->generalPrefsList;
 
    }
@@ -1420,9 +1377,6 @@ class Team extends Model {
       $this->generalPrefsList = $checkList;
 
       $keyvalue = Tools::doubleImplode(':', ',', $this->generalPrefsList);
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Write team $this->id generalPrefsList : $keyvalue");
-      }
 
       // save new settings
       Config::setValue(Config::id_teamGeneralPreferences, $keyvalue, Config::configType_keyValue, NULL, 0, 0, $this->id);

@@ -211,9 +211,6 @@ class Config {
       }
 
       while($row = AdodbWrapper::getInstance()->fetchArray($result)) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug('id='.$row['config_id'].', val='.$row['value'].', type='.$row['type']);
-         }
          $key = $row['config_id']."_".$row['user_id'].$row['project_id'].$row['team_id'].$row['servicecontract_id'].$row['commandset_id'].$row['command_id'];
          self::$configVariables[$key] = new ConfigItem($row['config_id'], $row['value'], $row['type']);
       }
@@ -440,10 +437,6 @@ class Config {
                                $id, $project_id, $user_id, $team_id,
                                $command_id, $cset_id, $service_id);
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
-            self::$logger->debug("UPDATE query = $query");
-         }
       } else {
          $query = 'INSERT INTO codev_config_table ' .
             '(config_id, value, type, description, project_id, user_id, team_id, command_id, commandset_id, servicecontract_id) '.
@@ -454,10 +447,6 @@ class Config {
          $query_params = array($id, $value, $type, $desc, $project_id, $user_id, $team_id,
                                $command_id, $cset_id, $service_id);
 
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
-            self::$logger->debug("INSERT query = $query");
-         }
       }
 
       $result = $sql->sql_query($query, $query_params);

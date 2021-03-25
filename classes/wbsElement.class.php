@@ -202,10 +202,6 @@ class WBSElement extends Model {
 		if (!is_null($expand))    { $query .= ", ".$sql->db_param(); $q_params[]=($expand ? '1' : '0'); }
 		$query .= ')';
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("create SQL ".$query);
-      }
-
       $sql->sql_query($query, $q_params);
       return $sql->getInsertId();
    }
@@ -777,12 +773,6 @@ class WBSElement extends Model {
 	 * @param type $dynatreeDict
 	 */
 	public static function updateFromDynatree($dynatreeDict, $root_id = NULL, $parent_id = NULL, $order = 1) {
-
-      $aa = var_export($dynatreeDict, true);
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("updateFromDynatree(root=$root_id, parent=$parent_id, order=$order) : \n$aa");
-         //self::$logger->debug($aa);
-      }
 
 		$id = NULL;
 		$title = $dynatreeDict['title'];

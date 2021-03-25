@@ -21,14 +21,6 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
          $dynatreeDict = json_decode($jsonDynatreeDict);
          $rootArray = get_object_vars($dynatreeDict[0]);
 
-         if ($logger->isDebugEnabled()) {
-            $aa = var_export($rootArray, true);
-            if (!is_null($nodesToDelete)) {
-               $logger->debug("saveWBS (nodesToDelete=".implode(',', $nodesToDelete).")");
-            }
-            $logger->debug("saveWBS (root=$root_id) : \n$aa");
-         }
-
          if (!is_null($nodesToDelete)) {
             foreach ($nodesToDelete as $folder_id) {
                $f = new WBSElement($folder_id, $root_id);
@@ -64,11 +56,6 @@ if (Tools::isConnectedUser() && (isset($_POST['action']))) {
 
             $rootElement = new WBSElement($root_id);
             $dynatreeDict = $rootElement->getDynatreeData($hasDetail, $isManager, $teamid);
-
-            if ($logger->isDebugEnabled()) {
-               $aa = var_export($dynatreeDict, true);
-               $logger->debug("loadWBS (root=$root_id, hasDetail=".$_POST['hasDetail'].") : \n$aa");
-            }
 
             $jsonDynatreeDict = json_encode($dynatreeDict);
             echo $jsonDynatreeDict;

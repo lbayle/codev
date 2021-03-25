@@ -116,9 +116,6 @@ class WorkflowController extends Controller {
             if (!$isCodevtt) {
                // exclude ExternalTasksProject
                if ($extproj_id == $id) {
-                  if(self::$logger->isDebugEnabled()) {
-                     $logger->debug("project $id: ExternalTasksProject is excluded");
-                  }
                   continue;
                }
 
@@ -126,9 +123,6 @@ class WorkflowController extends Controller {
                try {
                   $p = ProjectCache::getInstance()->getProject($id);
                   if ($p->isSideTasksProject()) {
-                     if(self::$logger->isDebugEnabled()) {
-                        $logger->debug("project $id: sideTaskProjects are excluded");
-                     }
                      continue;
                   }
                } catch (Exception $e) {

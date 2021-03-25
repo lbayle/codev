@@ -148,9 +148,6 @@ class ForecastingReportController extends Controller {
          if ((!$user->isTeamDeveloper($teamid)) &&
              (!$user->isTeamCustomer($teamid)) &&
              (!$user->isTeamManager($teamid))) {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getIssuesInDrift user $id ($name) excluded.");
-            }
             continue;
          }
 

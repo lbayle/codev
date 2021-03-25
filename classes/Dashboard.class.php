@@ -43,9 +43,9 @@
  */
 class Dashboard {
 
-   const SETTINGS_DISPLAYED_PLUGINS = 'displayedPlugins'; // 
+   const SETTINGS_DISPLAYED_PLUGINS = 'displayedPlugins'; //
    const SETTINGS_DASHBOARD_TITLE = 'dashboardTitle'; //
-   
+
    private static $logger;
 
    private $id;
@@ -66,7 +66,7 @@ class Dashboard {
    /**
     * WARN: $id must be unique in ALL CodevTT !
     * the id is hardcoded in the CodevTT pages.
-    * 
+    *
     * @param type $id
     */
    public function __construct($id) {
@@ -102,13 +102,13 @@ class Dashboard {
 
    /**
     * called by include/dashboard_ajax.php
-    * 
+    *
     * save dashboard settings for [team, user]
-    * 
+    *
     * Note: the dashboard can contain the same plugin
     * multiple times, each one having specific attributes.
-    * ex: ProgressHistoryIndic for Cmd1, Cmd2, Cmd2 
-    * 
+    * ex: ProgressHistoryIndic for Cmd1, Cmd2, Cmd2
+    *
     *  settings = array (
     *     'dashboardTitle' => 'dashboard title'
     *     'displayedPlugins' => array(
@@ -138,17 +138,14 @@ class Dashboard {
          self::$logger->error("saveSettings: missing key: ".self::SETTINGS_DASHBOARD_TITLE);
          return false;
       }
-      
+
       $jsonSettings = json_encode($settings);
-      if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("saveSettings: save ok: " . $jsonSettings);
-      }
       Config::setValue(Config::id_dashboard.$this->id, $jsonSettings, Config::configType_string, NULL, 0, $userid, $teamid);
    }
 
    /**
     * get dashboard settings from DB
-    * 
+    *
     * if user has saved some settings, return them.
     * if none, return team settings.
     * if none, return default settings
@@ -166,7 +163,7 @@ class Dashboard {
            )
         )
      )
-   */   
+   */
       if (NULL == $this->settings) {
          // get [team, user] specific settings
          $json = Config::getValue(Config::id_dashboard.$this->id, array($this->userid, 0, $this->teamid, 0, 0, 0), true);
@@ -177,9 +174,9 @@ class Dashboard {
          }
          // if no specific settings, use default values (from config.ini)
          if (NULL == $json) {
-            
+
             $defaultPlugins = Constants::$dashboardDefaultPlugins[$this->domain];
-            
+
             $pluginAttributes = array();
             if ($defaultPlugins) {
                foreach ($defaultPlugins as $pluginClassName) {
@@ -287,7 +284,7 @@ class Dashboard {
    }
 
    /**
-    * 
+    *
     * @param PluginDataProvider $pluginDataProvider
     * @param SmartyHelper $smartyHelper
     * @param array $pluginAttributes

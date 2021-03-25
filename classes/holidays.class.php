@@ -67,9 +67,6 @@ class Holiday {
       $this->description = $description;
       $this->color = $color;
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Holiday $this->id - ".date("d M Y", $this->timestamp)." $this->description $this->color");
-      }
    }
 }
 
@@ -194,12 +191,9 @@ class Holidays {
          $timestamp = strtotime("+1 day",$timestamp);
       }
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("nbHolidays = $nbHolidays");
-      }
       return $nbHolidays;
    }
-   
+
    /**
     * Get the number of workdays
     * @param int $startT The included start day

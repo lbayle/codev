@@ -395,9 +395,6 @@ class TimeTracking {
                // skip if the bug has been reopened before endTimestamp
                $latestStatus = $issue->getStatus($this->endTimestamp);
                if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED [$key]: bugid = ".$issue->getId().' (excluded)');
-                  }
                   continue;
                }
             }
@@ -524,10 +521,6 @@ class TimeTracking {
          $issueDriftMgrEE = $issue->getDriftMgr();
          $deriveETA += $issueDriftMgrEE;
 
-         //if(self::$logger->isDebugEnabled()) {
-         //   self::$logger->debug("getIssuesDriftStats() Found : bugid=".$issue->getId().", proj=".$issue->getProjectId().", effortEstim=".$issue->getEffortEstim().", elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
-         //}
-
          // get drift stats. equal is when drif = +-1
          if ($issueDrift < -1) {
             $nbDriftsNeg++;
@@ -571,19 +564,6 @@ class TimeTracking {
             $driftEqualETA += $issueDriftMgrEE;
          }
       }
-/*
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("derive totale (".Tools::formatDate("%B %Y", $this->startTimestamp).") = $derive");
-         self::$logger->debug("derive totale ETA(".Tools::formatDate("%B %Y", $this->startTimestamp).") = $deriveETA");
-
-         self::$logger->debug("Nbre Bugs en derive        : $nbDriftsPos");
-         self::$logger->debug("Nbre Bugs a l'equilibre    : $nbDriftsEqual");
-         self::$logger->debug("Nbre Bugs en avance        : $nbDriftsNeg");
-         self::$logger->debug("Nbre Bugs en derive     ETA: $nbDriftsPosETA");
-         self::$logger->debug("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA");
-         self::$logger->debug("Nbre Bugs en avance     ETA: $nbDriftsNegETA");
-      }
-*/
       return array(
          "totalDrift" => $derive,
          "totalDriftETA" => $deriveETA,
@@ -761,11 +741,8 @@ class TimeTracking {
       $incompleteDays = array(); // unique date => sum durations
       while($row = $sql->fetchObject($result)) {
          $value = round($row->count, 3);
-         $durations[$row->date] = round($row->count, 3);
+         //$durations[$row->date] = round($row->count, 3);
          if ($value != 1) {
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("user $userid incompleteDays[$row->date]=".$value);
-            }
             $incompleteDays[$row->date] = $value;
          }
       }
@@ -891,10 +868,6 @@ class TimeTracking {
          } else {
             $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] = $row->duration;
          }
-
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
-         }
       }
 
       return $weekTracks;
@@ -999,9 +972,6 @@ class TimeTracking {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
             $this->reopenedList[$row->id] = $issue;
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getReopened: found issue $row->id");
-            }
          }
       }
 

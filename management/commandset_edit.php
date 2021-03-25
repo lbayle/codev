@@ -61,13 +61,10 @@ class CommandSetEditController extends Controller {
             }
 
             $action = filter_input(INPUT_POST, 'action');
-            
+
             if (0 == $commandsetid) {
                // -------- CREATE CMDSET -------
                if ("createCmdset" == $action) {
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("create new CommandSet for team $this->teamid<br>");
-                  }
 
                   $cmdsetName = Tools::getSecurePOSTStringValue('commandsetName');
 
@@ -110,9 +107,6 @@ class CommandSetEditController extends Controller {
                   header('Location:commandset_info.php');
 
                } else if ("deleteCommandSet" == $action) {
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("delete CommandSet $commandsetid (".$cmdset->getName().")");
-                  }
                   CommandSet::delete($commandsetid);
                   unset($_SESSION['commandsetid']);
                   header('Location:commandset_info.php');

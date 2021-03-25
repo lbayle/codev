@@ -35,7 +35,7 @@ class SqlWrapper {
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
    }
-   
+
    /**
     * @var resource a MySQL link identifier on success or false on failure.
     */
@@ -45,12 +45,12 @@ class SqlWrapper {
     * @var int Queries count for info purpose
     */
    private $count;
-   
+
    /**
-    * @var array int[string] number[query] 
+    * @var array int[string] number[query]
     */
    private $countByQuery;
-   
+
    private $server;
    private $username;
    private $password;
@@ -137,14 +137,11 @@ class SqlWrapper {
     * For other type of SQL statements, INSERT, UPDATE, DELETE, DROP, etc, returns true on success or false on error.
     */
    public function sql_query($query) {
-      if (self::$logger->isDebugEnabled()) {
-         $start = microtime(true);
-      }
 
       $result = mysql_query($query, $this->link);
 
       $this->count++;
-         
+
       if (self::$logger->isInfoEnabled()) {
          if (NULL == $this->countByQuery) {
             $this->countByQuery = array();
@@ -217,9 +214,9 @@ class SqlWrapper {
 
    /**
     * Escapes special characters in a string for use in an SQL statement
-    * 
+    *
     * Note: this method must be static because of install step_1.
-    * 
+    *
     * @static
     * @param string $unescaped_string The string that is to be escaped.
     * @return string the escaped string, or false on error.
@@ -261,7 +258,7 @@ class SqlWrapper {
    public function sql_close() {
       return mysql_close($this->link);
    }
-   
+
    /**
     * Backup the database
     * @param string $filename
@@ -270,18 +267,15 @@ class SqlWrapper {
    public function sql_dump($filename) {
       $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
       $filepath = $codevReportsDir.DIRECTORY_SEPARATOR.$filename;
-         
+
       $command = "mysqldump --host=$this->server --user=$this->username --password=$this->password  $this->database_name > $filepath";
 
       $retCode = -1;
       #$status = system($command, $retCode);
       exec($command, $output, $retCode);
-      
+
       if (0 != $retCode) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("Dump with mysqldump failed, so we use the PHP method");
-         }
-         
+
          //get all of the tables
          $tables = array();
          $result = $this->sql_query('SHOW TABLES');
@@ -338,7 +332,7 @@ class SqlWrapper {
                self::$logger->warn("Failed to create : ".$codevReportsDir);
             }
          }
-         
+
          $result = FALSE;
          if($folderExists) {
             $return .= file_get_contents(BASE_PATH.DIRECTORY_SEPARATOR."install".DIRECTORY_SEPARATOR."codevtt_procedures.sql")."\n";
@@ -349,13 +343,13 @@ class SqlWrapper {
                $result = fclose($fp);
             }
          }
-         
+
          if($result) {
             self::$logger->info("Database dump successfully done in ".$filepath.".gz");
          } else {
             self::$logger->error("Failed to dump the database");
          }
-         
+
          return $result;
       } else {
          self::$logger->info("Database dump successfully done in ".$filepath);
@@ -370,7 +364,7 @@ class SqlWrapper {
    public function getQueriesCount() {
       return $this->count;
    }
-   
+
    public function getCountByQuery() {
       return $this->countByQuery;
    }

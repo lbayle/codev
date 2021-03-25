@@ -298,9 +298,6 @@ class LoadPerProjCategoryIndicator extends IndicatorPluginAbstract {
             $duration = $timeTrack->getDuration();
 
             if (in_array($project_id, $projectidList)) {
-               if(self::$logger->isDebugEnabled()) {
-                  self::$logger->debug("project[$project_id][" . $catName . "]( bug ".$bugid.") = ".$duration);
-               }
 
                // save duration per category
                if (array_key_exists($catName, $durPerCat)) {

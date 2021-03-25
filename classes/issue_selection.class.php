@@ -93,9 +93,6 @@ class IssueSelection {
          $this->duration += $issue->getDuration();
          $this->mgrEffortEstim += $issue->getMgrEffortEstim();
          $this->effortEstim += $issue->getEffortEstim();
-         //if(self::$logger->isDebugEnabled()) {
-         //   self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
-         //}
          $retCode = true;
       }
       return $retCode;
@@ -111,9 +108,6 @@ class IssueSelection {
       if (NULL != $this->issueList[$bugid]) {
          unset($this->issueList[$bugid]);
       } else {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("IssueSelection [$this->name] : removeIssue($bugid) : Issue not found !");
-         }
       }
    }
 
@@ -158,10 +152,6 @@ class IssueSelection {
          } else {
             $this->progress = $this->elapsed / $this->getReestimated();
          }
-
-         //if(self::$logger->isDebugEnabled()) {
-         //   self::$logger->debug("IssueSelection [$this->name] : progressUnique = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
-         //}
       }
 
       return $this->progress;
@@ -392,9 +382,6 @@ class IssueSelection {
       $values['nbDays']  = round($nbDaysDrift,3);
       $values['percent'] = $percent;
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
-      }
       return $values;
    }
 
@@ -427,9 +414,6 @@ class IssueSelection {
       $values['nbDays'] = round($nbDaysDrift,3);
       $values['percent'] = $percent;
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
-      }
       return $values;
    }
 
@@ -631,9 +615,6 @@ class IssueSelection {
             $lastUpdated = $row->last_updated;
          }
       }
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("IssueSelection [$this->name] :  getLastUpdated = ".date('Y-m-d', $lastUpdated));
-      }
       return $lastUpdated;
    }
 
@@ -651,12 +632,9 @@ class IssueSelection {
             " ORDER BY last_updated DESC";
          $result = $sql->sql_query($query, null, TRUE, $max); // LIMIT max
 
-      while ($row = $sql->fetchObject($result)) {
-         $lastUpdatedList["$row->id"] = $row->last_updated;
-      }
-      }
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("IssueSelection [$this->name] :  getLastUpdatedList count = ".count($lastUpdatedList));
+         while ($row = $sql->fetchObject($result)) {
+            $lastUpdatedList["$row->id"] = $row->last_updated;
+         }
       }
       return $lastUpdatedList;
    }
@@ -816,9 +794,6 @@ class IssueSelection {
             // skip if the bug has been reopened before endTimestamp
             $latestStatus = $issue->getStatus($endTimestamp);
             if ($latestStatus < $issue->getBugResolvedStatusThreshold()) {
-               #if(self::$logger->isDebugEnabled()) {
-               #   self::$logger->debug("IssueSelection->getResolvedIssues() REOPENED: bugid = ".$issue->getId().' (excluded)');
-               #}
                continue;
             }
          }

@@ -109,9 +109,6 @@ class SetHolidaysController extends Controller {
                         // check if weekday checkbox is checked
                         if (1 == $checkedDaysList[$weekday]) {
 	                        if ($imput > 0) {
-	                           if(self::$logger->isDebugEnabled()) {
-	                              self::$logger->debug(date("Y-m-d", $timestamp)." duration $imput job $job");
-	                           }
 	                           TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $imput, $this->session_userid, $this->teamid);
 	                        }
                         }

@@ -177,9 +177,6 @@ class LoadPerJobIndicator2 extends IndicatorPluginAbstract {
       $this->dateRange   = 'defaultRange';
       $this->isTaskColumn = false;
 
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("checkParams() ISel=".$this->inputIssueSel->name.' startTimestamp='.$this->startTimestamp.' endTimestamp='.$this->endTimestamp);
-      }
    }
 
    /**

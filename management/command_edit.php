@@ -82,9 +82,6 @@ class CommandEditController extends Controller {
                if ("createCmd" == $action) {
                   //$this->teamid = Tools::getSecurePOSTIntValue('teamid');
                   //$_SESSION['teamid'] = $this->teamid;
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("create new Command for team $this->teamid<br>");
-                  }
 
                   $cmdName = Tools::getSecurePOSTStringValue('cmdName');
 
@@ -141,18 +138,12 @@ class CommandEditController extends Controller {
                   $cmd->removeIssue($_POST['bugid']);
                } else if ("addToCmdSet" == $action) {
                   $commandsetid = $_POST['commandsetid'];
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("add Command $cmdid to CommandSet $commandsetid");
-                  }
 
                   $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
                   $cmdset->addCommand($cmdid, Command::type_general);
 
                } else if ("removeFromCmdSet" == $action) {
                   $commandsetid = $_POST['commandsetid'];
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("remove Command $cmdid from CommandSet $commandsetid");
-                  }
 
                   $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
                   $cmdset->removeCommand($cmdid);
@@ -162,9 +153,6 @@ class CommandEditController extends Controller {
                   header('Location:command_info.php');
 
                } else if ("deleteCommand" == $action) {
-                  if(self::$logger->isDebugEnabled()) {
-                     self::$logger->debug("delete Command $cmdid");
-                  }
                   Command::delete($cmdid);
                   unset($_SESSION['cmdid']);
                   header('Location:command_info.php');

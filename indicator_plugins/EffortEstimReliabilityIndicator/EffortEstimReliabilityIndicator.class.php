@@ -98,34 +98,19 @@ class EffortEstimReliabilityIndicator implements IndicatorPlugin {
 
             // remove doubloons
             if (!in_array($row->id, $resolvedList)) {
-               //if(self::$logger->isDebugEnabled()) {
-               //   self::$logger->debug("getEffortEstimReliabilityRate() Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=" . $issue->getMgrEffortEstim() . " date_modified=" . date("d F Y", $row->date_modified) . ", effortEstim=" . $issue->getEffortEstim() . ", elapsed = " . $issue->getElapsed());
-               //}
                $resolvedList[] = $row->id;
 
                $totalElapsed += $issue->getElapsed();
 
                $EEReliability['MEE'] += $issue->getMgrEffortEstim();
                $EEReliability['EE'] += $issue->getEffortEstim();
-
-               //if(self::$logger->isDebugEnabled()) {
-               //   self::$logger->debug("getEffortEstimReliabilityRate(MEE) : ".$EEReliability['MEE']." + " . $issue->getMgrEffortEstim() . " = " . ($EEReliability['MEE'] + $issue->getMgrEffortEstim()));
-               //   self::$logger->debug("getEffortEstimReliabilityRate(EE) : ".$EEReliability['EE']." + (" . $issue->getEffortEstim() . ") = " . ($EEReliability['EE'] + $issue->getEffortEstim()));
-               //}
             }
          } else {
             $statusName = Constants::$statusNames[$latestStatus];
-            if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getEffortEstimReliabilityRate REOPENED : bugid = $row->id status = " . $statusName);
-            }
          }
       }
 
       // -------
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getEffortEstimReliabilityRate: Reliability (MEE) = " . $EEReliability['MEE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
-         self::$logger->debug("getEffortEstimReliabilityRate: Reliability (EE) = " . $EEReliability['EE'] . " / $totalElapsed, nbBugs=" . count($resolvedList));
-      }
 
       if (0 != $totalElapsed) {
          $EEReliability['MEE'] /= $totalElapsed;
