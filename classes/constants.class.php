@@ -132,16 +132,17 @@ class Constants {
    // --- DASHBOARDS ---
    // Note: keys defined in IndicatorPluginInterface::DOMAIN_XXX
    public static $dashboardDefaultPlugins = array (
-       'Homepage' => array('BlogPlugin'),
-       'Task' => array('IssueBacklogVariationIndicator'),
-       'Team' => array('AvailableWorkforceIndicator','LoadPerUserIndicator','BacklogPerUserIndicator','LoadPerJobIndicator2'),
-       'Command' => array('LoadPerUserIndicator','ProgressHistoryIndicator2'),
-       'CommandSet' => array('ProgressHistoryIndicator2'),
-       'ServiceContract' => array('ManagementLoadHistoryIndicator'),
-       'Import_Export' => array('ImportIssueCsv', 'ImportUsers'),
-       'Admin' => array('MoveIssueTimetracks','TimetrackDetailsIndicator','UserTeamList'),
-       IndicatorPluginInterface::DOMAIN_TEAM_ADMIN => array('ImportUsers','MoveIssueTimetracks'),
-       IndicatorPluginInterface::DOMAIN_USER => array('TimetrackList'),  // 'User'
+       IndicatorPluginInterface::DOMAIN_HOMEPAGE => array('BlogPlugin'),
+       IndicatorPluginInterface::DOMAIN_PROJECT => array('SubmittedResolvedHistoryIndicator','StatusHistoryIndicator2'),
+       IndicatorPluginInterface::DOMAIN_TASK => array('IssueBacklogVariationIndicator'),
+       IndicatorPluginInterface::DOMAIN_TEAM => array('AvailableWorkforceIndicator','BacklogPerUserIndicator','LoadPerUserIndicator'),
+       IndicatorPluginInterface::DOMAIN_USER => array('LoadPerProjectIndicator','OngoingTasks'),
+       IndicatorPluginInterface::DOMAIN_COMMAND => array('ProgressHistoryIndicator2','WBSExport'),
+       IndicatorPluginInterface::DOMAIN_COMMAND_SET => array('ProgressHistoryIndicator2'),
+       IndicatorPluginInterface::DOMAIN_SERVICE_CONTRACT => array('ManagementCosts', 'ManagementLoadHistoryIndicator'),
+       IndicatorPluginInterface::DOMAIN_IMPORT_EXPORT => array('ImportIssueCsv'),
+       IndicatorPluginInterface::DOMAIN_TEAM_ADMIN => array('ImportUsers','FillPeriodWithTimetracks', 'MoveIssueTimetracks'),
+       IndicatorPluginInterface::DOMAIN_ADMIN => array('AdminTools','TimetrackDetailsIndicator','UserTeamList'),
    );
 
    // ---EMAIL---
