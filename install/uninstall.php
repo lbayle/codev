@@ -284,7 +284,7 @@ class UninstallController extends Controller {
       // deactivate plugin
       try {
          $sql = AdodbWrapper::getInstance();
-         $query = "DELETE FROM {plugin} WHERE basename FROM {plugin} WHERE basename = ".$sql->db_param();
+         $query = "DELETE FROM {plugin} WHERE basename = ".$sql->db_param();
          $sql->sql_query($query, array('CodevTT')) or die("<span style='color:red'>Query FAILED: $query <br/>".AdodbWrapper::getInstance()->getErrorMsg()."</span>");
       } catch (Exception $e) {
          return false;
