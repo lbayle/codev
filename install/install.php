@@ -71,7 +71,8 @@ if (file_exists(Constants::$config_file)) {
    }
    $checkList['PHP version (&gt;= 5.3)'] = $test_result;
 
-   if (strnatcmp(phpversion(),"8.0") <= 0) {
+   // TO REMOVE ONCE CodevTT VALIDATED for PHP8 !!
+   if (strnatcmp(phpversion(),"8.0") >= 0) {
       $error = ('FAILED').' (current PHP version is '.phpversion().')';
       $test_result = "<span class='error_font'>$error</span>";
    } else {
