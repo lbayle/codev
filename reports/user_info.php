@@ -45,13 +45,18 @@ class UserInfoController extends Controller {
             $managedUserid = Tools::getSecurePOSTIntValue('userid',$this->session_userid);
             $managedUser = UserCache::getInstance()->getUser($managedUserid);
 
-            if ($this->session_user->isTeamManager($this->teamid)) {
+            $isManager = $this->session_user->isTeamManager($this->teamid);
+            $isObserver = $this->session_user->isTeamObserver($this->teamid);
+            $this->smartyHelper->assign("isManager", $isManager);
+            $this->smartyHelper->assign("isObserver", $isObserver);
+
+            if ($isManager || $isObserver) {
                // session_user is Manager, let him choose the teamMember he wants to manage
                $teamMembers = $team->getActiveMembers(NULL, NULL, TRUE);
                $this->smartyHelper->assign('users', $teamMembers);
                $this->smartyHelper->assign('selectedUser', $managedUserid);
-               $this->smartyHelper->assign("isManager", true);
             }
+
             $this->smartyHelper->assign('managedUser_realname', $managedUser->getRealname());
             $this->smartyHelper->assign('managedUserid', $managedUserid);
 
