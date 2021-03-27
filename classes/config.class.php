@@ -68,7 +68,7 @@ class Config {
 
    // TODO Move to a more appropriate class
    const codevVersion = "v1.6.0";
-   const codevVersionDate = "25 Mar 2021";
+   const codevVersionDate = "27 Mar 2021";
    const databaseVersion = 21; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
@@ -169,7 +169,7 @@ class Config {
       "v1.3.0" => "(18 Mar  2018) - adodb, PHP7, CostIndicator, mantis table prefix/suffix, fixCommand, Float customFields, wbs_order",
       "v1.4.0" => "(12 May  2019) - remove FilterBugList, multiple TeamAdmins, BlogPlugin, SubmittedResolvedPlugin, TimetrackListPlugin, ManagementCostsPlugin, WbsExportPlugin, TasksPivotTablePlugin, remove effortAdd",
       "v1.5.0" => "(01 Jun  2020) - customField:DailyPrice, remove CSV export pages, Domain:User, fix:mantisPlugin, NewPlugins:SallingPriceForPeriod,OngoingTasks,AdminTools",
-      "v1.6.0" => "(21 Mar  2021) - ProjectJobTeam asso, Admin enhancements, timesheets JS, NewPlugins:FillPeriodWithTimetracks,ImportRelationshipTreeToCommand,LoadPerUserGroups,BurndownChart,IssueSeniority,TimetrackingAnalysis",
+      "v1.6.0" => "(21 Mar  2021) - ProjectJobTeam asso, Admin enhancements, timesheets JS, issueInfoFilters, NewPlugins:FillPeriodWithTimetracks,ImportRelationshipTreeToCommand,LoadPerUserGroups,BurndownChart,IssueSeniority,TimetrackingAnalysis",
    );
 
    /**
