@@ -64,6 +64,7 @@ class UserInfoController extends Controller {
             $this->smartyHelper->assign('managedUser_login', $managedUser->getName());
             $this->smartyHelper->assign('managedUser_accessLevel',  $teamMemberData['accessLevel']);
             $this->smartyHelper->assign('managedUser_teamArrivalDate', $teamMemberData['arrivalDate']);
+            $this->smartyHelper->assign('managedUser_userGroup', $teamMemberData['userGroup']);
             //$this->smartyHelper->assign('managedUser_teamDepartureDate', $teamMemberData['departureDate']);
 
             if ('setDateRange' === $action) {

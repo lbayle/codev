@@ -802,12 +802,15 @@ class Team extends Model {
       $result = $sql->sql_query($query, array($this->id, $userId));
       $row = $sql->fetchObject($result);
 
+      $userGroupList = $this->getUserGroups();
+
       $data = array (
          'rowId' => $row->id,
          'userId' => $row->user_id,
          #'userName' => $row->,
          #'userRealName' => $row->,
          'teamId' => $this->id,
+         'userGroup' => $userGroupList[$row->user_id],
          'arrivalTimestamp' => $row->arrival_date,
          'arrivalDate' => date('Y-m-d', $row->arrival_date),
          'departureTimestamp' => $row->departure_date,
