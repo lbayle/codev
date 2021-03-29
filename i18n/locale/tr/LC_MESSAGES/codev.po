@@ -21,7 +21,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-12 05:54:32+0000\n"
+"PO-Revision-Date: 2021-03-29 15:53:13+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -136,12 +136,12 @@ msgstr "Bu sayfaya erişmek için lütfen bir takım seçin."
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: classes/issue_selection.class.php:354 classes/issue.class.php:2290
-#: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/servicecontract_info.php:138
-#: management/command_info.php:226 reports/planning_report.php:234
-#: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/project_info.php:275 reports/project_info.php:286
-#: reports/project_info.php:298 tests/odt.php:25
+#: classes/wbsElement.class.php:694 classes/wbsElement.class.php:695
+#: filters/ProjectFilter.php:59 management/commandset_info.php:141
+#: management/servicecontract_info.php:138 management/command_info.php:226
+#: reports/planning_report.php:234 reports/planning_report.php:475
+#: reports/planning_report.php:476 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
@@ -312,7 +312,7 @@ msgstr "Servis Sözleşmeleri"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2273
+#: classes/issue.class.php:2273 classes/wbsElement.class.php:688
 msgid "Commands"
 msgstr "Komutlar"
 
@@ -861,7 +861,6 @@ msgstr "Komut bulunamadı."
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/wbsElement.class.php:689 tools.php:1557
 msgid "Category"
 msgstr "Kategori"
 
@@ -1388,9 +1387,9 @@ msgstr "Nispeten sürüklenme (EE + AddEE)"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:690 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:300
-#: plugins/WBSExport/WBSExport.class.php:152
+#: classes/wbsElement.class.php:697 classes/wbsElement.class.php:698
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:300 plugins/WBSExport/WBSExport.class.php:152
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -2017,7 +2016,9 @@ msgstr "Harici Referans"
 #. tpl/modal/update_issueBacklog.html
 #. tpl/export_odt.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#. add in front
+#: classes/wbsElement.class.php:692 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "Atanan"
 
@@ -5639,7 +5640,7 @@ msgstr "Sınırlayan"
 msgid "Constrains"
 msgstr "Kısıtlar"
 
-#: classes/issue.class.php:2265 classes/wbsElement.class.php:692 tools.php:1549
+#: classes/issue.class.php:2265 tools.php:1549
 msgid "Tags"
 msgstr "Etiketler"
 
@@ -6132,28 +6133,28 @@ msgstr "Güvenlik nedeniyle aşağıdaki dizini silin: "
 msgid "Done !"
 msgstr "Yapıldı !"
 
-#: install/install.php:25 install/install.php:129
+#: install/install.php:25 install/install.php:137
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "Yükle"
 
-#: install/install.php:119
+#: install/install.php:127
 msgid "Upgrade instructions"
 msgstr "Yeni sürüme geçiş talimatları"
 
-#: install/install.php:120
+#: install/install.php:128
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
 msgstr "Eski bir CodevTT sürümünden yükseltme yapıyorsanız, lütfen <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>bu sayfayı okuyun</a> ve aşağıdaki adımları uygulayın:"
 
-#: install/install.php:122
+#: install/install.php:130
 msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "Önce Mantis'i yükseltin ! (zorunlu değil)"
 
-#: install/install.php:123
+#: install/install.php:131
 msgid "Copy CodevTT configuration files from your previous installation"
 msgstr "Önceki kurulumunuzdan CodevTT yapılandırma dosyalarını kopyalayın"
 
-#: install/install.php:124
+#: install/install.php:132
 msgid "Run this script: "
 msgstr "Bu betiği çalıştır: "
 
@@ -6335,28 +6336,28 @@ msgstr "Test: ODT'ye aktar"
 msgid "Sorry, there are no projects defined for your team."
 msgstr "Maalesef, ekibiniz için tanımlanmış proje yok."
 
-#: timetracking/time_tracking_ajax.php:373
+#: timetracking/time_tracking_ajax.php:386
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr "HATA: Zamanizi silinemedi !"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:405
+#: timetracking/time_tracking_ajax.php:418
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Zaman izlemesi eklenmedi: Zaman izlemesi notu zorunludur"
 
-#: timetracking/time_tracking_ajax.php:409
+#: timetracking/time_tracking_ajax.php:422
 msgid "Timetrack not added: Job is not specified"
 msgstr "Zaman izlemesi eklenmedi: İş belirtilmedi"
 
-#: timetracking/time_tracking_ajax.php:412
+#: timetracking/time_tracking_ajax.php:425
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Zaman izleme eklenmedi: bugid belirtilmedi"
 
-#: timetracking/time_tracking_ajax.php:415
+#: timetracking/time_tracking_ajax.php:428
 msgid "Timetrack not added: duration is not specified"
 msgstr "Zaman izleme eklenmedi: süre belirtilmedi"
 
-#: timetracking/time_tracking_ajax.php:453
+#: timetracking/time_tracking_ajax.php:466
 msgid "ERROR: Failed to add timetrack !"
 msgstr "HATA: Zamanizi eklenemedi !"
 

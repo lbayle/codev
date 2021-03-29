@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-22 14:36:16+0000\n"
+"PO-Revision-Date: 2021-03-29 15:53:11+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -128,12 +128,12 @@ msgstr "이 문서에 접근하려면 팀을 선택해 주십시오."
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: classes/issue_selection.class.php:354 classes/issue.class.php:2290
-#: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/servicecontract_info.php:138
-#: management/command_info.php:226 reports/planning_report.php:234
-#: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/project_info.php:275 reports/project_info.php:286
-#: reports/project_info.php:298 tests/odt.php:25
+#: classes/wbsElement.class.php:694 classes/wbsElement.class.php:695
+#: filters/ProjectFilter.php:59 management/commandset_info.php:141
+#: management/servicecontract_info.php:138 management/command_info.php:226
+#: reports/planning_report.php:234 reports/planning_report.php:475
+#: reports/planning_report.php:476 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
@@ -304,7 +304,7 @@ msgstr ""
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2273
+#: classes/issue.class.php:2273 classes/wbsElement.class.php:688
 msgid "Commands"
 msgstr "명령"
 
@@ -853,7 +853,6 @@ msgstr ""
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/wbsElement.class.php:689 tools.php:1557
 msgid "Category"
 msgstr "분류"
 
@@ -1380,9 +1379,9 @@ msgstr ""
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:690 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:300
-#: plugins/WBSExport/WBSExport.class.php:152
+#: classes/wbsElement.class.php:697 classes/wbsElement.class.php:698
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:300 plugins/WBSExport/WBSExport.class.php:152
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -2010,7 +2009,9 @@ msgstr "외부 참조"
 #. tpl/modal/update_issueBacklog.html
 #. tpl/export_odt.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#. add in front
+#: classes/wbsElement.class.php:692 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr ""
 
@@ -5655,7 +5656,7 @@ msgstr ""
 msgid "Constrains"
 msgstr ""
 
-#: classes/issue.class.php:2265 classes/wbsElement.class.php:692 tools.php:1549
+#: classes/issue.class.php:2265 tools.php:1549
 msgid "Tags"
 msgstr "태그"
 
@@ -6145,28 +6146,28 @@ msgstr "보안 상의 이유로 다음의 디렉터리를 삭제하십시오: "
 msgid "Done !"
 msgstr "끝났습니다 !"
 
-#: install/install.php:25 install/install.php:129
+#: install/install.php:25 install/install.php:137
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "설치"
 
-#: install/install.php:119
+#: install/install.php:127
 msgid "Upgrade instructions"
 msgstr ""
 
-#: install/install.php:120
+#: install/install.php:128
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
 msgstr ""
 
-#: install/install.php:122
+#: install/install.php:130
 msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "먼저 Mantis를 업그레이드하십시오! (필수는 아님)"
 
-#: install/install.php:123
+#: install/install.php:131
 msgid "Copy CodevTT configuration files from your previous installation"
 msgstr ""
 
-#: install/install.php:124
+#: install/install.php:132
 msgid "Run this script: "
 msgstr "이 스크립트를 실행: "
 
@@ -6350,28 +6351,28 @@ msgstr ""
 msgid "Sorry, there are no projects defined for your team."
 msgstr "죄송합니다. 당신의 팀에 정의된 프로젝트가 없습니다."
 
-#: timetracking/time_tracking_ajax.php:373
+#: timetracking/time_tracking_ajax.php:386
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr ""
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:405
+#: timetracking/time_tracking_ajax.php:418
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:409
+#: timetracking/time_tracking_ajax.php:422
 msgid "Timetrack not added: Job is not specified"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:412
+#: timetracking/time_tracking_ajax.php:425
 msgid "Timetrack not added: bugid is not specified"
 msgstr "타임트랙이 추가되지 않았습니다: bugid가 지정되지 않았습니다"
 
-#: timetracking/time_tracking_ajax.php:415
+#: timetracking/time_tracking_ajax.php:428
 msgid "Timetrack not added: duration is not specified"
 msgstr "타임트랙이 추가되지 않았습니다: 기간이 지정되지 않았습니다"
 
-#: timetracking/time_tracking_ajax.php:453
+#: timetracking/time_tracking_ajax.php:466
 msgid "ERROR: Failed to add timetrack !"
 msgstr "오류: 타임트랙 추가를 실패했습니다 !"
 

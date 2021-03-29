@@ -11,6 +11,7 @@
 # Author: Samuele2002
 # Author: Selven
 # Author: SilviaF
+# Author: Toa
 # Author: Walter Raffoni
 msgid ""
 msgstr ""
@@ -18,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-08 14:48:01+0000\n"
+"PO-Revision-Date: 2021-03-29 15:53:10+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -137,12 +138,12 @@ msgstr "Selezionare un team per accedere a questa pagina."
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: classes/issue_selection.class.php:354 classes/issue.class.php:2290
-#: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/servicecontract_info.php:138
-#: management/command_info.php:226 reports/planning_report.php:234
-#: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/project_info.php:275 reports/project_info.php:286
-#: reports/project_info.php:298 tests/odt.php:25
+#: classes/wbsElement.class.php:694 classes/wbsElement.class.php:695
+#: filters/ProjectFilter.php:59 management/commandset_info.php:141
+#: management/servicecontract_info.php:138 management/command_info.php:226
+#: reports/planning_report.php:234 reports/planning_report.php:475
+#: reports/planning_report.php:476 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
@@ -313,7 +314,7 @@ msgstr "Contratti di servizio"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2273
+#: classes/issue.class.php:2273 classes/wbsElement.class.php:688
 msgid "Commands"
 msgstr "Ordini"
 
@@ -862,7 +863,6 @@ msgstr "Nessun ordine."
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/wbsElement.class.php:689 tools.php:1557
 msgid "Category"
 msgstr "Categoria"
 
@@ -1389,9 +1389,9 @@ msgstr "Tendenza per rapporto al BI + BS"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:690 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:300
-#: plugins/WBSExport/WBSExport.class.php:152
+#: classes/wbsElement.class.php:697 classes/wbsElement.class.php:698
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:300 plugins/WBSExport/WBSExport.class.php:152
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -1965,7 +1965,6 @@ msgid "Hide resolved tasks"
 msgstr "Nascondi attività risolte"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide closed tasks"
 msgstr "Nascondi attività chiuse"
 
@@ -2019,7 +2018,9 @@ msgstr "Rif. Esterno"
 #. tpl/modal/update_issueBacklog.html
 #. tpl/export_odt.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#. add in front
+#: classes/wbsElement.class.php:692 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "Assegnato  a"
 
@@ -4915,9 +4916,8 @@ msgid "Yes"
 msgstr "Sì"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on Issue type"
-msgstr "Tipo ticket"
+msgstr "Filtra per tipo di problema"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No filter"
@@ -4928,9 +4928,8 @@ msgid "Filter on External ID"
 msgstr "Filtra per ID esterno"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues with External ID"
-msgstr "Ticket ID esterno"
+msgstr "Problemi con ID esterno"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #, fuzzy
@@ -5670,7 +5669,7 @@ msgstr "Vincolato da"
 msgid "Constrains"
 msgstr "Vincoli"
 
-#: classes/issue.class.php:2265 classes/wbsElement.class.php:692 tools.php:1549
+#: classes/issue.class.php:2265 tools.php:1549
 msgid "Tags"
 msgstr "Tags"
 
@@ -6163,28 +6162,28 @@ msgstr "Per motivi di sicurezza, cancella la seguente cartella: "
 msgid "Done !"
 msgstr "Fatto !"
 
-#: install/install.php:25 install/install.php:129
+#: install/install.php:25 install/install.php:137
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "Installa"
 
-#: install/install.php:119
+#: install/install.php:127
 msgid "Upgrade instructions"
 msgstr "Istruzioni per l'aggiornamento"
 
-#: install/install.php:120
+#: install/install.php:128
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
 msgstr ""
 
-#: install/install.php:122
+#: install/install.php:130
 msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "Prima aggiorna Mantis! (non obbligatorio)"
 
-#: install/install.php:123
+#: install/install.php:131
 msgid "Copy CodevTT configuration files from your previous installation"
 msgstr ""
 
-#: install/install.php:124
+#: install/install.php:132
 msgid "Run this script: "
 msgstr "Esegui questo script: "
 
@@ -6229,14 +6228,12 @@ msgid "Database Name"
 msgstr "Nome database"
 
 #: install/install_step1.php:240
-#, fuzzy
 msgid "Database Table Prefix "
-msgstr "Nome database"
+msgstr "Prefisso tabella del database"
 
 #: install/install_step1.php:244
-#, fuzzy
 msgid "Database Table Suffix "
-msgstr "Nome database"
+msgstr "Suffisso tabella del database"
 
 #: install/install_step1.php:258
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -6370,28 +6367,28 @@ msgstr "Test : esporta in ODT"
 msgid "Sorry, there are no projects defined for your team."
 msgstr "Non ci sono progetti per il tuo Team."
 
-#: timetracking/time_tracking_ajax.php:373
+#: timetracking/time_tracking_ajax.php:386
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr ""
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:405
+#: timetracking/time_tracking_ajax.php:418
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Non è stata aggiunta una tabella oraria: una annotazione di una tabella oraria è obbligatoria."
 
-#: timetracking/time_tracking_ajax.php:409
+#: timetracking/time_tracking_ajax.php:422
 msgid "Timetrack not added: Job is not specified"
 msgstr "Non è stata aggiunta una tabella oraria: il lavoro non è specificato."
 
-#: timetracking/time_tracking_ajax.php:412
+#: timetracking/time_tracking_ajax.php:425
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Non è stata aggiunta una tabella oraria: bugid non è specificato"
 
-#: timetracking/time_tracking_ajax.php:415
+#: timetracking/time_tracking_ajax.php:428
 msgid "Timetrack not added: duration is not specified"
 msgstr "Non è stata aggiunta una tabella oraria: la durata non è specificata"
 
-#: timetracking/time_tracking_ajax.php:453
+#: timetracking/time_tracking_ajax.php:466
 msgid "ERROR: Failed to add timetrack !"
 msgstr ""
 
@@ -6776,9 +6773,8 @@ msgid "Budget drift history"
 msgstr "Evolution de la Dérive Budget"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
-#, fuzzy
 msgid "Display the budget history"
-msgstr "Affiche le RAF"
+msgstr "Visualizza la cronologia del budget"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:88
 msgid "List the active tasks on a given period"
@@ -6824,9 +6820,8 @@ msgstr ""
 
 #. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
 #: scheduler/scheduler_ajax.php:389
-#, fuzzy
 msgid "Issue not found in MantisDB !"
-msgstr "Errore: attività non trovata sul DB Mantis!"
+msgstr "Problema non trovato in MantisDB !"
 
 #: scheduler/scheduler_ajax.php:513
 msgid "Options saved successfully"

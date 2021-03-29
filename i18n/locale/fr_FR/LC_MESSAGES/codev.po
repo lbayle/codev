@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2021-03-08 14:48:01+0000\n"
+"PO-Revision-Date: 2021-03-29 15:53:10+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -137,12 +137,12 @@ msgstr "Sélectionnez une équipe dans la liste déroulante en haut à droite de
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: classes/issue_selection.class.php:354 classes/issue.class.php:2290
-#: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/servicecontract_info.php:138
-#: management/command_info.php:226 reports/planning_report.php:234
-#: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/project_info.php:275 reports/project_info.php:286
-#: reports/project_info.php:298 tests/odt.php:25
+#: classes/wbsElement.class.php:694 classes/wbsElement.class.php:695
+#: filters/ProjectFilter.php:59 management/commandset_info.php:141
+#: management/servicecontract_info.php:138 management/command_info.php:226
+#: reports/planning_report.php:234 reports/planning_report.php:475
+#: reports/planning_report.php:476 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
@@ -313,7 +313,7 @@ msgstr "Contrat de service"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2273
+#: classes/issue.class.php:2273 classes/wbsElement.class.php:688
 msgid "Commands"
 msgstr "Commandes"
 
@@ -862,7 +862,6 @@ msgstr "Aucune commande trouvée."
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/wbsElement.class.php:689 tools.php:1557
 msgid "Category"
 msgstr "Catégorie"
 
@@ -1389,9 +1388,9 @@ msgstr "Dérive par rapport au (BI + BS)"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:690 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:300
-#: plugins/WBSExport/WBSExport.class.php:152
+#: classes/wbsElement.class.php:697 classes/wbsElement.class.php:698
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:300 plugins/WBSExport/WBSExport.class.php:152
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -2018,7 +2017,9 @@ msgstr "Réf. Externe"
 #. tpl/modal/update_issueBacklog.html
 #. tpl/export_odt.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#. add in front
+#: classes/wbsElement.class.php:692 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "Assigné à"
 
@@ -5631,7 +5632,7 @@ msgstr "Contraint par"
 msgid "Constrains"
 msgstr "Contraint"
 
-#: classes/issue.class.php:2265 classes/wbsElement.class.php:692 tools.php:1549
+#: classes/issue.class.php:2265 tools.php:1549
 msgid "Tags"
 msgstr "Balises"
 
@@ -6121,28 +6122,28 @@ msgstr "Pour raison de sécurité, supprimez le dossier: "
 msgid "Done !"
 msgstr "Terminé !"
 
-#: install/install.php:25 install/install.php:129
+#: install/install.php:25 install/install.php:137
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "Installer"
 
-#: install/install.php:119
+#: install/install.php:127
 msgid "Upgrade instructions"
 msgstr "Instruction pour mise à niveau"
 
-#: install/install.php:120
+#: install/install.php:128
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
 msgstr "Pour mettre à niveau une anciènne version de CodevTT, <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>lisez ces instructions</a> et executer les actions suivantes:"
 
-#: install/install.php:122
+#: install/install.php:130
 msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "Commencez par mettre à jour Mantis (si necessaire)"
 
-#: install/install.php:123
+#: install/install.php:131
 msgid "Copy CodevTT configuration files from your previous installation"
 msgstr "Copiez et adaptez les fichiers de configurtion de la précédente installation de CodevTT"
 
-#: install/install.php:124
+#: install/install.php:132
 msgid "Run this script: "
 msgstr "Lancez ce script: "
 
@@ -6324,28 +6325,28 @@ msgstr "Test : exporter in ODT"
 msgid "Sorry, there are no projects defined for your team."
 msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
-#: timetracking/time_tracking_ajax.php:373
+#: timetracking/time_tracking_ajax.php:386
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr "ERREUR : la suppression de l’imputation a échoué !"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:405
+#: timetracking/time_tracking_ajax.php:418
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Consommé non créé : la note doit être spécifiée"
 
-#: timetracking/time_tracking_ajax.php:409
+#: timetracking/time_tracking_ajax.php:422
 msgid "Timetrack not added: Job is not specified"
 msgstr "Imputation non créée: le poste doit être spécifié"
 
-#: timetracking/time_tracking_ajax.php:412
+#: timetracking/time_tracking_ajax.php:425
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Chronologie non ajoutée : bugid n’est pas spécifié"
 
-#: timetracking/time_tracking_ajax.php:415
+#: timetracking/time_tracking_ajax.php:428
 msgid "Timetrack not added: duration is not specified"
 msgstr "Chronologie non ajoutée : la durée n’est pas spécifiée"
 
-#: timetracking/time_tracking_ajax.php:453
+#: timetracking/time_tracking_ajax.php:466
 msgid "ERROR: Failed to add timetrack !"
 msgstr "ERREUR : l’ajout de l’imputation a échoué !"
 

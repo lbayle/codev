@@ -2,6 +2,8 @@
 # Exported from translatewiki.net
 #
 # Author: Anna7321
+# Author: FF-11
+# Author: Gebu
 # Author: Killarnee
 # Author: ManuelFranz
 # Author: Metalhead64
@@ -14,7 +16,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-12 05:54:26+0000\n"
+"PO-Revision-Date: 2021-03-29 15:53:09+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -132,12 +134,12 @@ msgstr "Bitte wählen Sie eine Team, um auf diese Seite zugreifen zu können."
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: classes/issue_selection.class.php:354 classes/issue.class.php:2290
-#: classes/wbsElement.class.php:688 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/servicecontract_info.php:138
-#: management/command_info.php:226 reports/planning_report.php:234
-#: reports/planning_report.php:475 reports/planning_report.php:476
-#: reports/project_info.php:275 reports/project_info.php:286
-#: reports/project_info.php:298 tests/odt.php:25
+#: classes/wbsElement.class.php:694 classes/wbsElement.class.php:695
+#: filters/ProjectFilter.php:59 management/commandset_info.php:141
+#: management/servicecontract_info.php:138 management/command_info.php:226
+#: reports/planning_report.php:234 reports/planning_report.php:475
+#: reports/planning_report.php:476 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
@@ -308,7 +310,7 @@ msgstr "Serviceverträge"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2273
+#: classes/issue.class.php:2273 classes/wbsElement.class.php:688
 msgid "Commands"
 msgstr "Aufträge"
 
@@ -857,7 +859,6 @@ msgstr "Kein Auftrag vorhanden."
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/wbsElement.class.php:689 tools.php:1557
 msgid "Category"
 msgstr "Kategorie"
 
@@ -1384,9 +1385,9 @@ msgstr "Mehraufwand gegenüber Schätzung Bearbeiter"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:690 reports/planning_report.php:461
-#: reports/planning_report.php:484 reports/project_info.php:300
-#: plugins/WBSExport/WBSExport.class.php:152
+#: classes/wbsElement.class.php:697 classes/wbsElement.class.php:698
+#: reports/planning_report.php:461 reports/planning_report.php:484
+#: reports/project_info.php:300 plugins/WBSExport/WBSExport.class.php:152
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -2015,7 +2016,9 @@ msgstr "Externe Ref."
 #. tpl/modal/update_issueBacklog.html
 #. tpl/export_odt.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#. add in front
+#: classes/wbsElement.class.php:692 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "Bearbeiter"
 
@@ -2964,9 +2967,8 @@ msgid "Discover new plugins"
 msgstr "Neue Plugin suchen"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
-msgstr "Plugin"
+msgstr "Plugins"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
@@ -3474,7 +3476,7 @@ msgstr "Import"
 
 #. tpl/edit_team.html
 msgid "Number of team members"
-msgstr ""
+msgstr "Anzahl der Teammitglieder"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -4334,7 +4336,7 @@ msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
@@ -4351,7 +4353,7 @@ msgstr "(In einigen Tagen)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
-msgstr ""
+msgstr "Median"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
@@ -4363,7 +4365,7 @@ msgstr ""
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Missing"
-msgstr ""
+msgstr "Fehlend"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
@@ -4669,7 +4671,7 @@ msgstr "Nachrichtenwand"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
@@ -5536,7 +5538,7 @@ msgstr "Logdatei nicht vorhanden"
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
-msgstr ""
+msgstr "Entschuldigung, dieser Auftrag kann nicht geändert werden"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
@@ -5576,7 +5578,7 @@ msgstr "Tooltip"
 
 #: admin/edit_team_ajax.php:442
 msgid "ERROR: joblist cannot be empty !"
-msgstr ""
+msgstr "FEHLER: Die Auftragsliste kann nicht leer sein !"
 
 #: admin/edit_team_ajax.php:491
 msgid "Invalid team name"
@@ -5661,7 +5663,7 @@ msgstr "Verwendet von"
 msgid "Constrains"
 msgstr "Verwendungen"
 
-#: classes/issue.class.php:2265 classes/wbsElement.class.php:692 tools.php:1549
+#: classes/issue.class.php:2265 tools.php:1549
 msgid "Tags"
 msgstr "Tags"
 
@@ -5854,11 +5856,11 @@ msgstr "Kein Standardprojektworkflow definiert. Konfigurationsdatei überprüfen
 
 #: classes/consistency_check2.class.php:790
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
-msgstr ""
+msgstr ") Bitte führe <a href='tools/update_codevtt.php'>update_codevtt.php</a> aus"
 
 #: classes/consistency_check2.class.php:809
 msgid "Project not defined in the team's project-list"
-msgstr ""
+msgstr "Das Projekt ist nicht in der Projektliste des Teams definiert"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -6154,28 +6156,28 @@ msgstr "Aus Sicherheitsgründen muss das folgende Verzeichnis gelöscht werden: 
 msgid "Done !"
 msgstr "Erledigt!"
 
-#: install/install.php:25 install/install.php:129
+#: install/install.php:25 install/install.php:137
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "Installation"
 
-#: install/install.php:119
+#: install/install.php:127
 msgid "Upgrade instructions"
 msgstr "Upgrade-Anweisungen"
 
-#: install/install.php:120
+#: install/install.php:128
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
 msgstr "Falls du ein Upgrade von einer älteren CodevTT-Version durchführst, <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>lies bitte diese Seite</a> und führe die folgenden Schritte aus:"
 
-#: install/install.php:122
+#: install/install.php:130
 msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "Zuerst Mantis aktualisieren! (nicht verpflichtend)"
 
-#: install/install.php:123
+#: install/install.php:131
 msgid "Copy CodevTT configuration files from your previous installation"
 msgstr "Kopiere CodevTT-Konfigurationsdateien von deiner älteren Installation"
 
-#: install/install.php:124
+#: install/install.php:132
 msgid "Run this script: "
 msgstr "Dieses Skript ausführen: "
 
@@ -6357,28 +6359,28 @@ msgstr "Test: als ODT exportieren"
 msgid "Sorry, there are no projects defined for your team."
 msgstr "Es sind keine Projekte für dieses Team vorhanden."
 
-#: timetracking/time_tracking_ajax.php:373
+#: timetracking/time_tracking_ajax.php:386
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr ""
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:405
+#: timetracking/time_tracking_ajax.php:418
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Zeiterfassung nicht hinzugefügt: Zeiterfassungsnotiz ist verpflichtend."
 
-#: timetracking/time_tracking_ajax.php:409
+#: timetracking/time_tracking_ajax.php:422
 msgid "Timetrack not added: Job is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Aufgabe wurde nicht angegeben."
 
-#: timetracking/time_tracking_ajax.php:412
+#: timetracking/time_tracking_ajax.php:425
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Aufgabe wurde nicht angegeben."
 
-#: timetracking/time_tracking_ajax.php:415
+#: timetracking/time_tracking_ajax.php:428
 msgid "Timetrack not added: duration is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Dauer wurde nicht angegeben."
 
-#: timetracking/time_tracking_ajax.php:453
+#: timetracking/time_tracking_ajax.php:466
 msgid "ERROR: Failed to add timetrack !"
 msgstr ""
 
@@ -6515,11 +6517,11 @@ msgstr "letzte Woche"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:163
 msgid "+1 week"
-msgstr ""
+msgstr "+1 Woche"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:164
 msgid "+2 week"
-msgstr ""
+msgstr "+2 Wochen"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:165
 msgid "+3 week"
@@ -6527,15 +6529,15 @@ msgstr "+3 Wochen"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:166
 msgid "+1 months"
-msgstr ""
+msgstr "+1 Monate"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:167
 msgid "+2 months"
-msgstr ""
+msgstr "+2 Monate"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:168
 msgid "+3 months"
-msgstr ""
+msgstr "+3 Monate"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:169
 msgid "+6 months"
@@ -6547,7 +6549,7 @@ msgstr "Mehr als ein Jahr"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:253
 msgid "All (tasks & bugs)"
-msgstr ""
+msgstr "Alle (Aufgaben & Fehler)"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"
