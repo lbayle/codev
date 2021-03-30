@@ -250,7 +250,9 @@ jQuery(document).ready(function() {
          // set success callback
          deferred.done(function (updateBacklogJsonData) {
 
-            if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
+            if ( 'TimetrackingForbidden' === updateBacklogJsonData['diagnostic'] ) {
+               alert(updateBacklogJsonData['reasonWhy']);
+            } else if ( 'BacklogUpdateNotNeeded' === updateBacklogJsonData['diagnostic'] ) {
                // no backlog nor Note needed, add timetrack with ajax
                addTimetrackAndReload('');
 

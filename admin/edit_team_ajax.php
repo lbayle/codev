@@ -526,12 +526,12 @@ if(Tools::isConnectedUser() &&
                   'id' => $sid,
                   'name' => "$sName",
                   'checked' => array_key_exists($sid, $ttForbidenStatusList),
-                  'disabled' => (Constants::$status_new == $sid) ? 1 : 0,
+                  'disabled' => 0, //(Constants::$status_new == $sid) ? 1 : 0,
                );
                // Note: tasks with forbidenStatus will not be displayed in taskList for timetracking.
-               // - on regular projects, 'new' tasks must be displayed, but CodevTT will force user to change status on addTimetrack
+               // - on regular projects, 'new' tasks must be displayed (CodevTT will force user to change status on addTimetrack)
+               // - but you may want to hide 'new' if users should only work on 'assigned' or 'decided' tasks
                // - sidetasks & externalTasks should always be 'closed', so 'new' status don't need to be displayed
-               // so in any case, 'new' status should be disabled.
             }
             $data['statusMsg'] = 'SUCCESS';
             $data['prjStatusList'] = $prjStatusList;

@@ -105,7 +105,16 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
-         if (($job == Jobs::JOB_SUPPORT) ||
+         $issueStatus = $issue->getStatus();
+
+         $ttForbidenStatusList = $team->getTimetrackingForbidenStatusList($issue->getProjectId());
+         if (array_key_exists($issueStatus, $ttForbidenStatusList)) {
+            $data = array(
+               'diagnostic' => 'TimetrackingForbidden',
+               'reasonWhy' => T_("Timetracking is forbidden when issue's status is :").' "'.$ttForbidenStatusList[$issueStatus].'"'
+            );
+            $updateBacklogJsonData = json_encode($data);
+         } else if (($job == Jobs::JOB_SUPPORT) ||
             ($project->isSideTasksProject(array($teamid)) ||
             ($project->isExternalTasksProject()))) {
 
