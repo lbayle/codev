@@ -15,7 +15,7 @@
       <tbody>
          {foreach from=$TimetrackingAnalysis_tableData key=name item=i}
          <tr>
-            <td nowrap="nowrap">{$name}</td>
+            <td nowrap="nowrap" title="{t}to{/t} {$i.endDate}">{$name}</td>
             <td>{$i.average}</td>
             <td>{$i.median}</td>
             <td>{$i.mode} ({$i.mode_pcent}%)</td>

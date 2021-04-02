@@ -357,6 +357,7 @@ class TimetrackingAnalysis extends IndicatorPluginAbstract {
 
          $missingDays = $this->getMissingDays($startT, $endT);
          $periodData[$label] = array(
+            'endDate' => date('Y-m-d', $endT),
             'median' => $median,
             'mode' => $mode,
             'mode_nbTimetracks' => $delayData[$mode],
