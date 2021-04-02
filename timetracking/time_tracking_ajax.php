@@ -80,6 +80,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $project = ProjectCache::getInstance()->getProject($projectid);
             $jobs = $project->getJobList($ptype, $teamid);
 
+            // JOB_SUPPORT on a 'new' task is nonsense (if work has not been started,
+            // then the handler cannot be 'helped' by someone) but MOST IMPORTANT
+            // we must avoid to have timetracks on a 'new' task. This happens because
+            // for JOB_SUPPORT the UpdateBacklogDialogbox is not opened and status check is skipped
+            if ( Constants::$status_new ==  $issue->getStatus()) {
+               unset($jobs[Jobs::JOB_SUPPORT]);
+            }
             // return data
             $data = array(
                'statusMsg' => 'SUCCESS',
