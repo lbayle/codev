@@ -3435,7 +3435,7 @@ msgstr "Supprimer l'équipe"
 
 #. tpl/edit_team.html
 msgid "Active team members"
-msgstr "Ajouter un membre à l'équipe"
+msgstr "Membres actifs de l'équipe"
 
 #. tpl/edit_team.html
 msgid "Add team member"
