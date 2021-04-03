@@ -303,7 +303,11 @@ class EditTeamController extends Controller {
                $this->smartyHelper->assign('teamADR', $team->getAverageDailyCost());
                $this->smartyHelper->assign('teamCurrency', $teamCurrency);
 
-
+               $userGroupAsso = $team->getUserGroups(); // [userid => groupName]
+               $userGroupNames = array_unique(array_values($userGroupAsso));
+               $this->smartyHelper->assign('userGroupNames', $userGroupNames);
+               //$userGroupData = $this->updateUserDataArray($userGroupAsso, $team);
+               //$this->smartyHelper->assign('userGroupData', $userGroupData);
 
                // feed the PluginDataProvider
                $dashboardDomain = IndicatorPluginInterface::DOMAIN_TEAM_ADMIN;
@@ -356,6 +360,9 @@ class EditTeamController extends Controller {
       } catch (Exception $e) {
          return NULL;
       }
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $userGroups = $team->getUserGroups();
+
       $teamMemberTuples = array();
       while($row = $sql->fetchObject($result)) {
          $teamMemberTuples[$row->id] = array(
@@ -365,6 +372,7 @@ class EditTeamController extends Controller {
             "arrivaldate" => date("Y-m-d", $row->arrival_date),
             "accessLevel" => Team::$accessLevelNames[$row->access_level],
             "accessLevelId" => $row->access_level,
+            "groupName" => $userGroups[$row->user_id]
          );
 
          if (0 != $row->departure_date) {
@@ -610,6 +618,7 @@ class EditTeamController extends Controller {
       }
       return $formattedUDCs;
    }
+
 }
 
 // ========== MAIN ===========

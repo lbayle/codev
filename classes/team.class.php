@@ -64,7 +64,7 @@ class Team extends Model {
    const accessLevel_manager  = 30; // in table codev_team_user_table
 
    public static $accessLevelNames = array(
-      self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
+      self::accessLevel_dev      => "Member", // can modify, can NOT view stats
       self::accessLevel_manager  => "Manager", // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
       self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
       //self::accessLevel_customer  => "Customer" // can NOT modify, can NOT view stats
@@ -776,7 +776,7 @@ class Team extends Model {
         }
    }
 
-   public function updateMember($memberid, $arrivalTimestamp, $departureTimestamp, $memberAccess) {
+   public function updateMember($memberid, $arrivalTimestamp, $departureTimestamp, $memberAccess, $userGroup=NULL) {
       $sql = AdodbWrapper::getInstance();
       $query = "UPDATE codev_team_user_table SET ".
                   '  arrival_date = '.$sql->db_param().
@@ -790,6 +790,14 @@ class Team extends Model {
       $q_params[]=$memberid;
       $q_params[]=$this->id;
       $sql->sql_query($query, $q_params);
+
+      $userGroupList = $this->getUserGroups();
+      if (empty($userGroup)) {
+         unset($userGroupList[$memberid]);
+      } else {
+         $userGroupList[$memberid] = $userGroup;
+      }
+      $this->setUserGroups($userGroupList);
    }
 
    function getTeamMemberData($userId) {

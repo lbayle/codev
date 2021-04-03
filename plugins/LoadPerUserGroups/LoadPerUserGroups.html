@@ -28,74 +28,49 @@
       <span class="LoadPerUserGroupsHelpDialog_link float pointer">
          <img title="Help" src="images/help_icon.gif"/>
       </span>
-      <span class="LoadPerUserGroupsConfig_link float pointer">
-         <img title="Help" src="images/b_config.png"/>
-      </span>
    </div>
    <div class="LoadPerUserGroupsHelpDialog ui-helper-hidden" title="{t}User groups{/t}">
-      <div>
-         <strong>{t}Description{/t}</strong><br>
-         {t}Define user groups and display the elapsed time for each group{/t}
-         <br>
-         {t}Only team-leaders & administrators are allowed to do this action.{/t}
-      </div>
-      <div style="margin-top: 1em;">
-         <strong>{t}CSV File Format{/t}</strong><br>
-         {t}delimiter{/t} = <span style="color:blue">;</span><br>
-         {t}1st column{/t} = username (as defined in mantis)<br>
-         {t}2nd column{/t} = group name<br>
-      </div>
-      <div style="margin-top: 1em;">
-          <strong>{t}Colors{/t}</strong><br>
-          <span style="color:blue">{t}Team members assigned to a group{/t}<br>
-          <span style="color:red">{t}Users not assigned to any group{/t}<br>
-          <span style="color:darkgrey">{t}Not a team member, but assigned to a group{/t}<br>
-      </div>
 
-   </div>
+      <div id="LoadPerUserGroupsHelpDialog_tabs" class="tabs {$ui_tabs_jquery}" style="margin-top:3em;">
+         <ul class="{$ui_tabs_jquery_ul}">
+            <li class="{$ui_tabs_jquery_li}"><a href="#LoadPerUserGroupsHelpDialog_tabDesc">{t}Description{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#LoadPerUserGroupsHelpDialog_tabGroups">{t}Groups{/t}</a></li>
+         </ul>
 
-   <div class="LoadPerUserGroupsOptionDialog ui-helper-hidden" title="{t}Options{/t}">
-
-      <div align="left" style="margin-top:1em;" class="left">
-         <!-- FILE SELECTION -->
-         <form  id="LoadPerUserGroups_formUploadFile" method="post" action="{$LoadPerUserGroups_ajaxPhpURL}" enctype="multipart/form-data">
-            <fieldset>
-               <label>{t}CSV file{/t}: </label>
-               <input type="file" class="LoadPerUserGroups_file" name="uploaded_csv" accept=".csv, text/csv, application/csv, text/comma-separated-values" />
-               <input type="submit" class="LoadPerUserGroups_btUpload" value="{t}import{/t}" />
-               <span style="padding-left: 3em">{t}Import template{/t}:
-                  <a href="include/download.php?plugin=LoadPerUserGroups&f=loadPerUserGroups_template.xlsx">XLS</a>
-                  <!--or
-                  <a href="include/download.php?plugin=LoadPerUserGroups&f=loadPerUserGroups_template.csv">CSV</a>-->
-               </span>
-            </fieldset>
-         </form>
-         <div class="LoadPerUserGroups_uploadErrorMsg error_font"></div>
-         <div class="LoadPerUserGroups_uploadInfoMsg success_font"></div>
-      </div>
-
-      <div style="overflow:auto; max-height:300px; width:800px; margin-top:2em;">
-         <table class="LoadPerUserGroups_userData_table" style="width:100%;">
-          <thead>
-             <tr>
-                <th class="left">{t}User{/t}</th>
-                <th class="left">{t}Name{/t}</th>
-                <th class="left">{t}Group{/t}</th>
-                <th class="left">{t}Info{/t}</th>
-             </tr>
-          </thead>
-          <tbody>
-            {foreach from=$LoadPerUserGroups_userDataArray key=id item=i}
-             <tr class="LoadPerUserGroups_userData_tr" style="color:{$i.color};">
-                <td class="opt_userName" title="{$i.userId}">{$i.userName}</td>
-                <td>{$i.userRealname}</td>
-                <td class="left opt_groupName">{$i.groupName}</td>
-                <td class="left">{$i.message}</td>
-                <td class="ui-helper-hidden opt_userid">{$i.userId}</td>
-             </tr>
-            {/foreach}
-          </tbody>
-         </table>
+         <div id="LoadPerUserGroupsHelpDialog_tabDesc">
+            <div>
+               <strong>{t}Description{/t}</strong><br>
+               {t}Display the elapsed time for each user group{/t}
+            </div>
+            <div style="margin-top: 1em;">
+                <strong>{t}Colors{/t}</strong><br>
+                <span style="color:blue">{t}Team members assigned to a group{/t}</span><br>
+                <span style="color:red">{t}Users not assigned to any group{/t}</span><br>
+                <span style="color:darkgrey">{t}Not a team member, but assigned to a group{/t}</span><br>
+            </div>
+         </div>
+         <div id="LoadPerUserGroupsHelpDialog_tabGroups">
+            <div style="overflow:auto; max-height:300px; margin-top:2em;">
+               <table class="LoadPerUserGroups_userData_table" style="width:100%;">
+                <thead>
+                   <tr>
+                      <th class="left">{t}User{/t}</th>
+                      <th class="left">{t}Name{/t}</th>
+                      <th class="left">{t}Group{/t}</th>
+                   </tr>
+                </thead>
+                <tbody>
+                  {foreach from=$LoadPerUserGroups_userDataArray key=id item=i}
+                   <tr class="LoadPerUserGroups_userData_tr" style="color:{$i.color};">
+                      <td class="opt_userName" title="{$i.userId}">{$i.userName}</td>
+                      <td>{$i.userRealname}</td>
+                      <td class="left opt_groupName">{$i.groupName}</td>
+                   </tr>
+                  {/foreach}
+                </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </div>
 
@@ -108,7 +83,6 @@
    // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
    function LoadPerUserGroupsJsDestroy() {
       jQuery(".LoadPerUserGroupsHelpDialog").dialog('destroy').remove();
-      jQuery(".LoadPerUserGroupsOptionDialog").dialog('destroy').remove();
       jQuery(".LoadPerUserGroupsDiv").off("click", "**");
    }
 
@@ -197,141 +171,6 @@
          width: "650px",
          hide: "fade"
       });
-
-
-      jQuery(".LoadPerUserGroupsConfig_link").click(function(e) {
-         e.preventDefault();
-         jQuery(".LoadPerUserGroups_uploadErrorMsg").html('');
-         jQuery(".LoadPerUserGroups_uploadInfoMsg").html('');
-         jQuery(".LoadPerUserGroupsOptionDialog").dialog("open");
-      });
-      jQuery(".LoadPerUserGroupsOptionDialog").dialog({
-         autoOpen: false,
-         height: 'auto',
-         width: "auto",
-         //hide: "fade",
-         modal: true,
-         buttons: {
-            Ok: function() {
-               // stop form from submitting normally
-               //event.preventDefault();
-
-               var dashboardId = $('.codevttDashboard').attr('data-dashboardId');
-
-               var userGroupsList = {};
-               $(".LoadPerUserGroups_userData_table .LoadPerUserGroups_userData_tr").each(function() {
-                  var userId = $(this).find('.opt_userid').text();
-                  var groupName = $(this).find(".opt_groupName").text();
-                  if ("--undefined--" !== groupName) {
-                     userGroupsList[userId] = groupName;
-                  }
-               });
-
-               jQuery.ajax({
-                  async: false,
-                  type: "POST",
-                  url: '{$LoadPerUserGroups_ajaxPhpURL}',
-                  dataType:"json",
-                  data: {
-                     action: 'validateNewUserGroups',
-                     dashboardId: dashboardId,
-                     userGroups: JSON.stringify(userGroupsList)
-                  },
-                  success: function(data) {
-                     if('SUCCESS' !== data.statusMsg) {
-                        console.error(data.statusMsg);
-                        jQuery(".LoadPerUserGroups_execStatusErrMsg").html(data.statusMsg);
-                     } else {
-                        jQuery(".LoadPerUserGroups_execStatusInfoMsg").html(data.nbActionsExecuted+" {t}Actions executed !{/t}");
-
-                        jQuery('.LoadPerUserGroupsDate_submit').click();
-                     }
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                     if(errorThrown == 'Forbidden') {
-                        window.location = '{$page}';
-                     }
-                  }
-               });
-
-               jQuery(this).dialog( "close" );
-            },
-            Cancel: function() {
-               // TODO restore previous values
-               jQuery(this).dialog( "close" );
-            }
-         }
-      });
-
-
-      // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
-      // save the file data to a file variable for later use.
-      var files;
-      $('input[type=file]').on('change', function (event) {
-          files = event.target.files;
-      });
-
-      jQuery(".LoadPerUserGroups_btUpload").click(function (event) {
-          /* stop form from submitting normally */
-         event.preventDefault();
-         var form = jQuery("#LoadPerUserGroups_formUploadFile");
-
-         // check fields
-         jQuery(".LoadPerUserGroups_uploadErrorMsg").html('');
-         if (0 == form.find("input[name=uploaded_csv]").val()) {
-            jQuery(".LoadPerUserGroups_uploadErrorMsg").html("{t}Please select a CSV file{/t}");
-         } else {
-
-            var dashboardId = $('.codevttDashboard').attr('data-dashboardId');
-
-            // Create a formdata object and add the files
-            var data = new FormData();
-            $.each(files, function (key, value) {
-                data.append("uploaded_csv", value);
-            });
-
-            // add other fields
-            data.append("dashboardId", dashboardId);
-            data.append("action", "uploadCsvFile");
-
-            jQuery.ajax({
-               type: form.attr('method'),
-               url: form.attr('action') + "?importData",
-               data: data,
-               processData: false, // Don't process the files
-               contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-               dataType:"json",
-               success: function (data) {
-                  if('SUCCESS' !== data.statusMsg) {
-                     console.error(data.statusMsg);
-                     jQuery(".LoadPerUserGroups_uploadErrorMsg").text("ERROR: "+data.statusMsg);
-                  } else {
-                     jQuery(".LoadPerUserGroups_uploadInfoMsg").text("{t}Please check table below and click 'OK' button to accept changes{/t}");
-
-                     $(".LoadPerUserGroups_userData_table tbody").empty();
-
-                     jQuery.each(data.LoadPerUserGroups_userDataArray, function( index, uData ) {
-
-                        var trObject = jQuery('<tr>').addClass("LoadPerUserGroups_userData_tr").css('color', uData.color).append(
-                           jQuery('<td>').addClass("opt_userName").attr('title', uData.userId).text(uData.userName),
-                           jQuery('<td>').text(uData.userRealname),
-                           jQuery('<td>').addClass("left").addClass("opt_groupName").text(uData.groupName),
-                           jQuery('<td>').addClass("left").text(uData.message),
-                           jQuery('<td>').addClass("ui-helper-hidden").addClass("opt_userid").text(uData.userId)
-                        );
-                        trObject.appendTo('.LoadPerUserGroups_userData_table tbody');
-                     });
-                  }
-               },
-               error: function (jqXHR, textStatus, errorThrown) {
-                  if (errorThrown == 'Forbidden') {
-                     window.location = '{$page}';
-                  }
-               }
-            });
-         }
-      });
-
    };
 
 </script>

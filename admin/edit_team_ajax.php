@@ -338,6 +338,9 @@ if(Tools::isConnectedUser() &&
             $arrivalTimestamp   = Tools::date2timestamp($arrivalDate);
             $departureTimestamp = (empty($departureDate)) ? 0 : Tools::date2timestamp($departureDate);
 
+            $userGroup = Tools::getSecurePOSTStringValue('userGroup', '');
+            if ('undefined' == $userGroup) { $userGroup = NULL; }
+
             if (empty($arrivalDate)) {
                $data = array();
                $data['statusMsg'] = "ERROR: arrivalDate must be set !";
@@ -347,7 +350,7 @@ if(Tools::isConnectedUser() &&
             } else {
                $team = TeamCache::getInstance()->getTeam($displayed_teamid);
 
-               $team->updateMember($userId, $arrivalTimestamp, $departureTimestamp, $accessLevel);
+               $team->updateMember($userId, $arrivalTimestamp, $departureTimestamp, $accessLevel, $userGroup);
 
                // fetch values from DB (check & return real values)
                $data = $team->getTeamMemberData($userId);
@@ -578,12 +581,221 @@ if(Tools::isConnectedUser() &&
          $jsonData = json_encode($data);
          echo $jsonData;
 
+      } else if ('uploadUserGroupsCsvFile' === $action) {
+
+         $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+         $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+
+         $filename = null;
+         $statusMsg = 'SUCCESS';
+         $userDataArray = array();
+
+         if (isset($_FILES['uploaded_csv'])) {
+            try {
+               // Get file datas
+               $filename = getSourceFile();
+               $userGroups = getUserGroupsFromCSV($filename);
+               $userDataArray = getUserDataArray($displayed_teamid, $userGroups);
+
+            } catch (Exception $ex) {
+               $statusMsg = $ex->getMessage();
+            }
+         }
+
+         $data = array(
+            'statusMsg' => $statusMsg,
+            'userGroups_userDataArray' => $userDataArray,
+         );
+
+         // return data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+      } else if ('validateNewUserGroups' === $action) {
+
+         try {
+            $displayed_teamid = Tools::getSecurePOSTIntValue('displayed_teamid');
+            $userGroupsJsonStr = Tools::getSecurePOSTStringValue('userGroups');
+            $team = TeamCache::getInstance()->getTeam($displayed_teamid);
+            $userGroups = json_decode(stripslashes($userGroupsJsonStr), true);
+
+            $statusMsg = 'SUCCESS';
+            $team->setUserGroups($userGroups);
+
+            $data = array(
+               'statusMsg' => $statusMsg,
+               'userGroups' => $team->getUserGroups()
+            );
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION $action: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            $data['statusMsg'] = 'ERROR: '.$e->getMessage();
+         }
+         // return data
+         $jsonData = json_encode($data);
+         echo $jsonData;
+
       } else {
+         $logger->error("Unknown action: $action");
          Tools::sendNotFoundAccess();
       }
+
    }
 }
 else {
    Tools::sendUnauthorizedAccess();
 }
 
+
+
+/**
+ *
+ * @return string the filename of the uploaded CSV file.
+ * @throws Exception
+ */
+function getSourceFile() {
+
+   global $logger;
+
+    if (isset($_FILES['uploaded_csv'])) {
+        $filename = $_FILES['uploaded_csv']['name'];
+        $tmpFilename = $_FILES['uploaded_csv']['tmp_name'];
+
+        $err_msg = NULL;
+
+        if ($_FILES['uploaded_csv']['error']) {
+            $err_id = $_FILES['uploaded_csv']['error'];
+            switch ($err_id) {
+                case 1:
+                    $err_msg = "UPLOAD_ERR_INI_SIZE ($err_id) on file : " . $filename;
+                    //echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
+                    break;
+                case 2:
+                    $err_msg = "UPLOAD_ERR_FORM_SIZE ($err_id) on file : " . $filename;
+                    //echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
+                    break;
+                case 3:
+                    $err_msg = "UPLOAD_ERR_PARTIAL ($err_id) on file : " . $filename;
+                    //echo "L'envoi du fichier a été interrompu pendant le transfert !";
+                    break;
+                case 4:
+                    $err_msg = "UPLOAD_ERR_NO_FILE ($err_id) on file : " . $filename;
+                    //echo "Le fichier que vous avez envoyé a une taille nulle !";
+                    break;
+            }
+            $logger->error($err_msg);
+        } else {
+            // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
+            // ce qui signifie qu'il n'y a eu aucune erreur
+        }
+
+        $extensions = array('.csv', '.CSV');
+        $extension = strrchr($filename, '.');
+        if (!in_array($extension, $extensions)) {
+            $err_msg = T_('Please upload files with the following extension: ') . implode(', ', $extensions);
+            $logger->error($err_msg);
+        }
+    } else {
+        $err_msg = "no file to upload.";
+        $logger->error($err_msg);
+        $logger->error('$_FILES=' . var_export($_FILES, true));
+    }
+    if (NULL !== $err_msg) {
+        throw new Exception($err_msg);
+    }
+    return $tmpFilename;
+}
+
+
+   /**
+   * @param string $filename
+   * @param string $delimiter
+   * @param string $enclosure
+   * @param string $escape
+   * @return mixed[]
+   */
+ function getUserGroupsFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape = '"') {
+
+    global $logger;
+
+    $file = new SplFileObject($filename);
+    $file->setFlags(SplFileObject::READ_CSV);
+    $file->setCsvControl($delimiter, $enclosure, $escape);
+
+    $newUserGroups = array();
+    $row = 0;
+    while (!$file->eof()) {
+       while ($data = $file->fgetcsv($delimiter, $enclosure)) {
+          $row++;
+          if (1 == $row) {
+             continue;
+          } // skip column names
+          // two columns: username ; groupName
+          if ('' != $data[0] && '' != $data[1]) {
+
+             $username = $data[0];
+             $groupName = $data[1];
+
+             if (!User::exists($username)) {
+                $logger->error("User '$username' not found in Mantis DB !");
+             } else {
+                $userid = User::getUserId($username);
+                $newUserGroups[$userid] = $groupName;
+             }
+          } else {
+             $logger->error("Row $row: Missing fields ['$data[0]','$data[1]']");
+          }
+       }
+    }
+    //self::$logger->error($newUserGroups);
+    return $newUserGroups;
+ }
+
+function getUserDataArray($teamid, $userGroups) {
+
+   //global $logger;
+   $userDataArray = array();
+
+   foreach ($userGroups as $uid => $groupName) {
+      $user = UserCache::getInstance()->getUser($uid);
+      $userDataArray[$uid] = array(
+        'userId' => $uid,
+        'userName' => $user->getName(),
+        'userRealname' => $user->getRealname(),
+        'groupName' => $groupName,
+        'color' => ($user->isTeamMember($teamid)) ? 'blue' : 'darkgrey',
+        'message' => '',
+      );
+   }
+   // add team members not found in userGroups
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   $teamMembers = $team->getActiveMembers();
+   foreach ($teamMembers as $uid => $uname) {
+      if (!array_key_exists($uid, $userGroups)) {
+         $user = UserCache::getInstance()->getUser($uid);
+         $userGroups[$uid] = '--undefined--';
+         $userDataArray[$uid] = array(
+            'userId' => $uid,
+            'userName' => $uname,
+            'userRealname' => $user->getRealname(),
+            'groupName' => '--undefined--',
+            'color' => 'red',
+            'message' => T_("No group defined for team member"),
+          );
+      }
+   }
+   // Sort the multidimensional array
+   usort($userDataArray, "f_customUserGroupSort");
+   return $userDataArray;
+}
+
+/**
+ * Sort blue/red/grey then by name
+ */
+function f_customUserGroupSort($a,$b) {
+
+   if ($a['color'] == $b['color']) {
+      return $a['userName'] > $b['userName'];
+   }
+   $keyVal = array('blue' => 0, 'red' => 1, 'darkgrey' => 2);
+   return $keyVal[$a['color']] > $keyVal[$b['color']];
+}

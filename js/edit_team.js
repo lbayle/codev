@@ -473,13 +473,19 @@ jQuery(document).ready(function() {
       var arrivalDate = $(trTeamMember).children('.teamMember_arrivalDate').text();
       var departureDate = $(trTeamMember).children('.teamMember_departureDate').text();
       var roleId = $(trTeamMember).children('.teamMember_role').attr('data-roleId');
-      console.log(userid, realname, arrivalDate, departureDate, roleId);
+      var userGroup = $(trTeamMember).children('.teamMember_group').text();
 
       jQuery('#editTeamMember_dialog').dialog('option', 'title', realname);
       jQuery("#editTeamMemberDlg_userId").text(userid);
       jQuery("#editTeamMemberDlg_arrivalDate").datepicker("setDate" , arrivalDate);
       jQuery("#editTeamMemberDlg_departureDate").datepicker("setDate" , departureDate);
       jQuery("#editTeamMemberDlg_select_role").val(roleId);
+      jQuery("#editTeamMemberDlg_select_group").val(userGroup);
+
+      jQuery("#editTeamMemberDlg_newGroupName").hide();
+      jQuery("#editTeamMemberDlg_select_group").show();
+      jQuery(".editTeamMemberDlg_bt_addUserGroup").show();
+
       jQuery("#editTeamMember_dialog").dialog( "open" );
    });
 
@@ -494,6 +500,13 @@ jQuery(document).ready(function() {
             text: editTeamSmartyData.i18n_update,
             click: function() {
                // send edited teamMember data
+
+               if (jQuery("#editTeamMemberDlg_newGroupName").is(":hidden")) {
+                  var userGroup = $("#editTeamMemberDlg_select_group").val();
+               } else {
+                  var userGroup = $("#editTeamMemberDlg_newGroupName").val();
+               }
+
                $.ajax({
                   url: editTeamSmartyData.ajaxPage,
                   type: "POST",
@@ -504,7 +517,8 @@ jQuery(document).ready(function() {
                      userId: $("#editTeamMemberDlg_userId").text(),
                      arrivalDate: $("#editTeamMemberDlg_arrivalDate").val(),
                      departureDate: $("#editTeamMemberDlg_departureDate").val(),
-                     accessLevelId: $('#editTeamMemberDlg_select_role option:selected').val()
+                     accessLevelId: $('#editTeamMemberDlg_select_role option:selected').val(),
+                     userGroup: userGroup
                   },
                   success: function(data) {
                      if ('SUCCESS' === data.statusMsg) {
@@ -514,7 +528,11 @@ jQuery(document).ready(function() {
                         myTr.find(".teamMember_departureDate").html(data.departureDate);
                         myTr.find(".teamMember_role").html(data.accessLevel);
                         myTr.find(".teamMember_role").attr('data-roleId', data.accessLevelId);
-
+                        myTr.find(".teamMember_group").html(data.userGroup);
+                        if ((null !== data.userGroup) &&
+                            (0 === $("#editTeamMemberDlg_select_group option[value='"+data.userGroup+"']").length)) {
+                           $("#editTeamMemberDlg_select_group").append(new Option(data.userGroup, data.userGroup, false, false));
+                        }
                      } else {
                         console.error("Ajax statusMsg", data.statusMsg);
                         alert(data.statusMsg);
@@ -535,6 +553,14 @@ jQuery(document).ready(function() {
             }
          }
       ]
+   });
+
+   jQuery(".editTeamMemberDlg_bt_addUserGroup").click(function(event) {
+      event.preventDefault();
+      jQuery("#editTeamMemberDlg_newGroupName").val('');
+      jQuery("#editTeamMemberDlg_newGroupName").show();
+      jQuery("#editTeamMemberDlg_select_group").hide();
+      jQuery(".editTeamMemberDlg_bt_addUserGroup").hide();
    });
 
    // ------------------------------------------------------
@@ -793,7 +819,158 @@ jQuery(document).ready(function() {
       ]
    });
 
+   // ----- UserGroups CSV Import
+   jQuery(".userGroupsDialog_link").click(function(e) {
+      e.preventDefault();
+      jQuery(".userGroups_uploadErrorMsg").html('');
+      jQuery(".userGroups_uploadInfoMsg").html('');
+      jQuery(".userGroups_importCsvDialog").dialog("open");
+   });
 
+   jQuery(".userGroups_importCsvDialog").dialog({
+      autoOpen: false,
+      height: 'auto',
+      width: "auto",
+      //hide: "fade",
+      modal: true,
+      buttons: {
+         Ok: function() {
+            // The CSV has been uploaded (and displayed in userGroups_userData_table)
+            // The user is OK to apply the changes
+
+            var userGroupsList = {};
+            $(".userGroups_userData_table .userGroups_userData_tr").each(function() {
+               var userId = $(this).find('.opt_userid').text();
+               var groupName = $(this).find(".opt_groupName").text();
+               if ("--undefined--" !== groupName) {
+                  userGroupsList[userId] = groupName;
+               }
+            });
+
+            jQuery.ajax({
+               async: false,
+               type: "POST",
+               url: editTeamSmartyData.ajaxPage,
+               dataType:"json",
+               data: {
+                  action: 'validateNewUserGroups',
+                  displayed_teamid: editTeamSmartyData.displayedTeamId,
+                  userGroups: JSON.stringify(userGroupsList)
+               },
+               success: function(data) {
+                  if('SUCCESS' !== data.statusMsg) {
+                     console.error(data.statusMsg);
+                     jQuery(".userGroups_execStatusErrMsg").html(data.statusMsg);
+                  } else {
+                     // update teamMembers table
+                     $("#teamMembers_table .teamMembers_tr .teamMember_group").each(function() {
+                        $(this).text("");
+                     });
+                     jQuery.each(data.userGroups, function( userId, groupName ) {
+                        var myTr = $(".teamMembers_tr[data-teamMemberId="+userId+"]");
+                        myTr.find(".teamMember_group").text(groupName);
+                     });
+                     jQuery.each(data.userGroups, function( userId, groupName ) {
+                        var myTr = $(".teamMembers_tr[data-teamMemberId="+userId+"]");
+                        myTr.find(".teamMember_group").text(groupName);
+                     });
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  if(errorThrown == 'Forbidden') {
+                     window.location = '{$page}';
+                  }
+               }
+            });
+
+            jQuery(this).dialog( "close" );
+         },
+         Cancel: function() {
+            // TODO restore previous values
+            jQuery(this).dialog( "close" );
+         }
+      }
+   });
+
+
+   // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+   // save the file data to a file variable for later use.
+   var files;
+   $('input[type=file]').on('change', function (event) {
+       files = event.target.files;
+   });
+
+   jQuery(".userGroups_btUpload").click(function (event) {
+       /* stop form from submitting normally */
+      event.preventDefault();
+      var form = jQuery("#userGroups_formUploadFile");
+
+      // check fields
+      jQuery(".userGroups_uploadErrorMsg").html('');
+      if (0 == form.find("input[name=uploaded_csv]").val()) {
+         jQuery(".userGroups_uploadErrorMsg").html(editTeamSmartyData.i18n_PleaseSelectCSV);
+      } else {
+
+         // Create a formdata object and add the files
+         var data = new FormData();
+         $.each(files, function (key, value) {
+             data.append("uploaded_csv", value);
+         });
+
+         // add other fields
+         data.append("displayed_teamid", editTeamSmartyData.displayedTeamId);
+         data.append("action", "uploadUserGroupsCsvFile");
+
+         jQuery.ajax({
+            type: form.attr('method'),
+            url: form.attr('action') + "?importData",
+            data: data,
+            processData: false, // Don't process the files
+            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+            dataType:"json",
+            success: function (data) {
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".userGroups_uploadErrorMsg").text("ERROR: "+data.statusMsg);
+               } else {
+                  jQuery(".userGroups_uploadInfoMsg").text(editTeamSmartyData.i18n_PleaseCheckAndValidate);
+                  $(".userGroups_userData_table tbody").empty();
+                  jQuery.each(data.userGroups_userDataArray, function( index, uData ) {
+                     var trObject = jQuery('<tr>').addClass("userGroups_userData_tr").css('color', uData.color).append(
+                        jQuery('<td>').addClass("opt_userName").attr('title', uData.userId).text(uData.userName),
+                        jQuery('<td>').text(uData.userRealname),
+                        jQuery('<td>').addClass("left").addClass("opt_groupName").text(uData.groupName),
+                        jQuery('<td>').addClass("left").text(uData.message),
+                        jQuery('<td>').addClass("ui-helper-hidden").addClass("opt_userid").text(uData.userId)
+                     );
+                     trObject.appendTo('.userGroups_userData_table tbody');
+                  });
+               }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+               if (errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      }
+   });
+   jQuery(".userGroups_helpDialog_link").click(function(e) {
+      e.preventDefault();
+      jQuery("#userGroups_helpDialog_colorsDesc").hide();
+      jQuery(".userGroups_helpDialog").dialog("open");
+   });
+   jQuery(".userGroups_helpDialog_link2").click(function(e) {
+      e.preventDefault();
+      jQuery("#userGroups_helpDialog_colorsDesc").show();
+      jQuery(".userGroups_helpDialog").dialog("open");
+   });
+   jQuery(".userGroups_helpDialog").dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "650px",
+      hide: "fade"
+   });
 
 }); // document ready
 

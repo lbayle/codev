@@ -91,65 +91,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // return html & chart data
          $jsonData = json_encode($data);
          echo $jsonData;
-
-      } else if ('uploadCsvFile' === $action) {
-         $filename = null;
-         $userGroups = null;
-         $statusMsg = 'SUCCESS';
-         $userDataArray = array();
-
-         // If user is allowed to import
-         $sessionUser = UserCache::getInstance()->getUser($sessionUserId);
-         if (($sessionUser->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) ||
-             ($sessionUser->isTeamManager($teamid)) ||
-             ($sessionUser->isTeamLeader($teamid))) {
-
-            $plugin = new LoadPerUserGroups($pluginDataProvider);
-
-            if (isset($_FILES['uploaded_csv'])) {
-               try {
-                  // Get file datas
-                  $filename = $plugin->getSourceFile();
-                  $userGroups = $plugin->getUserGroupsFromCSV($filename);
-                  $plugin->setUserGroups($userGroups);
-                  $userDataArray = $plugin->updateUserDataArray();
-
-               } catch (Exception $ex) {
-                  $statusMsg = $ex->getMessage();
-               }
-            }
-
-            $data = array(
-               'statusMsg' => $statusMsg,
-               'LoadPerUserGroups_userDataArray' => $userDataArray,
-            );
-         } else {
-            $statusMsg = T_("Please contact your team leader to update UserGroups settings");
-            $data = array(
-               'statusMsg' => $statusMsg,
-            );
-         }
-
-         // return data
-         $jsonData = json_encode($data);
-         echo $jsonData;
-      } else if ('validateNewUserGroups' === $action) {
-
-         $userGroupsJsonStr = Tools::getSecurePOSTStringValue('userGroups');
-         $userGroups = json_decode(stripslashes($userGroupsJsonStr), true);
-
-         $statusMsg = 'SUCCESS';
-         $team->setUserGroups($userGroups);
-
-         // TODO error handling !
-
-         $data = array(
-            'statusMsg' => $statusMsg,
-         );
-         // return data
-         $jsonData = json_encode($data);
-         echo $jsonData;
-
       } else {
          $logger->error("Unknown action: $action");
          Tools::sendNotFoundAccess();

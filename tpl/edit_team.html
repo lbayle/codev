@@ -199,7 +199,75 @@
          </form>
          </div>
 
-         <!-- Display previous entries -->
+         <div style="margin-top: 2em;">
+            <label>{t}Import user groups from CSV{/t} :</label>
+            <input class="userGroupsDialog_link" type="button" value="{t}import groups{/t}" />
+            <span class="userGroups_helpDialog_link pointer">
+               <img title="Help" src="images/help_icon.gif"/>
+            </span>
+         </div>
+
+         <div class="userGroups_importCsvDialog ui-helper-hidden" title="{t}User groups{/t}">
+
+            <div align="left" style="margin-top:1em;" class="left">
+               <!-- FILE SELECTION -->
+               <form  id="userGroups_formUploadFile" method="post" action="{$ajaxPage}" enctype="multipart/form-data">
+                  <fieldset>
+                     <label>{t}CSV file{/t}: </label>
+                     <input type="file" class="userGroups_file" name="uploaded_csv" accept=".csv, text/csv, application/csv, text/comma-separated-values" />
+                     <input type="submit" class="userGroups_btUpload" value="{t}upload{/t}" />
+                     <span style="padding-left: 3em">{t}Import template{/t}:
+                        <a href="include/download.php?plugin=userGroups&f=loadPerUserGroups_template.xlsx">XLS</a>
+                        <!--or
+                        <a href="include/download.php?plugin=userGroups&f=loadPerUserGroups_template.csv">CSV</a>-->
+                     </span>
+                     <span class="userGroups_helpDialog_link2 pointer"  style="padding-left: 2em">
+                        <img title="Help" src="images/help_icon.gif"/>
+                     </span>
+                  </fieldset>
+               </form>
+               <div class="userGroups_uploadErrorMsg error_font"></div>
+               <div class="userGroups_uploadInfoMsg success_font"></div>
+            </div>
+
+            <div style="overflow:auto; max-height:300px; width:800px; margin-top:2em;">
+               <table class="userGroups_userData_table" style="width:100%;">
+                <thead>
+                   <tr>
+                      <th class="left">{t}User{/t}</th>
+                      <th class="left">{t}Name{/t}</th>
+                      <th class="left">{t}Group{/t}</th>
+                      <th class="left">{t}Info{/t}</th>
+                   </tr>
+                </thead>
+                <tbody>
+                </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="userGroups_helpDialog ui-helper-hidden" title="{t}User groups{/t}">
+            <div>
+               <strong>{t}Description{/t}</strong><br>
+               {t}TODO{/t}<br>
+               {t}Group examples: Architect, Expert, Developer, Qualifier{/t}
+
+            </div>
+            <div style="margin-top: 1em;">
+               <strong>{t}CSV File Format{/t}</strong><br>
+               {t}delimiter{/t} = <span style="color:blue">;</span><br>
+               {t}1st column{/t} = username (as defined in mantis)<br>
+               {t}2nd column{/t} = group name<br>
+            </div>
+            <div id="userGroups_helpDialog_colorsDesc" style="margin-top: 1em;">
+                <strong>{t}Colors{/t}</strong><br>
+                <span style="color:blue">{t}Team members assigned to a group{/t}</span><br>
+                <span style="color:red">{t}Users not assigned to any group{/t}</span><br>
+                <span style="color:darkgrey">{t}Not a team member, but assigned to a group{/t}</span><br>
+            </div>
+         </div>
+
+
+         <!-- Display team members table -->
          <div style="margin-top: 2em;">
             <script type="text/javascript" src="js_min/datatable.min.js"></script>
             <table class="datatable_csv" id="teamMembers_table">
@@ -208,9 +276,10 @@
                      <th id="nbTeamMembers_th" title="{t}Number of team members{/t}">{$teamMembers|@count}</th>
                      <th>{t}login{/t}</th>
                      <th>{t}Name{/t}</th>
+                     <th>{t}Role{/t}</th>
                      <th title="{t}Arrival date in the team{/t}">{t}Arrival Date{/t}</th>
                      <th title="{t}Departure date from the team{/t}">{t}Departure Date{/t}</th>
-                     <th>{t}Role{/t}</th>
+                     <th>{t}Group{/t}</th>
                   </tr>
                </thead>
                <tbody>
@@ -222,9 +291,10 @@
                      </td>
                      <td class="teamMember_username" title="{$i.userid}">{$i.username}</td>
                      <td class="teamMember_realname">{$i.realname}</td>
+                     <td class="teamMember_role" data-roleId="{$i.accessLevelId}">{$i.accessLevel}</td>
                      <td class="teamMember_arrivalDate">{$i.arrivaldate}</td>
                      <td class="teamMember_departureDate">{if isset($i.departuredate)}{$i.departuredate}{/if}</td>
-                     <td class="teamMember_role" data-roleId="{$i.accessLevelId}">{$i.accessLevel}</td>
+                     <td class="teamMember_group">{$i.groupName}</td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -243,19 +313,37 @@
                               {/foreach}
                            </select>
                         </td>
+                        <td></td>
                      </tr>
                      <tr id="editTeamMemberDlg_tr_arrivalDate">
                         <th>{t}Arrival Date{/t} :</th>
                         <td><input type="text" id="editTeamMemberDlg_arrivalDate" name="editTeamMemberDlg_arrivalDate" class="datepicker" maxlength="10" size="10" title="{t}Arrival date{/t}" /></td>
+                        <td></td>
                      </tr>
                      <tr id="editTeamMemberDlg_tr_departureDate">
                         <th>{t}Departure Date{/t} :</th>
                         <td><input type="text" id="editTeamMemberDlg_departureDate" name="editTeamMemberDlg_departureDate" class="datepicker" maxlength="10" size="10" title="{t}Departure date{/t}" /></td>
+                        <td><span class="help_font">({t}optionnal{/t})</span></td>
+                     </tr>
+                     <tr id="editTeamMemberDlg_tr_group">
+                        <th>{t}Group{/t} :</th>
+                        <td>
+                           <div id="editTeamMemberDlg_divAddUserGroup">
+                              <select id="editTeamMemberDlg_select_group" style="display: inline-block;">
+                                 <option value="undefined">{t}(no group){/t}</option>
+                                 {foreach from=$userGroupNames key=id item=i}
+                                 <option value="{$i}">{$i}</option>
+                                 {/foreach}
+                              </select>
+                              <a class="editTeamMemberDlg_bt_addUserGroup ui-icon pointer" title="{t}add new group{/t}" style="background:url(images/b_add.png);display:inline-block;vertical-align:middle;"></a>
+                              <input type="text" id="editTeamMemberDlg_newGroupName" placeholder="newGroupName" />
+                           </div>
+                        </td>
+                        <td><span class="help_font">({t}optionnal{/t})</span></td>
                      </tr>
                   </tbody>
                </table>
             </div>
-
          </div>
       </div>
 
@@ -824,7 +912,9 @@
          i18n_save:"{t}save{/t}",
          i18n_updatedSuccessfully:"{t}Updated successfully !{/t}",
          i18n_jobListForProject:"{t}Job list for project :{/t} ",
-         i18n_forbidenStatusListForProject:"{t}Forbiden Status for project:{/t} "
+         i18n_forbidenStatusListForProject:"{t}Forbiden Status for project:{/t} ",
+         i18n_PleaseSelectCSV:"{t}Please select a CSV file{/t}",
+         i18n_PleaseCheckAndValidate:"{t}Please check table below and click 'OK' button to accept changes{/t}"
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>

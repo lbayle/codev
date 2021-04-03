@@ -428,6 +428,10 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
       $this->execData['totalElapsedOnRegularPrj'] = round($totalElapsedOnRegularPrj, 2);
       $this->execData['totalElapsedOnSidetasksPrj'] = round($totalElapsedOnSidetasksPrj, 2);
       $this->execData['totalElapsedOnPeriod'] = round($totalElapsedOnPeriod, 2);
+
+      // Sort the multidimensional array
+      usort($this->userDataArray, "f_customGroupSort");
+
       $this->execData['userDataArray'] = $this->userDataArray;
 
       //self::$logger->error($this->execData);
@@ -461,6 +465,18 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
    public function getSmartyVariablesForAjax() {
       return $this->getSmartyVariables(true);
    }
+}
+
+/**
+ * Sort blue/red/grey then by name
+ */
+function f_customGroupSort($a,$b) {
+
+   if ($a['color'] == $b['color']) {
+      return $a['userName'] > $b['userName'];
+   }
+   $keyVal = array('blue' => 0, 'red' => 1, 'darkgrey' => 2);
+   return $keyVal[$a['color']] > $keyVal[$b['color']];
 }
 
 // Initialize complex static variables
