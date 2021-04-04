@@ -154,6 +154,8 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $this->userGroups = $team->getUserGroups();
 
+      $this->updateUserDataArray();
+
    }
 
    /**
