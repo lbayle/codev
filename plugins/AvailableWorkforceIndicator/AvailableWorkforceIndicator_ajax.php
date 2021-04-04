@@ -22,11 +22,11 @@ require('../../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
+if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    $logger = Logger::getLogger("AvailableWorkforceIndicator_ajax");
-   $action = Tools::getSecureGETStringValue('action', 'none');
-   $dashboardId = Tools::getSecureGETStringValue('dashboardId');
+   $action = Tools::getSecurePOSTStringValue('action', 'none');
+   $dashboardId = Tools::getSecurePOSTStringValue('dashboardId');
 
    if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
       $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
@@ -40,10 +40,10 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
    if('getAvailableWorkforceRangeValue' == $action) {
 
-      $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("availableWorkforce_startdate"));
-      $endTimestamp   = Tools::date2timestamp(Tools::getSecureGETStringValue("availableWorkforce_enddate"));
+      $startTimestamp = Tools::date2timestamp(Tools::getSecurePOSTStringValue("availableWorkforce_startdate"));
+      $endTimestamp   = Tools::date2timestamp(Tools::getSecurePOSTStringValue("availableWorkforce_enddate"));
 
-      $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
+      $attributesJsonStr = Tools::getSecurePOSTStringValue('attributesJsonStr');
       $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
       $userSettings = $attributesArray['userSettings'];
 
@@ -71,10 +71,10 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
    } else if('updateUserSettings' == $action) {
 
-      $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("availableWorkforce_startdate"));
-      $endTimestamp   = Tools::date2timestamp(Tools::getSecureGETStringValue("availableWorkforce_enddate"));
+      $startTimestamp = Tools::date2timestamp(Tools::getSecurePOSTStringValue("availableWorkforce_startdate"));
+      $endTimestamp   = Tools::date2timestamp(Tools::getSecurePOSTStringValue("availableWorkforce_enddate"));
 
-      $attributesJsonStr = Tools::getSecureGETStringValue('attributesJsonStr');
+      $attributesJsonStr = Tools::getSecurePOSTStringValue('attributesJsonStr');
       $attributesArray = json_decode(stripslashes($attributesJsonStr), true);
 
       $userSettings = $attributesArray['userSettings'];

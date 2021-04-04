@@ -3,7 +3,7 @@
 <div class="pluginDestroyFunction"  style="display: none;">availableWorkforceIndicatorJsDestroy</div>
 {if isset($availableWorkforceIndicator_jqplotData)}
 <div align="left" style="margin-top:1em;">
-   <form class="availableWorkforceIndicator_dateRange_form" method="get" action="{$availableWorkforceIndicator_ajaxPhpURL}">
+   <form class="availableWorkforceIndicator_dateRange_form" method="post" action="{$availableWorkforceIndicator_ajaxPhpURL}">
       <fieldset>
          <label for="availableWorkforce_startdatepicker">{t}From{/t}:</label>
          <input type="text" class="availableWorkforce_startdatepicker datepicker" name="availableWorkforce_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
@@ -12,6 +12,7 @@
          <input class="availableWorkforce_submit" type="submit" title="{t}Compute{/t}" value=">>" />
          <label class="availableWorkforce_rangevalue" style="margin-left:1.5em; font-weight:bold;">{$availableWorkforceIndicator_rangeValue}</label>
          <label style="margin-left:0.5em; font-weight:bold;">{t}man-days{/t}</label>
+         <input type="button" id="availableWorkforce_buttonOptions" value="{t}Options{/t}" style="margin-left:8em;" />
          <input type="hidden" name="action" value="" />
          <input type="hidden" name="attributesJsonStr" value="" />
          <input type="hidden" name="dashboardId" value="" />
@@ -56,27 +57,40 @@
    {include file="`$availableWorkforceIndicator_ajaxFile`"}
 </div-->
 <div class="availableWorkforceIndicatorOptionDialog ui-helper-hidden" title="{t}Available Workforce Options{/t}">
-   <table class="invisible userSettings_table">
-    <thead>
-       <tr>
-          <th class="left"></th>
-          <th class="left">{t}User{/t}</th>
-          <th class="left">{t}Availability{/t}</th>
-          <th class="left" title="{t}Productivity Coefficient{/t}">{t}Prod. Coef{/t}</th>
-       </tr>
-    </thead>
-    <tbody>
-      {foreach from=$availableWorkforceIndicator_userSettings key=id item=i}
-       <tr class="userSettings_tr">
-          <td class="right"><input class="opt_enabled" type="checkbox" {if $i.enabled}checked="checked"{/if}></td>
-          <td class="left opt_name">{$i.name}</td>
-          <td class="right"><input class="opt_availability" value="{$i.availability}">%</td>
-          <td class="right"><input class="opt_prodCoef" value="{$i.prodCoef}"></td>
-          <td class="ui-helper-hidden opt_userid">{$id}</td>
-       </tr>
+
+   <input type="checkbox" id="availableWorkforceIndicator_cbSelectAllUsers"><span>{t}Select all{/t}</span>
+   &nbsp;&nbsp;&nbsp;&nbsp;
+   <span>{t}Select by group{/t}</span>
+   <select id="availableWorkforceIndicator_selectGroup" style="display: inline-block;">
+      <option value="undefined">{t}(no group){/t}</option>
+      {foreach from=$availableWorkforceIndicator_userGroupNames key=id item=i}
+      <option value="{$i}">{$i}</option>
       {/foreach}
-    </tbody>
-   </table>
+   </select>
+   <hr>
+   <div style="margin-top:1em;width:650px;height:300px;overflow-x:hidden;overflow-y:auto;">
+      <table class="invisible userSettings_table" style="margin-top:1em;">
+       <thead>
+          <tr>
+             <th class="left"></th>
+             <th class="left">{t}User{/t}</th>
+             <th class="left">{t}Availability{/t}</th>
+             <th class="left" title="{t}Productivity Coefficient{/t}">{t}Prod. Coef{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+         {foreach from=$availableWorkforceIndicator_userSettings key=id item=i}
+          <tr class="userSettings_tr" data-groupName="{$i.groupName}">
+             <td class="right"><input class="opt_enabled" type="checkbox" {if $i.enabled}checked="checked"{/if}></td>
+             <td class="left opt_name" title="{$i.groupName}">{$i.name}</td>
+             <td class="right"><input class="opt_availability" value="{$i.availability}">%</td>
+             <td class="right"><input class="opt_prodCoef" value="{$i.prodCoef}"></td>
+             <td class="ui-helper-hidden opt_userid">{$id}</td>
+          </tr>
+         {/foreach}
+       </tbody>
+      </table>
+   </div>
 </div>
 <div class="availableWorkforceIndicatorHelpDialog ui-helper-hidden" title="{t}Available Workforce{/t}">
    <p>
@@ -198,6 +212,11 @@
          e.preventDefault();
          jQuery(".availableWorkforceIndicatorOptionDialog").dialog("open");
       });
+      jQuery("#availableWorkforce_buttonOptions").click(function(e) {
+         e.preventDefault();
+         jQuery(".availableWorkforceIndicatorOptionDialog").dialog("open");
+      });
+
       jQuery(".availableWorkforceIndicatorOptionDialog").dialog({
          autoOpen: false,
          height: 'auto',
@@ -245,8 +264,11 @@
 
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
+                     console.error("ERROR:", errorThrown, textStatus);
                      if(errorThrown == 'Forbidden') {
                         window.location = '{$page}';
+                     } else {
+                        alert("ERROR: Please contact your CodevTT administrator");
                      }
                   }
                });
@@ -258,6 +280,24 @@
                jQuery(this).dialog( "close" );
             }
          }
+      });
+
+      jQuery("#availableWorkforceIndicator_cbSelectAllUsers").click(function(e) {
+         var isChecked = $(this).attr('checked') ? true : false;
+         $(".userSettings_table .userSettings_tr").each(function() {
+            $(this).find(".opt_enabled").attr('checked', isChecked);
+         });
+      });
+      jQuery("#availableWorkforceIndicator_selectGroup").change(function() {
+         var userGroup = $("#availableWorkforceIndicator_selectGroup").val();
+         $(".userSettings_table .userSettings_tr").each(function() {
+            if (userGroup === $(this).attr('data-groupName')) {
+               $(this).find(".opt_enabled").attr('checked', true);
+            } else {
+               $(this).find(".opt_enabled").attr('checked', false);
+            }
+         });
+
       });
 
       var chartoptions = jQuery('.availableWorkforceIndicatorChart').data('plotoptions');

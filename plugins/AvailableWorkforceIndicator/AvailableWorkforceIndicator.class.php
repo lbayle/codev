@@ -174,6 +174,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
       $endT = mktime(23, 59, 59, date('m', $endT), date('d',$endT), date('Y', $endT));
 
       $users = $team->getActiveMembers($this->graphStartTimestamp,$endT,TRUE); // TRUE=realNames
+      $userGroups = $team->getUserGroups();
 
       foreach ($users as $uid => $uname) {
          $this->userSettings[$uid] = array(
@@ -181,6 +182,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
              'availability' => 100, // 100%
              'prodCoef' => 1,
              'enabled' => true,
+             'groupName' => array_key_exists($uid, $userGroups) ? $userGroups[$uid] : 'undefined',
          );
          #self::$logger->error("team member: $uname ");
       }
@@ -337,13 +339,18 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
          $availWorkforceList[$label] = round($wf, 1);
       }
 
+      $team = TeamCache::getInstance()->getTeam($this->teamid);
+      $userGroupAsso = $team->getUserGroups();
+      $userGroupNames = array_unique(array_values($userGroupAsso));
+
       $this->execData = array (
           'graph_availWorkforceList' => $availWorkforceList,
           'graph_minTimestamp' => $graphMinTimestamp,
           'graph_maxTimestamp' => $graphMaxTimestamp,
-          'table_header' => $tableHeader,
-          'table_footer' => $tableFooter,
+          'tableHeader' => $tableHeader,
+          'tableFooter' => $tableFooter,
           'table_availWorkforceList' => $detailedAvailWorkforceList,
+          'userGroupNames' => $userGroupNames,
           );
       return $this->execData;
    }
@@ -361,14 +368,15 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
          $smartyPrefix.'jqplotXaxes' => json_encode(array_keys($this->execData['graph_availWorkforceList'])),
          $smartyPrefix.'jqplotData' => json_encode(array(array_values($this->execData['graph_availWorkforceList']))),
 
-         $smartyPrefix.'tableHeader' => $this->execData['table_header'],
+         $smartyPrefix.'tableHeader' => $this->execData['tableHeader'],
          $smartyPrefix.'tableData' => $this->execData['table_availWorkforceList'],
-         $smartyPrefix.'tableFooter' => $this->execData['table_footer'],
+         $smartyPrefix.'tableFooter' => $this->execData['tableFooter'],
          $smartyPrefix.'startDatepicker' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          $smartyPrefix.'endDatepicker' => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
          $smartyPrefix.'rangeValue' => $rangeData['rangeTeamWorkforce'],
          $smartyPrefix.'rangeUserDetails' => $rangeData['rangeUserDetails'],
          $smartyPrefix.'userSettings' => $this->userSettings,
+         $smartyPrefix.'userGroupNames' => $this->execData['userGroupNames'],
 
          // add pluginSettings (if needed by smarty)
          $smartyPrefix.self::OPTION_INTERVAL => $this->interval,
