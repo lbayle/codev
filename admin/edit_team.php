@@ -305,6 +305,7 @@ class EditTeamController extends Controller {
 
                $userGroupAsso = $team->getUserGroups(); // [userid => groupName]
                $userGroupNames = array_unique(array_values($userGroupAsso));
+               sort($userGroupNames);
                $this->smartyHelper->assign('userGroupNames', $userGroupNames);
                //$userGroupData = $this->updateUserDataArray($userGroupAsso, $team);
                //$this->smartyHelper->assign('userGroupData', $userGroupData);

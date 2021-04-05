@@ -272,6 +272,7 @@ class Dashboard {
             self::$logger->error('Could not display plugin '.$cClassName.': class not found');
          }
       }
+      usort($dashboardPluginCandidates, "f_customPluginCandidatesSort");
 
       return array(
          'dashboardId' => $this->id,
@@ -340,7 +341,14 @@ class Dashboard {
    }
 
 }
+/**
+ * Sort by plugin name
+ */
+function f_customPluginCandidatesSort($a,$b) {
 
+   return strcasecmp($a['title'], $b['title']);
+
+}
 // Initialize static variables
 Dashboard::staticInit();
 

@@ -12,7 +12,7 @@
          <input class="availableWorkforce_submit" type="submit" title="{t}Compute{/t}" value=">>" />
          <label class="availableWorkforce_rangevalue" style="margin-left:1.5em; font-weight:bold;">{$availableWorkforceIndicator_rangeValue}</label>
          <label style="margin-left:0.5em; font-weight:bold;">{t}man-days{/t}</label>
-         <input type="button" id="availableWorkforce_buttonOptions" value="{t}Options{/t}" style="margin-left:8em;" />
+         <input type="button" id="availableWorkforce_buttonOptions" value="{t}User selection{/t}" style="margin-left:8em;" />
          <input type="hidden" name="action" value="" />
          <input type="hidden" name="attributesJsonStr" value="" />
          <input type="hidden" name="dashboardId" value="" />
@@ -85,7 +85,7 @@
              <td class="left opt_name" title="{$i.groupName}">{$i.name}</td>
              <td class="right"><input class="opt_availability" value="{$i.availability}">%</td>
              <td class="right"><input class="opt_prodCoef" value="{$i.prodCoef}"></td>
-             <td class="ui-helper-hidden opt_userid">{$id}</td>
+             <td class="ui-helper-hidden opt_userid">{$i.userId}</td>
           </tr>
          {/foreach}
        </tbody>

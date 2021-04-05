@@ -432,7 +432,7 @@ class LoadPerUserGroups extends IndicatorPluginAbstract {
       $this->execData['totalElapsedOnPeriod'] = round($totalElapsedOnPeriod, 2);
 
       // Sort the multidimensional array
-      usort($this->userDataArray, "f_customGroupSort");
+      uasort($this->userDataArray, "f_customGroupSort");
 
       $this->execData['userDataArray'] = $this->userDataArray;
 

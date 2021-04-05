@@ -178,6 +178,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
 
       foreach ($users as $uid => $uname) {
          $this->userSettings[$uid] = array(
+             'userId' => $uid,
              'name' => $uname,
              'availability' => 100, // 100%
              'prodCoef' => 1,
@@ -233,6 +234,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
             $userWorkforce = $userRawWorkforce * $userSettings['availability'] / 100 * $userSettings['prodCoef'];
             $teamAvailWkl += $userWorkforce;
             $rangeUserDetails[$user_id] = array(
+               'userId' => $user_id,
                'userName' => $user->getRealname(),
                'rangeWorkforce' => round($userWorkforce, 2),
             );
@@ -342,6 +344,7 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
       $team = TeamCache::getInstance()->getTeam($this->teamid);
       $userGroupAsso = $team->getUserGroups();
       $userGroupNames = array_unique(array_values($userGroupAsso));
+      sort($userGroupNames);
 
       $this->execData = array (
           'graph_availWorkforceList' => $availWorkforceList,
@@ -361,6 +364,8 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
     * @return array
     */
    public function getSmartyVariables($isAjaxCall = false) {
+
+      uasort($this->userSettings, "f_customAvailableWorkforceUserSettingsSort");
 
       $rangeData = $this->getTeamAvailWorkforce($this->startTimestamp, $this->endTimestamp);
       $smartyPrefix = 'availableWorkforceIndicator_';
@@ -396,5 +401,11 @@ class AvailableWorkforceIndicator extends IndicatorPluginAbstract {
 
 }
 
+/**
+ * Sort blue/red/grey then by name
+ */
+function f_customAvailableWorkforceUserSettingsSort($a,$b) {
+   return strcasecmp($a['name'], $b['name']);
+}
 // Initialize static variables
 AvailableWorkforceIndicator::staticInit();

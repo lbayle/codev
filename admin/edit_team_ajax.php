@@ -784,7 +784,7 @@ function getUserDataArray($teamid, $userGroups) {
       }
    }
    // Sort the multidimensional array
-   usort($userDataArray, "f_customUserGroupSort");
+   uasort($userDataArray, "f_customUserGroupSort");
    return $userDataArray;
 }
 
