@@ -11,12 +11,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-03-29 15:53:14+0000\n"
+"PO-Revision-Date: 2021-05-07 08:47:09+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2021-03-04 09:52:10+0000\n"
-"X-Generator: MediaWiki 1.36.0-alpha; Translate 2021-01-21\n"
+"X-POT-Import-Date: 2021-04-05 08:47:35+0000\n"
+"X-Generator: MediaWiki 1.36.0-rc.0; Translate 2021-04-28\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/index.html
@@ -125,12 +125,12 @@ msgstr "請選擇一個團隊來訪問此頁面。"
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#: classes/issue_selection.class.php:354 classes/issue.class.php:2290
-#: classes/wbsElement.class.php:694 classes/wbsElement.class.php:695
+#: classes/issue_selection.class.php:344 classes/issue.class.php:2141
+#: classes/wbsElement.class.php:690 classes/wbsElement.class.php:691
 #: filters/ProjectFilter.php:59 management/commandset_info.php:141
 #: management/servicecontract_info.php:138 management/command_info.php:226
-#: reports/planning_report.php:234 reports/planning_report.php:475
-#: reports/planning_report.php:476 reports/project_info.php:275
+#: reports/planning_report.php:231 reports/planning_report.php:472
+#: reports/planning_report.php:473 reports/project_info.php:275
 #: reports/project_info.php:286 reports/project_info.php:298 tests/odt.php:25
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
 #: scheduler/SchedulerEvent.class.php:127
@@ -157,7 +157,7 @@ msgstr "選擇"
 #. tpl/productivity_report.html
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#: classes/time_tracking.class.php:461
+#: classes/time_tracking.class.php:458
 msgid "nb days"
 msgstr "nb日"
 
@@ -302,7 +302,7 @@ msgstr "服務合約"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2273 classes/wbsElement.class.php:688
+#: classes/issue.class.php:2124 classes/wbsElement.class.php:684
 msgid "Commands"
 msgstr "命令"
 
@@ -361,7 +361,7 @@ msgstr "參照"
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
-#: classes/consistency_check2.class.php:638
+#: classes/consistency_check2.class.php:604
 msgid "Command"
 msgstr "命令"
 
@@ -568,7 +568,7 @@ msgstr "屬性"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:299
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:296
 msgid "SideTasks"
 msgstr "邊際任務"
 
@@ -635,7 +635,7 @@ msgstr "命令集"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: reports/project_info.php:231 tests/filters.php:68
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:291
-#: plugins/WBSExport/WBSExport.class.php:154 tools.php:1491
+#: plugins/WBSExport/WBSExport.class.php:150 tools.php:1491
 msgid "MgrEffortEstim"
 msgstr "管理成效估計"
 
@@ -655,7 +655,7 @@ msgstr "管理成效估計"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: reports/project_info.php:232
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:292
-#: plugins/WBSExport/WBSExport.class.php:155 tools.php:1494
+#: plugins/WBSExport/WBSExport.class.php:151 tools.php:1494
 msgid "EffortEstim"
 msgstr "成效估計"
 
@@ -700,9 +700,9 @@ msgstr "重新估計"
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 #: reports/project_info.php:234 tests/filters.php:70
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:294
-#: plugins/WBSExport/WBSExport.class.php:156
+#: plugins/WBSExport/WBSExport.class.php:152
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:227
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:396
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:392
 msgid "Elapsed"
 msgstr "已流逝"
 
@@ -731,10 +731,10 @@ msgstr "已流逝"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 #. $titles[] = T_("Elapsed");
-#: reports/planning_report.php:465 reports/project_info.php:178
+#: reports/planning_report.php:462 reports/project_info.php:178
 #: reports/project_info.php:235 tests/filters.php:71
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:295
-#: plugins/WBSExport/WBSExport.class.php:157
+#: plugins/WBSExport/WBSExport.class.php:153
 #: scheduler/SchedulerEvent.class.php:117
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
 #: tools.php:1488 tools.php:1497
@@ -753,7 +753,7 @@ msgstr "積壓工作"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: reports/project_info.php:179 reports/project_info.php:236
 #: tests/filters.php:72 plugins/TasksPivotTable/TasksPivotTable.class.php:296
-#: plugins/WBSExport/WBSExport.class.php:158
+#: plugins/WBSExport/WBSExport.class.php:154
 msgid "Drift Mgr"
 msgstr "調度管理"
 
@@ -798,7 +798,7 @@ msgstr "調度"
 #. $titles[] = T_("Date");
 #: reports/project_info.php:175 reports/project_info.php:230
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:290
-#: plugins/WBSExport/WBSExport.class.php:153 gantt/gantt_ajax.php:196
+#: plugins/WBSExport/WBSExport.class.php:149 gantt/gantt_ajax.php:196
 msgid "Progress"
 msgstr "進度"
 
@@ -947,17 +947,17 @@ msgstr "ID"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. insert in front
 #. add task summary in front
-#: classes/issue_selection.class.php:355 classes/issue.class.php:2296
+#: classes/issue_selection.class.php:345 classes/issue.class.php:2147
 #: management/commandset_info.php:142 management/servicecontract_info.php:139
 #: management/command_info_ajax.php:309 management/command_info.php:227
-#: reports/planning_report.php:235 reports/planning_report.php:478
+#: reports/planning_report.php:232 reports/planning_report.php:475
 #: reports/project_info.php:276 reports/project_info.php:287
 #: reports/project_info.php:299
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:350
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:352
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
-#: plugins/WBSExport/WBSExport.class.php:159
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:253
+#: plugins/WBSExport/WBSExport.class.php:155
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:250
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:226
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1561
@@ -1141,8 +1141,10 @@ msgid "Remove CodevTT from Mantis menu:"
 msgstr "移除CodevTT從Mantis選單："
 
 #. tpl/uninstall.html
+#. tpl/edit_team.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/AdminTools/AdminTools.html
+#: plugins/AdminTools/AdminTools.class.php:69
 msgid "TODO"
 msgstr "待辦事項"
 
@@ -1331,7 +1333,7 @@ msgstr "nb任務"
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-#: install/install_step1.php:248 plugins/WBSExport/WBSExport.class.php:150
+#: plugins/WBSExport/WBSExport.class.php:146
 msgid "User"
 msgstr "使用者"
 
@@ -1377,9 +1379,9 @@ msgstr "調度與（EE + AddEE）相對"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:697 classes/wbsElement.class.php:698
-#: reports/planning_report.php:461 reports/planning_report.php:484
-#: reports/project_info.php:300 plugins/WBSExport/WBSExport.class.php:152
+#: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
+#: reports/planning_report.php:458 reports/planning_report.php:481
+#: reports/project_info.php:300 plugins/WBSExport/WBSExport.class.php:148
 #: scheduler/SchedulerEvent.class.php:113
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
@@ -1406,8 +1408,8 @@ msgstr "重新載入"
 
 #. tpl/tools/wbsEditor.html
 #. tpl/scheduler.html
-#: management/commandset_edit.php:123 management/servicecontract_edit.php:138
-#: management/command_edit.php:175
+#: management/commandset_edit.php:117 management/servicecontract_edit.php:132
+#: management/command_edit.php:163
 msgid "Save"
 msgstr "儲存"
 
@@ -1520,8 +1522,8 @@ msgstr "結餘"
 #. tpl/command_edit.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#: classes/command.class.php:801 classes/consistency_check2.class.php:737
-#: reports/planning_report.php:492 scheduler/SchedulerEvent.class.php:140
+#: classes/command.class.php:788 classes/consistency_check2.class.php:703
+#: reports/planning_report.php:489 scheduler/SchedulerEvent.class.php:140
 msgid "days"
 msgstr "日"
 
@@ -1572,8 +1574,8 @@ msgstr "規範未包含在「檢查預算」裡"
 #. tpl/project_activity_report.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: classes/issue_selection.class.php:359
-#: plugins/WBSExport/WBSExport.class.php:149
+#: classes/issue_selection.class.php:349
+#: plugins/WBSExport/WBSExport.class.php:145
 msgid "ExtRef"
 msgstr "ExtRef"
 
@@ -1585,7 +1587,7 @@ msgstr "ExtRef"
 #. tpl/team_activity_report.html
 #. tpl/project_activity_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: plugins/WBSExport/WBSExport.class.php:148 tools.php:1565
+#: plugins/WBSExport/WBSExport.class.php:144 tools.php:1565
 msgid "Target"
 msgstr "目標"
 
@@ -1831,7 +1833,7 @@ msgstr "成效添加"
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: classes/consistency_check2.class.php:444
+#: classes/consistency_check2.class.php:413
 msgid "elapsed"
 msgstr "已流逝"
 
@@ -2007,14 +2009,14 @@ msgstr "外部參照"
 #. tpl/export_odt.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. add in front
-#: classes/wbsElement.class.php:692 management/command_info_ajax.php:310
+#: classes/wbsElement.class.php:688 management/command_info_ajax.php:310
 #: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "分配給"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2305 reports/planning_report.php:462
-#: reports/planning_report.php:485 scheduler/SchedulerEvent.class.php:114
+#: classes/issue.class.php:2156 reports/planning_report.php:459
+#: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
 msgid "Priority"
@@ -2022,8 +2024,8 @@ msgstr "優先程度"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2301 reports/planning_report.php:463
-#: reports/planning_report.php:486 scheduler/SchedulerEvent.class.php:115
+#: classes/issue.class.php:2152 reports/planning_report.php:460
+#: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
 msgid "Severity"
@@ -2040,7 +2042,7 @@ msgstr "目標版本"
 #. tpl/command_edit.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: reports/planning_report.php:466 reports/planning_report.php:495
+#: reports/planning_report.php:463 reports/planning_report.php:492
 #: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1500
@@ -2071,7 +2073,7 @@ msgstr "關聯"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #: management/command_info_ajax.php:305 management/command_info_ajax.php:307
-#: reports/planning_report.php:471 reports/planning_report.php:473
+#: reports/planning_report.php:468 reports/planning_report.php:470
 #: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
 #: scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
@@ -2612,7 +2614,6 @@ msgstr "縮小"
 #. tpl/gantt.html
 #. tpl/scheduler.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -2663,6 +2664,13 @@ msgstr "使用者資訊"
 #. tpl/user_info.html
 msgid "User ID"
 msgstr "使用者 ID"
+
+#. tpl/user_info.html
+#. tpl/edit_team.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Group"
+msgstr "群組"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
@@ -2861,7 +2869,7 @@ msgstr "支援、文件、培訓、Wiki..."
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #: admin/create_team.php:89
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:399
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:395
 msgid "Inactivity"
 msgstr "不活躍"
 
@@ -2914,7 +2922,7 @@ msgstr "其它活動在專案上指示"
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
 #. ------ Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
-#: management/servicecontract_edit.php:86 management/command_edit.php:108
+#: management/servicecontract_edit.php:83 management/command_edit.php:105
 msgid "Create"
 msgstr "創建"
 
@@ -3462,6 +3470,80 @@ msgid "Import"
 msgstr "匯入"
 
 #. tpl/edit_team.html
+msgid "Import user groups from CSV"
+msgstr "從 CSV 匯入使用者群組"
+
+#. tpl/edit_team.html
+msgid "import groups"
+msgstr "匯入群組"
+
+#. tpl/edit_team.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "User groups"
+msgstr "使用者群組"
+
+#. tpl/edit_team.html
+msgid "CSV file"
+msgstr "CSV 檔案"
+
+#. tpl/edit_team.html
+msgid "upload"
+msgstr "上傳"
+
+#. tpl/edit_team.html
+#. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/ImportUsers/ImportUsers.html
+msgid "Import template"
+msgstr "匯入模板"
+
+#. tpl/edit_team.html
+msgid "Info"
+msgstr "訊息"
+
+#. tpl/edit_team.html
+msgid "Group examples: Architect, Expert, Developer, Qualifier"
+msgstr "群組範例：設計師、專家、開發者、資格鑑定員"
+
+#. tpl/edit_team.html
+msgid "CSV File Format"
+msgstr "CSV 檔案格式"
+
+#. tpl/edit_team.html
+#. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/ImportUsers/ImportUsers.html
+msgid "delimiter"
+msgstr "分隔符號"
+
+#. tpl/edit_team.html
+msgid "1st column"
+msgstr "第一欄"
+
+#. tpl/edit_team.html
+msgid "2nd column"
+msgstr "第二欄"
+
+#. tpl/edit_team.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+#. plugins/ImportUsers/ImportUsers.html
+msgid "Colors"
+msgstr "色彩"
+
+#. tpl/edit_team.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Team members assigned to a group"
+msgstr "團隊成員已分配到群組"
+
+#. tpl/edit_team.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Users not assigned to any group"
+msgstr "使用者尚未分配到任何群組"
+
+#. tpl/edit_team.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
+msgid "Not a team member, but assigned to a group"
+msgstr "非團隊成員，但有分配到群組"
+
+#. tpl/edit_team.html
 msgid "Number of team members"
 msgstr "團隊成員數目"
 
@@ -3494,6 +3576,18 @@ msgstr "抵達日期"
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Departure date"
 msgstr "離開日期"
+
+#. tpl/edit_team.html
+msgid "optionnal"
+msgstr "可選"
+
+#. tpl/edit_team.html
+msgid "(no group)"
+msgstr "（沒有群組）"
+
+#. tpl/edit_team.html
+msgid "add new group"
+msgstr "添加新的群組"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -3713,6 +3807,14 @@ msgstr "用於專案的工作清單："
 #. tpl/edit_team.html
 msgid "Forbiden Status for project:"
 msgstr "用於專案的禁止狀態："
+
+#. tpl/edit_team.html
+msgid "Please select a CSV file"
+msgstr "請選擇一個 CSV 檔案。"
+
+#. tpl/edit_team.html
+msgid "Please check table below and click 'OK' button to accept changes"
+msgstr "請檢查以下表格並點擊「確認」按鈕來接受變更"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -4348,6 +4450,12 @@ msgstr "Nb 時間表"
 msgid "Missing"
 msgstr "遺失"
 
+#. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#, fuzzy
+msgid "to"
+msgstr "自動"
+
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:69
@@ -4434,7 +4542,6 @@ msgid "Run selected actions"
 msgstr "執行選擇操作"
 
 #. plugins/AdminTools/AdminTools.html
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Actions executed !"
 msgstr "操作已執行！"
 
@@ -4453,11 +4560,6 @@ msgstr "清除控制面版"
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "for user "
 msgstr "用於使用者 "
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Group"
-msgstr "群組"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
@@ -4479,78 +4581,12 @@ msgid "Involved users"
 msgstr "已分配使用者"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "User groups"
-msgstr "使用者群組"
+msgid "Groups"
+msgstr "群組"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Define user groups and display the elapsed time for each group"
-msgstr "定義使用者群組並顯示各群組流逝時間"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#. plugins/ImportUsers/ImportUsers.html
-msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr "僅有團隊領導人和管理者被允許作出此行為。"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "CSV File Format"
-msgstr "CSV 檔案格式"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#. plugins/ImportIssueCsv/ImportIssueCsv.html
-#. plugins/ImportUsers/ImportUsers.html
-msgid "delimiter"
-msgstr "分隔符號"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "1st column"
-msgstr "第一欄"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "2nd column"
-msgstr "第二欄"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#. plugins/ImportUsers/ImportUsers.html
-msgid "Colors"
-msgstr "色彩"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Team members assigned to a group"
-msgstr "團隊成員已分配到群組"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Users not assigned to any group"
-msgstr "使用者尚未分配到任何群組"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Not a team member, but assigned to a group"
-msgstr "非團隊成員，但有分配到群組"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "CSV file"
-msgstr "CSV 檔案"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "import"
-msgstr "匯入"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#. plugins/ImportIssueCsv/ImportIssueCsv.html
-#. plugins/ImportUsers/ImportUsers.html
-msgid "Import template"
-msgstr "匯入模板"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Info"
-msgstr "訊息"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Please select a CSV file"
-msgstr "請選擇一個 CSV 檔案。"
-
-#. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-msgid "Please check table below and click 'OK' button to accept changes"
-msgstr "請檢查以下表格並點擊「確認」按鈕來接受變更"
+msgid "Display the elapsed time for each user group"
+msgstr "顯示各使用者群組的流逝時間"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Sorry, only team members can import tasks."
@@ -5104,6 +5140,10 @@ msgid "Add users to CodevTT team & projects"
 msgstr "添加用戶至 CodevTT 團隊和專案"
 
 #. plugins/ImportUsers/ImportUsers.html
+msgid "Only team-leaders & administrators are allowed to do this action."
+msgstr "僅有團隊領導人和管理者被允許作出此行為。"
+
+#. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Send password by mail"
 msgstr "以電子郵件寄送密碼"
@@ -5345,11 +5385,6 @@ msgid "Management costs"
 msgstr "管理成本"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
-msgid "to"
-msgstr "自動"
-
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Number of days to add on the period"
 msgstr "在週期內添加的天數"
 
@@ -5408,7 +5443,7 @@ msgstr "花費在目前任務選擇上的專案和邊際任務之時間"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:404
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:400
 msgid "Waste"
 msgstr "浪費"
 
@@ -5418,7 +5453,7 @@ msgstr "目前「事件」和「不活躍」邊際任務的選項。<br>（如�
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:397
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:393
 msgid "Other"
 msgstr "其他"
 
@@ -5428,7 +5463,7 @@ msgstr "不是花費在目前任務選擇上的專案和邊際任務之時間"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:398
+#: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:394
 msgid "External"
 msgstr "外部"
 
@@ -5493,11 +5528,11 @@ msgstr "無法從團隊移除專案"
 msgid "Configure Tooltips"
 msgstr "設置提示"
 
-#: admin/edit_team.php:399
+#: admin/edit_team.php:407
 msgid "enabled"
 msgstr "啟用"
 
-#: admin/edit_team.php:399
+#: admin/edit_team.php:407
 msgid "disabled"
 msgstr "停用"
 
@@ -5545,21 +5580,33 @@ msgstr "可用欄位"
 msgid "Tooltip"
 msgstr "提示"
 
-#: admin/edit_team_ajax.php:442
+#: admin/edit_team_ajax.php:445
 msgid "ERROR: joblist cannot be empty !"
 msgstr "錯誤：工作清單不能為空！"
 
-#: admin/edit_team_ajax.php:491
+#: admin/edit_team_ajax.php:494
 msgid "Invalid team name"
 msgstr "無效的團隊名稱。"
 
-#: admin/edit_team_ajax.php:495
+#: admin/edit_team_ajax.php:498
 msgid "Couldn't enable/disable team"
 msgstr "無法啓用/停用團隊"
 
-#: admin/edit_team_ajax.php:498
+#: admin/edit_team_ajax.php:501
 msgid "Couldn't update the creation date"
 msgstr "無法更新創建日期"
+
+#: admin/edit_team_ajax.php:694 management/command_edit_ajax.php:375
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:223
+#: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
+#: plugins/ImportUsers/ImportUsers.class.php:237
+msgid "Please upload files with the following extension: "
+msgstr "請上傳符合下列副檔名的檔案：\\"
+
+#: admin/edit_team_ajax.php:782
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:311
+msgid "No group defined for team member"
+msgstr "沒有定義給團隊成員的群組"
 
 #: admin/plugin_manager.php:69
 msgid "Could not create classmap: "
@@ -5570,28 +5617,28 @@ msgstr "無法建立 classmap：\\"
 msgid "Sorry, you need to be identified."
 msgstr "很抱歉，您需要被識別身份。"
 
-#: classes/user.class.php:1601
+#: classes/user.class.php:1560
 msgid "for team"
 msgstr "用於團隊"
 
-#: classes/user.class.php:1603
+#: classes/user.class.php:1562
 msgid "[CodevTT] Timesheet reminder !"
 msgstr "[CodevTT] 時間表提醒！"
 
-#: classes/user.class.php:1605 plugins/ImportUsers/ImportUsers_ajax.php:163
+#: classes/user.class.php:1564 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
 msgstr "親愛的 "
 
-#: classes/user.class.php:1606
+#: classes/user.class.php:1565
 msgid "Please fill your CodevTT timesheet"
 msgstr "請填入您的 CodevTT 時間表"
 
-#: classes/user.class.php:1617 classes/consistency_check2.class.php:735
+#: classes/user.class.php:1576 classes/consistency_check2.class.php:701
 msgid "incomplete (missing "
 msgstr "未完成（缺少\\"
 
 #. skip dates in the future
-#: classes/user.class.php:1620 classes/consistency_check2.class.php:750
+#: classes/user.class.php:1579 classes/consistency_check2.class.php:716
 msgid "not defined."
 msgstr "未定義。"
 
@@ -5632,31 +5679,31 @@ msgstr "限制由"
 msgid "Constrains"
 msgstr "限制"
 
-#: classes/issue.class.php:2265 tools.php:1549
+#: classes/issue.class.php:2116 tools.php:1549
 msgid "Tags"
 msgstr "標籤"
 
-#: classes/issue.class.php:2273
+#: classes/issue.class.php:2124
 msgid "none"
 msgstr "無"
 
-#: classes/issue.class.php:2278 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2129 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "調度色彩"
 
-#: classes/issue.class.php:2282
+#: classes/issue.class.php:2133
 msgid "DriftMgrColor"
 msgstr "調度管理色彩"
 
-#: classes/issue.class.php:2299 tools.php:1563
+#: classes/issue.class.php:2150 tools.php:1563
 msgid "Assigned"
 msgstr "已分配"
 
-#: classes/issue.class.php:2307 tools.php:1571
+#: classes/issue.class.php:2158 tools.php:1571
 msgid "ETA"
 msgstr "估計抵達時間"
 
-#: classes/scheduler.class.php:81 reports/planning_report.php:206
+#: classes/scheduler.class.php:81 reports/planning_report.php:203
 msgid "monitored"
 msgstr "已監測"
 
@@ -5721,113 +5768,113 @@ msgstr "已付款"
 msgid "Error"
 msgstr "錯誤"
 
-#: classes/consistency_check2.class.php:68 reports/export_odt.php:270
-#: reports/export_odt.php:283 tests/odt.php:81 tests/odt.php:94
+#: classes/consistency_check2.class.php:68 reports/export_odt.php:263
+#: reports/export_odt.php:273 tests/odt.php:74 tests/odt.php:84
 msgid "unknown"
 msgstr "不明"
 
-#: classes/consistency_check2.class.php:201
+#: classes/consistency_check2.class.php:177
 msgid "Backlog on resolved issues should be 0"
 msgstr "積壓工作在已解決問題上應為 0"
 
-#: classes/consistency_check2.class.php:202
+#: classes/consistency_check2.class.php:178
 msgid "Backlog on unresolved issues should not be 0"
 msgstr "積壓工作在未解決問題上不可為 0"
 
-#: classes/consistency_check2.class.php:203
+#: classes/consistency_check2.class.php:179
 msgid "EffortEstim should not be 0"
 msgstr "成效估計不應為 0"
 
-#: classes/consistency_check2.class.php:204
+#: classes/consistency_check2.class.php:180
 msgid "There should be no timetracks on \"new\" issues "
 msgstr "在「新」問題上不應有時間表\\"
 
-#: classes/consistency_check2.class.php:205
+#: classes/consistency_check2.class.php:181
 msgid "Issues should be referenced in a Command"
 msgstr "問題應被參照在一個命令中"
 
-#: classes/consistency_check2.class.php:206
+#: classes/consistency_check2.class.php:182
 msgid "Issues should not be referenced in multiple commands"
 msgstr "問題不應被參照在多個命令中"
 
-#: classes/consistency_check2.class.php:207
+#: classes/consistency_check2.class.php:183
 msgid "Commands should be referenced in a CommandSet"
 msgstr "命令應被參照在一個命令集中"
 
-#: classes/consistency_check2.class.php:208
+#: classes/consistency_check2.class.php:184
 msgid "CommandSets should be referenced in a ServiceContract"
 msgstr "命令集應被參照在一個服務合約中"
 
-#: classes/consistency_check2.class.php:209
+#: classes/consistency_check2.class.php:185
 msgid "Issues should be assigned to someone"
 msgstr "問題應分配給予某人"
 
-#: classes/consistency_check2.class.php:210
+#: classes/consistency_check2.class.php:186
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
 msgstr "檢查已移除問題的時間表（如果Mantis外掛套件已啟用則不需要）"
 
 #. for all timetracks of the team, check that the Mantis issue exist.
-#: classes/consistency_check2.class.php:211
+#: classes/consistency_check2.class.php:187
 msgid "Command issues should belong to the team's project-list"
 msgstr "應屬於團隊專案清單的命令問題"
 
-#: classes/consistency_check2.class.php:316
+#: classes/consistency_check2.class.php:285
 msgid "Backlog should be 0 (not "
 msgstr "積壓工作應為0（不是\\"
 
-#: classes/consistency_check2.class.php:338
+#: classes/consistency_check2.class.php:307
 msgid "Backlog must be defined !"
 msgstr "積壓工作必須被定義！"
 
-#: classes/consistency_check2.class.php:340
+#: classes/consistency_check2.class.php:309
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr "積壓工作 == 0：積壓工作內容可能不是最新的。"
 
-#: classes/consistency_check2.class.php:386
+#: classes/consistency_check2.class.php:355
 msgid "MgrEffortEstim not set."
 msgstr "管理成效估計未設定"
 
-#: classes/consistency_check2.class.php:418
+#: classes/consistency_check2.class.php:387
 msgid "EffortEstim not set."
 msgstr "成效估計沒有設定。"
 
-#: classes/consistency_check2.class.php:444
+#: classes/consistency_check2.class.php:413
 msgid "Status should not be"
 msgstr "狀態不應為"
 
-#: classes/consistency_check2.class.php:482
+#: classes/consistency_check2.class.php:451
 msgid "The task is not assigned to anybody."
 msgstr "任務未分配給任何人"
 
-#: classes/consistency_check2.class.php:536
+#: classes/consistency_check2.class.php:505
 msgid "The task is not referenced in any Command."
 msgstr "未被參照於任何命令的任務。"
 
-#: classes/consistency_check2.class.php:638
+#: classes/consistency_check2.class.php:604
 msgid "is not referenced in any CommandSet"
 msgstr "沒被參照在任何命令集"
 
-#: classes/consistency_check2.class.php:663
+#: classes/consistency_check2.class.php:629
 msgid "is not referenced in any ServiceContract"
 msgstr "沒被參照在任何服務合約"
 
-#: classes/consistency_check2.class.php:735
+#: classes/consistency_check2.class.php:701
 msgid " days"
 msgstr "日"
 
-#: classes/consistency_check2.class.php:737
+#: classes/consistency_check2.class.php:703
 msgid "inconsistent"
 msgstr "不一致"
 
-#: classes/consistency_check2.class.php:770
+#: classes/consistency_check2.class.php:736
 msgid "No default project workflow defined, check config file: "
 msgstr "沒有定義預設專案工作流程，請檢查設定檔案：\\"
 
-#: classes/consistency_check2.class.php:790
+#: classes/consistency_check2.class.php:756
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 msgstr "）請執行 <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 
-#: classes/consistency_check2.class.php:809
+#: classes/consistency_check2.class.php:775
 msgid "Project not defined in the team's project-list"
 msgstr "專案未定義在團隊的專案清單裡"
 
@@ -5895,8 +5942,8 @@ msgstr "問題標籤"
 msgid "Average backlog"
 msgstr "平均積壓工作"
 
-#: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:194
-#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:345
+#: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:186
+#: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:337
 msgid "Y-m-d"
 msgstr "年-月-日"
 
@@ -6123,28 +6170,28 @@ msgstr "基於安全因素，請刪除以下目錄：\\"
 msgid "Done !"
 msgstr "完成！"
 
-#: install/install.php:25 install/install.php:137
+#: install/install.php:25 install/install.php:141
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "安裝"
 
-#: install/install.php:127
+#: install/install.php:131
 msgid "Upgrade instructions"
 msgstr "更新指示"
 
-#: install/install.php:128
+#: install/install.php:132
 msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
 msgstr "如果您正從一個舊版的 CodevTT 做升級，請讀取<a href='http://codevtt.org/site/?page_id=1801' target='_blank'>此頁面</a>並按照下列步驟："
 
-#: install/install.php:130
+#: install/install.php:134
 msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "先更新 Mantis！（非必要）"
 
-#: install/install.php:131
+#: install/install.php:135
 msgid "Copy CodevTT configuration files from your previous installation"
 msgstr "從您之前的安裝內容複製 CodevTT 設置檔案"
 
-#: install/install.php:132
+#: install/install.php:136
 msgid "Run this script: "
 msgstr "執行此手稿：\\"
 
@@ -6172,55 +6219,55 @@ msgstr "步驟 4"
 msgid "Install - Step 1"
 msgstr "安裝-步驟 1"
 
-#: install/install_step1.php:217
+#: install/install_step1.php:214
 msgid "Mantis Database Info"
 msgstr "Mantis 資料庫訊息"
 
-#: install/install_step1.php:221
+#: install/install_step1.php:218
 msgid "SGBD"
 msgstr "資料庫管理系統"
 
-#: install/install_step1.php:232
+#: install/install_step1.php:229
 msgid "Hostname"
 msgstr "主機名稱"
 
-#: install/install_step1.php:236
+#: install/install_step1.php:233
 msgid "Database Name"
 msgstr "資料庫名稱"
 
-#: install/install_step1.php:240
+#: install/install_step1.php:237
 msgid "Database Table Prefix "
 msgstr "資料庫表單名稱的字首\\"
 
-#: install/install_step1.php:244
+#: install/install_step1.php:241
 msgid "Database Table Suffix "
 msgstr "資料庫表單名稱的字尾\\"
 
-#: install/install_step1.php:258
+#: install/install_step1.php:255
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
 msgstr "警告視窗安裝：要避免 SUPER privilege 許可權方面錯誤，請使用 <b>root</b> mysql 使用者（這可在安裝結束後於 config.ini 檔案裡修改）。"
 
-#: install/install_step1.php:263
+#: install/install_step1.php:260
 msgid "Proxy Settings"
 msgstr "代理設定"
 
-#: install/install_step1.php:264
+#: install/install_step1.php:261
 msgid "CodevTT will check for updates."
 msgstr "CodevTT 將會檢查更新。"
 
-#: install/install_step1.php:267
+#: install/install_step1.php:264
 msgid "Enable proxy"
 msgstr "啟用代理"
 
-#: install/install_step1.php:268
+#: install/install_step1.php:265
 msgid "Server"
 msgstr "伺服器"
 
-#: install/install_step1.php:269
+#: install/install_step1.php:266
 msgid "Port"
 msgstr "連接埠"
 
-#: install/install_step1.php:276
+#: install/install_step1.php:273
 msgid "Proceed Step 1"
 msgstr "進行步驟 1"
 
@@ -6237,30 +6284,23 @@ msgstr "自動"
 msgid "Provisions updated FAILED !"
 msgstr "供應更新失敗！"
 
-#: management/command_edit_ajax.php:375
-#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:221
-#: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
-#: plugins/ImportUsers/ImportUsers.class.php:237
-msgid "Please upload files with the following extension: "
-msgstr "請上傳符合下列副檔名的檔案：\\"
-
 #: management/servicecontract_tools.php:182
 msgid "Provision"
 msgstr "供應"
 
-#: reports/planning_report.php:203
+#: reports/planning_report.php:200
 msgid "onTime"
 msgstr "按時"
 
-#: reports/planning_report.php:204
+#: reports/planning_report.php:201
 msgid "NOT onTime"
 msgstr "不按時"
 
-#: reports/planning_report.php:205
+#: reports/planning_report.php:202
 msgid "no deadLine"
 msgstr "無截止日期"
 
-#: reports/planning_report.php:498
+#: reports/planning_report.php:495
 msgid "Monitored"
 msgstr "已監測"
 
@@ -6274,12 +6314,12 @@ msgstr "很抱歉，僅有經理人能添加任務至命令裡"
 
 #: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
 #: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
-#: reports/issue_info_ajax.php:257 reports/issue_info_ajax.php:322
+#: reports/issue_info_ajax.php:262 reports/issue_info_ajax.php:327
 msgid "Sorry, this task is not in your team's projects"
 msgstr "很抱歉，此任務未在您團隊的專案裡"
 
 #: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
-#: reports/issue_info_ajax.php:255 reports/issue_info_ajax.php:320
+#: reports/issue_info_ajax.php:260 reports/issue_info_ajax.php:325
 msgid "Sorry, you're not an active member of this team"
 msgstr "很抱歉，您不是此團隊的活躍成員"
 
@@ -6322,32 +6362,36 @@ msgstr "沒有定義目標版本"
 msgid "Test: export to ODT"
 msgstr "測試：匯出至 ODT 檔案"
 
-#: tests/odt.php:177
+#: tests/odt.php:155
 msgid "Sorry, there are no projects defined for your team."
 msgstr "很抱歉，沒有定義為用於您團隊的專案。"
 
-#: timetracking/time_tracking_ajax.php:386
+#: timetracking/time_tracking_ajax.php:121
+msgid "Timetracking is forbidden when issue's status is :"
+msgstr "禁止時間追蹤當問題狀態為："
+
+#: timetracking/time_tracking_ajax.php:402
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr "錯誤：刪除時間表失敗！"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:418
+#: timetracking/time_tracking_ajax.php:434
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "時間表未添加：時間表註釋為必需"
 
-#: timetracking/time_tracking_ajax.php:422
+#: timetracking/time_tracking_ajax.php:438
 msgid "Timetrack not added: Job is not specified"
 msgstr "時間表未添加：工作沒有指定"
 
-#: timetracking/time_tracking_ajax.php:425
+#: timetracking/time_tracking_ajax.php:441
 msgid "Timetrack not added: bugid is not specified"
 msgstr "時間表未添加：錯誤 ID 沒有指定"
 
-#: timetracking/time_tracking_ajax.php:428
+#: timetracking/time_tracking_ajax.php:444
 msgid "Timetrack not added: duration is not specified"
 msgstr "時間表未添加：期間沒有指定"
 
-#: timetracking/time_tracking_ajax.php:466
+#: timetracking/time_tracking_ajax.php:482
 msgid "ERROR: Failed to add timetrack !"
 msgstr "錯誤：添加時間表失敗！"
 
@@ -6550,10 +6594,6 @@ msgstr "匯出 WBS 成 CSV 檔案"
 msgid "CodevTT administration tools"
 msgstr "CodevTT 管理工具"
 
-#: plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.php:127
-msgid "Please contact your team leader to update UserGroups settings"
-msgstr "請聯絡您的團隊領導人來更新使用者群組設定"
-
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
 msgstr "載入各使用者群組"
@@ -6562,11 +6602,7 @@ msgstr "載入各使用者群組"
 msgid "Check all the timetracks of the period and return their repartition per User groups"
 msgstr "檢查期間內所有時間表並回傳各使用者群組的分配"
 
-#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:309
-msgid "No group defined for team member"
-msgstr "沒有定義給團隊成員的群組"
-
-#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:332
+#: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:334
 msgid "No group defined"
 msgstr "沒有定義的群組"
 
@@ -6629,7 +6665,7 @@ msgstr "任務調度警告"
 msgid "Display tasks where the elapsed time is greater than the estimated effort"
 msgstr "顯示已流逝時間大於估計成效的任務"
 
-#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:279
+#: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:276
 msgid "Management"
 msgstr "管理"
 
@@ -6701,15 +6737,15 @@ msgstr "（對於重新開啟的錯誤，成效估計可能沒被重新評估；
 msgid "Check all the timetracks of the period and return their repartition per project categories"
 msgstr "檢查期間內所有時間表並回傳各專案分類的分配"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:350
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:347
 msgid "All Sidetasks Projects"
 msgstr "所有邊際任務專案"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:351
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:348
 msgid "All Production Projects"
 msgstr "所有專案成品"
 
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:352
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:349
 msgid "All Projects"
 msgstr "所有專案"
 
