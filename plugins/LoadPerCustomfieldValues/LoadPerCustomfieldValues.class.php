@@ -265,6 +265,7 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
             self::$logger->warn("getRawInfoPerCustomfieldVal() issue ".$timeTrack->getIssueId()." not found in Mantis DB (duration = ".$timeTrack->getDuration()." on ".date('Y-m-d', $timeTrack->getDate()).')');
          }
       }
+      ksort($durationPerCustomfieldVal);
       $ret =  array(
          'durationPerCustomfieldVal' => $durationPerCustomfieldVal,
          'totalDuration' => $totalDuration);
