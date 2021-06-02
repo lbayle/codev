@@ -24,6 +24,7 @@
  */
 class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
 
+   const OPTION_IS_ONLY_TEAM_MEMBERS = 'isOnlyActiveTeamMembers';
    const OPTION_DISPLAY_TASKS   = 'isDisplayTasks';
 
    private static $logger;
@@ -36,6 +37,7 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
    private $endTimestamp;
    private $selectedCustomfieldId;
    private $managedUserId; // DOMAIN_USER only
+   private $isOnlyActiveTeamMembers;
 
    // config options from Dashboard
    private $isDisplayTasks;
@@ -157,6 +159,7 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
 
       // set default pluginSettings (not provided by the PluginDataProvider)
       $this->isDisplayTasks = false;
+      $this->isOnlyActiveTeamMembers= TRUE;
    }
 
    /**
@@ -168,6 +171,9 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
 
       if (NULL != $pluginSettings) {
          // override default with user preferences
+         if (array_key_exists(self::OPTION_IS_ONLY_TEAM_MEMBERS, $pluginSettings)) {
+            $this->isOnlyActiveTeamMembers = $pluginSettings[self::OPTION_IS_ONLY_TEAM_MEMBERS];
+         }
          if (array_key_exists(self::OPTION_DISPLAY_TASKS, $pluginSettings)) {
             $this->isDisplayTasks = $pluginSettings[self::OPTION_DISPLAY_TASKS];
          }
@@ -283,13 +289,13 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
          $useridList = array($this->managedUserId);
 
       } else {
-         //if ($this->isOnlyActiveTeamMembers) {
+         if ($this->isOnlyActiveTeamMembers) {
             $team = TeamCache::getInstance()->getTeam($this->teamid);
             $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
-         //} else {
+         } else {
             // include also timetracks of users not in the team (relevant on ExternalTasksProjects)
-         //   $useridList = NULL;
-         //}
+            $useridList = NULL;
+         }
       }
       $timeTracks = $this->inputIssueSel->getTimetracks($useridList, $this->startTimestamp, $this->endTimestamp);
 
@@ -369,6 +375,7 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
          $prefix.'jqplotData' => $jqplotData,
 
          // add pluginSettings (if needed by smarty)
+         $prefix.self::OPTION_IS_ONLY_TEAM_MEMBERS => $this->isOnlyActiveTeamMembers,
          $prefix.self::OPTION_DISPLAY_TASKS => $this->isDisplayTasks,
       );
 

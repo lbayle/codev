@@ -51,6 +51,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
       $selectedCustomfieldId = $attributesArray[PluginDataProviderInterface::PARAM_CUSTOMFIELD_ID];
 
+      $isOnlyActiveTeamMembers = ('on' !== $attributesArray[OngoingTasks::OPTION_IS_ONLY_TEAM_MEMBERS]) ? false : true;
       $isDisplayTasks = ('on' !== $attributesArray[LoadPerCustomfieldValues::OPTION_DISPLAY_TASKS]) ? false : true;
 
       // update dataProvider
@@ -62,6 +63,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
 
       // override plugin settings with current attributes
       $indicator->setPluginSettings(array(
+          OngoingTasks::OPTION_IS_ONLY_TEAM_MEMBERS => $isOnlyActiveTeamMembers,
           LoadPerCustomfieldValues::OPTION_DISPLAY_TASKS => $isDisplayTasks,
       ));
 
