@@ -35,6 +35,7 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
    private $startTimestamp;
    private $endTimestamp;
    private $selectedCustomfieldId;
+   private $managedUserId; // DOMAIN_USER only
 
    // config options from Dashboard
    private $isDisplayTasks;
@@ -137,6 +138,21 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
          $this->selectedCustomfieldId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_CUSTOMFIELD_ID);
       } else {
          $this->selectedCustomfieldId = 0;
+      }
+
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
+         $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
+      } else {
+         throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_DOMAIN);
+      }
+      if (IndicatorPluginInterface::DOMAIN_USER === $this->domain) {
+         if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID)) {
+            $this->managedUserId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         } else {
+            throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_MANAGED_USER_ID);
+         }
+      } else {
+         $this->managedUserId = NULL; // consider complete team
       }
 
       // set default pluginSettings (not provided by the PluginDataProvider)
@@ -261,7 +277,20 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
 
       // === get timetracks for each Issue,
       $team = TeamCache::getInstance()->getTeam($this->teamid);
-      $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
+
+      // === get timetracks for each Issue
+      if (NULL !== $this->managedUserId) {
+         $useridList = array($this->managedUserId);
+
+      } else {
+         //if ($this->isOnlyActiveTeamMembers) {
+            $team = TeamCache::getInstance()->getTeam($this->teamid);
+            $useridList = array_keys($team->getActiveMembers($this->startTimestamp, $this->endTimestamp));
+         //} else {
+            // include also timetracks of users not in the team (relevant on ExternalTasksProjects)
+         //   $useridList = NULL;
+         //}
+      }
       $timeTracks = $this->inputIssueSel->getTimetracks($useridList, $this->startTimestamp, $this->endTimestamp);
 
       $customfieldList = $this->getCustomfieldList();
