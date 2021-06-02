@@ -1,0 +1,31 @@
+<div class="LoadPerCustomfieldValues_ajax">
+   {if $LoadPerCustomfieldValues_tableData}
+   <table  class="display float"  style="width: 500px;">
+   <thead>
+      <tr>
+         <th>{t}Values{/t}</th>
+         <th>{t}Nb Days{/t}</th>
+         <th>%</th>
+{if $LoadPerCustomfieldValues_isDisplayTasks}
+         <th>{t}Tasks{/t}</th>
+{/if}
+      </tr>
+   </thead>
+   <tbody>
+      {foreach from=$LoadPerCustomfieldValues_tableData key=id item=i}
+      <tr>
+         <td title="{$i.customfieldId}">{$i.customfieldValue}</td>
+         <td>{$i.duration}</td>
+         <td>{$i.pcent} %</td>
+{if $LoadPerCustomfieldValues_isDisplayTasks}
+         <td>{$i.formatedBugsPerCustomfieldValues}</td>
+{/if}
+      </tr>
+      {/foreach}
+   </tbody>
+   </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>
+

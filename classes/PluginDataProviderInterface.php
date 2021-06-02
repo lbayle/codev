@@ -49,7 +49,8 @@ interface PluginDataProviderInterface {
    const PARAM_END_TIMESTAMP = 'endTimestamp';
    const PARAM_ISSUE_SELECTION = 'IssueSelection';
    const PARAM_INTERVAL = 'interval';
-   
+   const PARAM_CUSTOMFIELD_ID = 'customfieldId';
+
    // commands
    const PARAM_COMMAND_ID = 'cmdid';
    const PARAM_PROVISION_DAYS = 'provisionDays';

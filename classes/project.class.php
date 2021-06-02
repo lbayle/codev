@@ -87,6 +87,7 @@ class Project extends Model {
    private $categoryCache; // cache
    private $versionCache; // cache
    private $issueTooltipFieldsCache;
+   private $customFieldsListCache;
 
    /**
     * @var int[] The version date cache
@@ -1355,20 +1356,22 @@ class Project extends Model {
     */
    public function getCustomFieldsList() {
 
-      $sql = AdodbWrapper::getInstance();
-      $query = "SELECT {custom_field_project}.field_id, {custom_field}.name ".
-              "FROM {custom_field_project}, {custom_field} ".
-              "WHERE {custom_field_project}.project_id =  ".$sql->db_param().
-              " AND {custom_field}.id = {custom_field_project}.field_id ".
-              " ORDER BY {custom_field}.name";
-      $q_params[]=$this->id;
-      $result = $sql->sql_query($query, $q_params);
+      if (null == $this->customFieldsListCache) {
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT {custom_field_project}.field_id, {custom_field}.name ".
+                 "FROM {custom_field_project}, {custom_field} ".
+                 "WHERE {custom_field_project}.project_id =  ".$sql->db_param().
+                 " AND {custom_field}.id = {custom_field_project}.field_id ".
+                 " ORDER BY {custom_field}.name";
+         $q_params[]=$this->id;
+         $result = $sql->sql_query($query, $q_params);
 
-      $customFieldsList = array();
-      while ($row = $sql->fetchObject($result)) {
-         $customFieldsList["$row->field_id"] = $row->name;
+         $this->customFieldsListCache = array();
+         while ($row = $sql->fetchObject($result)) {
+            $this->customFieldsListCache["$row->field_id"] = $row->name;
+         }
       }
-      return $customFieldsList;
+      return $this->customFieldsListCache;
    }
 
 

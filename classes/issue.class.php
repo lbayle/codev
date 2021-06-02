@@ -116,6 +116,8 @@ class Issue extends Model implements Comparable {
    private $type; // string: "Bug" or "Task"
    private $dailyPrice; // some tasks are sold on a daily basis, this is the sale's price for one day
 
+   private $customFields; // id => value
+
    private $tagList; // mantis tags
 
    // cache computed fields
@@ -232,17 +234,27 @@ class Issue extends Model implements Comparable {
       $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
       $customField_dailyPrice = Config::getInstance()->getValue(Config::id_customField_dailyPrice);
 
-      $customFields = array(
-         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $deadLineField, $deliveryDateField, $customField_type, $customField_dailyPrice #, $deliveryIdField
-      );
       $sql = AdodbWrapper::getInstance();
-      $query = "SELECT field_id, value FROM {custom_field_string} ".
-               "WHERE bug_id = ".$sql->db_param().
-               " AND field_id IN (".implode(',',$customFields).")";
+      $query = "SELECT mcfst.field_id, mcfst.value, mcft.name, mcft.type ".
+               " FROM {custom_field_string} AS mcfst".
+               " JOIN {custom_field} AS mcft ON mcft.id = mcfst.field_id ".
+               " WHERE bug_id = ".$sql->db_param(); // .
+
       $q_params[]=$this->bugId;
       $result = $sql->sql_query($query, $q_params);
 
+      // all customFields
+      $this->customFields = array();
+
       while ($row = $sql->fetchObject($result)) {
+
+         $this->customFields[$row->field_id] = array (
+            'value' => $row->value, // TODO: depending on type, cast the value
+            'name' => $row->name,
+            'type' => $row->type
+         );
+
+      // CodevTT customFields
          switch ($row->field_id) {
             case $extIdField:
                $this->extRef = $row->value;
@@ -276,6 +288,7 @@ class Issue extends Model implements Comparable {
                break;
          }
       }
+      //self::$logger->error("issue $this->bugId: customFields=".var_export($this->customFields, true));
    }
 
    public function initializeTags() {
@@ -359,6 +372,18 @@ class Issue extends Model implements Comparable {
          $this->initializeTags();
       }
       return $this->tagList;
+   }
+
+   /**
+    *
+    * @param type $field_id
+    * @return array {value, name, type}
+    */
+   public function getCustomfieldData($field_id) {
+      if (null == $this->customFields) {
+         $this->initializeCustomField();
+      }
+      return $this->customFields[$field_id];
    }
 
    /**
