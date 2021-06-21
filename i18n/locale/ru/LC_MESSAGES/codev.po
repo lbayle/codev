@@ -25,7 +25,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-06-03 13:09:08+0000\n"
+"PO-Revision-Date: 2021-06-21 10:26:30+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3594,7 +3594,7 @@ msgstr "Дата отправления"
 
 #. tpl/edit_team.html
 msgid "optionnal"
-msgstr ""
+msgstr "необязательно"
 
 #. tpl/edit_team.html
 msgid "(no group)"
@@ -4450,7 +4450,7 @@ msgstr "Средний"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
-msgstr ""
+msgstr "(в днях)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"

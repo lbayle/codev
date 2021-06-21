@@ -22,7 +22,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-06-03 13:09:09+0000\n"
+"PO-Revision-Date: 2021-06-21 10:26:32+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1966,7 +1966,6 @@ msgid "Hide resolved tasks"
 msgstr "隐藏已解决任务"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide closed tasks"
 msgstr "隐藏关闭的任务"
 
@@ -2976,7 +2975,6 @@ msgid "Discover new plugins"
 msgstr "发现新插件"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
 msgstr "插件"
 
