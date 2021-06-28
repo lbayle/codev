@@ -1,6 +1,7 @@
 # Translation of CodevTT to Italian (italiano)
 # Exported from translatewiki.net
 #
+# Author: Ajeje Brazorf
 # Author: Albe Albe 460
 # Author: Beta16
 # Author: Dansita
@@ -19,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-06-03 13:09:05+0000\n"
+"PO-Revision-Date: 2021-06-28 13:27:49+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -2683,7 +2684,7 @@ msgstr "ID utente"
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "Gruppo"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
