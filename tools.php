@@ -1760,6 +1760,14 @@ class Tools {
    }
 }
 
+// https://github.com/laravel/framework/blob/8.x/src/Illuminate/Support/Str.php
+if (!function_exists('str_starts_with')) {
+    function str_starts_with($haystack, $needle) {
+        return (string)$needle !== '' && strncmp($haystack, $needle, strlen($needle)) === 0;
+    }
+}
+
+
 // Initialize complex static variables
 Tools::staticInit();
 

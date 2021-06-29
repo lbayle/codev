@@ -1,0 +1,215 @@
+<div class="ResetDashboard">
+<div class="pluginInitFunction"  style="display: none;">ResetDashboardJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">ResetDashboardJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form id="ResetDashboard_context_form" method="post" action="{$ResetDashboard_ajaxPhpURL}">
+      <fieldset>
+         <label for="ResetDashboard_userid">{t}User{/t}: </label>
+         <select class="ResetDashboard_userid" name="ResetDashboard_userid" style="min-width: 300px;">
+            <option value="0"></option>
+         {foreach from=$ResetDashboard_availableUsers key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+         </select>
+         <select class="ResetDashboard_teamid" name="ResetDashboard_teamid" style="min-width: 300px;">
+            <option value="0"></option>
+         {foreach from=$ResetDashboard_availableTeams key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+         </select>
+         <input type="hidden" name="action" value="getResetDashboardData" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="ResetDashboardDiv" align="left" style="margin-top: 1em;">
+      {include file="`$ResetDashboard_ajaxFile`"}
+   </div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+<div align="left" style="margin-top:1em;">
+   <form id="ResetDashboard_exec_form" method="post" action="{$ResetDashboard_ajaxPhpURL}">
+      <fieldset>
+         <input class="ResetDashboard_submit" type="submit" title="{t}Reset selected dashboards{/t}" value="{t}Execute{/t}" />
+         <img class="ResetDashboard_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+         &nbsp;&nbsp;&nbsp;
+         <span class="ResetDashboard_execStatusErrMsg error_font"></span>
+         <span class="ResetDashboard_execStatusInfoMsg success_font"></span>
+         <input type="hidden" name="action" value="execResetActions" />
+         <input type="hidden" name="ResetDashboardJsonStr" value="" />
+         <input type="hidden" name="ResetDashboard_userid" value="0" />
+         <input type="hidden" name="ResetDashboard_teamid" value="0" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+   <br>
+</div>
+
+<script type="text/javascript">
+
+   function updateDashboardList(dashboardId) {
+
+      jQuery(".ResetDashboard_execStatusInfoMsg").html('');
+      jQuery(".ResetDashboard_execStatusErrMsg").html('');
+      var form = jQuery('#ResetDashboard_context_form');
+
+      //var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+      form.find("input[name=dashboardId]").val(dashboardId);
+
+      var url = form.attr('action');
+      var type = form.attr('method');
+      jQuery.ajax({
+         async: false,
+         type: type,
+         url: url,
+         dataType:"json",
+         data: form.serialize(),
+         success: function(data) {
+
+            // teamList depends on selected user and must be updated
+            var teamidSelect = jQuery("#ResetDashboard_context_form .ResetDashboard_teamid");
+            teamidSelect.empty();
+            teamidSelect.select2('data', null);
+            teamidSelect.append(jQuery('<option>').attr('value', '0'));
+
+            for (var id in data.ResetDashboard_availableTeams) {
+               if (data.ResetDashboard_availableTeams.hasOwnProperty(id)) {
+                  teamInfo = data.ResetDashboard_availableTeams[id];
+                  teamidSelect.append(
+                     jQuery('<option>').attr('value', id).append(teamInfo['name'])
+                  );
+                  if (1 == teamInfo['selected']) {
+                     teamidSelect.val(id);
+                  }
+               }
+            }
+
+            jQuery(".ResetDashboardDiv").html(jQuery.trim(data['ResetDashboard_htmlContent']));
+
+            jQuery.each(data['ResetDashboard_jsFiles'], function( index, value ) {
+               jQuery.ajax({
+                     async: false,
+                     url: value,
+                     dataType: "script"
+               });
+            });
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            if(errorThrown == 'Forbidden') {
+               window.location = '{$page}';
+            }
+         }
+      });
+   }
+
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function ResetDashboardJsDestroy() {
+      console.log('ResetDashboardJsDestroy');
+      //jQuery(".ResetDashboardHelpDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function ResetDashboardJsInit() {
+
+      jQuery('.ResetDashboard_spinner').hide(); // spinner img
+
+      // set select2 with width adapted to the content
+      $(".ResetDashboard_userid").select2({ width: 'resolve' });
+
+      // change user in the AddUserDailyCost dialogBox
+      jQuery(".ResetDashboard_userid").change(function() {
+         event.preventDefault();
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         updateDashboardList(dashboardId);
+      });
+
+      // change user in the AddUserDailyCost dialogBox
+      jQuery(".ResetDashboard_teamid").change(function() {
+         event.preventDefault();
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         updateDashboardList(dashboardId);
+      });
+
+
+      // select/unselect All
+      // '.on' will work for dynamically created elements (htmlContent reload by ajax)
+      jQuery('body').on('change', '#ResetDashboard_cbSelectAll', function(event){
+         event.preventDefault();
+         var isSelectAll = $(this).attr('checked') ? 1 : 0;
+         $('.ResetDashboard_cbIsReset').each(function(index, cb) {
+            $(cb).prop('checked', isSelectAll);
+         });
+      });
+
+      jQuery('.ResetDashboard_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         jQuery('.ResetDashboard_spinner').show(); // spinner img
+         jQuery(".ResetDashboard_execStatusInfoMsg").html('');
+         jQuery(".ResetDashboard_execStatusErrMsg").html('');
+
+
+         var form = jQuery('#ResetDashboard_exec_form');
+
+         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+         form.find("input[name=dashboardId]").val(dashboardId);
+
+         var userId = $("#ResetDashboard_context_form .ResetDashboard_userid").select2('val');
+         var teamId = $("#ResetDashboard_context_form .ResetDashboard_teamid").val();
+         form.find("input[name=ResetDashboard_userid]").val(userId);
+         form.find("input[name=ResetDashboard_teamid]").val(teamId);
+
+         var dboardToResetList = {};
+         $("#ResetDashboard_team_table .ResetDashboard_dashboard_tr").each(function() {
+            var dboardId  = $(this).attr('data-dboardId');
+            var dboardChecked = $(this).find(".ResetDashboard_cbIsReset").attr('checked') ? 1 : 0;
+            if (dboardChecked) {
+               dboardToResetList[dboardId] = dboardChecked;
+            }
+         });
+         var optionsJsonStr = JSON.stringify(dboardToResetList);
+         form.find('input[name=ResetDashboardJsonStr]').val(optionsJsonStr);
+
+         jQuery.ajax({
+            async: false,
+            type: form.attr('method'),
+            url: form.attr('action'),
+            dataType:"json",
+            data: form.serialize(),
+            success: function(data) {
+               var actionLogs = '';
+               if('SUCCESS' !== data.statusMsg) {
+                  console.error(data.statusMsg);
+                  jQuery(".ResetDashboard_execStatusErrMsg").html(data.statusMsg);
+               } else {
+                  jQuery(".ResetDashboard_execStatusInfoMsg").text("SUCCESS !");
+
+                  // reload full list
+                  jQuery(".ResetDashboardDiv").html(jQuery.trim(data['ResetDashboard_htmlContent']));
+                  jQuery.each(data['ResetDashboard_jsFiles'], function( index, value ) {
+                     jQuery.ajax({
+                           async: false,
+                           url: value,
+                           dataType: "script"
+                     });
+                  });
+               }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            jQuery(".ResetDashboard_execStatusErrMsg").text("ERROR !!");
+            }
+         });
+         jQuery('.ResetDashboard_spinner').hide(); // spinner img
+      });
+
+   };
+</script>
+</div>

@@ -1,0 +1,22 @@
+<div class="ResetDashboard_ajax">
+   <table id="ResetDashboard_team_table" class="datatable_csv">
+      <thead>
+         <tr>
+            <th  align="left"><input id="ResetDashboard_cbSelectAll" type="checkbox" /></th>
+            <th>{t}Domain{/t}</th>
+            <th>{t}Item{/t}</th>
+            <th>{t}Plugins{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$ResetDashboard_userDashboards item=i key=id}
+         <tr class="ResetDashboard_dashboard_tr" data-dboardId="{$i.dashboardId}">
+            <td><input class="ResetDashboard_cbIsReset" type="checkbox" /></td>
+            <td title='{$i.dashboardId}' style="white-space:nowrap">{$i.domain}</td>
+            <td title='{$i.subId}' style="white-space:nowrap">{$i.subName}</td>
+            <td>{$i.pluginList}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>

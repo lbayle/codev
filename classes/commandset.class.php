@@ -145,6 +145,30 @@ class CommandSet extends Model {
    }
 
    /**
+    * @param int $id
+    * @return bool TRUE if issue exists in Mantis DB
+    */
+   public static function exists($id) {
+      if (NULL == $id) {
+         self::$logger->warn("exists(): id == NULL.");
+         return FALSE;
+      }
+
+      $sql = AdodbWrapper::getInstance();
+      $query  = "SELECT COUNT(id) FROM codev_commandset_table WHERE id= ".$sql->db_param();
+      $q_params[]=$id;
+      $result = $sql->sql_query($query, $q_params);
+
+      #$found  = (0 != $sql->getNumRows($result)) ? true : false;
+      $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
+
+      if (1 != $nbTuples) {
+         self::$logger->warn("exists($id): found $nbTuples items.");
+      }
+      return (1 == $nbTuples);
+   }
+
+   /**
     * delete a commandset
     *
     * @static

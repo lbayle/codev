@@ -201,6 +201,32 @@ class Command extends Model {
    }
 
    /**
+    * @param int $cmdid
+    * @return bool TRUE if issue exists in Mantis DB
+    */
+   public static function exists($cmdid) {
+      if (NULL == $cmdid) {
+         self::$logger->warn("exists(): cmdid == NULL.");
+         return FALSE;
+      }
+
+      $sql = AdodbWrapper::getInstance();
+      $query  = "SELECT COUNT(id) FROM codev_command_table WHERE id= ".$sql->db_param();
+      $q_params[]=$cmdid;
+      $result = $sql->sql_query($query, $q_params);
+
+      #$found  = (0 != $sql->getNumRows($result)) ? true : false;
+      $nbTuples  = (0 != $sql->getNumRows($result)) ? $sql->sql_result($result, 0) : 0;
+
+      if (1 != $nbTuples) {
+         self::$logger->warn("exists($cmdid): found $nbTuples items.");
+      }
+      return (1 == $nbTuples);
+   }
+
+
+
+   /**
     * delete a command
     *
     * @static
