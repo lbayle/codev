@@ -1,5 +1,7 @@
 # Block all ini files
 <Files ~ "\.ini$">
+<Files ~ "\.git.*$">
+
 Order allow,deny
 Deny from all
 </Files>
