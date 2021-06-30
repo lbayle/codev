@@ -36,6 +36,8 @@ class IssueSeniorityIndicator extends IndicatorPluginAbstract {
 
    private $inputIssueSel;
    private $managedUserId; // DOMAIN_USER only
+   private $teamid;
+   private $sessionUserId;
 
    // config options from Dashboard
    private $isDisplayTasks;
@@ -117,6 +119,16 @@ class IssueSeniorityIndicator extends IndicatorPluginAbstract {
          $this->inputIssueSel = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
       } else {
          throw new Exception("Missing parameter: ".PluginDataProviderInterface::PARAM_ISSUE_SELECTION);
+      }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID)) {
+          $this->sessionUserId = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID);
+      } else {
+          throw new Exception('Missing parameter: ' . PluginDataProviderInterface::PARAM_SESSION_USER_ID);
+      }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID)) {
+         $this->teamid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
+      } else {
+         throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_TEAM_ID);
       }
       if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN)) {
          $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
@@ -232,7 +244,13 @@ class IssueSeniorityIndicator extends IndicatorPluginAbstract {
                $issueSeniorityData[$k]['nbTasks'] += 1;
                $totalNbTasks += 1;
                $issueSeniorityData[$k]['backlog'] += $issue->getDuration();
-               $issueSeniorityData[$k]['tasks'] .= "$bugid, ";
+
+               //$issueSeniorityData[$k]['tasks'] .= "$bugid, ";
+               $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->sessionUserId);
+               $tooltipAttr = array(T_('Summary') => $issue->getSummary()) + $tooltipAttr;
+               $formattedTaskId = Tools::issueInfoURL($bugid, $tooltipAttr, FALSE, $bugid);
+               $issueSeniorityData[$k]['tasks'] .= "$formattedTaskId, ";
+
                $totalBacklog += $issue->getDuration();
                break;
             }
