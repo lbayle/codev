@@ -95,15 +95,15 @@ class CheckController extends Controller {
 
             $cerrs[$i] = array(
                'userName' => isset($user) ? $user->getName() : '',
-               'issueURL' => (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
-               'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),
+               'issueURL' => (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId),
+               'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, NULL, true),
                'extRef' =>  (NULL == $refExt) ? '' : $refExt,
                'date' =>  (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
                'status' => (NULL == $cerr->status) ? '' : Constants::$statusNames[$cerr->status],
                'severity' => $cerr->getLiteralSeverity(),
                'project' => $projName,
                'desc' => $cerr->desc,
-               'summary' => $summary,
+               'summary' => htmlspecialchars($summary),
             );
          }
       }
