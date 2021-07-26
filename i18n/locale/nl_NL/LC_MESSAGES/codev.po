@@ -6,6 +6,7 @@
 # Author: Goefie
 # Author: Jeleniccz
 # Author: Mainframe98
+# Author: McDutchie
 # Author: MrLeopold
 # Author: PonkoSasuke
 # Author: SPQRobin
@@ -16,7 +17,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-07-01 11:40:16+0000\n"
+"PO-Revision-Date: 2021-07-26 11:01:10+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1175,9 +1176,8 @@ msgid "Remove CodevTT config files:"
 msgstr ""
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove Mantis plugin:"
-msgstr "Verwijder deze link :"
+msgstr "Mantis-plugin verwijderen:"
 
 #. tpl/uninstall.html
 msgid "Remove ExternalTasks project:"
@@ -1601,9 +1601,8 @@ msgstr "Doel"
 #. tpl/doc.html
 #. tpl/gantt.html
 #. tpl/scheduler.html
-#, fuzzy
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "Niet-toegewezen taken worden niet weergegeven"
+msgstr "BELANGRIJK: niet-toegewezen taken worden niet weergegeven!"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
@@ -1962,7 +1961,6 @@ msgid "Hide resolved tasks"
 msgstr "Verbergen opgeloste taken"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide closed tasks"
 msgstr "Verberg gesloten taken"
 
@@ -2688,9 +2686,8 @@ msgid "Role"
 msgstr "Rol"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Aankomst Datum"
+msgstr "Aankomstdatum team"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
@@ -2776,9 +2773,8 @@ msgid "Next week"
 msgstr "Volgende week"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Week timetracks"
-msgstr "Team bewerken"
+msgstr "Wekelijkse tijdsporen"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2798,7 +2794,7 @@ msgstr ""
 #. tpl/time_tracking.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 msgid "Edit timetrack"
-msgstr "Tijdlijn bewerken"
+msgstr "Tijdspoor bewerken"
 
 #. tpl/time_tracking.html
 msgid "Future timetracks"
@@ -2974,9 +2970,8 @@ msgid "Discover new plugins"
 msgstr "Nieuwe plug-ins ontdekken"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
-msgstr "Plug-in"
+msgstr "Plug-ins"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
@@ -4075,9 +4070,8 @@ msgstr "Wekelijks"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Progress History Indicator"
-msgstr "Productiviteitsindicatoren"
+msgstr "Historisch voortgangsoverzicht"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4101,15 +4095,13 @@ msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Real progress"
-msgstr "Voortgang"
+msgstr "Echte vooruitgang"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Displays the backlog"
-msgstr "Weergegeven taken"
+msgstr "Geeft de achterstand weer"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4122,19 +4114,16 @@ msgid "Historical Progression Chart"
 msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Elapsed"
-msgstr "Verstreken"
+msgstr "Beheer Verstreken"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Provisions"
-msgstr "Voorzieningen"
+msgstr "Beheer Voorzieningen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
-#, fuzzy
 msgid "Move issue timetracks"
-msgstr "Team bewerken"
+msgstr "Verplaats probleem-tijdsporen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
@@ -4177,9 +4166,8 @@ msgid "Destination"
 msgstr "Bestemming"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Please, fill all fields correctly"
-msgstr "Beschikbare velden"
+msgstr "Gelieve alle velden correct in te vullen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
@@ -4187,14 +4175,12 @@ msgid "Destination task must be different from origin"
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin task"
-msgstr "Verberg gesloten taken"
+msgstr "Oorsprong taak"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Move selected timetracks"
-msgstr "Team bewerken"
+msgstr "Geselecteerde tijdsporen verplaatsen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination task"
@@ -4205,9 +4191,8 @@ msgid "WARNING : In order to move timetracks, destination task creation date wil
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Timetracks moved successfully !"
-msgstr "Back-up met succes gedaan"
+msgstr "De tijdsporen zijn verplaatst!"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4215,9 +4200,8 @@ msgstr ""
 
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
-#, fuzzy
 msgid "Task backlog variation"
-msgstr "Taak Informatie"
+msgstr "Variatie taakachterstand"
 
 #. plugins/TasksPivotTable/TasksPivotTable_cfg.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
@@ -4273,9 +4257,8 @@ msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetr
 msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
-msgstr "De taak is niet toegekend aan wie dan ook."
+msgstr "Er worden gemiddelde dagelijkse kosten gebruikt als de taak nog niet aan iemand is toegewezen."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
@@ -4306,9 +4289,8 @@ msgstr ""
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Timetrack filter"
-msgstr "Taakfilter:"
+msgstr "Tijdspoorfilter"
 
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
@@ -4355,14 +4337,12 @@ msgid "Task ID"
 msgstr "Taak-ID"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
-#, fuzzy
 msgid "Deadline alerts"
-msgstr "Deadline"
+msgstr "Deadline-waarschuwingen"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#, fuzzy
 msgid "No late task."
-msgstr "Geen opgeloste taken..."
+msgstr "Geen verlate opdracht."
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
@@ -4568,14 +4548,12 @@ msgid "Administration tools"
 msgstr "Administratiehulpmiddelen"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "Duur verwijderen"
+msgstr "Geselecteerde acties uitvoeren"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "Geen taak geselecteerd"
+msgstr "Acties uitgevoerd!"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Force the display of the \"Message\" plugin on the homepage"
@@ -4646,9 +4624,8 @@ msgid "Standard CSV format with :"
 msgstr "Standaard CSV-formaat met :"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "enclosure"
-msgstr "gesloten"
+msgstr "behuizing"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4660,9 +4637,8 @@ msgid "Number format"
 msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "Encoding"
-msgstr "Bezig met laden"
+msgstr "Codering"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
@@ -4691,9 +4667,8 @@ msgid "Set All"
 msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "TargetVersion"
-msgstr "Versie"
+msgstr "Doelversie"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
@@ -4897,9 +4872,8 @@ msgid "Nb of issues having fail validation tests"
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "Nb Fail"
-msgstr "Mislukt"
+msgstr "Aantal mislukt"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
@@ -4960,23 +4934,20 @@ msgid "Yes"
 msgstr "Ja"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on Issue type"
-msgstr "Type Probleem"
+msgstr "Filter op probleemtype"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No filter"
 msgstr "Geen filter"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on External ID"
-msgstr "Extern ID"
+msgstr "Filter op externe ID"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues with External ID"
-msgstr "Extern ID"
+msgstr "Problemen met externe ID"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Issues without External ID"
@@ -5047,9 +5018,8 @@ msgstr "Als je dagelijkse diensten verkoopt met een specifieke prijs voor elke t
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-#, fuzzy
 msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
-msgstr "Voor deze plugin, moet je het MantisBT customField \"CodevTT_DailyPrice\" vastleggen voor elke taak."
+msgstr "Voor deze plug-in moet u het gepersonaliseerde veld \"CodevTT_DailyPrice\" toevoegen aan uw Mantis-projecten en een waarde instellen voor elke taak."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
@@ -5060,19 +5030,16 @@ msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to e
 msgstr "Overblijvend = MgrEffortEstim - Verstreken sinds het beginnen van de taak tot einde van de periode"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Tasks Drift alert"
-msgstr "Taken per Gebruiker"
+msgstr "Waarschuwing afdwaling taken"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift current tasks"
-msgstr "De Huidige Taken"
+msgstr "Afdwaling huidige taken"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift resolved tasks"
-msgstr "Verbergen opgeloste taken"
+msgstr "Afdwaling opgeloste taken"
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
@@ -5129,18 +5096,16 @@ msgid "Range values"
 msgstr "waarden weergeven"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available Workforce Options"
-msgstr "Beschikbaar werklast"
+msgstr "Beschikbare opties werkkracht"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
 msgstr "Beschikbaarheid"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Productivity Coefficient"
-msgstr "Productiviteitsindicatoren"
+msgstr "Productiviteitscoëfficiënt"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
@@ -5151,9 +5116,8 @@ msgid "SUM(userWorkforce * availability * prodCoef)"
 msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available workforce"
-msgstr "Beschikbaar werklast"
+msgstr "Beschikbare werkkracht"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
@@ -5227,9 +5191,8 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "CodevTT role"
-msgstr "CodevTT-URL: "
+msgstr "CodevTT-rol"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already belong to this team"
@@ -5370,9 +5333,8 @@ msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestima
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "% Budget Drift"
-msgstr "Budgetdagen"
+msgstr "% budgetafwijking"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
@@ -5383,9 +5345,8 @@ msgid "Budget Drift Progression Chart"
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift"
-msgstr "Budgetdagen"
+msgstr "Budgetafwijking"
 
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
@@ -5399,7 +5360,7 @@ msgstr "Verberg gesloten taken"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr "Toon enkel de taken die actief waren (timetracks) gedurende de periode"
+msgstr "Toon enkel de taken die actief waren (tijdsporen) gedurende de periode"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
@@ -5438,9 +5399,8 @@ msgid "Number of days to add on the period"
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Nb days"
-msgstr "dagen"
+msgstr "Aantal dagen"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Task backlog"
@@ -5464,9 +5424,8 @@ msgid "Error !"
 msgstr "Fout !"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "days available on period"
-msgstr "Verstreken tijd in periode"
+msgstr "dagen beschikbaar in periode"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Could not retrieve task data !"
@@ -5474,9 +5433,8 @@ msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
-#, fuzzy
 msgid "Fill period with timetracks"
-msgstr "Tijdlijn bewerken"
+msgstr "Periode vullen met tijdsporen"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -6374,9 +6332,8 @@ msgstr ""
 
 #: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
 #: reports/issue_info_ajax.php:260 reports/issue_info_ajax.php:325
-#, fuzzy
 msgid "Sorry, you're not an active member of this team"
-msgstr "Sorry, je hebt GEEN toegang tot deze pagina."
+msgstr "Sorry, u bent geen actief lid van dit team"
 
 #: reports/issue_info.php:141
 msgid "You do not have permissions to display task :"
@@ -6475,9 +6432,8 @@ msgid "Sidetasks Inactivity"
 msgstr ""
 
 #: timetracking/holidays_report.php:76
-#, fuzzy
 msgid "Activity on other teams"
-msgstr "Aankomst datum in het team"
+msgstr "Activiteit bij andere teams"
 
 #: timetracking/holidays_report.php:140
 msgid "today"
@@ -6647,9 +6603,8 @@ msgid "Export WBS to CSV file"
 msgstr ""
 
 #: plugins/AdminTools/AdminTools.class.php:67
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "CodevTT Administratie"
+msgstr "CodevTT-beheertools"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
@@ -6824,16 +6779,15 @@ msgstr "Lijst de actieve taken gedurende een bepaalde periode op"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:90
 msgid "Tasks having received timetracks during the period"
-msgstr "Taken hebben timetracks ontvangen gedurende de periode"
+msgstr "Taken die gedurende de periode tijdsporen hebben ontvangen"
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
 msgstr ""
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:296
-#, fuzzy
 msgid "Timetrack added by "
-msgstr "Taakfilter:"
+msgstr "Tijdspoor toegevoegd door "
 
 #: plugins/BurnDownChart/BurnDownChart.class.php:66
 msgid "Display the backlog history"
@@ -6865,9 +6819,8 @@ msgid "Issue not found in MantisDB !"
 msgstr ""
 
 #: scheduler/scheduler_ajax.php:513
-#, fuzzy
 msgid "Options saved successfully"
-msgstr "Back-up met succes gedaan"
+msgstr "De opties zijn opgeslagen"
 
 #. TODO use this value to stop scheduler computing if OPTION_nbDaysForecast is too big
 #. $max_time = ini_get("max_execution_time");
