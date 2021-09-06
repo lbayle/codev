@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 #
 # Author: Alexander Yukal
+# Author: DDPAT
 # Author: Dimitri Nakashidze
 # Author: Diralik
 # Author: Gas22original
@@ -25,7 +26,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-07-29 11:01:09+0000\n"
+"PO-Revision-Date: 2021-09-06 11:01:09+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5115,7 +5116,7 @@ msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
-msgstr ""
+msgstr "Коэффициент производительности"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "SUM(userWorkforce * availability * prodCoef)"
