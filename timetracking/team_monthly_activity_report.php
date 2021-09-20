@@ -81,7 +81,7 @@ class TeamMonthlyActivityReportController extends Controller {
                } else {
                   // create issueSelection with issues from team projects
                   $team = TeamCache::getInstance()->getTeam($this->teamid);
-                  $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
+                  $teamIssues = $team->getTeamIssueList(); // with disabledProjects ?
                   $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');
                   $teamIssueSelection->addIssueList($teamIssues);
                   $teamUsers = $team->getActiveMembers($startTimestamp, $endTimestamp);

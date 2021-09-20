@@ -612,40 +612,48 @@ class Team extends Model {
 
    /**
     * get all issues managed by the team's users on the team's projects.
+    *
     * @param bool $addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
+    * @param type $onlyAssignedToTeamMembers
+    * @param type $withDisabledProjects
+    * @param type $withNoStatsProjects
+    * @param type $withSideTasksProjects
     * @return Issue[] : issueList
     */
-   public function getTeamIssueList($addUnassignedIssues = false, $withDisabledProjects = true, $withNoStatsProjects = true, $withSideTasksProjects=true) {
+   public function getTeamIssueList($addUnassignedIssues = true, $onlyAssignedToTeamMembers=false, $withDisabledProjects = true, $withNoStatsProjects = true, $withSideTasksProjects=true) {
 
       $issueList = array();
+      $memberIdList = array();
 
       $projectList = $this->getProjects($withNoStatsProjects, $withDisabledProjects, $withSideTasksProjects);
-      $memberList = $this->getMembers();
 
-      $memberIdList = array_keys($memberList);
+      if ($onlyAssignedToTeamMembers) {
+         $memberList = $this->getMembers();
+         $memberIdList = array_keys($memberList);
 
-      if (0 == count($memberIdList)) {
-         self::$logger->error("getTeamIssues(teamid=$this->id) : No members defined in the team !");
-      }
-
-      // add unassigned tasks
-      if ($addUnassignedIssues) {
-         $memberIdList[] = '0';
-      }
-
-      if (0 == count($memberIdList)) {
-         return $issueList;
+         if (0 == count($memberIdList)) {
+            self::$logger->error("getTeamIssues(teamid=$this->id) : No members defined in the team !");
+         }
+         if ($addUnassignedIssues) {
+            $memberIdList[] = '0';
+         }
       }
 
       $formatedProjects = implode( ', ', array_keys($projectList));
-      $formatedMembers = implode( ', ', $memberIdList);
-
 
       $sql = AdodbWrapper::getInstance();
       $query = "SELECT * ".
                "FROM {bug} ".
-               "WHERE project_id IN (".$formatedProjects.") ".
-               " AND handler_id IN (".$formatedMembers.") ";
+               "WHERE project_id IN (".$formatedProjects.") ";
+
+      if (0 != count($memberIdList)) {
+         $formatedMembers = implode( ', ', $memberIdList);
+         $query .= " AND handler_id IN (".$formatedMembers.") ";
+      } else {
+         if (false == $addUnassignedIssues) {
+            $query .= " AND handler_id <> 0 ";
+         }
+      }
 
       $result = $sql->sql_query($query);
 

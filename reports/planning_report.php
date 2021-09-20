@@ -214,7 +214,7 @@ class PlanningReportController extends Controller {
     * @return mixed[][]
     */
    private function getConsistencyErrors($teamid) {
-      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(TRUE);
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList();
       $ccheck = new ConsistencyCheck2($issueList, $teamid);
 
       $cerrList  = $ccheck->checkBadBacklog();

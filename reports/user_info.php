@@ -87,7 +87,7 @@ class UserInfoController extends Controller {
 
             // create issueSelection with issues from team projects
             // Note: yes, we want all the tasks because it will not be possible to update this ilst later
-            $teamIssues = $team->getTeamIssueList(true, true); // with disabledProjects ?
+            $teamIssues = $team->getTeamIssueList(); // with disabledProjects ?
             $teamIssueSelection = new IssueSelection('Team'.$this->teamid.'ISel');
             $teamIssueSelection->addIssueList($teamIssues);
 

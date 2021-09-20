@@ -66,7 +66,7 @@ class CheckController extends Controller {
    private function getTeamConsistencyErrors($teamid) {
 
       // get team projects
-      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false);
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false, false);
 
       #$ccheck = new ConsistencyCheck2($issueList);
       $ccheck = new ConsistencyCheck2($issueList, $teamid);

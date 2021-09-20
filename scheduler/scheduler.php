@@ -26,8 +26,8 @@ class SchedulerController extends Controller {
     * @var Logger The logger
     */
    private static $logger;
-   
-   
+
+
    // internal
    protected $execData;
 
@@ -47,7 +47,7 @@ class SchedulerController extends Controller {
          } else {
             $team = TeamCache::getInstance()->getTeam($this->teamid);
             $projectList = $team->getProjects(false, false, false);
-            $taskList = $team->getTeamIssueList(false, false);
+            $taskList = $team->getTeamIssueList(false, false, false);
             $userList = $team->getActiveMembers();
             $schedulerManager = new SchedulerManager($_SESSION['userid'], $_SESSION['teamid']);
 
@@ -79,7 +79,7 @@ class SchedulerController extends Controller {
                $taskProviderReflection = new ReflectionClass($taskProviderName);
                $taskProviderDescriptionList[$taskProviderName] = $taskProviderReflection->newInstance()->getShortDesc();
             }
-            // Get selected scheduler task provider 
+            // Get selected scheduler task provider
             $selectedTaskProviderName = $schedulerManager->getUserOption(SchedulerManager::OPTION_taskProvider);
             if(!in_array($selectedTaskProviderName, $taskProviderList))
             {
@@ -129,8 +129,8 @@ class SchedulerController extends Controller {
          }
       }
    }
-   
-   
+
+
 }
 
 // ========== MAIN ===========

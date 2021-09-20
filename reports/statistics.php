@@ -48,7 +48,7 @@ class StatisticsController extends Controller {
             $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
 
             $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
-            
+
             //plugins
             $this->smartyHelper->assign('statusHistoryIndicatorFile', StatusHistoryIndicator::getSmartyFilename());
             $this->smartyHelper->assign('effortEstimReliabilityIndicatorFile', EffortEstimReliabilityIndicator::getSmartyFilename());
@@ -147,7 +147,7 @@ class StatisticsController extends Controller {
    private function generateStatusHistoryGraph($teamid) {
       $team = TeamCache::getInstance()->getTeam($teamid);
 
-      $issueList = $team->getTeamIssueList(true, false);
+      $issueList = $team->getTeamIssueList(true, false, false);
 
       $issueSel = new IssueSelection('Team '.$team->getName().' issues');
       $issueSel->addIssueList($issueList);
