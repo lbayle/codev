@@ -4,6 +4,7 @@
 # Author: AlvaroMolina
 # Author: Codynguyen1116
 # Author: DannyS712
+# Author: Destinid10 2
 # Author: Dgstranz
 # Author: Fitoschido
 # Author: Igv
@@ -20,7 +21,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-07-29 11:01:06+0000\n"
+"PO-Revision-Date: 2021-09-20 11:01:05+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1604,9 +1605,8 @@ msgstr "Destino"
 #. tpl/doc.html
 #. tpl/gantt.html
 #. tpl/scheduler.html
-#, fuzzy
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "No se mostrarán las tareas sin asignar"
+msgstr "IMPORTANTE: ¡no se mostrarán las tareas sin asignar!"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
@@ -1965,7 +1965,6 @@ msgid "Hide resolved tasks"
 msgstr "Ocultar tareas resueltas"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide closed tasks"
 msgstr "Ocultar tareas cerradas"
 
@@ -2673,9 +2672,8 @@ msgid "User info"
 msgstr "Información de usuario"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Usuario"
+msgstr "ID de Usuario"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
@@ -2691,9 +2689,8 @@ msgid "Role"
 msgstr "Rol"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Fecha de llegada del usuario"
+msgstr "Fecha de llegada del equipo"
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
@@ -2976,9 +2973,8 @@ msgid "Discover new plugins"
 msgstr "Descubre complementos nuevos"
 
 #. tpl/plugin_manager.html
-#, fuzzy
 msgid "Plugins"
-msgstr "Complemento"
+msgstr "Complementos"
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
@@ -3084,9 +3080,8 @@ msgid "Parent CommandSets"
 msgstr "Conjunto de Comandos Padre"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Add tasks (comma separated)"
-msgstr "Añadir tareas a la orden"
+msgstr "Añadir tareas (separadas por comas)"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
@@ -4040,9 +4035,8 @@ msgid "Title"
 msgstr "Título"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
-#, fuzzy
 msgid "Managemnt load history"
-msgstr "Administración"
+msgstr "Administrar el historial de carga"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
@@ -4205,9 +4199,8 @@ msgid "WARNING : In order to move timetracks, destination task creation date wil
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Timetracks moved successfully !"
-msgstr "La copia de respaldo se realizó con éxito"
+msgstr "¡Las Pistas de Tiempo se movieron satisfactoriamente!"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4357,9 +4350,8 @@ msgid "Deadline alerts"
 msgstr "Alertas por de fecha límite"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#, fuzzy
 msgid "No late task."
-msgstr "Tareas no resueltas..."
+msgstr "Ninguna tarea tardía."
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
@@ -4513,14 +4505,12 @@ msgid "Import Relationship tree to command"
 msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Sorry, you need to be manager to use this plugin"
-msgstr "Debes ser líder del equipo para acceder a esta página."
+msgstr "Perdón, debes ser administrador para usar este complemento"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task"
-msgstr "Tareas no resueltas..."
+msgstr "Tarea de raíz"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated"
@@ -4563,9 +4553,8 @@ msgstr "Hola mundo"
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:64
-#, fuzzy
 msgid "Administration tools"
-msgstr "Administración de CodevTT"
+msgstr "Herramientas de administración"
 
 #. plugins/AdminTools/AdminTools.html
 #, fuzzy
@@ -4573,27 +4562,24 @@ msgid "Run selected actions"
 msgstr "Eliminar duración"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "Ninguna tarea seleccionada"
+msgstr "¡Acciones ejecutadas!"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Usuarios"
+msgstr "usuarios"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "for user "
-msgstr "Importar usuarios"
+msgstr "para usuario "
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
@@ -4634,9 +4620,8 @@ msgstr "Vista previa de importación"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:62
-#, fuzzy
 msgid "Import issues"
-msgstr "Importar incidencias"
+msgstr "Importar problemas"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4649,7 +4634,6 @@ msgid "Standard CSV format with :"
 msgstr "Formato CSV estándar con:"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "enclosure"
 msgstr "cerrado"
 
