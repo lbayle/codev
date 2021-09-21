@@ -393,5 +393,15 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
 
 }
 
+// if PHP < 7.3
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $arr) {
+        foreach($arr as $key => $unused) {
+            return $key;
+        }
+        return NULL;
+    }
+}
+
 // Initialize static variables
 LoadPerCustomfieldValues::staticInit();
