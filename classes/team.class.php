@@ -1614,7 +1614,7 @@ class Team extends Model {
             if (null != $jsonUserGroups) {
                $userGroupList = json_decode($jsonUserGroups, true);
                if (is_null($userGroupList)) {
-                  self::$logger->error("UserGroups: json could not be decoded !");
+                  self::$logger->error("Team $this->id, user $session_userid, UserGroups: json could not be decoded !");
                } else {
                   $this->userGroupList = $userGroupList;
                }
