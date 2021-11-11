@@ -3,7 +3,7 @@
 
 # 2018-10-11: update apache 2.4.25 fur security updates
 # 2020-05-24: update to PHP v7.4
-# 2021-11-11: do not include phpmyadmin
+# 2021-11-11: do not include CodevTT: make it a volume for dev purpose
 
 FROM centos:centos7
 MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
@@ -16,18 +16,69 @@ MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
 #note: You'll need one more container : centos/mariadb
 
 # ====================================================
-# build & run
+# build
 # ====================================================
-# docker build --rm -t codevtt:latest .
+# docker build --rm -t codevtt:dev .
 
-# docker run --name mariadb -h mariadb -d -e MYSQL_ROOT_PASSWORD=my_password -e MYSQL_DATABASE=bugtracker centos/mariadb:latest
 # docker exec -i  mariadb mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+# docker exec -it docker-codevtt-1 bash
 
-# docker run --name codevtt -h codevtt -d -p 80:80 --link mariadb lbayle/codevtt:latest
+# ====================================================
+# docker-compose
+# ====================================================
 
-# ------------------
-# docker run --name codevtt -h codevtt -d -p 80:80 -p 443:443 -v /etc/ssl/certs:/etc/ssl/certs --link mariadb lbayle/codevtt:latest
-# docker exec -it codevtt bash
+# docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+
+# ---------------------------------------------------------
+#  mariadb:
+#    image: centos/mariadb:latest
+#    hostname: 'mariadb.fardeloup'
+#    restart: unless-stopped
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=my_password
+#      - MYSQL_DATABASE=bugtracker
+#      - MYSQL_USER=mantisbt
+#      - MYSQL_PASSWORD=mantisbt
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 1G
+#
+# ---------------------------------------------------------
+#  codevtt:
+#    image: codevtt:dev
+#    hostname: 'codevtt.fardeloup'
+#    restart: unless-stopped
+#    ports:
+#      - '80:80'
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 1G
+#    links:
+#      - mariadb
+#    volumes:
+#      - /data/docker/codevtt/src:/var/www/html/codevtt
+#      - /data/docker/codevtt/logs:/tmp/codevtt/logs
+#      - /data/docker/codevtt/mantis/config:/var/www/html/mantis/config
+#      - /data/docker/codevtt/mantis/plugins:/var/www/html/mantis/plugins
+#      - /data/docker/codevtt/logs-httpd:/var/log/httpd/
+#
+#  # ---------------------------------------------------------
+#  phpmyadmin:
+#    image: phpmyadmin/phpmyadmin
+#    restart: always
+#    ports:
+#      - 8080:80
+#    environment:
+#      - PMA_ARBITRARY=1
+#      - PMA_HOST=mariadb
+#      - PMA_USER=mantisbt
+#      - PMA_PASSWORD=mantisbt
+#    links:
+#      - mariadb
+#    volumes:
+#      - /data/docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
 # ====================================================
 
@@ -42,13 +93,6 @@ RUN yum -y update && \
     yum -y install --setopt=tsflags=nodocs epel-release && \
     rpm -Uvh https://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
     yum clean all
-
-# ------------------
-# Add CodeIT repositories (apache 2.4.25)
-# https://crosp.net/blog/administration/install-latest-apache-server-centos-7/
-# https://codeit.guru/en_US/
-#RUN cd /etc/yum.repos.d \
-#    && wget https://repo.codeit.guru/codeit.el`rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release)`.repo
 
 # ------------------
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 /etc/pki/rpm-gpg/RPM-GPG-KEY-remi /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
@@ -106,7 +150,7 @@ RUN  yum -y --enablerepo=remi-php74 install \
         php-bcmath \
         php-process \
         php-tidy \
-        php-intl && \
+        php-intl &&\
     yum clean all
 
 # ------------------
@@ -141,25 +185,19 @@ RUN set -xe \
 # ------------------
 # install CodevTT
 
-ENV CODEVTT_VER 1.6.0
-ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
-ENV CODEVTT_URL http://codevtt.org/site/index.php?sdmon=files/${CODEVTT_FILE}
+# no CodevTT install, we want a volume to a local install
+# this is usefull for developping and/or pulling latest changes from gitlab
 
-RUN set -xe \
-    && cd /var/www/html \
-    && wget ${CODEVTT_URL} -O ${CODEVTT_FILE} \
-    && unzip ${CODEVTT_FILE} \
-    && rm ${CODEVTT_FILE} \
-    && mv codevtt_v${CODEVTT_VER} codevtt \
-    && chown -R apache:apache codevtt \
-    && chmod -R g+w codevtt
-
+# add mantis plugin (in case you don't mount a volume for /var/www/html/mantis/plugins)
 RUN set -xe \
     && cd /var/www/html/mantis/plugins \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
-    && mkdir -p /tmp/codevtt/logs \
-    && chown -R apache:apache /tmp/codevtt
+    && mkdir -p /var/www/html/codevtt \
+    && mkdir -p /tmp/codevtt \
+    && chown -R apache:apache /tmp/codevtt \
+    && chown -R apache:apache /var/www/html/codevtt
 
+# ------------------
 # Update httpd.conf in order to restrict access as defined by .htaccess file.
 # .htaccess files are not evaluated since a default apache install does not allow to override directives in /var/www
 RUN set -xe \

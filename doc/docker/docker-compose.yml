@@ -1,0 +1,58 @@
+version: '3.5'
+services:
+
+  # ---------------------------------------------------------
+  # docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+
+  mariadb:
+    image: centos/mariadb:latest
+    hostname: 'mariadb'
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=my_password
+      - MYSQL_DATABASE=bugtracker
+      - MYSQL_USER=mantisbt
+      - MYSQL_PASSWORD=mantisbt
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    volumes:
+      - /data/docker/mariadb:/var/lib/mysql
+
+  # ---------------------------------------------------------
+  mantis-codevtt:
+    image: lbayle/codevtt:latest
+    hostname: 'mantis-codevtt'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    links:
+      - mariadb
+    volumes:
+      - /data/docker/mantis-codevtt/logs-httpd:/var/log/httpd/
+      - /data/docker/mantis-codevtt/logs:/tmp/codevtt/logs
+#      - /data/docker/mantis-codevtt/mantis/config:/var/www/html/mantis/config
+#      - /data/docker/mantis-codevtt/mantis/plugins:/var/www/html/mantis/plugins
+
+  # ---------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mariadb
+      - PMA_USER=mantisbt
+      - PMA_PASSWORD=mantisbt
+    links:
+      - mariadb
+#    volumes:
+#      - /data/docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+
+# end.
