@@ -274,7 +274,7 @@ class TeamActivityReportController extends Controller {
                      }
                      $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $duration);
 
-                     $weekDuration += $dayDetails['duration'];
+                     $weekDuration += (float)$dayDetails['duration'];
 
                      $daysDetails[] = $dayDetails;
                   }

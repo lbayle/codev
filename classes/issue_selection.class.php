@@ -89,10 +89,10 @@ class IssueSelection {
       if (!array_key_exists($bugid, $this->issueList)) {
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $this->issueList[$bugid] = $issue;
-         $this->elapsed += $issue->getElapsed();
-         $this->duration += $issue->getDuration();
-         $this->mgrEffortEstim += $issue->getMgrEffortEstim();
-         $this->effortEstim += $issue->getEffortEstim();
+         $this->elapsed += (float)$issue->getElapsed();
+         $this->duration += (float)$issue->getDuration();
+         $this->mgrEffortEstim += (float)$issue->getMgrEffortEstim();
+         $this->effortEstim += (float)$issue->getEffortEstim();
          $retCode = true;
       }
       return $retCode;
@@ -172,7 +172,7 @@ class IssueSelection {
          $submission = $issue->getDateSubmission();
 
          if ($submission <= $timestamp) {
-            $mgrEffortEstim += $issue->getMgrEffortEstim();
+            $mgrEffortEstim += (float)$issue->getMgrEffortEstim();
          } else {
             #echo "issue ".$issue->getId()." does not yet exist<br>";
          }
@@ -200,7 +200,7 @@ class IssueSelection {
             $submission = $issue->getDateSubmission();
 
             if ($submission <= $timestamp) {
-               $duration += $issue->getDuration($timestamp);
+               $duration += (float)$issue->getDuration($timestamp);
             } else {
                #echo "issue ".$issue->getId()." does not yet exist<br>";
             }
@@ -229,7 +229,7 @@ class IssueSelection {
          $submission = $issue->getDateSubmission();
 
          if ($submission <= $timestamp) {
-            $duration += $issue->getDuration($timestamp);
+            $duration += (float)$issue->getDuration($timestamp);
          } else {
             #echo "issue ".$issue->getId()." does not yet exist<br>";
          }
@@ -365,8 +365,8 @@ class IssueSelection {
       $myEstim = 0;
 
       foreach ($this->issueList as $issue) {
-         $nbDaysDrift += $issue->getDriftMgr();
-         $myEstim += $issue->getMgrEffortEstim();
+         $nbDaysDrift += (float)$issue->getDriftMgr();
+         $myEstim += (float)$issue->getMgrEffortEstim();
       }
       $myEstim += $this->provision;
       $nbDaysDrift -= $this->provision;
@@ -397,8 +397,8 @@ class IssueSelection {
       $myEstim = 0;
 
       foreach ($this->issueList as $issue) {
-         $nbDaysDrift += $issue->getDrift();
-         $myEstim += $issue->getEffortEstim();
+         $nbDaysDrift += (float)$issue->getDrift();
+         $myEstim += (float)$issue->getEffortEstim();
       }
       $myEstim += $this->provision;
       $nbDaysDrift -= $this->provision;

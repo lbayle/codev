@@ -303,7 +303,7 @@ class SellingPriceForPeriod extends IndicatorPluginAbstract {
 
          if (!array_key_exists($bugId, $sellingPriceForPeriodArray)) {
 
-            $remainingAtEndOfPeriod = ($issue->getMgrEffortEstim() - $issue->getElapsed(NULL, NULL, $this->endTimestamp));
+            $remainingAtEndOfPeriod = ((float)$issue->getMgrEffortEstim() - (float)$issue->getElapsed(NULL, NULL, $this->endTimestamp));
 
             $sellingPriceForPeriodArray[$bugId] = array(
                'issueId' => $bugId, //Tools::issueInfoURL($bugId, NULL, true),
@@ -382,7 +382,7 @@ class SellingPriceForPeriod extends IndicatorPluginAbstract {
       );
 
       if (NULL != $this->execData['projectsWithoutRequiredCustomField']) {
-         $smartyVariables[$prefix.generalErrorMsg] = T_('WARNING: You need to assign the "CodevTT_DailyPrice" customField to the following projects: ').
+         $smartyVariables[$prefix.'generalErrorMsg'] = T_('WARNING: You need to assign the "CodevTT_DailyPrice" customField to the following projects: ').
             $this->execData['projectsWithoutRequiredCustomField'];
       }
 

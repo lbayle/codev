@@ -882,7 +882,7 @@ class Issue extends Model implements Comparable {
          return $this->drift;
       }
 
-      $totalEstim = $this->getEffortEstim();
+      $totalEstim = (float)$this->getEffortEstim();
 
       // drift = reestimated - (effortEstim + effortAdd)
 
@@ -920,7 +920,7 @@ class Issue extends Model implements Comparable {
          return $this->driftMgr;
       }
 
-      $derive = $this->getReestimated() - $this->getMgrEffortEstim();
+      $derive = (float)$this->getReestimated() - (float)$this->getMgrEffortEstim();
 
       $this->driftMgr = round($derive,3);
       return $this->driftMgr;
@@ -2389,8 +2389,8 @@ class Issue extends Model implements Comparable {
          $duration = $this->getDuration() * $handlerUDC;
 
 
-         $effortEstim = $this->getEffortEstim() * $handlerUDC;
-         $mgrEE = $this->getMgrEffortEstim() * $handlerUDC;
+         $effortEstim = (float)$this->getEffortEstim() * $handlerUDC;
+         $mgrEE = (float)$this->getMgrEffortEstim() * $handlerUDC;
 
          $reestimated = ($elapsed + $duration);
          $driftMgr = $reestimated - $mgrEE;
