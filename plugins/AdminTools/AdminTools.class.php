@@ -39,7 +39,8 @@ class AdminTools extends IndicatorPluginAbstract {
 
    private $selectedTeamid;
    private $selectedUserid;
-
+   private $sessionUserid;
+   
    // config options from Dashboard
 
    // internal
@@ -116,6 +117,11 @@ class AdminTools extends IndicatorPluginAbstract {
          $this->domain = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_DOMAIN);
       } else {
          throw new Exception('Missing parameter: '.PluginDataProviderInterface::PARAM_DOMAIN);
+      }
+      if (NULL != $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID)) {
+         $this->sessionUserid = $pluginDataProv->getParam(PluginDataProviderInterface::PARAM_SESSION_USER_ID);
+      } else {
+         $this->sessionUserid = 0;
       }
 
       // set default pluginSettings (not provided by the PluginDataProvider)
@@ -194,8 +200,7 @@ class AdminTools extends IndicatorPluginAbstract {
    public function changeIssueId($srcIssueId, $destIssueId) {
 
       
-      self::$logger->error("srcIssueId =".$srcIssueId);
-      self::$logger->error("destIssueId =".$destIssueId);
+      self::$logger->warn("ChangeIssueId (user $this->sessionUserid) : srcIssueId=$srcIssueId -> destIssueId=$destIssueId");
       $statusMsg = 'SUCCESS';
       $strActionLogs = '';
       
@@ -294,6 +299,25 @@ class AdminTools extends IndicatorPluginAbstract {
          $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
          $sql->sql_query($query, array($destIssueId, $srcIssueId));
 
+         $table = 'codev_timetracking_table';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bugid=".$sql->db_param().' WHERE bugid='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         // log in Issue history
+         $query3 = 'INSERT INTO {bug_history} '.
+               '( user_id, bug_id, date_modified, type, old_value , field_name, new_value) '.
+               "VALUES ( ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().', '.
+                           $sql->db_param().", ".$sql->db_param().", ".$sql->db_param().", ".$sql->db_param().")";
+         $q_params3[]=$this->sessionUserid;
+         $q_params3[]=$destIssueId;
+         $q_params3[]=time();
+         $q_params3[]=0;  // Mantis 'NORMAL_TYPE'
+         $q_params3[]=$srcIssueId;
+         $q_params3[]='bug_id';
+         $q_params3[]=$destIssueId;
+         $sql->sql_query($query3, $q_params3);
+         
          $strActionLogs .= "SUCCESS : ChangeIssueId";
 
       } catch (Exception $e) {
