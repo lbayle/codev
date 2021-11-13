@@ -1607,6 +1607,7 @@ class Team extends Model {
 
       if (NULL == $this->userGroupList) {
          $userGroupList = array();
+         $this->userGroupList = array();
 
          $keyExists =  Config::keyExists(Config::id_userGroups, array(0, 0, $this->id, 0, 0, 0));
          if (false != $keyExists) {
