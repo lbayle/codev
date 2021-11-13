@@ -1689,7 +1689,8 @@ class Tools {
       $currentVersionInfo = FALSE;
 
       //$iniString = self::getUrlContent('http://codevtt.org/site/files/codevtt_current_version.ini', $timeout);
-      $iniString = self::getUrlContent('http://codevtt.org/site/index.php?sdmon=files/codevtt_current_version.ini', $timeout);
+      //$iniString = self::getUrlContent('http://codevtt.org/site/index.php?sdmon=files/codevtt_current_version.ini', $timeout);
+      $iniString = self::getUrlContent('https://raw.githubusercontent.com/lbayle/codev/master/doc/codevtt_current_version.ini', $timeout);
 
       if ( $iniString !== FALSE) {
          $ini_array = parse_ini_string($iniString, true);
