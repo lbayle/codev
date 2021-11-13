@@ -3,44 +3,56 @@
    <div class="pluginDestroyFunction"  style="display: none;">AdminToolsJsDestroy</div>
 
 
+   <div align="left" style="margin-top:1em;">
+      <div id="tabsAdminTools" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+         <ul class="{$ui_tabs_jquery_ul}">
+            <li class="{$ui_tabs_jquery_li}"><a href="#AdminTools_tabAction">{t}Action{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#AdminTools_tabLogs">{t}Logs{/t}</a></li>
+         </ul>
 
-<div>
-   <div class="AdminToolsDiv" align="left" style="margin-top: 1em;">
-      <div style="width: 95%;">
-      {include file="`$AdminTools_ajaxFile`"}
+         <div id="AdminTools_tabAction">
+            <div class="AdminToolsDiv" align="left" style="margin-top: 1em;">
+               {include file="`$AdminTools_ajaxFile`"}
+            </div>
+            <div align="left" style="margin-top: 1em;">
+               <form id="AdminTools_form">
+                  <fieldset>
+                     <input class="AdminTools_submit" type="submit" title="{t}Run selected actions{/t}" value="{t}Execute{/t}" />
+                     <img class="AdminTools_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
+                     &nbsp;&nbsp;&nbsp;
+                     <span class="AdminTools_execStatusErrMsg error_font"></span>
+                     <span class="AdminTools_execStatusInfoMsg success_font"></span>
+                     <input type="hidden" name="action" value="execAdminActions" />
+                     <input type="hidden" name="adminActionsJsonStr" value="" />
+                     <input type="hidden" name="adminAction_ChangeIssueId_src" value="" />
+                     <input type="hidden" name="adminAction_ChangeIssueId_dest" value="" />
+                     <input type="hidden" name="attributesJsonStr" value="" />
+                     <input type="hidden" name="dashboardId" value="" />
+                  </fieldset>
+               </form>
+            </div>
+         </div>
+         <div id="AdminTools_tabLogs">
+            <textarea name="AdminTools_actionLogs" style="width:100%;background-color:white;" rows="14" ></textarea>
+         </div>
       </div>
+
+      <div class="floatr" style="margin-top:1em; width: 16px">
+         <span class="AdminToolsHelpDialog_link float pointer">
+            <img title="Help" src="images/help_icon.gif"/>
+         </span>
+      </div>
+      <div class="AdminToolsHelpDialog ui-helper-hidden" title="{t}Administration tools{/t}">
+            {t}TODO{/t}
+         <p style="margin-top:1em;">
+            <strong>{t}Description{/t}:</strong><br>
+            {t}TODO{/t}
+         </p>
+      </div>
+
+      <div class="ui-helper-clearfix"></div>
+
    </div>
-
-   <div class="floatr" style=" width: 16px">
-      <span class="AdminToolsHelpDialog_link float pointer">
-         <img title="Help" src="images/help_icon.gif"/>
-      </span>
-   </div>
-   <div class="AdminToolsHelpDialog ui-helper-hidden" title="{t}Administration tools{/t}">
-      <strong>{t}Description{/t}:</strong><br>
-      {t}TODO{/t}
-   </div>
-
-   <div class="ui-helper-clearfix"></div>
-
-</div>
-
-<div align="left" style="margin-top:1em;">
-   <form id="AdminTools_form">
-      <fieldset>
-         <input class="AdminTools_submit" type="submit" title="{t}Run selected actions{/t}" value="{t}Execute{/t}" />
-         <img class="AdminTools_spinner" src='images/spinner.gif' width='16' height='16' alt='Please wait...' style="vertical-align: middle;" />
-         &nbsp;&nbsp;&nbsp;
-         <span class="AdminTools_execStatusErrMsg error_font"></span>
-         <span class="AdminTools_execStatusInfoMsg success_font"></span>
-         <input type="hidden" name="action" value="execAdminActions" />
-         <input type="hidden" name="adminActionsJsonStr" value="" />
-         <input type="hidden" name="attributesJsonStr" value="" />
-         <input type="hidden" name="dashboardId" value="" />
-      </fieldset>
-   </form>
-   <br>
-</div>
 
 <script type="text/javascript">
 
@@ -81,6 +93,13 @@
          var adminActions = {};
          var isRestoreBlogPlugin = $(".AdminTools_cbRestoreBlogPlugin").attr('checked') ? 1 : 0;
          adminActions["isRestoreBlogPlugin"] = isRestoreBlogPlugin;
+
+         var isChangeIssueId = $(".AdminTools_cbChangeIssueId").attr('checked') ? 1 : 0;
+         adminActions["isChangeIssueId"] = isChangeIssueId;
+         if (isChangeIssueId) {
+            form.find('input[name=adminAction_ChangeIssueId_src]').val($(".AdminTools_ChangeIssueId_src").val());
+            form.find('input[name=adminAction_ChangeIssueId_dest]').val($(".AdminTools_ChangeIssueId_dest").val());
+         }
          // Here: parse more actions (RemoveDashboardSettings, ...)
 
          var adminActionsJsonStr = JSON.stringify(adminActions);
@@ -105,7 +124,7 @@
                   jQuery(".AdminTools_execStatusErrMsg").html(data.statusMsg);
                } else {
                   jQuery(".AdminTools_execStatusInfoMsg").html(data.nbActionsExecuted+" {t}Actions executed !{/t}");
-
+                  
                   if (data['AdminTools_htmlTable']) {
                      jQuery(".AdminToolsDiv").html(jQuery.trim(data['AdminTools_htmlTable']));
 
@@ -122,6 +141,8 @@
                      alert('ERROR: data is null');
                   }
                }
+               var prevLogs = jQuery("#AdminTools_tabLogs").find("textarea[name=AdminTools_actionLogs]").val();
+               jQuery("#AdminTools_tabLogs").find("textarea[name=AdminTools_actionLogs]").html(prevLogs + data.actionLogs);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                if(errorThrown == 'Forbidden') {

@@ -1,15 +1,20 @@
 <div class="AdminTools_ajax">
    <span class="AdminTools_generalErrorMsg error_font">{$AdminTools_generalErrorMsg}</span>
-      <table class="AdminToolsActionTable display float invisible" >
+      <table class="AdminToolsActionTable display invisible" >
          <tbody>
             <tr>
                <td><input class="AdminTools_cbRestoreBlogPlugin" type="checkbox" /></td>
                <td>{t}Force the display of the "Message" plugin on the homepage{/t} ({$AdminTools_nbUsersNoBlogPlugin} {t}users{/t})</td>
             </tr>
-            <!--tr>
-               <td><input class="AdminTools_cbRemoveDashboardSettings" type="checkbox" disabled /></td>
-               <td>{t}Clear Dashboard{/t} XXX {t}for user {/t} YYY</td>
-            </tr-->
+            <tr>
+               <td><input class="AdminTools_cbChangeIssueId" type="checkbox" /></td>
+               <td>
+                  {t}Change Mantis issue id{/t} :&nbsp;&nbsp;
+                  <input class="AdminTools_ChangeIssueId_src" placeHolder="src bug_id" />
+                  ->
+                  <input class="AdminTools_ChangeIssueId_dest"  placeHolder="dest bug_id" />
+               </td>
+            </tr>
          </tbody>
       </table>
 </div>

@@ -94,6 +94,8 @@ class AdminTools extends IndicatorPluginAbstract {
    }
    public static function getJsFiles() {
       return array(
+         'js_min/tabs.min.js',
+
          //'js_min/datepicker.min.js',
          //'js_min/table2csv.min.js',
          //'js_min/progress.min.js',
@@ -175,10 +177,135 @@ class AdminTools extends IndicatorPluginAbstract {
 
       }
  */
+      return 'SUCCESS : restoreBlogPlugin';
    }
 
-   private function removeDashboardSettings($user, $domain) {
+   /**
+    * Permet de changer l'id d'une fiche.
+    * Si l'on supprime une fiche par inadvertance, et que l'id de la fiche avait une importance (visibilité client), 
+    * vous pouvez recréer une fiche et lui donner l'id de la fiche supprimée.
+    * 
+    * Allows you to change the id of an issue.
+    * If an issue is inadvertently deleted, and the id of the issue was important (customer visibility), 
+    * you can recreate a record and give it the id of the deleted isue.
+    * @param type $srcIssueId
+    * @param type $destIssueId
+    */
+   public function changeIssueId($srcIssueId, $destIssueId) {
 
+      
+      self::$logger->error("srcIssueId =".$srcIssueId);
+      self::$logger->error("destIssueId =".$destIssueId);
+      $statusMsg = 'SUCCESS';
+      $strActionLogs = '';
+      
+      //update all tables
+      try {
+         $sql = AdodbWrapper::getInstance();
+         
+         // check $sourceIssueId exists
+         if (!Issue::exists($srcIssueId)) {
+            $str = 'ERROR changeIssueId: Could not find source issue in the DB : '.$srcIssueId;
+            $strActionLogs .= $str;
+            throw new Exception($str);
+         }
+         // check $destIssueId does NOT exists
+         if (Issue::exists($destIssueId)) {
+            $str =  'ERROR changeIssueId: The destination issueId already exists in the DB : '.$destIssueId;
+            $strActionLogs .= $str;
+            throw new Exception($str);
+         }
+         // check destIssueId should not exceed AUTO_INCREMENT
+         if ($sql->isMysql()) {
+            $dbName = $sql->getDatabaseName();
+
+            $query = "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES ".
+                     " WHERE TABLE_SCHEMA = ".$sql->db_param()." AND TABLE_NAME = '{bug}'";
+            $result = $sql->sql_query($query, array($dbName));
+            $autoIncVal = $sql->sql_result($result, 0);
+            
+            if ($destIssueId >= $autoIncVal) {
+               $str =  'ERROR changeIssueId: The destination issueId cannot exceed AUTO_INCREMENT value : '.$autoIncVal;
+               $strActionLogs .= $str;
+               throw new Exception($str);
+            }
+         }
+         
+
+         $table = '{bug}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET id=".$sql->db_param().' WHERE id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{bugnote}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{bug_file}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{bug_history}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{bug_monitor}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{bug_relationship}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET source_bug_id=".$sql->db_param().' WHERE source_bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+         $query = "UPDATE $table SET destination_bug_id=".$sql->db_param().' WHERE destination_bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{bug_revision}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{bug_tag}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{custom_field_string}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = '{sponsorship}';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = 'codev_command_bug_table';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $table = 'codev_wbs_table';
+         $strActionLogs .= "changeIssueId: update table $table\n";
+         $query = "UPDATE $table SET bug_id=".$sql->db_param().' WHERE bug_id='.$sql->db_param();
+         $sql->sql_query($query, array($destIssueId, $srcIssueId));
+
+         $strActionLogs .= "SUCCESS : ChangeIssueId";
+
+      } catch (Exception $e) {
+         self::$logger->error("srcIssueId=$srcIssueId, destIssueId=$destIssueId : " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         $statusMsg = 'ERROR : ChangeIssueId';
+      }
+      $data = array (
+         'statusMsg' => $statusMsg,
+         'actionLogs' => htmlentities($strActionLogs),
+         );
+      return $data;
    }
 
 

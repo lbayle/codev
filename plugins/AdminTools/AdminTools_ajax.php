@@ -64,10 +64,27 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $indicator = new AdminTools($pluginDataProvider);
 
          // --- do the job
+         $actionLogs = '';
          $nbActionsExecuted = 0;
+         $nbActionsFailed = 0;
+
          if (0 != $adminActions["isRestoreBlogPlugin"]) {
-            $indicator->restoreBlogPlugin();
-            $nbActionsExecuted += 1; // TODO check retCode
+            $actionLogs .= $indicator->restoreBlogPlugin();
+            $actionLogs .= "\n";
+            $nbActionsExecuted += 1;
+         }
+
+         if (0 != $adminActions["isChangeIssueId"]) {
+            $sourceIssueId = Tools::getSecurePOSTIntValue('adminAction_ChangeIssueId_src');
+            $destIssueId = Tools::getSecurePOSTIntValue('adminAction_ChangeIssueId_dest');
+
+            $aData = $indicator->changeIssueId($sourceIssueId, $destIssueId);
+            $actionLogs .= $aData['actionLogs']."\n";
+            if ('SUCCESS' == $aData['statusMsg']) {
+               $nbActionsExecuted += 1;
+            } else {
+               $nbActionsFailed += 1;
+            }
          }
          // Here : check for more actions (RemoveDashboardSettings, ...)
 
@@ -86,8 +103,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          // set JS libraries that must be load
          $data['AdminTools_jsFiles'] = TimetrackDetailsIndicator::getJsFiles();
          $data['AdminTools_cssFiles'] = TimetrackDetailsIndicator::getCssFiles();
-         $data['statusMsg'] = 'SUCCESS';
+
+         $data['actionLogs'] = $actionLogs;
          $data['nbActionsExecuted'] = $nbActionsExecuted;
+         $data['nbActionsFailed'] = $nbActionsFailed;
+         $data['statusMsg'] = (0 == $nbActionsFailed) ? 'SUCCESS' : 'ERROR: '.$nbActionsFailed.' action(s) failed !';
 
          // return html data
          $jsonData = json_encode($data);
@@ -97,7 +117,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $logger->error("Unknown action: $action");
          $data = array();
          $data['statusMsg'] = "ERROR - Unknown action: $action";
-
          $jsonData = json_encode($data);
          echo $jsonData;
 
