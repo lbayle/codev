@@ -40,7 +40,10 @@ class AboutController extends Controller {
          if (FALSE !== $latestVersionInfo) {
             $this->smartyHelper->assign('latestVersionInfo', $latestVersionInfo);
          }
-      }      
+      }
+
+      $this->smartyHelper->assign('phpVersion', phpversion());
+
    }
 
 }
