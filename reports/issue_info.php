@@ -156,7 +156,7 @@ class IssueInfoController extends Controller {
 
             if (0 === $bug_id) {
                // if 0 == bugid, then issueList depends on selected project
-               if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid'])) {
+               if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid']) && Project::exists($_SESSION['projectid'])) {
                   $defaultProjectid = $_SESSION['projectid'];
                   $issueList = $this->getIssueList(array($defaultProjectid));
                } else {

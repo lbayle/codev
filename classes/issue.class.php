@@ -1350,6 +1350,8 @@ class Issue extends Model implements Comparable {
       $BconstrainsList = $issueB->getRelationships();
       $BconstrainsList = $BconstrainsList[''.Constants::$relationship_constrains];
 
+      if (is_null($AconstrainsList)) { $AconstrainsList = array(); }
+      if (is_null($BconstrainsList)) { $BconstrainsList = array(); }
 
       if (in_array($issueA->bugId, $BconstrainsList)) {
          // B constrains A
