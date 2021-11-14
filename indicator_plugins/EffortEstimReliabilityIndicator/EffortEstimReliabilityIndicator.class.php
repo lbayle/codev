@@ -100,10 +100,10 @@ class EffortEstimReliabilityIndicator implements IndicatorPlugin {
             if (!in_array($row->id, $resolvedList)) {
                $resolvedList[] = $row->id;
 
-               $totalElapsed += $issue->getElapsed();
+               $totalElapsed += (float)$issue->getElapsed();
 
-               $EEReliability['MEE'] += $issue->getMgrEffortEstim();
-               $EEReliability['EE'] += $issue->getEffortEstim();
+               $EEReliability['MEE'] += (float)$issue->getMgrEffortEstim();
+               $EEReliability['EE'] += (float)$issue->getEffortEstim();
             }
          } else {
             $statusName = Constants::$statusNames[$latestStatus];

@@ -344,7 +344,7 @@ class SellingPriceForPeriod extends IndicatorPluginAbstract {
       }
 
       // Remaining concerns all issues, not only the ones having been modified during the period
-      $totalRemainingAtEndOfPeriod = $this->inputIssueSel->getMgrEffortEstim() - $this->inputIssueSel->getElapsed(NULL, $this->endTimestamp);
+      $totalRemainingAtEndOfPeriod = (float)$this->inputIssueSel->getMgrEffortEstim() - (float)$this->inputIssueSel->getElapsed(NULL, $this->endTimestamp);
 
       $this->execData = array();
       $this->execData['realStartTimestamp'] = $realStartTimestamp;
