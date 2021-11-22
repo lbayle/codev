@@ -11,11 +11,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-10-28 11:01:29+0000\n"
+"PO-Revision-Date: 2021-11-22 12:03:51+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2021-09-21 18:18:49+0000\n"
+"X-POT-Import-Date: 2021-11-11 15:30:22+0000\n"
 "X-Generator: MediaWiki 1.38.0-alpha; Translate 2021-10-25\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -1000,7 +1000,7 @@ msgstr "管理員"
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr "創建團隊"
+msgstr "建立團隊"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
@@ -3100,7 +3100,7 @@ msgstr "其它活動在專案上指示"
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
 #: management/commandset_edit.php:83 management/servicecontract_edit.php:83
 msgid "Create"
-msgstr "創建"
+msgstr "建立"
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
@@ -3520,7 +3520,7 @@ msgstr "添加使用者每日成本"
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr "團隊創建日期"
+msgstr "團隊建立日期"
 
 #. tpl/edit_team.html
 msgid "User arrival date"
@@ -5170,7 +5170,7 @@ msgstr "產生密碼"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"
-msgstr "要創建的 Mantis 使用者："
+msgstr "要建立的 Mantis 使用者："
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "First name"
@@ -5236,7 +5236,7 @@ msgstr "僅有團隊管理員可創建使用者"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
-msgstr "創建 Mantis 使用者"
+msgstr "建立 Mantis 使用者"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Add users to CodevTT team & projects"
@@ -6082,7 +6082,7 @@ msgstr "任務外部 ID 欄位"
 
 #: install/install_step3.php:594
 msgid "Create a new CustomField"
-msgstr "創建一個新自訂字段"
+msgstr "新增自訂欄位"
 
 #: install/install_step3.php:596
 msgid "Use this CustomField :"
