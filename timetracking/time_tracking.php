@@ -79,7 +79,10 @@ class TimeTrackingController extends Controller {
 
             $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));
             $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
-            $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',0);
+            
+            $sessionProjectId = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+            $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',$sessionProjectId);
+
             $job = Tools::getSecurePOSTIntValue('trackJobid',0);
             $duration = Tools::getSecurePOSTNumberValue('timeToAdd',0);
 
@@ -90,7 +93,7 @@ class TimeTrackingController extends Controller {
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                if (!Issue::exists($defaultBugid)) {
                   self::$logger->error("setBugId: issue $defaultBugid not found in MantisDB !");
-                  $defaultProjectid  = 0;
+                  $defaultProjectid  = $sessionProjectId;
                   $defaultBugid = 0;
                }
 
@@ -117,6 +120,10 @@ class TimeTrackingController extends Controller {
                $issue = IssueCache::getInstance()->getIssue($defaultBugid);
                $defaultProjectid = $issue->getProjectId();
             }
+
+            // remember which project was selected
+            $_SESSION['projectid'] = $defaultProjectid;
+            $managed_user->setDefaultProject($defaultProjectid);
 
             // Display user name
             $this->smartyHelper->assign('managedUser_realname', $managed_user->getRealname());
