@@ -43,7 +43,7 @@ class ConsistencyError2 implements Comparable {
    public $status;
    public $severity;
 
-   public function __construct($bugId, $userId, $status, $timestamp, $desc, $severity = self::severity_error) {
+   public function __construct($bugId, $userId, $status, $timestamp, $desc, $severity = self::severity_error, $rawValue = null) {
       $this->bugId = $bugId;
       $this->userId = $userId;
       $this->status = $status;
@@ -51,6 +51,7 @@ class ConsistencyError2 implements Comparable {
       $this->desc = $desc;
 
       $this->severity = $severity;
+      $this->rawValue = $rawValue;
    }
 
    /**
@@ -697,24 +698,31 @@ class ConsistencyCheck2 {
             if ($date > $now) { continue; } // skip dates in the future
 
             $label = NULL;
+            $missing = 0;
             if ($value < 1) {
+               $missing = (1-$value);
                $label = T_("incomplete (missing ").(1-$value).T_(" days").")";
+               $severity=ConsistencyError2::severity_error;
             } else {
+               $missing = 0;
                $label = T_("inconsistent")." (".($value)." ".T_("days").")";
+               $severity=ConsistencyError2::severity_warn;
             }
 
-            $cerr = new ConsistencyError2(NULL, $userid, NULL, $date, $label);
-            $cerr->severity = ConsistencyError2::severity_error;
+            $cerr = new ConsistencyError2(NULL, $userid, NULL, $date, $label, $severity, $missing);
+            //$cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
 
          $missingDays = $timeTracking->checkMissingDays($userid);
+         $missing = 1;
+         $label=T_("not defined.");
          foreach ($missingDays as $date) {
 
             if ($date > $now) { continue; } // skip dates in the future
 
-            $cerr = new ConsistencyError2(0, $userid, NULL, $date, T_("not defined."));
-            $cerr->severity = ConsistencyError2::severity_error;
+            $cerr = new ConsistencyError2(0, $userid, NULL, $date, $label, ConsistencyError2::severity_error, $missing);
+            //$cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
       }
@@ -781,7 +789,7 @@ class ConsistencyCheck2 {
       }
       return $cerrList;
    }
-   
+
    /**
     * since v1.7.0 config files have moved to ./config
     */

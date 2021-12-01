@@ -1,0 +1,84 @@
+<div id="content">
+   <div class="center">
+   {if (!isset($accessDenied) || (0 == $accessDenied)) }
+      <h2>{t}Missing Timetracks{/t}</h2>
+      <form method="post" class="formWithTabsHistory" action="{$page}">
+         <fieldset>
+            {include file="form/dateRangeSelector.html"}
+            <input type="hidden" name="action" value="getMissingTimetracks" />
+            <input type="submit" value="{t}Compute{/t}" />
+         </fieldset>
+       </form>
+   </div>
+
+   {if isset($ccheckErrList)}
+   <div id="tabsCommand" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_perUser">{t}Missing timetracks per user{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#tab_errors">{t}Errors{/t} ({$totalErrors})</a></li>
+      </ul>
+
+      <div id="tab_perUser">
+         <span style="font-weight: normal; font-size: 12px; align: left;">{$workdays} {t}workdays{/t}</span>
+         <div style="width: 50%;">
+            <table class='datatable_csv' >
+               <thead>
+                  <tr>
+                     <th>{t}User{/t}</th>
+                     <th>{t}Missing timetracks{/t}</th>
+                     <th>{t}Missing days{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+               {foreach from=$missingPerUserList key=id item=i}
+                  <tr>
+                     <td title="{$i.userId}">{$i.userName}</td>
+                     <td>{$i.missingTT}</td>
+                     <td>{$i.missingDays}</td>
+                  </tr>
+               {/foreach}
+               </tbody>
+               <tfoot>
+                  <tr>
+                     <th></th>
+                     <th>{$totalErrors}</th>
+                     <th>{$totalMissingDays}</th>
+                  </tr>
+               </tfoot>
+            </table>
+         </div>
+      </div>
+
+      <div id="tab_errors">
+         <div style="width: 50%;">
+            <table class='datatable_csv center'>
+               <thead>
+                  <tr>
+                     <th>{t}User{/t}</th>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}Error{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+               {foreach from=$ccheckErrList key=id item=i}
+                  <tr>
+                     <td title="{$i.userId}">{$i.userName}</td>
+                     <td>{$i.date}</td>
+                     <td><span style='{$i.severityColor}' title='{$i.addInfo}'>{$i.desc}</span></td>
+                  </tr>
+               {/foreach}
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+   {/if}
+
+   <script type="text/javascript" src="js_min/datepicker.min.js"></script>
+   <script type="text/javascript" src="js_min/datatable.min.js"></script>
+
+{else}
+   <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+{/if}
+
+</div>
