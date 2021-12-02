@@ -11,12 +11,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-11-22 12:03:51+0000\n"
+"PO-Revision-Date: 2022-01-20 12:01:15+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2021-11-11 15:30:22+0000\n"
-"X-Generator: MediaWiki 1.38.0-alpha; Translate 2021-10-25\n"
+"X-Generator: MediaWiki 1.38.0-alpha; Translate 2022-01-19\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/servicecontract_info.html
@@ -2396,7 +2396,7 @@ msgstr "刪除"
 
 #. tpl/tools/dashboard.html
 msgid "Add an indicator to the dashboard"
-msgstr "添加一個指示器至控制面版"
+msgstr "新增指示器至儀表板"
 
 #. tpl/tools/dashboard.html
 msgid "Add Indicator"
@@ -4210,7 +4210,7 @@ msgstr "間隔"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "dashboard default"
-msgstr "控制面版預設"
+msgstr "儀表板預設"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -5306,7 +5306,7 @@ msgstr "使用者"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Clear Dashboard"
-msgstr "清除控制面版"
+msgstr "清除儀表板"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "for user "
@@ -5517,11 +5517,11 @@ msgstr "項目"
 
 #. plugins/ResetDashboard/ResetDashboard.html
 msgid "Reset selected dashboards"
-msgstr "重新設定所選的控制面版"
+msgstr "重設選取的儀表板"
 
 #. plugins/ResetDashboard/ResetDashboard_cfg.html
 msgid "Reset Dashboard"
-msgstr "重新設定控制面版"
+msgstr "重設儀表板"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:79

@@ -26,12 +26,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2021-10-28 11:01:28+0000\n"
+"PO-Revision-Date: 2022-01-20 12:01:13+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2021-09-21 18:18:49+0000\n"
-"X-Generator: MediaWiki 1.38.0-alpha; Translate 2021-10-25\n"
+"X-POT-Import-Date: 2021-11-11 15:30:22+0000\n"
+"X-Generator: MediaWiki 1.38.0-alpha; Translate 2022-01-19\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
 #. tpl/servicecontract_info.html
@@ -41,7 +41,7 @@ msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
-msgstr ""
+msgstr "--- Создать новый контракт на обслуживание ---"
 
 #. tpl/servicecontract_info.html
 #. tpl/issue_info.html
@@ -803,7 +803,7 @@ msgstr "открыть colorPicker в новой вкладке"
 
 #. tpl/edit_holidays.html
 msgid "Permanently remove this date ?"
-msgstr "Навсегда убрать эту дату ?"
+msgstr "Навсегда убрать эту дату?"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
@@ -5131,9 +5131,8 @@ msgid "Nb days"
 msgstr "Кол-во дней"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Task backlog"
-msgstr "обновление отставание"
+msgstr "Обновление отставание"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/AdminTools/AdminTools.html
@@ -5160,9 +5159,8 @@ msgid "Error !"
 msgstr "Ошибка !"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "days available on period"
-msgstr "Прошедшее в период"
+msgstr "прошедшее в период"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Could not retrieve task data !"
@@ -6759,9 +6757,8 @@ msgid "Choose a customfield, return the elapsed time for each customField value"
 msgstr ""
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:296
-#, fuzzy
 msgid "Timetrack added by "
-msgstr "Примечание по учёту времени"
+msgstr "Примечание по учёту времени "
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Import a list of users to MantisBT / CodevTT"

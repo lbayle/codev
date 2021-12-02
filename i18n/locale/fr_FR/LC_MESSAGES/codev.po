@@ -17,19 +17,19 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2021-10-28 11:01:25+0000\n"
+"PO-Revision-Date: 2022-01-20 12:01:11+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.38.0-alpha; Translate 2021-10-25\n"
+"X-Generator: MediaWiki 1.38.0-alpha; Translate 2022-01-19\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2021-09-21 18:18:49+0000\n"
+"X-POT-Import-Date: 2021-11-11 15:30:22+0000\n"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
@@ -3297,7 +3297,7 @@ msgstr "Administrateurs d’équipe"
 
 #. tpl/edit_team.html
 msgid "add as team administrator"
-msgstr "Ajouter comme administrateur d’équipe"
+msgstr "ajouter comme administrateur d’équipe"
 
 #. tpl/edit_team.html
 msgid "Add a team administrator"

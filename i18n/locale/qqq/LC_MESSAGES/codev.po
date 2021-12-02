@@ -19,12 +19,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2021-10-28 11:01:27+0000\n"
+"PO-Revision-Date: 2022-01-20 12:01:13+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2021-09-21 18:18:49+0000\n"
-"X-Generator: MediaWiki 1.38.0-alpha; Translate 2021-10-25\n"
+"X-POT-Import-Date: 2021-11-11 15:30:22+0000\n"
+"X-Generator: MediaWiki 1.38.0-alpha; Translate 2022-01-19\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/servicecontract_info.html
@@ -443,7 +443,7 @@ msgstr ""
 #. tpl/commandset_edit.html
 #. tpl/servicecontract_edit.html
 msgid "Reference"
-msgstr ""
+msgstr "{{Identical|Reference}}"
 
 #. tpl/servicecontract_info.html
 #. tpl/plugin_manager.html
@@ -1288,7 +1288,7 @@ msgstr "{{Identical|Log in}}"
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr ""
+msgstr "{{Identical|Password}}"
 
 #. tpl/modal/login.html
 #. tpl/tools/dashboard.html
@@ -4755,7 +4755,7 @@ msgstr "{{identical|New}}"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "{{Identical|Open}}"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
@@ -5867,7 +5867,7 @@ msgstr "{{Identical|Constrain}}"
 
 #: classes/issue.class.php:2141 tools.php:1549
 msgid "Tags"
-msgstr ""
+msgstr "{{Identical|Tag}}"
 
 #: classes/issue.class.php:2149
 msgid "none"
@@ -6323,7 +6323,7 @@ msgstr ""
 
 #: install/install_step4.php:83
 msgid "Done !"
-msgstr ""
+msgstr "{{Identical|Done}}"
 
 #: management/command_info_ajax.php:340 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
@@ -6541,7 +6541,7 @@ msgstr ""
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:67
 msgid "Messages"
-msgstr ""
+msgstr "{{Identical|Message}}"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:70
 msgid "Display a message wall on the homepage"
@@ -6561,7 +6561,7 @@ msgstr "{{Identical|Normal}}"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
 msgid "High"
-msgstr ""
+msgstr "{{Identical|High}}"
 
 #. This case happens when an Administrator sends a message to "All" users
 #: plugins/BlogPlugin/BlogPost.class.php:377
