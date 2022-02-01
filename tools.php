@@ -1662,6 +1662,13 @@ class Tools {
 
    /**
     * gets the data from a URL
+    *
+    * On Windows you need php curl extension + php in PATH
+    * https://www.howtosolutions.net/2021/09/fixing-php-curl-extension-not-loading-when-enabled-windows/
+    *
+    * @param string $url
+    * @param int $timeout in seconds
+    * @return FALSE on failure, result on success
     */
    public static function getUrlContent($url, $timeout = 5) {
       $ch = curl_init();
@@ -1669,12 +1676,22 @@ class Tools {
       curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+      #curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,false);
 
       if (!empty(Constants::$proxy)) {
          curl_setopt($ch, CURLOPT_PROXY, Constants::$proxy);
          #curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, TRUE);
       }
       $data = curl_exec($ch);
+
+      if (FALSE === $data) {
+         if (false == extension_loaded("curl")) {
+            self::$logger->error("getUrlContent(): PHP curl extension missing !");
+         }
+         self::$logger->error("getUrlContent($url)");
+         //$msg = var_export(curl_getinfo($ch), true);
+         //self::$logger->error("$msg");
+      }
       curl_close($ch);
       return $data;
    }
