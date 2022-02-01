@@ -30,12 +30,9 @@
                   <tr>
                      <td><label>{t}Task{/t}: </label></td>
                      <td>
-                        <select class="FillPeriodWithTimetracks_issueId" name="FillPeriodWithTimetracks_issueId" style="min-width:800px;">
-                           <option value="0"></option>
-                        {foreach from=$FillPeriodWithTimetracks_taskList key=id item=i}
-                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                        {/foreach}
-                        </select>
+                        <input type="text" class="FillPeriodWithTimetracks_issueId" name="FillPeriodWithTimetracks_issueId"/>
+                        &nbsp;&nbsp;
+                        <label class="FillPeriodWithTimetracks__issueSummary" style="font-weight:bold;"></label>
                      </td>
                   </tr>
                   <tr>
@@ -149,6 +146,7 @@ This right is only given to team administrators.{/t}
       var form = jQuery('#FillPeriodWithTimetracks_form');
       var elapsedTarget = jQuery(".FillPeriodWithTimetracks_elapsedTarget");
       var finalBacklog = form.find("input[name=FillPeriodWithTimetracks_finalBacklog]");
+      var issueId = form.find("input[name=FillPeriodWithTimetracks_issueId]");
       var availableOnPeriod = jQuery(".FillPeriodWithTimetracks_availableOnPeriod").attr("data-availableOnPeriod");
 
       // correct common mistakes
@@ -162,7 +160,7 @@ This right is only given to team administrators.{/t}
       if ('0' === form.find("select[name=FillPeriodWithTimetracks_managedUser]").val()) {
          errMsg += 'User, ';
       }
-      if ('0' === form.find("select[name=FillPeriodWithTimetracks_issueId]").val()) {
+      if (('' === issueId.val()) || isNaN(issueId.val())) {
          errMsg += 'Task, ';
       }
       if (null === $(".FillPeriodWithTimetracks_jobId").val()) {
@@ -199,7 +197,6 @@ This right is only given to team administrators.{/t}
 
       // set select2
       $(".FillPeriodWithTimetracks_managedUser").select2({ width: 'resolve' });
-      $(".FillPeriodWithTimetracks_issueId").select2({ width: 'resolve' });
 
       var form = jQuery('#FillPeriodWithTimetracks_form');
       var dashboardId = $('.FillPeriodWithTimetracks').parents('.codevttDashboard').attr('data-dashboardId');
@@ -237,8 +234,9 @@ This right is only given to team administrators.{/t}
       });
 
       // ===== getJobs
-      jQuery(".FillPeriodWithTimetracks_issueId").change(function() {
+      jQuery('.FillPeriodWithTimetracks_issueId').on("input", function() {
 
+         jQuery(".FillPeriodWithTimetracks__issueSummary").text("");
          jQuery(".FillPeriodWithTimetracks_infoMsg").text("");
          jQuery(".FillPeriodWithTimetracks_errorMsg").text("");
          jQuery('.FillPeriodWithTimetracks_spinner').show(); // spinner img
@@ -254,8 +252,10 @@ This right is only given to team administrators.{/t}
             success: function(data) {
                if('SUCCESS' !== data.statusMsg) {
                   console.error(data.statusMsg);
-                  jQuery(".FillPeriodWithTimetracks_errorMsg").text("{t}ERROR{/t} : {t}Could not retrieve task data !{/t}");
+                  jQuery(".FillPeriodWithTimetracks_errorMsg").text("{t}ERROR{/t} : "+data.statusMsg);
                } else {
+                  jQuery(".FillPeriodWithTimetracks__issueSummary").text(data.issueSummary);
+
                   // update jobList
                   var cbJobList = $(".FillPeriodWithTimetracks_jobId");
                   cbJobList.find('option').remove(); // clear jobList

@@ -56,6 +56,10 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       ));
 
       $availableOnPeriod = $indicator->getAvailableOnPeriod();
+
+      // TODO
+      // $teamMembers= $team->getActiveMembers($this->startTimestamp, $this->endTimestamp, true);
+
       $data = array();
       $data['availableOnPeriod'] = $availableOnPeriod;
       $data['statusMsg'] = 'SUCCESS';
@@ -66,18 +70,23 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    } else if('getJobs' == $action) {
       $issueId = Tools::getSecurePOSTIntValue($prefix."issueId");
-      $jobId = Tools::getSecurePOSTIntValue($prefix."jobId", 0);
+      $data = array();
 
-      $indicator = new FillPeriodWithTimetracks($pluginDataProvider);
+      if (false == Issue::exists($issueId)) {
+         $data['statusMsg'] = T_('Task does not exist !');
+      } else {
+         // --- issue is valid, now get all info
+         $jobId = Tools::getSecurePOSTIntValue($prefix."jobId", 0);
+         $indicator = new FillPeriodWithTimetracks($pluginDataProvider);
 
-      // override plugin settings with current attributes
-      $indicator->setPluginSettings(array(
-          FillPeriodWithTimetracks::OPTION_ISSUE_ID => $issueId,
-      ));
+         // override plugin settings with current attributes
+         $indicator->setPluginSettings(array(
+             FillPeriodWithTimetracks::OPTION_ISSUE_ID => $issueId,
+         ));
 
-      $data = $indicator->getIssueInfo();
-      $data['selectedJobId'] = $jobId;
-      $data['statusMsg'] = 'SUCCESS';
+         $data = $indicator->getIssueInfo();
+         $data['selectedJobId'] = $jobId;
+      }
 
       // return data
       $jsonData = json_encode($data);

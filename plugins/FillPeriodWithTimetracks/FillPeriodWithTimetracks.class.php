@@ -194,13 +194,18 @@ class FillPeriodWithTimetracks extends IndicatorPluginAbstract {
       $projectid = $issue->getProjectId();
       $project = ProjectCache::getInstance()->getProject($projectid);
 
-      $teamProjTypes = $team->getProjectsType();
-      $jobList = $project->getJobList($teamProjTypes[$projectid], $this->teamId);
+      $data = array();
+      if (!array_key_exists($issue->getProjectId(), $team->getProjects())) {
+         $data['statusMsg'] = T_("Task is not in team's projects");
+      } else {
+         $teamProjTypes = $team->getProjectsType();
+         $jobList = $project->getJobList($teamProjTypes[$projectid], $this->teamId);
 
-      $data = array (
-         'jobList' => $jobList,
-         'backlog' => $issue->getBacklog(),
-         );
+         $data['issueSummary'] = $issue->getSummary();
+         $data['jobList'] = $jobList;
+         $data['backlog'] = $issue->getBacklog();
+         $data['statusMsg'] = 'SUCCESS';
+      }
       return $data;
    }
 
@@ -272,27 +277,11 @@ class FillPeriodWithTimetracks extends IndicatorPluginAbstract {
       $team = TeamCache::getInstance()->getTeam($this->teamId);
       $teamMembers= $team->getMembers(true);
 
-      // get all tasks (regularProjects + sidetasksProjects)
-
-      $hideStatusAndAbove = 0; // may be usefull to add as option, for huge projects
-      $isHideResolved = false;
-
-      $issueList = array();
-      $teamProjects = $team->getProjects();
-      foreach ($teamProjects as $projectid => $pname) {
-         $project = ProjectCache::getInstance()->getProject($projectid);
-         $prjIssueList = $project->getIssues(0, $isHideResolved, $hideStatusAndAbove);
-         $issueList = array_merge($issueList, $prjIssueList);
-      }
-      //ksort($issueList);
-      $taskList = array();
-      foreach ($issueList as $issue) {
-         $taskList[$issue->getId()] = $issue->getId().' : '.$issue->getSummary();
-      }
+      // TODO if activeMembers, also update ajax on datepicker change (action = getAvailableOnPeriod)
+      //$teamMembers= $team->getActiveMembers($this->startTimestamp, $this->endTimestamp, true);
 
       $this->execData = array (
          'teamMembers' => $teamMembers,
-         'taskList' => $taskList,
          'ttNote' => T_("Timetrack added by ").$sessionUser->getRealname(),
          );
       return $this->execData;
@@ -309,14 +298,11 @@ class FillPeriodWithTimetracks extends IndicatorPluginAbstract {
       $prefix='FillPeriodWithTimetracks_';
 
       $availableTeamMembers = SmartyTools::getSmartyArray($this->execData['teamMembers'],$this->managedUserId);
-      $taskList = SmartyTools::getSmartyArray($this->execData['taskList'],$this->issueId);
-
 
       $smartyVariables = array(
          $prefix.'teamMembers' => $availableTeamMembers, // $this->execData['teamMembers'],
          $prefix.'startDate' => Tools::formatDate("%Y-%m-%d", $this->startTimestamp),
          $prefix.'endDate'   => Tools::formatDate("%Y-%m-%d", $this->endTimestamp),
-         $prefix.'taskList' => $taskList,
 
          // add pluginSettings (if needed by smarty)
          $prefix.self::OPTION_TIMETRACK_NOTE => $this->execData['ttNote'],
