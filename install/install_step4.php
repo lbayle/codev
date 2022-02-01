@@ -88,7 +88,7 @@ function displayFooter() {
    echo "<br/><hr />
          <address class='right'>
             <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' src='../images/copyleft.png' /></a>
-            2010-".date('Y')."&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span><br>
+            2010-".date('Y')."&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='https://github.com/lbayle/codev' target='_blank'>CodevTT</a></span><br>
          </address>";
 }
 

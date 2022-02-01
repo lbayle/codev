@@ -28,7 +28,7 @@ class CodevTTPlugin extends MantisPlugin {
 
       $this->author = 'CodevTT';
       $this->contact = 'lbayle.work@gmail.com';
-      $this->url = 'http://codevtt.org';
+      $this->url = 'https://github.com/lbayle/codev';
    }
 
   public function init() {
