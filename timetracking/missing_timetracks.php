@@ -98,6 +98,7 @@ class MissingTimetracksController extends Controller {
                'date' => date("Y-m-d", $cerr->timestamp),
                'userId' => $cerr->userId,
                'userName' => $user->getRealname(),
+               'userEmail' => $user->getEmail(),
                'severity' => $cerr->getLiteralSeverity(),
                'severityColor' => $cerr->getSeverityColor(),
                'desc' => $cerr->desc);
@@ -106,6 +107,7 @@ class MissingTimetracksController extends Controller {
                $missingPerUser[$cerr->userId] = array(
                   'userId' => $cerr->userId,
                   'userName' => $user->getRealname(),
+                  'userEmail' => $user->getEmail(),
                   'missingDays' => (float)$cerr->rawValue,
                   'missingTT' => (int)1,
                );

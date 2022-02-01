@@ -20,13 +20,14 @@
 
       <div id="tab_perUser">
          <span style="font-weight: normal; font-size: 12px; align: left;">{$workdays} {t}workdays{/t}</span>
-         <div style="width: 50%;">
+         <div style="width: 70%;">
             <table class='datatable_csv' >
                <thead>
                   <tr>
                      <th>{t}User{/t}</th>
                      <th>{t}Missing timetracks{/t}</th>
                      <th>{t}Missing days{/t}</th>
+                     <th>{t}Email{/t}</th>
                   </tr>
                </thead>
                <tbody>
@@ -35,6 +36,7 @@
                      <td title="{$i.userId}">{$i.userName}</td>
                      <td>{$i.missingTT}</td>
                      <td>{$i.missingDays}</td>
+                     <td>{$i.userEmail}</td>
                   </tr>
                {/foreach}
                </tbody>
@@ -43,6 +45,7 @@
                      <th></th>
                      <th>{$totalErrors}</th>
                      <th>{$totalMissingDays}</th>
+                     <th></th>
                   </tr>
                </tfoot>
             </table>
