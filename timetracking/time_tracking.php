@@ -79,7 +79,7 @@ class TimeTrackingController extends Controller {
 
             $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));
             $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
-            
+
             $sessionProjectId = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
             $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',$sessionProjectId);
 
@@ -151,6 +151,14 @@ class TimeTrackingController extends Controller {
             $this->smartyHelper->assign('isHideForbidenStatus', $isHideForbidenStatus);
 
             $hideNoActivitySince = $managed_user->getTimetrackingFilter('hideNoActivitySince');
+            if (0 == $hideNoActivitySince) {
+               // uncheck, but set value to default (instead of zero)
+               $this->smartyHelper->assign('isHideNoActivitySince', false);
+               $defaultFilters = Tools::doubleExplode(':', ',', Config::default_timetrackingFilters);
+               $hideNoActivitySince =  $defaultFilters['hideNoActivitySince'];
+            } else {
+               $this->smartyHelper->assign('isHideNoActivitySince', true);
+            }
             $this->smartyHelper->assign('hideNoActivitySince', $hideNoActivitySince);
 
             $availableIssues = TimeTrackingTools::getIssues($this->teamid, $defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid, $hideNoActivitySince);

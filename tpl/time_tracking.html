@@ -48,7 +48,7 @@
             </select>
             {/if}
             <a title="{t}Set filters{/t}" id="filters" style="text-decoration: none" href="{$page}">
-               {if $isOnlyAssignedTo || $isHideResolved || (0 != $hideNoActivitySince)}
+               {if $isOnlyAssignedTo || $isHideResolved || ($isHideNoActivitySince)}
                <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter-active.png" alt="{t}Set filters{/t}" />
                {else}
                <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="{t}Set filters{/t}" />
@@ -141,7 +141,7 @@
 
                <table class="invisible">
                   <tr>
-                     <td><input type="checkbox" id="cb_hideNoActivitySince" name="cb_hideNoActivitySince" {if (0 != $hideNoActivitySince)} checked="checked" {/if}/></td>
+                     <td><input type="checkbox" id="cb_hideNoActivitySince" name="cb_hideNoActivitySince" {if ($isHideNoActivitySince)} checked="checked" {/if}/></td>
                      <td>
                         <label>{t}Hide tasks with no activity since{/t} </label>
                         <input id="hideNoActivitySince" name="hideNoActivitySince" value="{$hideNoActivitySince}" style="width:20px;"/>
