@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 #
 # Author: Anna7321
+# Author: Brettchenweber
 # Author: FF-11
 # Author: Gebu
 # Author: Killarnee
@@ -16,7 +17,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-01-20 12:01:10+0000\n"
+"PO-Revision-Date: 2022-02-03 12:01:02+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -1946,7 +1947,7 @@ msgstr "Benutzer-ID"
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Group"
-msgstr ""
+msgstr "Gruppe"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
@@ -2759,7 +2760,7 @@ msgstr "Fehlendes Feld"
 #. tpl/command_edit.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
-msgstr ""
+msgstr "FEHLER: Bitte überprüfen"
 
 #. tpl/command_info.html
 msgid "Set command filters"
@@ -2820,9 +2821,8 @@ msgstr "Tasks & Provisionen"
 #. tpl/scheduler.html
 #. tpl/gantt.html
 #. tpl/doc.html
-#, fuzzy
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "Nicht zugewiesene Aufgaben werden nicht angezeigt"
+msgstr "WICHTIG: Nicht zugewiesene Aufgaben werden nicht angezeigt!"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
@@ -3279,7 +3279,7 @@ msgstr "Bereitschaft"
 
 #. tpl/edit_team.html
 msgid "Team name"
-msgstr ""
+msgstr "Teamname"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -3319,7 +3319,7 @@ msgstr "Team löschen"
 
 #. tpl/edit_team.html
 msgid "Active team members"
-msgstr ""
+msgstr "Aktive Teammitglieder"
 
 #. tpl/edit_team.html
 msgid "Add team member"
@@ -3349,12 +3349,12 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "import groups"
-msgstr ""
+msgstr "Wichtige Gruppen"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "Benutzergruppen"
 
 #. tpl/edit_team.html
 msgid "CSV file"
@@ -3462,7 +3462,7 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "add new group"
-msgstr ""
+msgstr "neue Gruppe hinzufügen"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
@@ -5465,7 +5465,7 @@ msgstr "Keine erledigten Aufgaben..."
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated"
-msgstr ""
+msgstr "durch ein Komma getrennt"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Root task list"
@@ -5656,7 +5656,7 @@ msgstr "FEHLER: Die Auftragsliste kann nicht leer sein !"
 
 #: admin/edit_team_ajax.php:494
 msgid "Invalid team name"
-msgstr ""
+msgstr "Ungültiger Teamname"
 
 #: admin/edit_team_ajax.php:498
 msgid "Couldn't enable/disable team"
