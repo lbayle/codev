@@ -335,6 +335,54 @@ class Issue extends Model implements Comparable {
       return self::$existsCache[$bugid];
    }
 
+   /**
+    * search the given string in bugid & summary
+    * not realy REGEX, but if searchStr='*' then display all
+    * 
+    * @param String $searchStr
+    * @param array $projectidList
+    * @param array $handleridList
+    * @param array $statusList
+    * @return Issue[] : issueList
+    */
+   public static function search($searchStr,
+                                 array $projectidList=NULL,
+                                 array $handleridList=NULL,
+                                 array $statusList=NULL) {
+      $issueList = array();
+      if (!empty($searchStr)) {
+
+         $sql = AdodbWrapper::getInstance();
+         $query  = 'SELECT * FROM {bug} WHERE 1 = 1 ';
+
+         if (NULL !== $projectidList) {
+            $query .= ' AND project_id IN ('.implode( ',', $projectidList).') ';
+         }
+         if (NULL !== $handleridList) {
+            $query .= ' AND handler_id IN ('.implode( ',', $handleridList).') ';
+         }
+         if (NULL !== $statusList) {
+            $query .= ' AND status IN ('.implode( ',', $statusList).') ';
+         }
+         if ('***' != $searchStr) {
+            $query  .= " AND (";
+            if (ctype_digit($searchStr)) {
+               $query  .= " id LIKE '%".$searchStr."%' OR ";
+            }
+            if ('***' != $searchStr) {
+               $query  .= " LOWER( summary ) LIKE '%".strtolower($searchStr)."%' ";
+            }
+            $query  .= " )";
+         }
+
+         $result = $sql->sql_query($query);
+         while($row = $sql->fetchObject($result)) {
+            $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
+         }
+      }
+      return $issueList;
+   }
+
 
    public function isPrivate() {
       // public:10 private:50

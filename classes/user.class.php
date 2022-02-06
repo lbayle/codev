@@ -1283,9 +1283,9 @@ class User extends Model {
 
       // default filter values
       $filters = array(
-         'isOnlyAssignedToMe' => false,
-         'isHideResolved' => false,
-         'isHideClosed' => true,
+         //'isOnlyAssignedToMe' => false,
+         //'isHideResolved' => false,
+         //'isHideClosed' => true,
          'isHideObservedTeams' => true,
       );
       // override with user settings if exist

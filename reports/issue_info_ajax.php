@@ -29,7 +29,46 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
    $logger = Logger::getLogger("IssueInfo_ajax");
 
    $smartyHelper = new SmartyHelper();
-   if('getGeneralInfo' == $action) {
+   if('searchIssues' == $action) {
+      
+      $searchStr = Tools::getSecureGETStringValue('search', '');
+      $projectId = Tools::getSecureGETIntValue('projectId');
+
+      $data = array();
+      try {
+         if (!empty($searchStr)) {
+            $projectidList = array($projectId);
+            if (0 == $projectId) {
+               $session_userid = (int)$_SESSION['userid'];
+               $session_user= UserCache::getInstance()->getUser($session_userid);
+               $myTeamList = $session_user->getDevTeamList() + $session_user->getManagedTeamList();
+
+               $issueInfoFilters = $session_user->getIssueInfoFilters();
+               if (false == $issueInfoFilters['isHideObservedTeams']) {
+                  $myTeamList += $session_user->getObservedTeamList();
+               }
+               $projList = array ();
+               if (count($myTeamList) > 0) {
+                  $projectidList = array_keys($session_user->getProjectList($myTeamList, true, false));
+               }
+            }
+
+            $issueList = Issue::search($searchStr, $projectidList);
+            // https://select2.org/data-sources/formats
+            foreach ($issueList as $issue) {
+               $data[] = array('id'=>$issue->getId(), 'text'=>$issue->getFormattedIds().' : '.$issue->getSummary());
+            }
+         }
+      } catch (Exception $e) {
+         self::$logger->error("EXCEPTION searchIssues: " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());         
+      }
+
+      $jsonData=json_encode($data);
+      //$logger->error("jsonData=$jsonData");
+      echo $jsonData;
+      
+   } else if('getGeneralInfo' == $action) {
       $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
       $user = UserCache::getInstance()->getUser($_SESSION['userid']);
       $managedTeamList = $user->getManagedTeamList();
@@ -434,22 +473,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       } catch (Exception $e) {
          Tools::sendBadRequest("Error: updateTaskInfo bad values: user=$userid issue=$bugid");
       }
-
-   }  else if ('setProjectAndIssue' == $action) {
-      try {
-         $projectId  = Tools::getSecureGETIntValue('projectId', 0);
-         $bugId  = Tools::getSecureGETIntValue('bugId', 0);
-         $_SESSION['projectid'] = $projectId;
-         $_SESSION['bugid'] = $bugId;
-         $data['statusMsg'] = 'SUCCESS';
-      } catch (Exception $e) {
-         $logger->error("EXCEPTION setIssueInfoFilters: ".$e->getMessage());
-         $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         $data['statusMsg'] = 'ERROR: '.$e->getMessage();
-      }
-      // return status & data
-      $jsonData = json_encode($data);
-      echo $jsonData;
 
    }  else if ('setIssueInfoFilters' == $action) {
       $data = array();

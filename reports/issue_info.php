@@ -60,51 +60,6 @@ class IssueInfoController extends Controller {
       return $projList;
    }
 
-   /*
-    * List of tasks to be displayed in the combobox
-    * - depends on selected project
-    * - apply user preferences
-    */
-   private function getIssueList($projectIdList) {
-
-      $team = TeamCache::getInstance()->getTeam($this->teamid);
-      $isHideResolved = $this->issueInfoFilters['isHideResolved'];
-      $hideStatusAndAbove = ($this->issueInfoFilters['isHideClosed']) ? Constants::$status_closed : 0;
-      $handler_id = ($this->issueInfoFilters['isOnlyAssignedToMe']) ? $this->session_userid : 0;
-
-      $issueList = array();
-      foreach ($projectIdList as $prjId) {
-         if (0 != $prjId) {
-            $project = ProjectCache::getInstance()->getProject($prjId);
-            $prjType = $team->getProjectType($prjId);
-            if ((Project::type_sideTaskProject == $prjType) ||
-                ($project->isExternalTasksProject())) {
-               $issueList += $project->getIssues(0, false, false);
-            } else {
-               $issueList += $project->getIssues($handler_id, $isHideResolved, $hideStatusAndAbove);
-            }
-         }
-      }
-      return $issueList;
-   }
-
-   private function getSmartyIssueList($issueList, $selectedBugId = 0) {
-      $bugs = array();
-      foreach ($issueList as $issue) {
-         $summary = "";
-         if($issue->getSummary()) {
-            $summary = ' : '.$issue->getSummary();
-         }
-         $bugs[$issue->getId()] = array(
-            'id' => $issue->getId(),
-            'name' => $issue->getFormattedIds().$summary,
-            'selected' => ($issue->getId() == $selectedBugId),
-            'projectid' => $issue->getProjectId()
-         );
-      }
-      return $bugs;
-   }
-
    protected function display() {
       if(Tools::isConnectedUser() && (0 != $this->teamid)) {
          /* @var $user User */
@@ -116,12 +71,6 @@ class IssueInfoController extends Controller {
          if (count($this->teamList) > 0) {
             // --- define the list of tasks the user can display
             $projList = $this->getProjectList(); // list of projects to be displayed in combobox
-
-            // if 'support' is set in the URL, display graphs for 'with/without Support'
-            $displaySupport = filter_input(INPUT_GET, 'support') ? true : false;
-            if($displaySupport) {
-               $this->smartyHelper->assign('support', $displaySupport);
-            }
 
             if(filter_input(INPUT_GET, 'bugid')) {
                $bug_id = Tools::getSecureGETIntValue('bugid', 0);
@@ -154,25 +103,9 @@ class IssueInfoController extends Controller {
                }
             }
 
-            if (0 === $bug_id) {
-               // if 0 == bugid, then issueList depends on selected project
-               if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid']) && Project::exists($_SESSION['projectid'])) {
-                  $defaultProjectid = $_SESSION['projectid'];
-                  $issueList = $this->getIssueList(array($defaultProjectid));
-               } else {
-                  $defaultProjectid = 0;
-                  $issueList = $this->getIssueList(array_keys($projList));
-               }
-            } else {
+            if (0 !== $bug_id) {
                try {
                   $defaultProjectid = $issue->getProjectId();
-                  $issueList = $this->getIssueList(array($defaultProjectid));
-
-                  // if I made it up to here, then user is allowed to display the issue,
-                  // nevertheless, we may need to bypass issueInfoFilters
-                  if (!array_key_exists($bug_id,$issueList)) {
-                     $issueList[$bug_id] = $issue;
-                  }
 
                   $consistencyErrors = NULL;
                   $ccheck = new ConsistencyCheck2(array($issue));
@@ -262,14 +195,9 @@ class IssueInfoController extends Controller {
                }
 
             }
-            $bugs = $this->getSmartyIssueList($issueList, $bug_id);
             $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
-            $this->smartyHelper->assign('bugs', $bugs);
             $this->smartyHelper->assign('projects', $projects);
 
-            $this->smartyHelper->assign('filter_isOnlyAssignedToMe', $this->issueInfoFilters['isOnlyAssignedToMe']);
-            $this->smartyHelper->assign('filter_isHideResolved', $this->issueInfoFilters['isHideResolved']);
-            $this->smartyHelper->assign('filter_isHideClosed', $this->issueInfoFilters['isHideClosed']);
             $this->smartyHelper->assign('filter_isHideObservedTeams', $this->issueInfoFilters['isHideObservedTeams']);
          }
       }

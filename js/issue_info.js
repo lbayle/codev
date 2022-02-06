@@ -51,6 +51,28 @@ jQuery(document).ready(function() {
       jQuery.datepicker.setDefaults($.datepicker.regional[issueInfoSmartyData.datepickerLocale]);
    }
 
+   jQuery('#bugid').select2({
+      placeholder: issueInfoSmartyData.i18n_TypeToSearch,
+      minimumInputLength: 3,
+      width: 'resolve',
+      ajax: {
+         url: issueInfoSmartyData.ajaxPage,
+         dataType: 'json',
+         delay: 1000, // wait 250 milliseconds before triggering the request
+         data: function (params) {
+            var query = {
+                search: params, // params.term,
+                action: 'searchIssues',
+                projectId: jQuery("#projectid").val()
+            };
+            return query;
+         },
+         results: function (data, page) {
+            return { results: data };
+         }
+      }
+   });
+
    jQuery("#btIssueInfoFilter").click(function(e) {
       e.preventDefault();
       jQuery("#editIssueInfoFilter_dialog").dialog( "open" );
@@ -113,38 +135,6 @@ jQuery(document).ready(function() {
 
 // =================================================================
 // Task selection form
-
-jQuery("#projectid").change(function() {
-   var projectid = jQuery("#projectid").val();
-   var bugid=0; // jQuery("#bugid").val();
-
-   // WORKAROUND
-   if (null === bugid )     { bugid = "0"; }
-   if (null === projectid ) { projectid = "0"; }
-
-   $.ajax({
-      url: issueInfoSmartyData.ajaxPage,
-      type: "GET",
-      dataType:"json",
-      data: {
-         action: 'setProjectAndIssue',
-         projectId: projectid,
-         bugId: bugid
-      },
-      success: function(data) {
-         if ('SUCCESS' !== data.statusMsg) {
-            console.error("Ajax statusMsg", data.statusMsg);
-            alert(data.statusMsg);
-         }
-         // simply reload the page !
-         window.location = issueInfoSmartyData.page;
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-         console.error(textStatus, errorThrown);
-         alert("ERROR: Please contact your CodevTT administrator");
-      }
-   });
-});
 
 jQuery("#bugid").change(function() {
       console.log('submit form1');

@@ -13,9 +13,8 @@
                {/foreach}
             </select>
             <span id="bugSelector">
-            {include file="form/bugSelector.html"}
+               <input class="select2" id="bugid" name="bugid" style="width: 600px;" title="{t}Task{/t}"/>
             </span>
-            {if isset($support)}<input type="hidden" name="support" />{/if}
             <input type="submit" value="{t}Select{/t}" />
          </fieldset>
       </form>
@@ -25,18 +24,6 @@
       <div style="overflow-x:hidden;overflow-y:auto;">
       <table id="editIssueInfoFilterDlg_tbl" class="invisible">
          <tbody>
-            <tr class="editIssueInfoFilterDlg_tr" data-filterId="isOnlyAssignedToMe">
-               <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isOnlyAssignedToMe}checked="checked"{/if}></td>
-               <td class="left">{t}Hide tasks not assigned to me{/t}</td>
-            </tr>
-            <tr class="editIssueInfoFilterDlg_tr" data-filterId="isHideResolved">
-               <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isHideResolved}checked="checked"{/if}></td>
-               <td class="left">{t}Hide resolved tasks{/t}</td>
-            </tr>
-            <tr class="editIssueInfoFilterDlg_tr" data-filterId="isHideClosed">
-               <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isHideClosed}checked="checked"{/if}></td>
-               <td class="left">{t}Hide closed tasks{/t}</td>
-            </tr>
             <tr class="editIssueInfoFilterDlg_tr" data-filterId="isHideObservedTeams">
                <td class="right"><input class="opt_enabled" type="checkbox" {if $filter_isHideObservedTeams}checked="checked"{/if}></td>
                <td class="left">{t}Hide tasks from observed teams{/t}</td>
@@ -437,10 +424,11 @@
          i18n_remove:"{t}Remove{/t}",
          i18n_add:"{t}Add{/t}",
          i18n_removeTaskFromCommand:"{t}Remove task from command{/t}",
+         i18n_TypeToSearch:"{t}Enter a keyword or *** to display all...{/t}",
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>
-   <script src="js_min/issue_info.min.js"></script>
+   <script src="js/issue_info.js"></script>
 
    {else}
    <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
