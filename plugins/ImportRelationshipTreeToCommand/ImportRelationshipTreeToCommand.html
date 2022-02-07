@@ -33,11 +33,7 @@
                      <td><input class="ImportRelationshipTreeToCommand_rootTaskListRadio" type="radio" name="ImportRelationshipTreeToCommand_rootTaskListRadio" value="0" {if !$ImportRelationshipTreeToCommand_isRootTaskList}CHECKED{/if}></td>
                      <td><label id="ImportRelationshipTreeToCommand_rootTaskLabel">{t}Root task{/t}: </label></td>
                      <td>
-                        <select class="ImportRelationshipTreeToCommand_issueId" name="ImportRelationshipTreeToCommand_issueId" style="min-width:700px;">
-                           <option value="0"></option>
-                        {foreach from=$ImportRelationshipTreeToCommand_taskList key=id item=i}
-                           <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                        {/foreach}
+                        <select class="ImportRelationshipTreeToCommand_issueId" name="ImportRelationshipTreeToCommand_issueId" style="width:700px;">
                         </select>
                      </td>
                   </tr>
@@ -196,12 +192,36 @@
 
       jQuery('.ImportRelationshipTreeToCommand_spinner').hide(); // hide spinner
 
+      var dashboardId = $('.ImportRelationshipTreeToCommand').parents('.codevttDashboard').attr('data-dashboardId');
+
       // set select2
       $(".ImportRelationshipTreeToCommand_commandId").select2({ width: 'resolve' });
-      $(".ImportRelationshipTreeToCommand_issueId").select2({ width: 'resolve' });
+
+      jQuery('.ImportRelationshipTreeToCommand_issueId').select2({
+         placeholder: "{t}Enter a keyword or *** to display all...{/t}",
+         minimumInputLength: 3,
+         width: 'resolve',
+         ajax: {
+            type: "POST",
+            url: "{$ImportRelationshipTreeToCommand_ajaxPhpURL}",
+            dataType: 'json',
+            delay: 500, // wait 250 milliseconds before triggering the request
+            data: function (params) {
+               var query = {
+                   action: 'searchIssues',
+                   dashboardId: dashboardId,
+                   search: params.term
+               };
+               console.log(query);
+               return query;
+            },
+            processResults: function (data, page) {
+               return { results: data };
+            }
+         }
+      });
 
       var form = jQuery('#ImportRelationshipTreeToCommand_form');
-      var dashboardId = $('.ImportRelationshipTreeToCommand').parents('.codevttDashboard').attr('data-dashboardId');
       form.find("input[name=dashboardId]").val(dashboardId);
 
       // update checkboxes depending on default values (selected command)

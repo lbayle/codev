@@ -344,24 +344,8 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
          }
       }
 
-      // --- get all tasks (regularProjects + sidetasksProjects)
-      $hideStatusAndAbove = 0;
-      $isHideResolved = false;
-      $issueList = array();
-      $teamProjects = $team->getProjects();
-      foreach ($teamProjects as $projectid => $pname) {
-         $project = ProjectCache::getInstance()->getProject($projectid);
-         $prjIssueList = $project->getIssues(0, $isHideResolved, $hideStatusAndAbove);
-         $issueList = array_merge($issueList, $prjIssueList);
-      }
-      $taskList = array();
-      foreach ($issueList as $issue) {
-         $taskList[$issue->getId()] = $issue->getId().' : '.$issue->getSummary();
-      }
-
       $this->execData = array (
          'teamCommands' => $teamCommands,
-         'taskList' => $taskList,
          'accessDenied' => $accessDenied,
       );
 
@@ -380,14 +364,12 @@ class ImportRelationshipTreeToCommand extends IndicatorPluginAbstract {
 
       $prefix='ImportRelationshipTreeToCommand_';
 
-      $taskListSmarty = SmartyTools::getSmartyArray($this->execData['taskList'], $this->issueId);
       $cmdListSmarty = SmartyTools::getSmartyArray($this->execData['teamCommands'], $this->commandId);
 
       $smartyVariables = array();
       foreach($this->execData as $key => $data) {
          $smartyVariables[$prefix.$key] = $data;
       }
-      $smartyVariables[$prefix.'taskList'] = $taskListSmarty; // override
       $smartyVariables[$prefix.'teamCommands'] = $cmdListSmarty; // override
 
       if (false == $isAjaxCall) {

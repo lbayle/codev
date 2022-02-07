@@ -41,7 +41,36 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
    $prefix='ImportRelationshipTreeToCommand_';
    $smartyHelper = new SmartyHelper();
 
-   if('getCommandSettings' == $action) {
+   if('searchIssues' == $action) {
+
+      $searchStr = Tools::getSecurePOSTStringValue('search', '');
+      $data = array();
+      try {
+         if (!empty($searchStr)) {
+            $projectidList = array($projectId);
+            if (0 == $projectId) {
+               $projList = array ();
+               $teamId = $pluginDataProvider->getParam(PluginDataProviderInterface::PARAM_TEAM_ID);
+               $team = TeamCache::getInstance()->getTeam($teamId);
+               $projectidList = array_keys($team->getProjects(true, false, true));
+            }
+            $issueList = Issue::search($searchStr, $projectidList);
+            // https://select2.org/data-sources/formats
+            foreach ($issueList as $issue) {
+               $data[] = array('id'=>$issue->getId(), 'text'=>$issue->getFormattedIds().' : '.$issue->getSummary());
+            }
+         }
+      } catch (Exception $e) {
+         self::$logger->error("EXCEPTION searchIssues: " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+      }
+
+      $jsonData=json_encode($data);
+      $logger->error("jsonData=$jsonData");
+      echo $jsonData;
+
+   // ================================================================
+   } else if('getCommandSettings' == $action) {
 
       $commandId = Tools::getSecurePOSTIntValue("commandId");
 
