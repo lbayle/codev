@@ -8,7 +8,7 @@ jQuery(document).ready(function() {
    if($select2.length > 0) {
       // Lib handle the history
       jQuery.ajax({
-         url: "lib/select2/select2.min.js",
+         url: "lib/select2/select2.full.min.js",
          dataType: "script",
          async: false,
          cache: true
