@@ -21,7 +21,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-01-20 12:01:14+0000\n"
+"PO-Revision-Date: 2022-02-07 12:01:03+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5108,7 +5108,7 @@ msgstr "Harici Kimliği Olmayan Sorunlar"
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_cfg.html
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:69
 msgid "Load per customfield values"
-msgstr ""
+msgstr "Özel alan değerlerine göre yükle"
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.html
 msgid "Custom field"
