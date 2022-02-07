@@ -38,14 +38,11 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
       $team = TeamCache::getInstance()->getTeam($teamid);
 
       // ================================================================
-      if ("getIssuesAndDurations" == $action) {
+      if('searchIssues' == $action) {
 
-         // TODO check session_user is allowed to manage user ( & get issue list...)
-
-         $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
+         $searchStr = Tools::getSecurePOSTStringValue('search', '');
+         $projectId = Tools::getSecurePOSTIntValue('projectId');
          $managedUserid = Tools::getSecurePOSTIntValue('managedUserid');
-
-         $projList = $team->getProjects(true, false);
 
          $managedUser = UserCache::getInstance()->getUser($managedUserid);
          $isOnlyAssignedTo = ('0' == $managedUser->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
@@ -53,44 +50,66 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          //$isHideForbidenStatus = ('0' == $managedUser->getTimetrackingFilter('hideForbidenStatus')) ? false : true;
          $isHideForbidenStatus=true;
          $hideNoActivitySince = $managedUser->getTimetrackingFilter('hideNoActivitySince');
+//         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, $isHideForbidenStatus, 0, $hideNoActivitySince);
+         
+         
+         $data = array();
+         try {
+            if (!empty($searchStr)) {
+               $projectidList = array($projectId);
+               if (0 == $projectId) {
+                  $projList = array ();
+                     $projectidList = array_keys($team->getProjects(true, false, true));
+               }
+               $issueList = Issue::search($searchStr, $projectidList);
+               // https://select2.org/data-sources/formats
+               foreach ($issueList as $issue) {
+                  $data[] = array('id'=>$issue->getId(), 'text'=>$issue->getFormattedIds().' : '.$issue->getSummary());
+               }
+            }
+         } catch (Exception $e) {
+            self::$logger->error("EXCEPTION searchIssues: " . $e->getMessage());
+            self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());         
+         }
 
-         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, $isHideForbidenStatus, 0, $hideNoActivitySince);
-         $jobs = TimeTrackingTools::getJobs($defaultProjectid, $teamid);
-         $durations = TimeTrackingTools::getDurationList($teamid);
-
-         // return data
-         $data = array(
-             'availableIssues' => $availableIssues,
-             'availableJobs' => $jobs,
-             'availableDurations' => $durations,
-         );
-         $jsonData = json_encode($data);
-         // return data
+         $jsonData=json_encode($data);
+         //$logger->error("jsonData=$jsonData");
          echo $jsonData;
 
       // ================================================================
-      } elseif ("getJobList" == $action) {
+      } elseif ("getJobsAndDurations" == $action) {
 
-         $bugid = Tools::getSecurePOSTIntValue('bugid');
+         $projectid = Tools::getSecurePOSTIntValue('projectid', 0);
+         $bugid = Tools::getSecurePOSTIntValue('bugid', 0);
          try {
-            $issue = IssueCache::getInstance()->getIssue($bugid);
-            $projectid = $issue->getProjectId();
-
-            $ptype = $team->getProjectType($projectid);
-            $project = ProjectCache::getInstance()->getProject($projectid);
-            $jobs = $project->getJobList($ptype, $teamid);
-
-            // JOB_SUPPORT on a 'new' task is nonsense (if work has not been started,
-            // then the handler cannot be 'helped' by someone) but MOST IMPORTANT
-            // we must avoid to have timetracks on a 'new' task. This happens because
-            // for JOB_SUPPORT the UpdateBacklogDialogbox is not opened and status check is skipped
-            if ( Constants::$status_new ==  $issue->getStatus()) {
-               unset($jobs[Jobs::JOB_SUPPORT]);
+            if (0 != $bugid) {
+               $issue = IssueCache::getInstance()->getIssue($bugid);
+               $projectid = $issue->getProjectId();
             }
+            if (0 != $projectid) {
+               $ptype = $team->getProjectType($projectid);
+               $project = ProjectCache::getInstance()->getProject($projectid);
+               $jobs = $project->getJobList($ptype, $teamid);
+            } else {
+               $jobs = array();
+            }
+
+            if (0 != $bugid) {
+               // JOB_SUPPORT on a 'new' task is nonsense (if work has not been started,
+               // then the handler cannot be 'helped' by someone) but MOST IMPORTANT
+               // we must avoid to have timetracks on a 'new' task. This happens because
+               // for JOB_SUPPORT the UpdateBacklogDialogbox is not opened and status check is skipped
+               if ( Constants::$status_new ==  $issue->getStatus()) {
+                  unset($jobs[Jobs::JOB_SUPPORT]);
+               }
+            }
+            $durations = TimeTrackingTools::getDurationList($teamid);
+
             // return data
             $data = array(
                'statusMsg' => 'SUCCESS',
                'availableJobs' => $jobs,
+               'availableDurations' => $durations,
             );
          }  catch (Exception $e) {
             $logger->error("EXCEPTION deleteTrack: ".$e->getMessage());

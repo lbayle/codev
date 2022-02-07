@@ -54,14 +54,7 @@
                <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="{t}Set filters{/t}" />
                {/if}
             </a>
-            <select id="bugid" name="bugid" class="select2" style="width: 600px;" title="{t}Task{/t}">
-               {if count($issues) > 1}
-               <option value="0"></option>
-               {/if}
-               {foreach from=$issues key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}{if $i.tcId} / {$i.tcId}{/if} : {$i.summary}</option>
-               {/foreach}
-            </select>
+            <select class="select2" id="bugid" name="bugid" style="width: 600px;" title="{t}Task{/t}"></select>
             <select id="job" name="trackJobid" title="{t}Job{/t}" style="width: 100px;" >
                {if count($jobs) > 1}
                <option value="0"></option>
@@ -94,14 +87,6 @@
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="userid" value="{$userid}" />
-         </fieldset>
-      </form>
-
-      <form id="getIssuesAndDurationsForm" name="formGetIssuesAndDurations" method="post" action="{$ajaxPage}" >
-         <fieldset>
-            <input type="hidden" name="action" value="getIssuesAndDurations" />
-            <input type="hidden" name="managedUserid" value="{$userid}" />
-            <input type="hidden" name="projectid" value="" />
          </fieldset>
       </form>
 
@@ -376,6 +361,8 @@
       var timetrackingSmartyData = {
          userid:"{$userid}", // (managedUserid)
          weekid:"{$weekid}",
+         defaultBugid:"{$defaultBugid}",
+         defaultBugText:"{$defaultBugText}",
          year:"{$year}",
          page:"{$page}",
          ajaxPage:"{$ajaxPage}",
@@ -394,11 +381,12 @@
          i18n_task:"{t}Task{/t}",
          i18n_job:"{t}Job{/t}",
          i18n_duration:"{t}Duration{/t}",
+         i18n_TypeToSearch:"{t}Enter a keyword or *** to display all...{/t}",
       };
    </script>
    <script type="text/javascript" src="js_min/datepicker.min.js"></script>
    <script type="text/javascript" src="js_min/datatable.min.js"></script>
-   <script src="js_min/time_tracking.min.js"></script>
+   <script src="js/time_tracking.js"></script>
 
    {/if}
    {else}

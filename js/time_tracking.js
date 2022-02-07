@@ -39,7 +39,7 @@ function updateJobList(availableJobs) {
    }
 }
 
-function getIssuesAndDurations(event) {
+function getJobsAndDurations(event) {
 
    /* stop form from submitting normally */
    event.preventDefault();
@@ -49,53 +49,17 @@ function getIssuesAndDurations(event) {
 
       jQuery('#loading').show(); // spinner
 
-      // ajax call may be slow, empty the task list first.
-      var bugidSelect = jQuery('#bugid');
-      bugidSelect.empty();
-      bugidSelect.select2('data', null);
-      bugidSelect.append(jQuery('<option>').attr('value', '0').append(timetrackingSmartyData.i18n_pleaseWait).attr('selected', 'selected'));
-
       jQuery.ajax({
          url: timetrackingSmartyData.ajaxPage,
          type: "POST",
          dataType:"json",
-         data: { action: 'getIssuesAndDurations',
+         data: { action: 'getJobsAndDurations',
                  managedUserid: timetrackingSmartyData.userid,
-                 projectid: jQuery("#projectid").val()
+                 projectid: jQuery("#projectid").val(),
+                 bugid: jQuery("#bugid").val() // if bugid set, projectid is ignored
          },
          success: function(data) {
 
-            // fill job combobox values
-            bugidSelect.empty();
-            bugidSelect.select2('data', null);
-            var availableIssues = data['availableIssues'];
-
-            //var nbIssues = Object.keys(availableIssues).length; (IE not compatible with ecmascript5...)
-            var nbIssues = 0;
-            for(var k in availableIssues) {
-               if (availableIssues.hasOwnProperty(k)) {
-                  nbIssues++;
-               }
-            }
-            if (nbIssues > 1) {
-               bugidSelect.append(jQuery('<option>').attr('value', '0').append('').attr('selected', 'selected'));
-            }
-            var summary = '';
-            var issueInfo;
-            for (var id in availableIssues) {
-
-               if (availableIssues.hasOwnProperty(id)) {
-                  issueInfo = availableIssues[id];
-                  if ((null != issueInfo['tcId']) && ('' != issueInfo['tcId'])) {
-                     summary = id + ' / ' + issueInfo['tcId'] + ' : ' + issueInfo['summary'];
-                  } else {
-                     summary = id + ' : ' + issueInfo['summary'];
-                  }
-                  bugidSelect.append(
-                     jQuery('<option>').attr('value', id).append(summary)
-                  );
-               }
-            }
             // fill job combobox values
             var availableJobs = data['availableJobs'];
             updateJobList(availableJobs);
@@ -124,7 +88,7 @@ function getIssuesAndDurations(event) {
 // add timetrack and reload Timetracking page
 function addTimetrackAndReload(ttNote) {
    var form1 = jQuery("#form1");
-   var bugid      = form1.find("select[name=bugid]").val();
+   var bugid      = jQuery("#bugid").val();
    var trackJobid = form1.find("select[name=trackJobid]").val();
    var timeToAdd  = form1.find("select[name=timeToAdd]").val();
    var trackDate  = jQuery("#datepicker").val();
@@ -171,49 +135,53 @@ jQuery(document).ready(function() {
 
    jQuery("#datepicker").datepicker("setDate" ,timetrackingSmartyData.datepickerDate);
 
-   // on project change, taskList & jobList must be updated
+   // on project change, jobList must be updated
    jQuery("#projectid").change(function(event) {
-      // use ajax to update fields
-      // TODO add a spinner because reloading the bugid combobox may take time
-      getIssuesAndDurations(event);
+      getJobsAndDurations(event);
    });
+
+   jQuery("#bugid").change(function() {
+      if ('0' === jQuery("#projectid").val()) {
+         getJobsAndDurations(event);
+      }
+   });
+
 
    jQuery("#filters").click(function(event) {
       event.preventDefault();
       jQuery("#setfilter_dialog_form" ).dialog( "open" );
    });
 
-   jQuery("#bugid").change(function() {
-
-      // Here we just want to set the correct job list:
-      // depending on the number of issues to display in the combobox,
-      // it can be very slow, so we accept not to update the projectName & bugid combobox
-
-      if ('0' === jQuery("#projectid").val()) {
-
-         var form1 = jQuery("#form1");
-         var bugid = form1.find("select[name=bugid]").val();
-
-         jQuery.ajax({
-            type: "POST",
-            url:  timetrackingSmartyData.ajaxPage,
-            data: { action: 'getJobList',
-                    bugid: bugid
-            },
-            dataType:"json",
-            success: function(data) {
-               if ('SUCCESS' === data.statusMsg) {
-                  var availableJobs = data['availableJobs'];
-                  updateJobList(availableJobs);
-               }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-               console.error(textStatus, errorThrown);
-               alert("ERROR: Please contact your CodevTT administrator");
-            }
-         });
+   jQuery('#bugid').select2({
+      placeholder: timetrackingSmartyData.i18n_TypeToSearch,
+      minimumInputLength: 3,
+      width: 'resolve',
+      //cache: true,
+      ajax: {
+         type: "POST",
+         url: timetrackingSmartyData.ajaxPage,
+         dataType: 'json',
+         delay: 500, // wait 250 milliseconds before triggering the request
+         data: function (params) {
+            var query = {
+                action: 'searchIssues',
+                search: params.term,
+                projectId: jQuery("#projectid").val(),
+                managedUserid: timetrackingSmartyData.userid,
+            };
+            return query;
+         },
+         processResults: function (data, page) {
+            return { results: data };
+         }
       }
    });
+
+   // initialize combobox with defaultBugid
+   if ('0' !== timetrackingSmartyData.defaultBugid) {
+      var option = new Option(timetrackingSmartyData.defaultBugText, timetrackingSmartyData.defaultBugid, true, true);
+      jQuery('#bugid').append(option);
+   }
 
    jQuery("#btAddTrack").click(function() {
       // check fields
@@ -221,7 +189,7 @@ jQuery(document).ready(function() {
       var msgString = timetrackingSmartyData.i18n_someFieldsAreMissing + "\n\n";
 
       var form1 = jQuery("#form1");
-      var bugid = form1.find("select[name=bugid]").val();
+      var bugid = jQuery("#bugid").val();
       var jobid = form1.find("select[name=trackJobid]").val();
       var trackDuration = form1.find("select[name=timeToAdd]").val();
 

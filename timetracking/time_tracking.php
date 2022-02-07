@@ -79,6 +79,7 @@ class TimeTrackingController extends Controller {
 
             $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));
             $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
+            $defaultBugText = '';
 
             $sessionProjectId = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
             $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',$sessionProjectId);
@@ -119,6 +120,7 @@ class TimeTrackingController extends Controller {
             if($defaultBugid != 0) {
                $issue = IssueCache::getInstance()->getIssue($defaultBugid);
                $defaultProjectid = $issue->getProjectId();
+               $defaultBugText = $issue->getFormattedIds().' : '.$issue->getSummary();
             }
 
             // remember which project was selected
@@ -138,6 +140,8 @@ class TimeTrackingController extends Controller {
 
             $this->smartyHelper->assign('defaultProjectid', $defaultProjectid);
             $this->smartyHelper->assign('defaultBugid', $defaultBugid);
+            $this->smartyHelper->assign('defaultBugText', $defaultBugText);
+
             $this->smartyHelper->assign('weekid', $weekid);
             $this->smartyHelper->assign('year', $year);
 
@@ -161,8 +165,7 @@ class TimeTrackingController extends Controller {
             }
             $this->smartyHelper->assign('hideNoActivitySince', $hideNoActivitySince);
 
-            $availableIssues = TimeTrackingTools::getIssues($this->teamid, $defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid, $hideNoActivitySince);
-            $this->smartyHelper->assign('issues', $availableIssues);
+            //$availableIssues = TimeTrackingTools::getIssues($this->teamid, $defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid, $hideNoActivitySince);
 
             $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray(TimeTrackingTools::getJobs($defaultProjectid, $this->teamid), $job));
             $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDurationList($this->teamid),$duration));
