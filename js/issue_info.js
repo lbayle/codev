@@ -58,16 +58,16 @@ jQuery(document).ready(function() {
       ajax: {
          url: issueInfoSmartyData.ajaxPage,
          dataType: 'json',
-         delay: 1000, // wait 250 milliseconds before triggering the request
+         delay: 500, // wait 250 milliseconds before triggering the request
          data: function (params) {
             var query = {
-                search: params, // params.term,
+                search: params.term,
                 action: 'searchIssues',
                 projectId: jQuery("#projectid").val()
             };
             return query;
          },
-         results: function (data, page) {
+         processResults: function (data, page) {
             return { results: data };
          }
       }
@@ -137,7 +137,6 @@ jQuery(document).ready(function() {
 // Task selection form
 
 jQuery("#bugid").change(function() {
-      console.log('submit form1');
    if ('0' !== this.value) {
       var form = jQuery('#form1');
       form.submit();

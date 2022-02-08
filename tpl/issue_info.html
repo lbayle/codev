@@ -12,9 +12,7 @@
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <span id="bugSelector">
-               <input class="select2" id="bugid" name="bugid" style="width: 600px;" title="{t}Task{/t}"/>
-            </span>
+            <select class="select2" id="bugid" name="bugid" style="width: 600px;" title="{t}Task{/t}"></select>
             <input type="submit" value="{t}Select{/t}" />
          </fieldset>
       </form>

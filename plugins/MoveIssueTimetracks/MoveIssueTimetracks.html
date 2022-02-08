@@ -21,7 +21,7 @@
                         <tr>
                             <td><label for="moveIssueTimetracks_displayedUser">{t}User{/t}: </label></td>
                             <td>
-                                <select class="moveIssueTimetracks_displayedUser select2" name="moveIssueTimetracks_displayedUser" multiple style="min-width: 300px; vertical-align:top;">
+                                <select class="moveIssueTimetracks_displayedUser select2" name="moveIssueTimetracks_displayedUser" multiple style="width: 300px; vertical-align:top;">
                                     {foreach from=$moveIssueTimetracks_teamUserList key=id item=i}
                                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                                     {/foreach}
