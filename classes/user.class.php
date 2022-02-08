@@ -1099,7 +1099,7 @@ class User extends Model {
     * if not found, use defaults settings defined in constants.php
     *
     * id = 'id_timetrackingFilters'
-    * type = keyValue  "onlyAssignedTo:0,hideResolved:1,hideForbidenStatus:0,hideNoActivitySince:3"
+    * type = keyValue  "onlyAssignedTo:0,hideResolved:1,hideForbidenStatus:0"
     *
     * @param string $filterName 'onlyAssignedTo'
     * @return unknown_type returns filterValue

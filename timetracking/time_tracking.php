@@ -103,17 +103,8 @@ class TimeTrackingController extends Controller {
                $isFilter_hideResolved = isset($_POST["cb_hideResolved"]) ? '1' : '0';
                //$isFilter_hideForbidenStatus = isset($_POST["cb_hideForbidenStatus"])   ? '1' : '0';
 
-               $isFilter_hideNoActivitySince = isset($_POST["cb_hideNoActivitySince"]) ? '1' : '0';
-               if (!$isFilter_hideNoActivitySince) {
-                  // if unchecked, then hide none
-                  $hideNoActivitySince = 0;
-               } else {
-                  $hideNoActivitySince = Tools::getSecurePOSTIntValue('hideNoActivitySince');
-               }
-
                $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
                $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
-               $managed_user->setTimetrackingFilter('hideNoActivitySince', $hideNoActivitySince);
                //$managed_user->setTimetrackingFilter('hideForbidenStatus', $isFilter_hideForbidenStatus);
 
             }
@@ -153,19 +144,6 @@ class TimeTrackingController extends Controller {
 
             $isHideForbidenStatus = ('0' == $managed_user->getTimetrackingFilter('hideForbidenStatus')) ? false : true;
             $this->smartyHelper->assign('isHideForbidenStatus', $isHideForbidenStatus);
-
-            $hideNoActivitySince = $managed_user->getTimetrackingFilter('hideNoActivitySince');
-            if (0 == $hideNoActivitySince) {
-               // uncheck, but set value to default (instead of zero)
-               $this->smartyHelper->assign('isHideNoActivitySince', false);
-               $defaultFilters = Tools::doubleExplode(':', ',', Config::default_timetrackingFilters);
-               $hideNoActivitySince =  $defaultFilters['hideNoActivitySince'];
-            } else {
-               $this->smartyHelper->assign('isHideNoActivitySince', true);
-            }
-            $this->smartyHelper->assign('hideNoActivitySince', $hideNoActivitySince);
-
-            //$availableIssues = TimeTrackingTools::getIssues($this->teamid, $defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $isHideForbidenStatus, $defaultBugid, $hideNoActivitySince);
 
             $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray(TimeTrackingTools::getJobs($defaultProjectid, $this->teamid), $job));
             $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDurationList($this->teamid),$duration));

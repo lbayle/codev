@@ -1549,8 +1549,9 @@ class Team extends Model {
     *
     * @return array of status_id => status_name
     */
-   function getTimetrackingForbidenStatusList($project_id = 0) {
+   function getTimetrackingForbidenStatusList($project_id) {
 
+      $timetrackingForbidenStatusList= array();
       $keyExists =  Config::keyExists(Config::id_timetrackingForbidenStatusList, array(0, $project_id, $this->id, 0, 0, 0));
 
       // externalTasks should not be edited, but only allowed status is 'closed'

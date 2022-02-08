@@ -49,9 +49,6 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
          $isHideResolved = ('0' == $managedUser->getTimetrackingFilter('hideResolved')) ? false : true;
          //$isHideForbidenStatus = ('0' == $managedUser->getTimetrackingFilter('hideForbidenStatus')) ? false : true;
          $isHideForbidenStatus=true;
-         $hideNoActivitySince = $managedUser->getTimetrackingFilter('hideNoActivitySince');
-//         $availableIssues = TimeTrackingTools::getIssues($teamid, $defaultProjectid, $isOnlyAssignedTo, $managedUserid, $projList, $isHideResolved, $isHideForbidenStatus, 0, $hideNoActivitySince);
-         
          
          $data = array();
          try {
@@ -61,9 +58,33 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                   $projList = array ();
                      $projectidList = array_keys($team->getProjects(true, false, true));
                }
+
                $issueList = Issue::search($searchStr, $projectidList);
-               // https://select2.org/data-sources/formats
                foreach ($issueList as $issue) {
+
+                  $project1 = ProjectCache::getInstance()->getProject($issue->getProjectId());
+
+                  // except for SideTask & ExternalTask
+                  if ((false == $project1->isExternalTasksProject()) &&
+                      (false == $project1->isSideTasksProject(array($teamid)))) {
+
+                     if ($isOnlyAssignedTo && ($managedUserid != $issue->getHandlerId())) {
+                        //$logger->error("isOnlyAssignedTo : ".$issue->getId()." handler=".$issue->getHandlerId() );
+                        continue;
+                     }
+                     if ($isHideResolved && $issue->isResolved()) {
+                        //$logger->error("isHideResolved : ".$issue->getId()." status=".$issue->getStatus() );
+                        continue;
+                     }
+                     if ($isHideForbidenStatus) {
+                        $ttForbidenStatusList = array_keys($team->getTimetrackingForbidenStatusList($issue->getProjectId()));
+                        if (in_array($issue->getStatus(), $ttForbidenStatusList)) {
+                           //$logger->error("forbidden : ".$issue->getId()." status=".$issue->getStatus() );
+                           continue;
+                        }
+                     }
+                  }
+                  // https://select2.org/data-sources/formats
                   $data[] = array('id'=>$issue->getId(), 'text'=>$issue->getFormattedIds().' : '.$issue->getSummary());
                }
             }
