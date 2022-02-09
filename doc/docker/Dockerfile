@@ -141,7 +141,7 @@ RUN set -xe \
 # ------------------
 # install CodevTT
 
-ENV CODEVTT_VER 1.6.0
+ENV CODEVTT_VER 1.7.0
 ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
 ENV CODEVTT_URL https://github.com/lbayle/codev/releases/download/1.6.0/${CODEVTT_FILE}
 
@@ -184,8 +184,7 @@ ADD mantis_config/config_inc.php               /var/www/html/mantis/config
 ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config
 ADD mantis_config/custom_relationships_inc.php /var/www/html/mantis/config
 ADD mantis_config/custom_strings_inc.php       /var/www/html/mantis/config
-ADD codevtt_config/config.ini                  /var/www/html/codevtt
-#ADD codevtt_config/config.ini                  /var/www/html/codevtt/config
+ADD codevtt_config/config.ini                  /var/www/html/codevtt/config
 ADD codevtt_config/log4php.xml                 /var/www/html/codevtt
 ADD index.html                                 /var/www/html/index.html
 

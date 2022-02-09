@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "codev_config_table" (
 
 
 INSERT INTO "codev_config_table" ("config_id", "value", "type") VALUES
-('database_version', 21, 1),
+('database_version', 22, 1),
 ('blogCategories', '1:General,2:Timetracking,3:Admin', 3);
 
 
@@ -69,23 +69,36 @@ CREATE TABLE IF NOT EXISTS "codev_holidays_table" (
   "color" varchar(7) NOT NULL DEFAULT 'D8D8D8',
   PRIMARY KEY ("id"),
   KEY "date" ("date")
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)' AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)' ;
 
 --
 -- Contenu de la table "codev_holidays_table"
 --
 
 INSERT INTO "codev_holidays_table" ("date", "description", "color") VALUES
-(1492380000, 'lundi de paques', '58CC77'),
-(1493589600, 'fete du travail', '58CC77'),
-(1494194400, 'victoire 1945', '58CC77'),
-(1495663200, 'ascension', '58CC77'),
-(1496613600, 'pentecote', '58CC77'),
-(1499983200, 'fete nationale', '58CC77'),
-(1502748000, 'assomption', '58CC77'),
-(1509490800, 'toussaint', '58CC77'),
-(1514156400, 'noel', '58CC77'),
-(1514761200, 'reveillon', '58CC77');
+(1640991600, 'Jour de l\'an', 'D8D8D8'),
+(1650232800, 'Lundi de paques', '58CC77'),
+(1651356000, 'Fete du travail', 'D8D8D8'),
+(1651960800, 'Victoire 1945', 'D8D8D8'),
+(1653516000, 'Ascension', '58CC77'),
+(1654466400, 'Lundi de Pentecote', '58CC77'),
+(1657749600, 'Fete nationale', '58CC77'),
+(1660514400, 'Assomption', '58CC77'),
+(1667257200, 'Toussaint', '58CC77'),
+(1668121200, 'Armistice 1918', '58CC77'),
+(1671922800, 'Noel', 'D8D8D8'),
+(1672527600, 'Jour de l\'an', 'D8D8D8'),
+(1681077600, 'Lundi de paques', '58CC77'),
+(1682892000, 'Fete du travail', '58CC77'),
+(1683496800, 'Victoire 1945', '58CC77'),
+(1684360800, 'Ascension', '58CC77'),
+(1685311200, 'Lundi de Pentecote', '58CC77'),
+(1689285600, 'Fete nationale', '58CC77'),
+(1692050400, 'Assomption', '58CC77'),
+(1698793200, 'Toussaint', '58CC77'),
+(1699657200, 'Armistice 1918', 'D8D8D8'),
+(1703458800, 'Noel', '58CC77'),
+(1704063600, 'Jour de l\'an', '58CC77');
 
 -- --------------------------------------------------------
 
@@ -519,6 +532,7 @@ INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "ve
 ('IssueConsistencyCheck', 1, 'Homepage', 'Risk', '1.0.0', 'Check for errors in issues'),
 ('IssueSeniorityIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Statistics on the age of open tasks'),
 ('LoadHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the elapsed time in a period'),
+('LoadPerCustomfieldValues', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Choose a customfield, return the elapsed time for each customField value'),
 ('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.1.0', 'Check all the timetracks of the period and return their repartition per Job'),
 ('LoadPerProjCategoryIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per project categories'),
 ('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'Check all the timetracks of the period and return their repartition per Project'),
@@ -530,6 +544,7 @@ INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "ve
 ('OngoingTasks', 1, 'Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'List the active tasks on a given period'),
 ('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.1.0', 'Display the progress history'),
 ('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the bug reopened rate history'),
+('ResetDashboard', 1, 'Admin', 'Admin', '1.0.0', 'Remove all plugins from a dashboard. This is usefull if a plugin crashes the page'),
 ('SellingPriceForPeriod', 0, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time. For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task.'),
 ('StatusHistoryIndicator2', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display Issue Status history'),
 ('SubmittedResolvedHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the number of issues submitted/resolved in a period'),

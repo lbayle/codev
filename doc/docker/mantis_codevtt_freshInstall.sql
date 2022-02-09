@@ -1,19 +1,14 @@
--- -----------------------------------
--- MantisBT v2.25.2
--- CodevTT  v1.6.0
--- -----------------------------------
-
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Host: mariadb
--- Generation Time: Nov 11, 2021 at 01:55 PM
--- Server version: 5.5.60-MariaDB
--- PHP Version: 7.4.20
-
+-- Hôte : 127.0.0.1
+-- Généré le :  mer. 09 fév. 2022 à 15:11
+-- Version du serveur :  10.4.11-MariaDB
+-- Version de PHP :  7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,12 +19,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bugtracker`
+-- Base de données :  `bugtracker`
 --
 
 DELIMITER $$
 --
--- Functions
+-- Fonctions
 --
 DROP FUNCTION IF EXISTS `get_issue_resolved_status_threshold`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `get_issue_resolved_status_threshold` (`bug_id` INT) RETURNS INT(11) BEGIN
@@ -93,7 +88,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_blog_activity_table`
+-- Structure de la table `codev_blog_activity_table`
 --
 
 DROP TABLE IF EXISTS `codev_blog_activity_table`;
@@ -110,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `codev_blog_activity_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_blog_table`
+-- Structure de la table `codev_blog_table`
 --
 
 DROP TABLE IF EXISTS `codev_blog_table`;
@@ -118,9 +113,9 @@ CREATE TABLE IF NOT EXISTS `codev_blog_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date_submitted` int(11) NOT NULL,
   `src_user_id` int(10) UNSIGNED NOT NULL,
-  `dest_user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `dest_project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `dest_team_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `dest_user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `dest_project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `dest_team_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `severity` int(11) NOT NULL,
   `category` varchar(50) DEFAULT NULL,
   `summary` varchar(100) NOT NULL,
@@ -133,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `codev_blog_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Wall posts';
 
 --
--- Dumping data for table `codev_blog_table`
+-- Déchargement des données de la table `codev_blog_table`
 --
 
 INSERT INTO `codev_blog_table` (`id`, `date_submitted`, `src_user_id`, `dest_user_id`, `dest_project_id`, `dest_team_id`, `severity`, `category`, `summary`, `content`, `date_expire`, `color`) VALUES
@@ -142,7 +137,7 @@ INSERT INTO `codev_blog_table` (`id`, `date_submitted`, `src_user_id`, `dest_use
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_commandset_cmd_table`
+-- Structure de la table `codev_commandset_cmd_table`
 --
 
 DROP TABLE IF EXISTS `codev_commandset_cmd_table`;
@@ -157,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_cmd_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_commandset_table`
+-- Structure de la table `codev_commandset_table`
 --
 
 DROP TABLE IF EXISTS `codev_commandset_table`;
@@ -179,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_command_bug_table`
+-- Structure de la table `codev_command_bug_table`
 --
 
 DROP TABLE IF EXISTS `codev_command_bug_table`;
@@ -195,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_command_provision_table`
+-- Structure de la table `codev_command_provision_table`
 --
 
 DROP TABLE IF EXISTS `codev_command_provision_table`;
@@ -209,8 +204,8 @@ CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
   `budget` int(11) DEFAULT NULL,
   `average_daily_rate` int(11) DEFAULT NULL,
   `currency` varchar(3) DEFAULT 'EUR',
-  `is_in_check_budget` tinyint(4) NOT NULL DEFAULT '0',
-  `description` text,
+  `is_in_check_budget` tinyint(4) NOT NULL DEFAULT 0,
+  `description` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `command_id` (`command_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -218,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_command_table`
+-- Structure de la table `codev_command_table`
 --
 
 DROP TABLE IF EXISTS `codev_command_table`;
@@ -236,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `currency` varchar(3) DEFAULT 'EUR',
   `total_days` int(11) DEFAULT NULL,
   `average_daily_rate` int(11) DEFAULT NULL,
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
+  `enabled` tinyint(4) NOT NULL DEFAULT 1,
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -245,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_config_table`
+-- Structure de la table `codev_config_table`
 --
 
 DROP TABLE IF EXISTS `codev_config_table`;
@@ -253,19 +248,19 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `config_id` varchar(64) NOT NULL,
   `value` text NOT NULL,
   `type` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `project_id` int(11) NOT NULL DEFAULT '0',
-  `team_id` int(11) NOT NULL DEFAULT '0',
-  `servicecontract_id` int(11) NOT NULL DEFAULT '0',
-  `commandset_id` int(11) NOT NULL DEFAULT '0',
-  `command_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `project_id` int(11) NOT NULL DEFAULT 0,
+  `team_id` int(11) NOT NULL DEFAULT 0,
+  `servicecontract_id` int(11) NOT NULL DEFAULT 0,
+  `commandset_id` int(11) NOT NULL DEFAULT 0,
+  `command_id` int(11) NOT NULL DEFAULT 0,
   `access_reqd` int(11) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`,`servicecontract_id`,`commandset_id`,`command_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_config_table`
+-- Déchargement des données de la table `codev_config_table`
 --
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`, `project_id`, `team_id`, `servicecontract_id`, `commandset_id`, `command_id`, `access_reqd`, `description`) VALUES
@@ -281,7 +276,8 @@ INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`, `proj
 ('customField_ExtId', '4', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('customField_MgrEffortEstim', '3', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('customField_type', '2', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
-('database_version', '21', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
+('database_version', '22', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
+('defaultProjectId', '0', 1, 1, 0, 0, 0, 0, 0, NULL, 'prefered project on login'),
 ('defaultTeamId', '1', 1, 1, 0, 0, 0, 0, 0, NULL, 'prefered team on login'),
 ('externalTasksCat_leave', '2', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('externalTasksCat_otherInternal', '3', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
@@ -291,7 +287,7 @@ INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`, `proj
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_currencies_table`
+-- Structure de la table `codev_currencies_table`
 --
 
 DROP TABLE IF EXISTS `codev_currencies_table`;
@@ -302,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `codev_currencies_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_currencies_table`
+-- Déchargement des données de la table `codev_currencies_table`
 --
 
 INSERT INTO `codev_currencies_table` (`currency`, `coef`) VALUES
@@ -315,7 +311,7 @@ INSERT INTO `codev_currencies_table` (`currency`, `coef`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_holidays_table`
+-- Structure de la table `codev_holidays_table`
 --
 
 DROP TABLE IF EXISTS `codev_holidays_table`;
@@ -329,7 +325,7 @@ CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)';
 
 --
--- Dumping data for table `codev_holidays_table`
+-- Déchargement des données de la table `codev_holidays_table`
 --
 
 INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
@@ -347,20 +343,20 @@ INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_job_table`
+-- Structure de la table `codev_job_table`
 --
 
 DROP TABLE IF EXISTS `codev_job_table`;
 CREATE TABLE IF NOT EXISTS `codev_job_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  `type` int(11) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT 0,
   `color` varchar(7) DEFAULT '000000',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_job_table`
+-- Déchargement des données de la table `codev_job_table`
 --
 
 INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
@@ -374,13 +370,13 @@ INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_plugin_table`
+-- Structure de la table `codev_plugin_table`
 --
 
 DROP TABLE IF EXISTS `codev_plugin_table`;
 CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
   `name` varchar(64) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT 0,
   `domains` varchar(250) NOT NULL,
   `categories` varchar(250) NOT NULL,
   `version` varchar(10) NOT NULL,
@@ -389,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_plugin_table`
+-- Déchargement des données de la table `codev_plugin_table`
 --
 
 INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `version`, `description`) VALUES
@@ -411,7 +407,7 @@ INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `ve
 ('IssueConsistencyCheck', 1, 'Homepage', 'Risk', '1.0.0', 'Check for errors in issues'),
 ('IssueSeniorityIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Statistics on the age of open tasks'),
 ('LoadHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the elapsed time in a period'),
-('LoadPerCustomfieldValues', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Sélectionnez un champ personnalisé, le consommé pour chaque valeur de ce champ sera affiché'),
+('LoadPerCustomfieldValues', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Choose a customfield, return the elapsed time for each customField value'),
 ('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.1.0', 'Check all the timetracks of the period and return their repartition per Job'),
 ('LoadPerProjCategoryIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per project categories'),
 ('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'Check all the timetracks of the period and return their repartition per Project'),
@@ -438,7 +434,7 @@ INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `ve
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_project_category_table`
+-- Structure de la table `codev_project_category_table`
 --
 
 DROP TABLE IF EXISTS `codev_project_category_table`;
@@ -453,7 +449,7 @@ CREATE TABLE IF NOT EXISTS `codev_project_category_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_project_job_table`
+-- Structure de la table `codev_project_job_table`
 --
 
 DROP TABLE IF EXISTS `codev_project_job_table`;
@@ -461,13 +457,13 @@ CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `job_id` int(11) NOT NULL,
-  `team_id` int(11) NOT NULL DEFAULT '0',
+  `team_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `project_job_team` (`project_id`,`job_id`,`team_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_project_job_table`
+-- Déchargement des données de la table `codev_project_job_table`
 --
 
 INSERT INTO `codev_project_job_table` (`id`, `project_id`, `job_id`, `team_id`) VALUES
@@ -476,7 +472,7 @@ INSERT INTO `codev_project_job_table` (`id`, `project_id`, `job_id`, `team_id`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_servicecontract_cmdset_table`
+-- Structure de la table `codev_servicecontract_cmdset_table`
 --
 
 DROP TABLE IF EXISTS `codev_servicecontract_cmdset_table`;
@@ -491,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_cmdset_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_servicecontract_stproj_table`
+-- Structure de la table `codev_servicecontract_stproj_table`
 --
 
 DROP TABLE IF EXISTS `codev_servicecontract_stproj_table`;
@@ -506,7 +502,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_stproj_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_servicecontract_table`
+-- Structure de la table `codev_servicecontract_table`
 --
 
 DROP TABLE IF EXISTS `codev_servicecontract_table`;
@@ -528,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_sidetasks_category_table`
+-- Structure de la table `codev_sidetasks_category_table`
 --
 
 DROP TABLE IF EXISTS `codev_sidetasks_category_table`;
@@ -548,7 +544,7 @@ CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_team_project_table`
+-- Structure de la table `codev_team_project_table`
 --
 
 DROP TABLE IF EXISTS `codev_team_project_table`;
@@ -556,14 +552,14 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
-  `type` int(11) NOT NULL DEFAULT '2',
+  `type` int(11) NOT NULL DEFAULT 2,
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`),
   KEY `team_id` (`team_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_team_project_table`
+-- Déchargement des données de la table `codev_team_project_table`
 --
 
 INSERT INTO `codev_team_project_table` (`id`, `project_id`, `team_id`, `type`) VALUES
@@ -572,7 +568,7 @@ INSERT INTO `codev_team_project_table` (`id`, `project_id`, `team_id`, `type`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_team_table`
+-- Structure de la table `codev_team_table`
 --
 
 DROP TABLE IF EXISTS `codev_team_table`;
@@ -582,8 +578,8 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `description` varchar(255) DEFAULT NULL,
   `administrators` varchar(255) DEFAULT NULL,
   `leader_id` int(11) DEFAULT NULL,
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  `commands_enabled` tinyint(4) NOT NULL DEFAULT '1',
+  `enabled` tinyint(4) NOT NULL DEFAULT 1,
+  `commands_enabled` tinyint(4) NOT NULL DEFAULT 1,
   `date` int(11) NOT NULL,
   `average_daily_cost` int(11) DEFAULT NULL,
   `currency` varchar(3) NOT NULL DEFAULT 'EUR',
@@ -593,7 +589,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_team_table`
+-- Déchargement des données de la table `codev_team_table`
 --
 
 INSERT INTO `codev_team_table` (`id`, `name`, `description`, `administrators`, `leader_id`, `enabled`, `commands_enabled`, `date`, `average_daily_cost`, `currency`, `lock_timetracks_date`) VALUES
@@ -602,7 +598,7 @@ INSERT INTO `codev_team_table` (`id`, `name`, `description`, `administrators`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_team_user_table`
+-- Structure de la table `codev_team_user_table`
 --
 
 DROP TABLE IF EXISTS `codev_team_user_table`;
@@ -610,14 +606,14 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
-  `access_level` int(10) UNSIGNED NOT NULL DEFAULT '10',
+  `access_level` int(10) UNSIGNED NOT NULL DEFAULT 10,
   `arrival_date` int(10) UNSIGNED NOT NULL,
-  `departure_date` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `departure_date` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `codev_team_user_table`
+-- Déchargement des données de la table `codev_team_user_table`
 --
 
 INSERT INTO `codev_team_user_table` (`id`, `user_id`, `team_id`, `access_level`, `arrival_date`, `departure_date`) VALUES
@@ -626,7 +622,7 @@ INSERT INTO `codev_team_user_table` (`id`, `user_id`, `team_id`, `access_level`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_timetracking_table`
+-- Structure de la table `codev_timetracking_table`
 --
 
 DROP TABLE IF EXISTS `codev_timetracking_table`;
@@ -648,7 +644,7 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_timetrack_note_table`
+-- Structure de la table `codev_timetrack_note_table`
 --
 
 DROP TABLE IF EXISTS `codev_timetrack_note_table`;
@@ -661,7 +657,7 @@ CREATE TABLE IF NOT EXISTS `codev_timetrack_note_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_userdailycost_table`
+-- Structure de la table `codev_userdailycost_table`
 --
 
 DROP TABLE IF EXISTS `codev_userdailycost_table`;
@@ -680,7 +676,7 @@ CREATE TABLE IF NOT EXISTS `codev_userdailycost_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codev_wbs_table`
+-- Structure de la table `codev_wbs_table`
 --
 
 DROP TABLE IF EXISTS `codev_wbs_table`;
@@ -690,7 +686,7 @@ CREATE TABLE IF NOT EXISTS `codev_wbs_table` (
   `parent_id` int(10) UNSIGNED DEFAULT NULL,
   `wbs_order` int(11) NOT NULL,
   `bug_id` int(11) DEFAULT NULL,
-  `expand` tinyint(4) NOT NULL DEFAULT '0',
+  `expand` tinyint(4) NOT NULL DEFAULT 0,
   `title` varchar(255) DEFAULT NULL,
   `icon` varchar(64) DEFAULT NULL,
   `font` varchar(64) DEFAULT NULL,
@@ -704,17 +700,17 @@ CREATE TABLE IF NOT EXISTS `codev_wbs_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_api_token_table`
+-- Structure de la table `mantis_api_token_table`
 --
 
 DROP TABLE IF EXISTS `mantis_api_token_table`;
 CREATE TABLE IF NOT EXISTS `mantis_api_token_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(128) NOT NULL,
   `hash` varchar(128) NOT NULL,
-  `date_created` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `date_used` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `date_created` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `date_used` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_user_id_name` (`user_id`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -722,21 +718,21 @@ CREATE TABLE IF NOT EXISTS `mantis_api_token_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bugnote_table`
+-- Structure de la table `mantis_bugnote_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bugnote_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bugnote_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `reporter_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `bugnote_text_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `view_state` smallint(6) NOT NULL DEFAULT '10',
-  `note_type` int(11) DEFAULT '0',
+  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `reporter_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `bugnote_text_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `view_state` smallint(6) NOT NULL DEFAULT 10,
+  `note_type` int(11) DEFAULT 0,
   `note_attr` varchar(250) DEFAULT '',
-  `time_tracking` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `last_modified` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `date_submitted` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `time_tracking` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `last_modified` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `date_submitted` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_bug` (`bug_id`),
   KEY `idx_last_mod` (`last_modified`)
@@ -745,7 +741,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bugnote_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bugnote_text_table`
+-- Structure de la table `mantis_bugnote_text_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bugnote_text_table`;
@@ -758,24 +754,24 @@ CREATE TABLE IF NOT EXISTS `mantis_bugnote_text_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_file_table`
+-- Structure de la table `mantis_bug_file_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_file_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_file_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `title` varchar(250) NOT NULL DEFAULT '',
   `description` varchar(250) NOT NULL DEFAULT '',
   `diskfile` varchar(250) NOT NULL DEFAULT '',
   `filename` varchar(250) NOT NULL DEFAULT '',
   `folder` varchar(250) NOT NULL DEFAULT '',
-  `filesize` int(11) NOT NULL DEFAULT '0',
+  `filesize` int(11) NOT NULL DEFAULT 0,
   `file_type` varchar(250) NOT NULL DEFAULT '',
-  `content` longblob,
-  `date_added` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `bugnote_id` int(10) UNSIGNED DEFAULT '0',
+  `content` longblob DEFAULT NULL,
+  `date_added` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `bugnote_id` int(10) UNSIGNED DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_bug_file_bug_id` (`bug_id`),
   KEY `idx_diskfile` (`diskfile`)
@@ -784,19 +780,19 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_file_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_history_table`
+-- Structure de la table `mantis_bug_history_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_history_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_history_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `field_name` varchar(64) NOT NULL,
   `old_value` varchar(255) NOT NULL,
   `new_value` varchar(255) NOT NULL,
-  `type` smallint(6) NOT NULL DEFAULT '0',
-  `date_modified` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `type` smallint(6) NOT NULL DEFAULT 0,
+  `date_modified` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_bug_history_bug_id` (`bug_id`),
   KEY `idx_history_user_id` (`user_id`),
@@ -804,7 +800,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_history_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_bug_history_table`
+-- Déchargement des données de la table `mantis_bug_history_table`
 --
 
 INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) VALUES
@@ -813,13 +809,13 @@ INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `field_name`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_monitor_table`
+-- Structure de la table `mantis_bug_monitor_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_monitor_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_monitor_table` (
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`bug_id`),
   KEY `idx_bug_id` (`bug_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -827,15 +823,15 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_monitor_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_relationship_table`
+-- Structure de la table `mantis_bug_relationship_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_relationship_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_relationship_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `source_bug_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `destination_bug_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `relationship_type` smallint(6) NOT NULL DEFAULT '0',
+  `source_bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `destination_bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `relationship_type` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_relationship_source` (`source_bug_id`),
   KEY `idx_relationship_destination` (`destination_bug_id`)
@@ -844,18 +840,18 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_relationship_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_revision_table`
+-- Structure de la table `mantis_bug_revision_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_revision_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_revision_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `bug_id` int(10) UNSIGNED NOT NULL,
-  `bugnote_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `bugnote_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `user_id` int(10) UNSIGNED NOT NULL,
   `type` int(10) UNSIGNED NOT NULL,
   `value` longtext NOT NULL,
-  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_bug_rev_type` (`type`),
   KEY `idx_bug_rev_id_time` (`bug_id`,`timestamp`)
@@ -864,40 +860,40 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_revision_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_table`
+-- Structure de la table `mantis_bug_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `reporter_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `handler_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `duplicate_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `priority` smallint(6) NOT NULL DEFAULT '30',
-  `severity` smallint(6) NOT NULL DEFAULT '50',
-  `reproducibility` smallint(6) NOT NULL DEFAULT '10',
-  `status` smallint(6) NOT NULL DEFAULT '10',
-  `resolution` smallint(6) NOT NULL DEFAULT '10',
-  `projection` smallint(6) NOT NULL DEFAULT '10',
-  `eta` smallint(6) NOT NULL DEFAULT '10',
-  `bug_text_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `reporter_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `handler_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `duplicate_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `priority` smallint(6) NOT NULL DEFAULT 30,
+  `severity` smallint(6) NOT NULL DEFAULT 50,
+  `reproducibility` smallint(6) NOT NULL DEFAULT 10,
+  `status` smallint(6) NOT NULL DEFAULT 10,
+  `resolution` smallint(6) NOT NULL DEFAULT 10,
+  `projection` smallint(6) NOT NULL DEFAULT 10,
+  `eta` smallint(6) NOT NULL DEFAULT 10,
+  `bug_text_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `os` varchar(32) NOT NULL DEFAULT '',
   `os_build` varchar(32) NOT NULL DEFAULT '',
   `platform` varchar(32) NOT NULL DEFAULT '',
   `version` varchar(64) NOT NULL DEFAULT '',
   `fixed_in_version` varchar(64) NOT NULL DEFAULT '',
   `build` varchar(32) NOT NULL DEFAULT '',
-  `profile_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `view_state` smallint(6) NOT NULL DEFAULT '10',
+  `profile_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `view_state` smallint(6) NOT NULL DEFAULT 10,
   `summary` varchar(128) NOT NULL DEFAULT '',
-  `sponsorship_total` int(11) NOT NULL DEFAULT '0',
-  `sticky` tinyint(4) NOT NULL DEFAULT '0',
+  `sponsorship_total` int(11) NOT NULL DEFAULT 0,
+  `sticky` tinyint(4) NOT NULL DEFAULT 0,
   `target_version` varchar(64) NOT NULL DEFAULT '',
-  `category_id` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `date_submitted` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `due_date` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `last_updated` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `category_id` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `date_submitted` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `due_date` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `last_updated` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_bug_sponsorship_total` (`sponsorship_total`),
   KEY `idx_bug_fixed_in_version` (`fixed_in_version`),
@@ -907,7 +903,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_bug_table`
+-- Déchargement des données de la table `mantis_bug_table`
 --
 
 INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`, `duplicate_id`, `priority`, `severity`, `reproducibility`, `status`, `resolution`, `projection`, `eta`, `bug_text_id`, `os`, `os_build`, `platform`, `version`, `fixed_in_version`, `build`, `profile_id`, `view_state`, `summary`, `sponsorship_total`, `sticky`, `target_version`, `category_id`, `date_submitted`, `due_date`, `last_updated`) VALUES
@@ -919,15 +915,15 @@ INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_tag_table`
+-- Structure de la table `mantis_bug_tag_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_tag_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_tag_table` (
-  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `tag_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `date_attached` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `tag_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `date_attached` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`bug_id`,`tag_id`),
   KEY `idx_bug_tag_tag_id` (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -935,7 +931,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_tag_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_bug_text_table`
+-- Structure de la table `mantis_bug_text_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_text_table`;
@@ -948,7 +944,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_text_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_bug_text_table`
+-- Déchargement des données de la table `mantis_bug_text_table`
 --
 
 INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, `additional_information`) VALUES
@@ -960,22 +956,22 @@ INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_category_table`
+-- Structure de la table `mantis_category_table`
 --
 
 DROP TABLE IF EXISTS `mantis_category_table`;
 CREATE TABLE IF NOT EXISTS `mantis_category_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(128) NOT NULL DEFAULT '',
-  `status` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `status` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_category_project_name` (`project_id`,`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_category_table`
+-- Déchargement des données de la table `mantis_category_table`
 --
 
 INSERT INTO `mantis_category_table` (`id`, `project_id`, `user_id`, `name`, `status`) VALUES
@@ -986,22 +982,22 @@ INSERT INTO `mantis_category_table` (`id`, `project_id`, `user_id`, `name`, `sta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_config_table`
+-- Structure de la table `mantis_config_table`
 --
 
 DROP TABLE IF EXISTS `mantis_config_table`;
 CREATE TABLE IF NOT EXISTS `mantis_config_table` (
   `config_id` varchar(64) NOT NULL,
-  `project_id` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `access_reqd` int(11) DEFAULT '0',
-  `type` int(11) DEFAULT '90',
+  `project_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `access_reqd` int(11) DEFAULT 0,
+  `type` int(11) DEFAULT 90,
   `value` longtext NOT NULL,
   PRIMARY KEY (`config_id`,`project_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_config_table`
+-- Déchargement des données de la table `mantis_config_table`
 --
 
 INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) VALUES
@@ -1016,29 +1012,29 @@ INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_custom_field_project_table`
+-- Structure de la table `mantis_custom_field_project_table`
 --
 
 DROP TABLE IF EXISTS `mantis_custom_field_project_table`;
 CREATE TABLE IF NOT EXISTS `mantis_custom_field_project_table` (
-  `field_id` int(11) NOT NULL DEFAULT '0',
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `sequence` smallint(6) NOT NULL DEFAULT '0',
+  `field_id` int(11) NOT NULL DEFAULT 0,
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `sequence` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`field_id`,`project_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_custom_field_string_table`
+-- Structure de la table `mantis_custom_field_string_table`
 --
 
 DROP TABLE IF EXISTS `mantis_custom_field_string_table`;
 CREATE TABLE IF NOT EXISTS `mantis_custom_field_string_table` (
-  `field_id` int(11) NOT NULL DEFAULT '0',
-  `bug_id` int(11) NOT NULL DEFAULT '0',
+  `field_id` int(11) NOT NULL DEFAULT 0,
+  `bug_id` int(11) NOT NULL DEFAULT 0,
   `value` varchar(255) NOT NULL DEFAULT '',
-  `text` longtext,
+  `text` longtext DEFAULT NULL,
   PRIMARY KEY (`field_id`,`bug_id`),
   KEY `idx_custom_field_bug` (`bug_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1046,36 +1042,36 @@ CREATE TABLE IF NOT EXISTS `mantis_custom_field_string_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_custom_field_table`
+-- Structure de la table `mantis_custom_field_table`
 --
 
 DROP TABLE IF EXISTS `mantis_custom_field_table`;
 CREATE TABLE IF NOT EXISTS `mantis_custom_field_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
-  `type` smallint(6) NOT NULL DEFAULT '0',
-  `possible_values` text,
+  `type` smallint(6) NOT NULL DEFAULT 0,
+  `possible_values` text DEFAULT NULL,
   `default_value` varchar(255) NOT NULL DEFAULT '',
   `valid_regexp` varchar(255) NOT NULL DEFAULT '',
-  `access_level_r` smallint(6) NOT NULL DEFAULT '0',
-  `access_level_rw` smallint(6) NOT NULL DEFAULT '0',
-  `length_min` int(11) NOT NULL DEFAULT '0',
-  `length_max` int(11) NOT NULL DEFAULT '0',
-  `require_report` tinyint(4) NOT NULL DEFAULT '0',
-  `require_update` tinyint(4) NOT NULL DEFAULT '0',
-  `display_report` tinyint(4) NOT NULL DEFAULT '0',
-  `display_update` tinyint(4) NOT NULL DEFAULT '1',
-  `require_resolved` tinyint(4) NOT NULL DEFAULT '0',
-  `display_resolved` tinyint(4) NOT NULL DEFAULT '0',
-  `display_closed` tinyint(4) NOT NULL DEFAULT '0',
-  `require_closed` tinyint(4) NOT NULL DEFAULT '0',
-  `filter_by` tinyint(4) NOT NULL DEFAULT '1',
+  `access_level_r` smallint(6) NOT NULL DEFAULT 0,
+  `access_level_rw` smallint(6) NOT NULL DEFAULT 0,
+  `length_min` int(11) NOT NULL DEFAULT 0,
+  `length_max` int(11) NOT NULL DEFAULT 0,
+  `require_report` tinyint(4) NOT NULL DEFAULT 0,
+  `require_update` tinyint(4) NOT NULL DEFAULT 0,
+  `display_report` tinyint(4) NOT NULL DEFAULT 0,
+  `display_update` tinyint(4) NOT NULL DEFAULT 1,
+  `require_resolved` tinyint(4) NOT NULL DEFAULT 0,
+  `display_resolved` tinyint(4) NOT NULL DEFAULT 0,
+  `display_closed` tinyint(4) NOT NULL DEFAULT 0,
+  `require_closed` tinyint(4) NOT NULL DEFAULT 0,
+  `filter_by` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_custom_field_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_custom_field_table`
+-- Déchargement des données de la table `mantis_custom_field_table`
 --
 
 INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`, `default_value`, `valid_regexp`, `access_level_r`, `access_level_rw`, `length_min`, `length_max`, `require_report`, `require_update`, `display_report`, `display_update`, `require_resolved`, `display_resolved`, `display_closed`, `require_closed`, `filter_by`) VALUES
@@ -1092,7 +1088,7 @@ INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_email_table`
+-- Structure de la table `mantis_email_table`
 --
 
 DROP TABLE IF EXISTS `mantis_email_table`;
@@ -1102,21 +1098,21 @@ CREATE TABLE IF NOT EXISTS `mantis_email_table` (
   `subject` varchar(250) NOT NULL DEFAULT '',
   `metadata` longtext NOT NULL,
   `body` longtext NOT NULL,
-  `submitted` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `submitted` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`email_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_filters_table`
+-- Structure de la table `mantis_filters_table`
 --
 
 DROP TABLE IF EXISTS `mantis_filters_table`;
 CREATE TABLE IF NOT EXISTS `mantis_filters_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `is_public` tinyint(4) DEFAULT NULL,
   `name` varchar(64) NOT NULL DEFAULT '',
   `filter_string` longtext NOT NULL,
@@ -1126,40 +1122,40 @@ CREATE TABLE IF NOT EXISTS `mantis_filters_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_news_table`
+-- Structure de la table `mantis_news_table`
 --
 
 DROP TABLE IF EXISTS `mantis_news_table`;
 CREATE TABLE IF NOT EXISTS `mantis_news_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `poster_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `view_state` smallint(6) NOT NULL DEFAULT '10',
-  `announcement` tinyint(4) NOT NULL DEFAULT '0',
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `poster_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `view_state` smallint(6) NOT NULL DEFAULT 10,
+  `announcement` tinyint(4) NOT NULL DEFAULT 0,
   `headline` varchar(64) NOT NULL DEFAULT '',
   `body` longtext NOT NULL,
-  `last_modified` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `date_posted` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `last_modified` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `date_posted` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_plugin_table`
+-- Structure de la table `mantis_plugin_table`
 --
 
 DROP TABLE IF EXISTS `mantis_plugin_table`;
 CREATE TABLE IF NOT EXISTS `mantis_plugin_table` (
   `basename` varchar(40) NOT NULL,
-  `enabled` tinyint(4) NOT NULL DEFAULT '0',
-  `protected` tinyint(4) NOT NULL DEFAULT '0',
-  `priority` int(10) UNSIGNED NOT NULL DEFAULT '3',
+  `enabled` tinyint(4) NOT NULL DEFAULT 0,
+  `protected` tinyint(4) NOT NULL DEFAULT 0,
+  `priority` int(10) UNSIGNED NOT NULL DEFAULT 3,
   PRIMARY KEY (`basename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_plugin_table`
+-- Déchargement des données de la table `mantis_plugin_table`
 --
 
 INSERT INTO `mantis_plugin_table` (`basename`, `enabled`, `protected`, `priority`) VALUES
@@ -1174,37 +1170,37 @@ INSERT INTO `mantis_plugin_table` (`basename`, `enabled`, `protected`, `priority
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_project_file_table`
+-- Structure de la table `mantis_project_file_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_file_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_file_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `title` varchar(250) NOT NULL DEFAULT '',
   `description` varchar(250) NOT NULL DEFAULT '',
   `diskfile` varchar(250) NOT NULL DEFAULT '',
   `filename` varchar(250) NOT NULL DEFAULT '',
   `folder` varchar(250) NOT NULL DEFAULT '',
-  `filesize` int(11) NOT NULL DEFAULT '0',
+  `filesize` int(11) NOT NULL DEFAULT 0,
   `file_type` varchar(250) NOT NULL DEFAULT '',
-  `content` longblob,
-  `date_added` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `content` longblob DEFAULT NULL,
+  `date_added` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_project_hierarchy_table`
+-- Structure de la table `mantis_project_hierarchy_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_hierarchy_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_hierarchy_table` (
   `child_id` int(10) UNSIGNED NOT NULL,
   `parent_id` int(10) UNSIGNED NOT NULL,
-  `inherit_parent` tinyint(4) NOT NULL DEFAULT '0',
+  `inherit_parent` tinyint(4) NOT NULL DEFAULT 0,
   UNIQUE KEY `idx_project_hierarchy` (`child_id`,`parent_id`),
   KEY `idx_project_hierarchy_child_id` (`child_id`),
   KEY `idx_project_hierarchy_parent_id` (`parent_id`)
@@ -1213,28 +1209,28 @@ CREATE TABLE IF NOT EXISTS `mantis_project_hierarchy_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_project_table`
+-- Structure de la table `mantis_project_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL DEFAULT '',
-  `status` smallint(6) NOT NULL DEFAULT '10',
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  `view_state` smallint(6) NOT NULL DEFAULT '10',
-  `access_min` smallint(6) NOT NULL DEFAULT '10',
+  `status` smallint(6) NOT NULL DEFAULT 10,
+  `enabled` tinyint(4) NOT NULL DEFAULT 1,
+  `view_state` smallint(6) NOT NULL DEFAULT 10,
+  `access_min` smallint(6) NOT NULL DEFAULT 10,
   `file_path` varchar(250) NOT NULL DEFAULT '',
   `description` longtext NOT NULL,
-  `category_id` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `inherit_global` tinyint(4) NOT NULL DEFAULT '0',
+  `category_id` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `inherit_global` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_project_name` (`name`),
   KEY `idx_project_view` (`view_state`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_project_table`
+-- Déchargement des données de la table `mantis_project_table`
 --
 
 INSERT INTO `mantis_project_table` (`id`, `name`, `status`, `enabled`, `view_state`, `access_min`, `file_path`, `description`, `category_id`, `inherit_global`) VALUES
@@ -1244,14 +1240,14 @@ INSERT INTO `mantis_project_table` (`id`, `name`, `status`, `enabled`, `view_sta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_project_user_list_table`
+-- Structure de la table `mantis_project_user_list_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_user_list_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_user_list_table` (
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `access_level` smallint(6) NOT NULL DEFAULT '10',
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `access_level` smallint(6) NOT NULL DEFAULT 10,
   PRIMARY KEY (`project_id`,`user_id`),
   KEY `idx_project_user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1259,18 +1255,18 @@ CREATE TABLE IF NOT EXISTS `mantis_project_user_list_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_project_version_table`
+-- Structure de la table `mantis_project_version_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_version_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_version_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `version` varchar(64) NOT NULL DEFAULT '',
   `description` longtext NOT NULL,
-  `released` tinyint(4) NOT NULL DEFAULT '1',
-  `obsolete` tinyint(4) NOT NULL DEFAULT '0',
-  `date_order` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `released` tinyint(4) NOT NULL DEFAULT 1,
+  `obsolete` tinyint(4) NOT NULL DEFAULT 0,
+  `date_order` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_project_version` (`project_id`,`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1278,20 +1274,20 @@ CREATE TABLE IF NOT EXISTS `mantis_project_version_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_sponsorship_table`
+-- Structure de la table `mantis_sponsorship_table`
 --
 
 DROP TABLE IF EXISTS `mantis_sponsorship_table`;
 CREATE TABLE IF NOT EXISTS `mantis_sponsorship_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bug_id` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `amount` int(11) NOT NULL DEFAULT '0',
+  `bug_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `amount` int(11) NOT NULL DEFAULT 0,
   `logo` varchar(128) NOT NULL DEFAULT '',
   `url` varchar(128) NOT NULL DEFAULT '',
-  `paid` tinyint(4) NOT NULL DEFAULT '0',
-  `date_submitted` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `last_updated` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `paid` tinyint(4) NOT NULL DEFAULT 0,
+  `date_submitted` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `last_updated` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_sponsorship_bug_id` (`bug_id`),
   KEY `idx_sponsorship_user_id` (`user_id`)
@@ -1300,17 +1296,17 @@ CREATE TABLE IF NOT EXISTS `mantis_sponsorship_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_tag_table`
+-- Structure de la table `mantis_tag_table`
 --
 
 DROP TABLE IF EXISTS `mantis_tag_table`;
 CREATE TABLE IF NOT EXISTS `mantis_tag_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(100) NOT NULL DEFAULT '',
   `description` longtext NOT NULL,
-  `date_created` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `date_updated` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `date_created` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `date_updated` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`,`name`),
   KEY `idx_tag_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1318,7 +1314,7 @@ CREATE TABLE IF NOT EXISTS `mantis_tag_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_tokens_table`
+-- Structure de la table `mantis_tokens_table`
 --
 
 DROP TABLE IF EXISTS `mantis_tokens_table`;
@@ -1327,8 +1323,8 @@ CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
   `owner` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `value` longtext NOT NULL,
-  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `expiry` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `expiry` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_typeowner` (`type`,`owner`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
@@ -1336,45 +1332,45 @@ CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_user_pref_table`
+-- Structure de la table `mantis_user_pref_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_pref_table`;
 CREATE TABLE IF NOT EXISTS `mantis_user_pref_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `project_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `default_profile` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `default_project` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `refresh_delay` int(11) NOT NULL DEFAULT '0',
-  `redirect_delay` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `default_profile` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `default_project` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `refresh_delay` int(11) NOT NULL DEFAULT 0,
+  `redirect_delay` int(11) NOT NULL DEFAULT 0,
   `bugnote_order` varchar(4) NOT NULL DEFAULT 'ASC',
-  `email_on_new` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_assigned` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_feedback` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_resolved` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_closed` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_reopened` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_bugnote` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_status` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_priority` tinyint(4) NOT NULL DEFAULT '0',
-  `email_on_priority_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_status_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_bugnote_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_reopened_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_closed_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_resolved_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_feedback_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_assigned_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_on_new_min_severity` smallint(6) NOT NULL DEFAULT '10',
-  `email_bugnote_limit` smallint(6) NOT NULL DEFAULT '0',
+  `email_on_new` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_assigned` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_feedback` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_resolved` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_closed` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_reopened` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_bugnote` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_status` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_priority` tinyint(4) NOT NULL DEFAULT 0,
+  `email_on_priority_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_status_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_bugnote_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_reopened_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_closed_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_resolved_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_feedback_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_assigned_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_on_new_min_severity` smallint(6) NOT NULL DEFAULT 10,
+  `email_bugnote_limit` smallint(6) NOT NULL DEFAULT 0,
   `language` varchar(32) NOT NULL DEFAULT 'english',
   `timezone` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_user_pref_table`
+-- Déchargement des données de la table `mantis_user_pref_table`
 --
 
 INSERT INTO `mantis_user_pref_table` (`id`, `user_id`, `project_id`, `default_profile`, `default_project`, `refresh_delay`, `redirect_delay`, `bugnote_order`, `email_on_new`, `email_on_assigned`, `email_on_feedback`, `email_on_resolved`, `email_on_closed`, `email_on_reopened`, `email_on_bugnote`, `email_on_status`, `email_on_priority`, `email_on_priority_min_severity`, `email_on_status_min_severity`, `email_on_bugnote_min_severity`, `email_on_reopened_min_severity`, `email_on_closed_min_severity`, `email_on_resolved_min_severity`, `email_on_feedback_min_severity`, `email_on_assigned_min_severity`, `email_on_new_min_severity`, `email_bugnote_limit`, `language`, `timezone`) VALUES
@@ -1383,12 +1379,12 @@ INSERT INTO `mantis_user_pref_table` (`id`, `user_id`, `project_id`, `default_pr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_user_print_pref_table`
+-- Structure de la table `mantis_user_print_pref_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_print_pref_table`;
 CREATE TABLE IF NOT EXISTS `mantis_user_print_pref_table` (
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `print_pref` varchar(64) NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1396,13 +1392,13 @@ CREATE TABLE IF NOT EXISTS `mantis_user_print_pref_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_user_profile_table`
+-- Structure de la table `mantis_user_profile_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_profile_table`;
 CREATE TABLE IF NOT EXISTS `mantis_user_profile_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `platform` varchar(32) NOT NULL DEFAULT '',
   `os` varchar(32) NOT NULL DEFAULT '',
   `os_build` varchar(32) NOT NULL DEFAULT '',
@@ -1413,7 +1409,7 @@ CREATE TABLE IF NOT EXISTS `mantis_user_profile_table` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mantis_user_table`
+-- Structure de la table `mantis_user_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_table`;
@@ -1423,15 +1419,15 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
   `realname` varchar(191) NOT NULL DEFAULT '',
   `email` varchar(191) NOT NULL DEFAULT '',
   `password` varchar(64) NOT NULL DEFAULT '',
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  `protected` tinyint(4) NOT NULL DEFAULT '0',
-  `access_level` smallint(6) NOT NULL DEFAULT '10',
-  `login_count` int(11) NOT NULL DEFAULT '0',
-  `lost_password_request_count` smallint(6) NOT NULL DEFAULT '0',
-  `failed_login_count` smallint(6) NOT NULL DEFAULT '0',
+  `enabled` tinyint(4) NOT NULL DEFAULT 1,
+  `protected` tinyint(4) NOT NULL DEFAULT 0,
+  `access_level` smallint(6) NOT NULL DEFAULT 10,
+  `login_count` int(11) NOT NULL DEFAULT 0,
+  `lost_password_request_count` smallint(6) NOT NULL DEFAULT 0,
+  `failed_login_count` smallint(6) NOT NULL DEFAULT 0,
   `cookie_string` varchar(64) NOT NULL DEFAULT '',
-  `last_visit` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `date_created` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `last_visit` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `date_created` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_user_cookie_string` (`cookie_string`),
   UNIQUE KEY `idx_user_username` (`username`),
@@ -1441,7 +1437,7 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `mantis_user_table`
+-- Déchargement des données de la table `mantis_user_table`
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES

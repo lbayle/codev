@@ -95,12 +95,14 @@ f_release()
   rm -rf ${DIR_RELEASE}/doc/architecture
   rm -rf ${DIR_RELEASE}/doc/docker
   rm -rf ${DIR_RELEASE}/doc/fr/Archives
+  rm -rf ${DIR_RELEASE}/doc/fr/CodevTT_FR_user_guide.docx
   rm -rf ${DIR_RELEASE}/doc/git_config
   rm -rf ${DIR_RELEASE}/doc/mantis_config/*.sql
   rm -rf ${DIR_RELEASE}/doc/phpdoc
   rm -rf ${DIR_RELEASE}/doc/screenshots
   find   ${DIR_RELEASE}/doc -name "*.od?" | xargs rm
   rm -rf ${DIR_RELEASE}/doc/codeswarm
+  rm     ${DIR_RELEASE}/doc/codevtt_current_version.ini
 
   echo "remove IMAGES files..."
   rm ${DIR_RELEASE}/images/*.sumo
@@ -119,6 +121,8 @@ f_release()
   rm ${DIR_RELEASE}/tools/phpinfo.php
   rm ${DIR_RELEASE}/tools/session.php
   rm ${DIR_RELEASE}/tools/locale.php
+  rm ${DIR_RELEASE}/tools/remove_from_mantis_menu.php
+  rm ${DIR_RELEASE}/tools/chmod_logs.php
   rm -rf ${DIR_RELEASE}/tests
 
   echo "remove LIBS files..."

@@ -67,9 +67,9 @@ class ConfigItem {
 class Config {
 
    // TODO Move to a more appropriate class
-   const codevVersion = "v1.6.0";
-   const codevVersionDate = "27 Mar 2021";
-   const databaseVersion = 21; // used to check codev_config_table.database_version and apply upgrades.
+   const codevVersion = "v1.7.0";
+   const codevVersionDate = "14 Feb 2022";
+   const databaseVersion = 22; // used to check codev_config_table.database_version and apply upgrades.
 
    const configType_int = 1;
    const configType_string = 2;
@@ -170,6 +170,7 @@ class Config {
       "v1.4.0" => "(12 May  2019) - remove FilterBugList, multiple TeamAdmins, BlogPlugin, SubmittedResolvedPlugin, TimetrackListPlugin, ManagementCostsPlugin, WbsExportPlugin, TasksPivotTablePlugin, remove effortAdd",
       "v1.5.0" => "(01 Jun  2020) - customField:DailyPrice, remove CSV export pages, Domain:User, fix:mantisPlugin, NewPlugins:SallingPriceForPeriod,OngoingTasks,AdminTools",
       "v1.6.0" => "(21 Mar  2021) - ProjectJobTeam asso, Admin enhancements, timesheets JS, issueInfoFilters, NewPlugins:FillPeriodWithTimetracks,ImportRelationshipTreeToCommand,LoadPerUserGroups,BurndownChart,IssueSeniority,TimetrackingAnalysis",
+      "v1.7.0" => "(14 Feb  2022) - PHP8, moveConfigFile, moveToGitHub, newPage:MissingTimetracks, Select2_lazyLoad, UserGroups, NewPlugins:ResetDashboard,LoadPerCustomfieldValues",
    );
 
    /**
