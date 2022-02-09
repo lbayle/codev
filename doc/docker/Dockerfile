@@ -143,7 +143,7 @@ RUN set -xe \
 
 ENV CODEVTT_VER 1.7.0
 ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
-ENV CODEVTT_URL https://github.com/lbayle/codev/releases/download/1.6.0/${CODEVTT_FILE}
+ENV CODEVTT_URL https://github.com/lbayle/codev/releases/download/1.7.0/${CODEVTT_FILE}
 
 RUN set -xe \
     && cd /var/www/html \
