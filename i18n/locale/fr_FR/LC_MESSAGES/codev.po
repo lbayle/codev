@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-01-20 12:01:11+0000\n"
+"PO-Revision-Date: 2022-02-10 12:01:14+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -29,7 +29,7 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2021-11-11 15:30:22+0000\n"
+"X-POT-Import-Date: 2022-02-08 19:38:45+0000\n"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
@@ -143,7 +143,7 @@ msgstr "Macro-Commandes"
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2149 classes/wbsElement.class.php:684
+#: classes/issue.class.php:2199 classes/wbsElement.class.php:684
 msgid "Commands"
 msgstr "Commandes"
 
@@ -324,7 +324,7 @@ msgstr "Dérive Gest."
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
-#: classes/issue.class.php:2153 reports/issue_info_tools.php:116
+#: classes/issue.class.php:2203 reports/issue_info_tools.php:116
 #: reports/project_info.php:180 reports/project_info.php:237
 #: reports/project_info.php:288 reports/project_info.php:301
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:297
@@ -392,7 +392,7 @@ msgstr "Aucune Macro-Commande trouvée."
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#: classes/consistency_check2.class.php:604
+#: classes/consistency_check2.class.php:605
 msgid "Command"
 msgstr "Commande"
 
@@ -573,7 +573,7 @@ msgstr "ID"
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#: classes/issue.class.php:2166 classes/issue_selection.class.php:344
+#: classes/issue.class.php:2216 classes/issue_selection.class.php:344
 #: classes/wbsElement.class.php:690 classes/wbsElement.class.php:691
 #: filters/ProjectFilter.php:59 management/commandset_info.php:141
 #: management/servicecontract_info.php:138 management/command_info.php:226
@@ -674,6 +674,7 @@ msgstr "Budget"
 
 #. tpl/servicecontract_info.html
 #. tpl/edit_holidays.html
+#. tpl/missing_timetracks.html
 #. tpl/mantis_reports.html
 #. tpl/issue_info.html
 #. tpl/commandset_info.html
@@ -718,6 +719,7 @@ msgstr "Aucune provision trouvée."
 #. tpl/servicecontract_info.html
 #. tpl/productivity_report.html
 #. tpl/check.html
+#. tpl/missing_timetracks.html
 #. tpl/mantis_reports.html
 #. tpl/holidays_report.html
 #. tpl/user_info.html
@@ -735,7 +737,6 @@ msgstr "Aucune provision trouvée."
 #. tpl/project_info.html
 #. tpl/export_odt.html
 #. tpl/project_activity_report.html
-#: reports/team_dashboard.php:95
 msgid "Please select a team to access this page."
 msgstr "Sélectionnez une équipe dans la liste déroulante en haut à droite de cette page."
 
@@ -847,6 +848,11 @@ msgid "Projects Activity"
 msgstr "Activité des projets"
 
 #. tpl/menu/global_menu.html
+#. tpl/missing_timetracks.html
+msgid "Missing Timetracks"
+msgstr "Compte-rendus d’activité manquants"
+
+#. tpl/menu/global_menu.html
 msgid "Holidays Reports"
 msgstr "Suivi des congés"
 
@@ -931,10 +937,9 @@ msgstr "Informations sur une tâche"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#: management/command_info_ajax.php:305 management/command_info_ajax.php:307
-#: reports/planning_report.php:468 reports/planning_report.php:470
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:307 reports/planning_report.php:468
+#: reports/planning_report.php:470 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1044,6 +1049,7 @@ msgstr "Gestionnaire de greffons"
 
 #. tpl/menu/global_menu.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/AdminTools/AdminTools.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Logs"
 msgstr "Journaux"
@@ -1120,7 +1126,7 @@ msgstr "Cible"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/issue.class.php:2170 classes/wbsElement.class.php:693
+#: classes/issue.class.php:2220 classes/wbsElement.class.php:693
 #: classes/wbsElement.class.php:694 reports/project_info.php:300
 #: reports/planning_report.php:458 reports/planning_report.php:481
 #: plugins/WBSExport/WBSExport.class.php:148
@@ -1297,7 +1303,7 @@ msgstr "mot de passe"
 #. tpl/modal/login.html
 #. tpl/tools/dashboard.html
 msgid "Loading"
-msgstr "Chargement"
+msgstr "Chargement en cours"
 
 #. tpl/modal/login.html
 msgid "Login failed."
@@ -1367,6 +1373,7 @@ msgid "Disable Plugin"
 msgstr "Désactiver le greffon"
 
 #. tpl/productivity_report.html
+#. tpl/missing_timetracks.html
 #. tpl/user_info.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/team_dashboard.html
@@ -1620,7 +1627,7 @@ msgstr "ChargeAdd"
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: classes/consistency_check2.class.php:413
+#: classes/consistency_check2.class.php:414
 msgid "elapsed"
 msgstr "consommé"
 
@@ -1825,6 +1832,7 @@ msgid " Error(s) in Mantis Tasks"
 msgstr " Erreur(s) dans les tâches Mantis"
 
 #. tpl/check.html
+#. tpl/missing_timetracks.html
 #. tpl/forecasting_report.html
 #. tpl/issue_info.html
 #. tpl/commandset_info.html
@@ -1872,6 +1880,49 @@ msgstr "Sévérité"
 msgid "Error Description"
 msgstr "Description de l’erreur"
 
+#. tpl/missing_timetracks.html
+msgid "Missing timetracks per user"
+msgstr "Comptes-rendus d’activité manquants par utilisateur"
+
+#. tpl/missing_timetracks.html
+#. tpl/planning_report.html
+#: management/commandset_info.php:87 management/servicecontract_info.php:83
+#: management/servicecontract_info.php:84 management/command_info.php:111
+#: management/command_info.php:112 reports/issue_info.php:121
+#: reports/issue_info.php:122 timetracking/team_activity_report.php:65
+#: timetracking/team_monthly_activity_report.php:73
+#: timetracking/time_tracking.php:210
+msgid "Errors"
+msgstr "Erreurs"
+
+#. tpl/missing_timetracks.html
+#. tpl/holidays_report.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
+msgid "workdays"
+msgstr "jours ouvrés"
+
+#. tpl/missing_timetracks.html
+msgid "Missing timetracks"
+msgstr "Comptes-rendus d’activité manquants"
+
+#. tpl/missing_timetracks.html
+msgid "Missing days"
+msgstr "Jours manquants"
+
+#. tpl/missing_timetracks.html
+#. plugins/ImportUsers/ImportUsers_ajax.html
+msgid "Email"
+msgstr "Courriel"
+
+#. tpl/missing_timetracks.html
+#: timetracking/team_monthly_activity_report.php:142
+#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
+#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
+#: scheduler/scheduler_ajax.php:390
+msgid "Error"
+msgstr "Erreur"
+
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
 msgstr "Bilan mensuel SAUF SuiviOp."
@@ -1902,12 +1953,6 @@ msgstr "Filtres"
 #. tpl/holidays_report.html
 msgid "Displayed tasks"
 msgstr "Tâches affichées"
-
-#. tpl/holidays_report.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-msgid "workdays"
-msgstr "jours ouvrés"
 
 #. tpl/holidays_report.html
 #. tpl/team_monthly_activity_report.html
@@ -2007,20 +2052,6 @@ msgid "No data"
 msgstr "Aucune donnée"
 
 #. tpl/issue_info.html
-#. tpl/time_tracking.html
-msgid "Hide tasks not assigned to me"
-msgstr "Masquer les tâches qui ne me sont pas affectées"
-
-#. tpl/issue_info.html
-#. tpl/time_tracking.html
-msgid "Hide resolved tasks"
-msgstr "Masquer les tâches résolues"
-
-#. tpl/issue_info.html
-msgid "Hide closed tasks"
-msgstr "Masquer les tâches fermées"
-
-#. tpl/issue_info.html
 msgid "Hide tasks from observed teams"
 msgstr "Masquer les tâches des équipes observées"
 
@@ -2067,7 +2098,7 @@ msgid "External Ref"
 msgstr "Réf. Externe"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2181 reports/planning_report.php:459
+#: classes/issue.class.php:2231 reports/planning_report.php:459
 #: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
@@ -2076,7 +2107,7 @@ msgstr "Priorité"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2177 reports/planning_report.php:460
+#: classes/issue.class.php:2227 reports/planning_report.php:460
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
@@ -2123,7 +2154,7 @@ msgstr "ATTENTION : les imputations précédentes n’ont pas pu être affich�
 #. tpl/command_info.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#: classes/scheduler.class.php:74 classes/consistency_check2.class.php:703
+#: classes/scheduler.class.php:74 classes/consistency_check2.class.php:708
 #: classes/command.class.php:814 reports/planning_report.php:489
 #: scheduler/SchedulerEvent.class.php:140
 msgid "days"
@@ -2174,6 +2205,12 @@ msgstr "Actualiser"
 #. tpl/servicecontract_edit.html
 msgid "Remove"
 msgstr "Enlever"
+
+#. tpl/issue_info.html
+#. tpl/time_tracking.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Enter a keyword or *** to display all..."
+msgstr "Entrez un mot-clé ou *** pour tout afficher..."
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -2288,6 +2325,7 @@ msgstr "Supprimer CodevTT du menu de Mantis :"
 #. tpl/edit_team.html
 #. plugins/AdminTools/AdminTools.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#: plugins/AdminTools/AdminTools.class.php:70
 msgid "TODO"
 msgstr "À FAIRE"
 
@@ -2576,16 +2614,6 @@ msgstr "Options"
 #. tpl/planning_report.html
 msgid "Planning Options"
 msgstr "Options de planification"
-
-#. tpl/planning_report.html
-#: management/commandset_info.php:87 management/servicecontract_info.php:83
-#: management/servicecontract_info.php:84 management/command_info.php:111
-#: management/command_info.php:112 reports/issue_info.php:188
-#: reports/issue_info.php:189 timetracking/team_activity_report.php:65
-#: timetracking/team_monthly_activity_report.php:73
-#: timetracking/time_tracking.php:192
-msgid "Errors"
-msgstr "Erreurs"
 
 #. tpl/planning_report.html
 msgid "Unassigned tasks"
@@ -2967,6 +2995,7 @@ msgstr "Lu par"
 
 #. tpl/team_activity_report.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/AdminTools/AdminTools.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Action"
 msgstr "Action"
@@ -3138,6 +3167,14 @@ msgstr "Masquer les tâches sans activité depuis"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "month"
 msgstr "mois"
+
+#. tpl/time_tracking.html
+msgid "Hide tasks not assigned to me"
+msgstr "Masquer les tâches qui ne me sont pas affectées"
+
+#. tpl/time_tracking.html
+msgid "Hide resolved tasks"
+msgstr "Masquer les tâches résolues"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
@@ -3374,7 +3411,7 @@ msgstr "Infos"
 
 #. tpl/edit_team.html
 msgid "Group examples: FrontEnd, BackEnd, Architect, Designers, Qualifiers"
-msgstr "Exemples de groupe : Frontal, Serveur, Architecte, Concepteurs, Qualifieurs"
+msgstr "Exemples de groupe : Frontal, Serveur, Architecte, Concepteurs, Qualifieurs"
 
 #. tpl/edit_team.html
 msgid "CSV File Format"
@@ -3711,12 +3748,8 @@ msgid "Documentation is available at "
 msgstr "La documentation est disponible sur "
 
 #. tpl/doc.html
-msgid "CodevTT Documentation Wiki"
-msgstr "Documentation CodevTT"
-
-#. tpl/doc.html
-msgid "GreaseMonkey script: "
-msgstr "Script GreaseMonkey : "
+msgid "CodevTT Documentation"
+msgstr "Documentation de CodevTT"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
@@ -5147,10 +5180,6 @@ msgstr "Erreur !"
 msgid "days available on period"
 msgstr "jours de disponibilité sur la période"
 
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "Could not retrieve task data !"
-msgstr "Impossible de récupérer les données de la tâche !"
-
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
 msgid "Fill period with timetracks"
@@ -5183,10 +5212,6 @@ msgstr "Prénom"
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username"
 msgstr "Nom d’utilisateur"
-
-#. plugins/ImportUsers/ImportUsers_ajax.html
-msgid "Email"
-msgstr "Courriel"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -5288,7 +5313,7 @@ msgstr "Afficher le temps écoulé pour chaque groupe d’utilisateurs"
 
 #. plugins/AdminTools/AdminTools_cfg.html
 #. plugins/AdminTools/AdminTools.html
-#: plugins/AdminTools/AdminTools.class.php:64
+#: plugins/AdminTools/AdminTools.class.php:65
 msgid "Administration tools"
 msgstr "Outils d’administration"
 
@@ -5309,12 +5334,8 @@ msgid "users"
 msgstr "utilisateurs"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-msgid "Clear Dashboard"
-msgstr "Effacer le tableau de bord"
-
-#. plugins/AdminTools/AdminTools_ajax.html
-msgid "for user "
-msgstr "pour l’utilisateur "
+msgid "Change Mantis issue id"
+msgstr "Modifie l’identifiant de problème Mantis"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
@@ -5692,12 +5713,11 @@ msgstr "Cher(e) "
 msgid "Please fill your CodevTT timesheet"
 msgstr "Veuillez remplir votre compte rendu d’activité pour CodevTT "
 
-#: classes/user.class.php:1576 classes/consistency_check2.class.php:701
+#: classes/user.class.php:1576 classes/consistency_check2.class.php:704
 msgid "incomplete (missing "
 msgstr "incomplet (il manque : "
 
-#. skip dates in the future
-#: classes/user.class.php:1579 classes/consistency_check2.class.php:716
+#: classes/user.class.php:1579 classes/consistency_check2.class.php:719
 msgid "not defined."
 msgstr "non défini."
 
@@ -5705,123 +5725,123 @@ msgstr "non défini."
 msgid "monitored"
 msgstr "suivie"
 
-#: classes/consistency_check2.class.php:62
-#: timetracking/team_monthly_activity_report.php:142
-#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
-#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
-#: scheduler/scheduler_ajax.php:390
-msgid "Error"
-msgstr "Erreur"
-
-#: classes/consistency_check2.class.php:68 reports/export_odt.php:263
+#: classes/consistency_check2.class.php:69 reports/export_odt.php:263
 #: reports/export_odt.php:273 tests/odt.php:74 tests/odt.php:84
 msgid "unknown"
 msgstr "inconnu"
 
-#: classes/consistency_check2.class.php:177
+#: classes/consistency_check2.class.php:178
 msgid "Backlog on resolved issues should be 0"
 msgstr "Le RAF des tâches résolues devrait être à 0"
 
-#: classes/consistency_check2.class.php:178
+#: classes/consistency_check2.class.php:179
 msgid "Backlog on unresolved issues should not be 0"
 msgstr "L’arriéré des tâches non résolues ne devrait pas être à 0"
 
-#: classes/consistency_check2.class.php:179
+#: classes/consistency_check2.class.php:180
 msgid "EffortEstim should not be 0"
 msgstr "La charge initiale ne devrait pas être à 0"
 
-#: classes/consistency_check2.class.php:180
+#: classes/consistency_check2.class.php:181
 msgid "There should be no timetracks on \"new\" issues "
 msgstr "Il ne devrait y avoir aucune imputation sur des tâches « nouvelles » "
 
-#: classes/consistency_check2.class.php:181
+#: classes/consistency_check2.class.php:182
 msgid "Issues should be referenced in a Command"
 msgstr "Les tâches devraient être référencées dans une commande"
 
-#: classes/consistency_check2.class.php:182
+#: classes/consistency_check2.class.php:183
 msgid "Issues should not be referenced in multiple commands"
 msgstr "Les tâches ne devraient pas être déclarées dans plusieurs commandes"
 
-#: classes/consistency_check2.class.php:183
+#: classes/consistency_check2.class.php:184
 msgid "Commands should be referenced in a CommandSet"
 msgstr "Les commandes devraient être référencées dans une macro-commande"
 
-#: classes/consistency_check2.class.php:184
+#: classes/consistency_check2.class.php:185
 msgid "CommandSets should be referenced in a ServiceContract"
 msgstr "Les macro-commandes devraient être référencées dans un contrat de service."
 
-#: classes/consistency_check2.class.php:185
+#: classes/consistency_check2.class.php:186
 msgid "Issues should be assigned to someone"
 msgstr "Les tâches devraient être affectées à quelqu’un"
 
-#: classes/consistency_check2.class.php:186
+#: classes/consistency_check2.class.php:187
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
 msgstr "Vérifier les imputations sur des tâches retirées (pas nécessaire si le greffon Mantis est activé)"
 
 #. for all timetracks of the team, check that the Mantis issue exist.
-#: classes/consistency_check2.class.php:187
+#: classes/consistency_check2.class.php:188
 msgid "Command issues should belong to the team's project-list"
 msgstr "Les problèmes de commande devraient appartenir à la liste des projets de l’équipe"
 
-#: classes/consistency_check2.class.php:285
+#: classes/consistency_check2.class.php:286
 msgid "Backlog should be 0 (not "
 msgstr "L’arriéré devrait être à 0 (et non "
 
-#: classes/consistency_check2.class.php:307
+#: classes/consistency_check2.class.php:308
 msgid "Backlog must be defined !"
 msgstr "L’arriéré doit être défini !"
 
-#: classes/consistency_check2.class.php:309
+#: classes/consistency_check2.class.php:310
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr "Arriéré égal à 0 : il se peut qu’il ne soit pas à jour."
 
-#: classes/consistency_check2.class.php:355
+#: classes/consistency_check2.class.php:356
 msgid "MgrEffortEstim not set."
 msgstr "ChargeMgrEstimée non renseigné."
 
-#: classes/consistency_check2.class.php:387
+#: classes/consistency_check2.class.php:388
 msgid "EffortEstim not set."
 msgstr "ChargeEstimée non renseignée."
 
-#: classes/consistency_check2.class.php:413
+#: classes/consistency_check2.class.php:414
 msgid "Status should not be"
 msgstr "L’état ne devrait pas être"
 
-#: classes/consistency_check2.class.php:451
+#: classes/consistency_check2.class.php:452
 msgid "The task is not assigned to anybody."
 msgstr "La tâche n’est affectée à personne."
 
-#: classes/consistency_check2.class.php:505
+#: classes/consistency_check2.class.php:506
 msgid "The task is not referenced in any Command."
 msgstr "La tâche n’est référencée dans aucune commande."
 
-#: classes/consistency_check2.class.php:604
+#: classes/consistency_check2.class.php:605
 msgid "is not referenced in any CommandSet"
 msgstr "n’est référencée dans aucune macro-commande"
 
-#: classes/consistency_check2.class.php:629
+#: classes/consistency_check2.class.php:630
 msgid "is not referenced in any ServiceContract"
 msgstr "n’est référencée dans aucun contrat de service."
 
-#: classes/consistency_check2.class.php:701
+#: classes/consistency_check2.class.php:704
 msgid " days"
 msgstr " jours"
 
-#: classes/consistency_check2.class.php:703
+#: classes/consistency_check2.class.php:708
 msgid "inconsistent"
 msgstr "incohérent"
 
-#: classes/consistency_check2.class.php:736
+#: classes/consistency_check2.class.php:744
 msgid "No default project workflow defined, check config file: "
 msgstr "Aucun cycle de vie (workflow) par défaut n’est défini, vérifiez le fichier de configuration : "
 
-#: classes/consistency_check2.class.php:756
+#: classes/consistency_check2.class.php:764
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 msgstr ") veuillez exécuter <a href=\"tools/update_codevtt.php\">update_codevtt.php</a>"
 
-#: classes/consistency_check2.class.php:775
+#: classes/consistency_check2.class.php:783
 msgid "Project not defined in the team's project-list"
 msgstr "Projet non défini dans la liste des projets de l’équipe"
+
+#: classes/consistency_check2.class.php:802
+msgid "Please move config file to: "
+msgstr "Veuillez déplacer le fichier de configuration vers : "
+
+#: classes/consistency_check2.class.php:807
+msgid "Please remove: "
+msgstr "Veuillez retirer : "
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
@@ -5869,27 +5889,27 @@ msgstr "Contraint par"
 msgid "Constrains"
 msgstr "Contraint"
 
-#: classes/issue.class.php:2141 tools.php:1549
+#: classes/issue.class.php:2191 tools.php:1549
 msgid "Tags"
 msgstr "Balises"
 
-#: classes/issue.class.php:2149
+#: classes/issue.class.php:2199
 msgid "none"
 msgstr "aucun(e)"
 
-#: classes/issue.class.php:2154 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2204 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "CouleurDeDérive"
 
-#: classes/issue.class.php:2158
+#: classes/issue.class.php:2208
 msgid "DriftMgrColor"
 msgstr "CouleurDuGestionnaireDérive"
 
-#: classes/issue.class.php:2175 tools.php:1563
+#: classes/issue.class.php:2225 tools.php:1563
 msgid "Assigned"
 msgstr "Assigné à"
 
-#: classes/issue.class.php:2183 tools.php:1571
+#: classes/issue.class.php:2233 tools.php:1571
 msgid "ETA"
 msgstr "ETA"
 
@@ -6238,7 +6258,7 @@ msgstr "URL vers CodevTT"
 msgid "Proceed Step 2"
 msgstr "Exécuter l’étape 2"
 
-#: install/install.php:25 install/install.php:141
+#: install/install.php:25 install/install.php:142
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "Installer"
@@ -6248,18 +6268,22 @@ msgid "Upgrade instructions"
 msgstr "Instruction pour mise à niveau"
 
 #: install/install.php:132
-msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
-msgstr "Pour mettre à niveau une ancienne version de CodevTT, <a href=\"http://codevtt.org/site/?page_id=1801\" target=\"_blank\">lisez ces instructions</a> et effectuez les étapes suivantes :"
+msgid "If you're upgrading from an older CodevTT version, do the following steps:"
+msgstr "Si vous mettez à niveau CodevTT depuis une ancienne version, effectuez les étapes suivantes :"
 
 #: install/install.php:134
 msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "Commencez par mettre à niveau Mantis ! (si nécessaire)"
 
 #: install/install.php:135
+msgid "Backup your database"
+msgstr "Sauvegardez votre base de données"
+
+#: install/install.php:136
 msgid "Copy CodevTT configuration files from your previous installation"
 msgstr "Copiez et adaptez les fichiers de configuration de CodevTT depuis votre précédente installation"
 
-#: install/install.php:136
+#: install/install.php:137
 msgid "Run this script: "
 msgstr "Lancez ce script : "
 
@@ -6346,11 +6370,11 @@ msgstr "La mise à jour des provisions a ÉCHOUÉ !"
 msgid "Provision"
 msgstr "Provision"
 
-#: reports/issue_info.php:141
+#: reports/issue_info.php:90
 msgid "You do not have permissions to display task :"
 msgstr "Vous n’avez pas le droit d’afficher la tâche :"
 
-#: reports/issue_info.php:152
+#: reports/issue_info.php:101
 msgid "Task not found in Mantis DB :"
 msgstr "Tâche non trouvée dans la BDD Mantis :"
 
@@ -6397,22 +6421,22 @@ msgstr "sans dateButoir"
 msgid "Monitored"
 msgstr "Suivie"
 
-#: reports/issue_info_ajax.php:66
+#: reports/issue_info_ajax.php:105
 msgid "Sorry, only managers can remove tasks from commands"
 msgstr "Désolé, seuls les gestionnaires peuvent retirer des tâches d’une commande"
 
-#: reports/issue_info_ajax.php:91 reports/issue_info_ajax.php:133
+#: reports/issue_info_ajax.php:130 reports/issue_info_ajax.php:172
 msgid "Sorry, only managers can add tasks to commands"
 msgstr "Désolé, seuls les gestionnaires peuvent ajouter des tâches à une commande"
 
-#: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
-#: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
-#: reports/issue_info_ajax.php:262 reports/issue_info_ajax.php:327
+#: reports/issue_info_ajax.php:132 reports/issue_info_ajax.php:174
+#: reports/issue_info_ajax.php:205 reports/issue_info_ajax.php:254
+#: reports/issue_info_ajax.php:301 reports/issue_info_ajax.php:366
 msgid "Sorry, this task is not in your team's projects"
 msgstr "Désolé, cette tâche ne fait pas partie des projets de votre équipe"
 
-#: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
-#: reports/issue_info_ajax.php:260 reports/issue_info_ajax.php:325
+#: reports/issue_info_ajax.php:203 reports/issue_info_ajax.php:252
+#: reports/issue_info_ajax.php:299 reports/issue_info_ajax.php:364
 msgid "Sorry, you're not an active member of this team"
 msgstr "Désolé, vous n’êtes pas un membre actif de cette équipe"
 
@@ -6425,44 +6449,45 @@ msgid "Sorry, there are no projects defined for your team."
 msgstr "Désolé, il n’y a aucun projet défini pour votre équipe."
 
 #: timetracking/team_activity_report.php:66
+#: timetracking/missing_timetracks.php:70
 #: timetracking/team_monthly_activity_report.php:74
-#: timetracking/time_tracking.php:193
+#: timetracking/time_tracking.php:211
 msgid "days are incomplete or undefined"
 msgstr "jours incomplets ou non définis"
 
 #: timetracking/team_activity_report.php:199
 #: timetracking/team_monthly_activity_report.php:143
 #: timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:495 timetracking/time_tracking.php:306
+#: timetracking/time_tracking_tools.php:495 timetracking/time_tracking.php:324
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : tâche introuvable dans la BDD Mantis !"
 
-#: timetracking/time_tracking_ajax.php:121
+#: timetracking/time_tracking_ajax.php:140
 msgid "Timetracking is forbidden when issue's status is :"
 msgstr "Le suivi du temps est interdit lorsque l’état du problème est :"
 
-#: timetracking/time_tracking_ajax.php:402
+#: timetracking/time_tracking_ajax.php:421
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr "ERREUR : la suppression de l’imputation a échoué !"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:434
+#: timetracking/time_tracking_ajax.php:453
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Imputation non ajoutée : la note de consommation du temps est exigée"
 
-#: timetracking/time_tracking_ajax.php:438
+#: timetracking/time_tracking_ajax.php:457
 msgid "Timetrack not added: Job is not specified"
 msgstr "Imputation non créée : le poste n’est pas spécifié"
 
-#: timetracking/time_tracking_ajax.php:441
+#: timetracking/time_tracking_ajax.php:460
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Imputation non ajoutée : l’ID de bogue n’est pas spécifié"
 
-#: timetracking/time_tracking_ajax.php:444
+#: timetracking/time_tracking_ajax.php:463
 msgid "Timetrack not added: duration is not specified"
 msgstr "Imputation non ajoutée : la durée n’est pas spécifiée"
 
-#: timetracking/time_tracking_ajax.php:482
+#: timetracking/time_tracking_ajax.php:501
 msgid "ERROR: Failed to add timetrack !"
 msgstr "ERREUR : l’ajout de l’imputation a échoué !"
 
@@ -6740,7 +6765,15 @@ msgstr "Affiche l’historique de l’état des tâches"
 msgid "Choose a customfield, return the elapsed time for each customField value"
 msgstr "Choisir un champ personnalisé, renvoyer le temps écoulé pour chaque valeur du champ personnalisé"
 
-#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:296
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
+msgid "Task does not exist !"
+msgstr "La tâche n’existe pas !"
+
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
+msgid "Task is not in team's projects"
+msgstr "La tâche n’est pas dans les projets de l’équipe"
+
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
 msgid "Timetrack added by "
 msgstr "Imputation ajoutée par "
 
@@ -6792,7 +6825,7 @@ msgstr "Vérifie tous les consommés sur la période et retourne leur répartiti
 msgid "No group defined"
 msgstr "Aucun groupe défini"
 
-#: plugins/AdminTools/AdminTools.class.php:67
+#: plugins/AdminTools/AdminTools.class.php:68
 msgid "CodevTT administration tools"
 msgstr "Outils d’administration de CodevTT"
 

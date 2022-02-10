@@ -13,11 +13,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-01-20 12:01:11+0000\n"
+"PO-Revision-Date: 2022-02-10 12:01:15+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2021-11-11 15:30:22+0000\n"
+"X-POT-Import-Date: 2022-02-08 19:38:45+0000\n"
 "X-Generator: MediaWiki 1.38.0-alpha; Translate 2022-01-19\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -133,7 +133,7 @@ msgstr "명령집합"
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2149 classes/wbsElement.class.php:684
+#: classes/issue.class.php:2199 classes/wbsElement.class.php:684
 msgid "Commands"
 msgstr "명령"
 
@@ -314,7 +314,7 @@ msgstr ""
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
-#: classes/issue.class.php:2153 reports/issue_info_tools.php:116
+#: classes/issue.class.php:2203 reports/issue_info_tools.php:116
 #: reports/project_info.php:180 reports/project_info.php:237
 #: reports/project_info.php:288 reports/project_info.php:301
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:297
@@ -382,7 +382,7 @@ msgstr "명령집합을 찾을 수 없습니다."
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#: classes/consistency_check2.class.php:604
+#: classes/consistency_check2.class.php:605
 msgid "Command"
 msgstr "명령"
 
@@ -563,7 +563,7 @@ msgstr "ID"
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#: classes/issue.class.php:2166 classes/issue_selection.class.php:344
+#: classes/issue.class.php:2216 classes/issue_selection.class.php:344
 #: classes/wbsElement.class.php:690 classes/wbsElement.class.php:691
 #: filters/ProjectFilter.php:59 management/commandset_info.php:141
 #: management/servicecontract_info.php:138 management/command_info.php:226
@@ -664,6 +664,7 @@ msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/edit_holidays.html
+#. tpl/missing_timetracks.html
 #. tpl/mantis_reports.html
 #. tpl/issue_info.html
 #. tpl/commandset_info.html
@@ -708,6 +709,7 @@ msgstr ""
 #. tpl/servicecontract_info.html
 #. tpl/productivity_report.html
 #. tpl/check.html
+#. tpl/missing_timetracks.html
 #. tpl/mantis_reports.html
 #. tpl/holidays_report.html
 #. tpl/user_info.html
@@ -725,7 +727,6 @@ msgstr ""
 #. tpl/project_info.html
 #. tpl/export_odt.html
 #. tpl/project_activity_report.html
-#: reports/team_dashboard.php:95
 msgid "Please select a team to access this page."
 msgstr "이 문서에 접근하려면 팀을 선택해 주십시오."
 
@@ -837,6 +838,11 @@ msgid "Projects Activity"
 msgstr "프로젝트 활동"
 
 #. tpl/menu/global_menu.html
+#. tpl/missing_timetracks.html
+msgid "Missing Timetracks"
+msgstr ""
+
+#. tpl/menu/global_menu.html
 msgid "Holidays Reports"
 msgstr ""
 
@@ -921,10 +927,9 @@ msgstr ""
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#: management/command_info_ajax.php:305 management/command_info_ajax.php:307
-#: reports/planning_report.php:468 reports/planning_report.php:470
-#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
-#: scheduler/SchedulerEvent.class.php:123
+#: management/command_info_ajax.php:307 reports/planning_report.php:468
+#: reports/planning_report.php:470 scheduler/SchedulerEvent.class.php:83
+#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
@@ -1034,6 +1039,7 @@ msgstr "플러그인 관리자"
 
 #. tpl/menu/global_menu.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/AdminTools/AdminTools.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Logs"
 msgstr "기록 목록"
@@ -1110,7 +1116,7 @@ msgstr "대상"
 #. unset($tooltipAttr[T_('Project')]);
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
-#: classes/issue.class.php:2170 classes/wbsElement.class.php:693
+#: classes/issue.class.php:2220 classes/wbsElement.class.php:693
 #: classes/wbsElement.class.php:694 reports/project_info.php:300
 #: reports/planning_report.php:458 reports/planning_report.php:481
 #: plugins/WBSExport/WBSExport.class.php:148
@@ -1357,6 +1363,7 @@ msgid "Disable Plugin"
 msgstr "플러그인 사용 안 함"
 
 #. tpl/productivity_report.html
+#. tpl/missing_timetracks.html
 #. tpl/user_info.html
 #. tpl/team_monthly_activity_report.html
 #. tpl/team_dashboard.html
@@ -1610,7 +1617,7 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/statistics.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#: classes/consistency_check2.class.php:413
+#: classes/consistency_check2.class.php:414
 msgid "elapsed"
 msgstr "경과됨"
 
@@ -1815,6 +1822,7 @@ msgid " Error(s) in Mantis Tasks"
 msgstr ""
 
 #. tpl/check.html
+#. tpl/missing_timetracks.html
 #. tpl/forecasting_report.html
 #. tpl/issue_info.html
 #. tpl/commandset_info.html
@@ -1862,6 +1870,49 @@ msgstr "단계"
 msgid "Error Description"
 msgstr "오류 설명"
 
+#. tpl/missing_timetracks.html
+msgid "Missing timetracks per user"
+msgstr ""
+
+#. tpl/missing_timetracks.html
+#. tpl/planning_report.html
+#: management/commandset_info.php:87 management/servicecontract_info.php:83
+#: management/servicecontract_info.php:84 management/command_info.php:111
+#: management/command_info.php:112 reports/issue_info.php:121
+#: reports/issue_info.php:122 timetracking/team_activity_report.php:65
+#: timetracking/team_monthly_activity_report.php:73
+#: timetracking/time_tracking.php:210
+msgid "Errors"
+msgstr "오류"
+
+#. tpl/missing_timetracks.html
+#. tpl/holidays_report.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
+msgid "workdays"
+msgstr "작업일"
+
+#. tpl/missing_timetracks.html
+msgid "Missing timetracks"
+msgstr ""
+
+#. tpl/missing_timetracks.html
+msgid "Missing days"
+msgstr ""
+
+#. tpl/missing_timetracks.html
+#. plugins/ImportUsers/ImportUsers_ajax.html
+msgid "Email"
+msgstr "이메일"
+
+#. tpl/missing_timetracks.html
+#: timetracking/team_monthly_activity_report.php:142
+#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
+#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
+#: scheduler/scheduler_ajax.php:390
+msgid "Error"
+msgstr "오류"
+
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
 msgstr ""
@@ -1892,12 +1943,6 @@ msgstr "필터"
 #. tpl/holidays_report.html
 msgid "Displayed tasks"
 msgstr "표시된 작업"
-
-#. tpl/holidays_report.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-msgid "workdays"
-msgstr "작업일"
 
 #. tpl/holidays_report.html
 #. tpl/team_monthly_activity_report.html
@@ -1997,20 +2042,6 @@ msgid "No data"
 msgstr "데이터 없음"
 
 #. tpl/issue_info.html
-#. tpl/time_tracking.html
-msgid "Hide tasks not assigned to me"
-msgstr ""
-
-#. tpl/issue_info.html
-#. tpl/time_tracking.html
-msgid "Hide resolved tasks"
-msgstr ""
-
-#. tpl/issue_info.html
-msgid "Hide closed tasks"
-msgstr ""
-
-#. tpl/issue_info.html
 msgid "Hide tasks from observed teams"
 msgstr ""
 
@@ -2057,7 +2088,7 @@ msgid "External Ref"
 msgstr "외부 참조"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2181 reports/planning_report.php:459
+#: classes/issue.class.php:2231 reports/planning_report.php:459
 #: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
@@ -2066,7 +2097,7 @@ msgstr "우선 순위"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2177 reports/planning_report.php:460
+#: classes/issue.class.php:2227 reports/planning_report.php:460
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
@@ -2113,7 +2144,7 @@ msgstr ""
 #. tpl/command_info.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#: classes/scheduler.class.php:74 classes/consistency_check2.class.php:703
+#: classes/scheduler.class.php:74 classes/consistency_check2.class.php:708
 #: classes/command.class.php:814 reports/planning_report.php:489
 #: scheduler/SchedulerEvent.class.php:140
 msgid "days"
@@ -2164,6 +2195,12 @@ msgstr "업데이트"
 #. tpl/servicecontract_edit.html
 msgid "Remove"
 msgstr "제거"
+
+#. tpl/issue_info.html
+#. tpl/time_tracking.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Enter a keyword or *** to display all..."
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -2279,6 +2316,7 @@ msgstr ""
 #. tpl/edit_team.html
 #. plugins/AdminTools/AdminTools.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+#: plugins/AdminTools/AdminTools.class.php:70
 msgid "TODO"
 msgstr "할 일"
 
@@ -2567,16 +2605,6 @@ msgstr "옵션"
 #. tpl/planning_report.html
 msgid "Planning Options"
 msgstr ""
-
-#. tpl/planning_report.html
-#: management/commandset_info.php:87 management/servicecontract_info.php:83
-#: management/servicecontract_info.php:84 management/command_info.php:111
-#: management/command_info.php:112 reports/issue_info.php:188
-#: reports/issue_info.php:189 timetracking/team_activity_report.php:65
-#: timetracking/team_monthly_activity_report.php:73
-#: timetracking/time_tracking.php:192
-msgid "Errors"
-msgstr "오류"
 
 #. tpl/planning_report.html
 msgid "Unassigned tasks"
@@ -2962,6 +2990,7 @@ msgstr ""
 
 #. tpl/team_activity_report.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/AdminTools/AdminTools.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Action"
 msgstr ""
@@ -3133,6 +3162,14 @@ msgstr ""
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "month"
 msgstr "월"
+
+#. tpl/time_tracking.html
+msgid "Hide tasks not assigned to me"
+msgstr ""
+
+#. tpl/time_tracking.html
+msgid "Hide resolved tasks"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
@@ -3709,12 +3746,8 @@ msgid "Documentation is available at "
 msgstr "\\ 에 문서가 있습니다"
 
 #. tpl/doc.html
-msgid "CodevTT Documentation Wiki"
-msgstr "CodevTT 문서화 위키"
-
-#. tpl/doc.html
-msgid "GreaseMonkey script: "
-msgstr "GreaseMonkey 스크립트: "
+msgid "CodevTT Documentation"
+msgstr ""
 
 #. tpl/doc.html
 msgid "You can help on translations: "
@@ -5163,10 +5196,6 @@ msgstr "오류 !"
 msgid "days available on period"
 msgstr ""
 
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "Could not retrieve task data !"
-msgstr ""
-
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
 #, fuzzy
@@ -5200,10 +5229,6 @@ msgstr "이름"
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username"
 msgstr "사용자 이름"
-
-#. plugins/ImportUsers/ImportUsers_ajax.html
-msgid "Email"
-msgstr "이메일"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -5306,7 +5331,7 @@ msgstr ""
 
 #. plugins/AdminTools/AdminTools_cfg.html
 #. plugins/AdminTools/AdminTools.html
-#: plugins/AdminTools/AdminTools.class.php:64
+#: plugins/AdminTools/AdminTools.class.php:65
 msgid "Administration tools"
 msgstr "관리 도구"
 
@@ -5327,12 +5352,8 @@ msgid "users"
 msgstr "사용자"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-msgid "Clear Dashboard"
-msgstr "대시보드 지우기"
-
-#. plugins/AdminTools/AdminTools_ajax.html
-msgid "for user "
-msgstr "사용자 "
+msgid "Change Mantis issue id"
+msgstr ""
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
@@ -5715,12 +5736,11 @@ msgstr "\\님에게"
 msgid "Please fill your CodevTT timesheet"
 msgstr ""
 
-#: classes/user.class.php:1576 classes/consistency_check2.class.php:701
+#: classes/user.class.php:1576 classes/consistency_check2.class.php:704
 msgid "incomplete (missing "
 msgstr ""
 
-#. skip dates in the future
-#: classes/user.class.php:1579 classes/consistency_check2.class.php:716
+#: classes/user.class.php:1579 classes/consistency_check2.class.php:719
 msgid "not defined."
 msgstr ""
 
@@ -5728,122 +5748,122 @@ msgstr ""
 msgid "monitored"
 msgstr ""
 
-#: classes/consistency_check2.class.php:62
-#: timetracking/team_monthly_activity_report.php:142
-#: scheduler/scheduler_ajax.php:384 scheduler/scheduler_ajax.php:385
-#: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
-#: scheduler/scheduler_ajax.php:390
-msgid "Error"
-msgstr "오류"
-
-#: classes/consistency_check2.class.php:68 reports/export_odt.php:263
+#: classes/consistency_check2.class.php:69 reports/export_odt.php:263
 #: reports/export_odt.php:273 tests/odt.php:74 tests/odt.php:84
 msgid "unknown"
 msgstr "알 수 없음"
 
-#: classes/consistency_check2.class.php:177
+#: classes/consistency_check2.class.php:178
 msgid "Backlog on resolved issues should be 0"
 msgstr "해결된 이슈의 백로그는 0이어야 합니다"
 
-#: classes/consistency_check2.class.php:178
+#: classes/consistency_check2.class.php:179
 msgid "Backlog on unresolved issues should not be 0"
 msgstr "해결되지 않은 이슈의 백로그는 0이 아니어야 합니다"
 
-#: classes/consistency_check2.class.php:179
+#: classes/consistency_check2.class.php:180
 msgid "EffortEstim should not be 0"
 msgstr ""
 
-#: classes/consistency_check2.class.php:180
+#: classes/consistency_check2.class.php:181
 msgid "There should be no timetracks on \"new\" issues "
 msgstr "\"새\" 이슈 \\에서의 시간트랙이 없어야 합니다"
 
-#: classes/consistency_check2.class.php:181
+#: classes/consistency_check2.class.php:182
 msgid "Issues should be referenced in a Command"
 msgstr "이슈는 명령에 참조되어야 합니다"
 
-#: classes/consistency_check2.class.php:182
+#: classes/consistency_check2.class.php:183
 msgid "Issues should not be referenced in multiple commands"
 msgstr "이슈는 여러 명령에서 참조되어서는 안 됩니다"
 
-#: classes/consistency_check2.class.php:183
+#: classes/consistency_check2.class.php:184
 msgid "Commands should be referenced in a CommandSet"
 msgstr ""
 
-#: classes/consistency_check2.class.php:184
+#: classes/consistency_check2.class.php:185
 msgid "CommandSets should be referenced in a ServiceContract"
 msgstr ""
 
-#: classes/consistency_check2.class.php:185
+#: classes/consistency_check2.class.php:186
 msgid "Issues should be assigned to someone"
 msgstr "이슈는 누군가에게 할당되어야 합니다"
 
-#: classes/consistency_check2.class.php:186
+#: classes/consistency_check2.class.php:187
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
 msgstr "제거된 이슈에서의 시간트랙을 확인 (맨티스 플러그인이 활성화된 경우 필요하지 않음)"
 
 #. for all timetracks of the team, check that the Mantis issue exist.
-#: classes/consistency_check2.class.php:187
+#: classes/consistency_check2.class.php:188
 msgid "Command issues should belong to the team's project-list"
 msgstr ""
 
-#: classes/consistency_check2.class.php:285
+#: classes/consistency_check2.class.php:286
 msgid "Backlog should be 0 (not "
 msgstr ""
 
-#: classes/consistency_check2.class.php:307
+#: classes/consistency_check2.class.php:308
 msgid "Backlog must be defined !"
 msgstr ""
 
-#: classes/consistency_check2.class.php:309
+#: classes/consistency_check2.class.php:310
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr ""
 
-#: classes/consistency_check2.class.php:355
+#: classes/consistency_check2.class.php:356
 msgid "MgrEffortEstim not set."
 msgstr ""
 
-#: classes/consistency_check2.class.php:387
+#: classes/consistency_check2.class.php:388
 msgid "EffortEstim not set."
 msgstr ""
 
-#: classes/consistency_check2.class.php:413
+#: classes/consistency_check2.class.php:414
 msgid "Status should not be"
 msgstr ""
 
-#: classes/consistency_check2.class.php:451
+#: classes/consistency_check2.class.php:452
 msgid "The task is not assigned to anybody."
 msgstr ""
 
-#: classes/consistency_check2.class.php:505
+#: classes/consistency_check2.class.php:506
 msgid "The task is not referenced in any Command."
 msgstr ""
 
-#: classes/consistency_check2.class.php:604
+#: classes/consistency_check2.class.php:605
 msgid "is not referenced in any CommandSet"
 msgstr ""
 
-#: classes/consistency_check2.class.php:629
+#: classes/consistency_check2.class.php:630
 msgid "is not referenced in any ServiceContract"
 msgstr ""
 
-#: classes/consistency_check2.class.php:701
+#: classes/consistency_check2.class.php:704
 msgid " days"
 msgstr "일"
 
-#: classes/consistency_check2.class.php:703
+#: classes/consistency_check2.class.php:708
 msgid "inconsistent"
 msgstr "일관성 없음"
 
-#: classes/consistency_check2.class.php:736
+#: classes/consistency_check2.class.php:744
 msgid "No default project workflow defined, check config file: "
 msgstr ""
 
-#: classes/consistency_check2.class.php:756
+#: classes/consistency_check2.class.php:764
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 msgstr ""
 
-#: classes/consistency_check2.class.php:775
+#: classes/consistency_check2.class.php:783
 msgid "Project not defined in the team's project-list"
+msgstr ""
+
+#: classes/consistency_check2.class.php:802
+msgid "Please move config file to: "
+msgstr ""
+
+#: classes/consistency_check2.class.php:807
+msgid "Please remove: "
 msgstr ""
 
 #. avoid divisions by zero
@@ -5892,27 +5912,27 @@ msgstr ""
 msgid "Constrains"
 msgstr ""
 
-#: classes/issue.class.php:2141 tools.php:1549
+#: classes/issue.class.php:2191 tools.php:1549
 msgid "Tags"
 msgstr "태그"
 
-#: classes/issue.class.php:2149
+#: classes/issue.class.php:2199
 msgid "none"
 msgstr "없음"
 
-#: classes/issue.class.php:2154 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2204 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr ""
 
-#: classes/issue.class.php:2158
+#: classes/issue.class.php:2208
 msgid "DriftMgrColor"
 msgstr ""
 
-#: classes/issue.class.php:2175 tools.php:1563
+#: classes/issue.class.php:2225 tools.php:1563
 msgid "Assigned"
 msgstr "할당됨"
 
-#: classes/issue.class.php:2183 tools.php:1571
+#: classes/issue.class.php:2233 tools.php:1571
 msgid "ETA"
 msgstr ""
 
@@ -6263,7 +6283,7 @@ msgstr ""
 msgid "Proceed Step 2"
 msgstr "2단계 진행하기"
 
-#: install/install.php:25 install/install.php:141
+#: install/install.php:25 install/install.php:142
 #: install/install_menu.inc.php:22
 msgid "Install"
 msgstr "설치"
@@ -6273,7 +6293,7 @@ msgid "Upgrade instructions"
 msgstr ""
 
 #: install/install.php:132
-msgid "If you're upgrading from an older CodevTT version, please <a href='http://codevtt.org/site/?page_id=1801' target='_blank'>read this page</a> and do the following steps:"
+msgid "If you're upgrading from an older CodevTT version, do the following steps:"
 msgstr ""
 
 #: install/install.php:134
@@ -6281,10 +6301,14 @@ msgid "Upgrade Mantis first ! (not mandatory)"
 msgstr "먼저 Mantis를 업그레이드하십시오! (필수는 아님)"
 
 #: install/install.php:135
-msgid "Copy CodevTT configuration files from your previous installation"
+msgid "Backup your database"
 msgstr ""
 
 #: install/install.php:136
+msgid "Copy CodevTT configuration files from your previous installation"
+msgstr ""
+
+#: install/install.php:137
 msgid "Run this script: "
 msgstr "이 스크립트를 실행: "
 
@@ -6371,11 +6395,11 @@ msgstr ""
 msgid "Provision"
 msgstr ""
 
-#: reports/issue_info.php:141
+#: reports/issue_info.php:90
 msgid "You do not have permissions to display task :"
 msgstr ""
 
-#: reports/issue_info.php:152
+#: reports/issue_info.php:101
 msgid "Task not found in Mantis DB :"
 msgstr ""
 
@@ -6422,22 +6446,22 @@ msgstr ""
 msgid "Monitored"
 msgstr ""
 
-#: reports/issue_info_ajax.php:66
+#: reports/issue_info_ajax.php:105
 msgid "Sorry, only managers can remove tasks from commands"
 msgstr ""
 
-#: reports/issue_info_ajax.php:91 reports/issue_info_ajax.php:133
+#: reports/issue_info_ajax.php:130 reports/issue_info_ajax.php:172
 msgid "Sorry, only managers can add tasks to commands"
 msgstr ""
 
-#: reports/issue_info_ajax.php:93 reports/issue_info_ajax.php:135
-#: reports/issue_info_ajax.php:166 reports/issue_info_ajax.php:215
-#: reports/issue_info_ajax.php:262 reports/issue_info_ajax.php:327
+#: reports/issue_info_ajax.php:132 reports/issue_info_ajax.php:174
+#: reports/issue_info_ajax.php:205 reports/issue_info_ajax.php:254
+#: reports/issue_info_ajax.php:301 reports/issue_info_ajax.php:366
 msgid "Sorry, this task is not in your team's projects"
 msgstr ""
 
-#: reports/issue_info_ajax.php:164 reports/issue_info_ajax.php:213
-#: reports/issue_info_ajax.php:260 reports/issue_info_ajax.php:325
+#: reports/issue_info_ajax.php:203 reports/issue_info_ajax.php:252
+#: reports/issue_info_ajax.php:299 reports/issue_info_ajax.php:364
 msgid "Sorry, you're not an active member of this team"
 msgstr ""
 
@@ -6450,44 +6474,45 @@ msgid "Sorry, there are no projects defined for your team."
 msgstr "죄송합니다. 당신의 팀에 정의된 프로젝트가 없습니다."
 
 #: timetracking/team_activity_report.php:66
+#: timetracking/missing_timetracks.php:70
 #: timetracking/team_monthly_activity_report.php:74
-#: timetracking/time_tracking.php:193
+#: timetracking/time_tracking.php:211
 msgid "days are incomplete or undefined"
 msgstr ""
 
 #: timetracking/team_activity_report.php:199
 #: timetracking/team_monthly_activity_report.php:143
 #: timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:495 timetracking/time_tracking.php:306
+#: timetracking/time_tracking_tools.php:495 timetracking/time_tracking.php:324
 msgid "Error: Task not found in Mantis DB !"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:121
+#: timetracking/time_tracking_ajax.php:140
 msgid "Timetracking is forbidden when issue's status is :"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:402
+#: timetracking/time_tracking_ajax.php:421
 msgid "ERROR: Failed to delete the timetrack !"
 msgstr ""
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:434
+#: timetracking/time_tracking_ajax.php:453
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:438
+#: timetracking/time_tracking_ajax.php:457
 msgid "Timetrack not added: Job is not specified"
 msgstr ""
 
-#: timetracking/time_tracking_ajax.php:441
+#: timetracking/time_tracking_ajax.php:460
 msgid "Timetrack not added: bugid is not specified"
 msgstr "타임트랙이 추가되지 않았습니다: bugid가 지정되지 않았습니다"
 
-#: timetracking/time_tracking_ajax.php:444
+#: timetracking/time_tracking_ajax.php:463
 msgid "Timetrack not added: duration is not specified"
 msgstr "타임트랙이 추가되지 않았습니다: 기간이 지정되지 않았습니다"
 
-#: timetracking/time_tracking_ajax.php:482
+#: timetracking/time_tracking_ajax.php:501
 msgid "ERROR: Failed to add timetrack !"
 msgstr "오류: 타임트랙 추가를 실패했습니다 !"
 
@@ -6765,7 +6790,15 @@ msgstr "이슈 상태 역사 표시"
 msgid "Choose a customfield, return the elapsed time for each customField value"
 msgstr ""
 
-#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:296
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
+msgid "Task does not exist !"
+msgstr ""
+
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
+msgid "Task is not in team's projects"
+msgstr ""
+
+#: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
 #, fuzzy
 msgid "Timetrack added by "
 msgstr "시간트랙"
@@ -6818,7 +6851,7 @@ msgstr ""
 msgid "No group defined"
 msgstr "정의된 그룹이 없음"
 
-#: plugins/AdminTools/AdminTools.class.php:67
+#: plugins/AdminTools/AdminTools.class.php:68
 msgid "CodevTT administration tools"
 msgstr "CodevTT 관리 도구"
 
