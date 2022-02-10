@@ -1,0 +1,30 @@
+<table class="invisible">
+   <tr>
+      <td>{t}Title{/t}:</td>
+      <td><input class="pluginAttribute" name="widgetTitle" value="{t}== FDJ == SOP - nbre de cas de tests{/t}"></td>
+   </tr>
+   <tr>
+      <td>Recherche du token par expression régulière:<br><br>
+         Exemples:
+         <table>
+            <tr>
+               <td>Nombre entre _ _</td>
+               <td>/_([0-9]+)_/</td>
+            </tr>
+            <tr>
+               <td>Nombre entre < > </td>
+               <td>/<([0-9]+)>/</td>
+            </tr>
+            <tr>
+               <td>Nombre entre [ ]</td>
+               <td>/\[([0-9]+)\]/</td>
+            </tr>
+            <tr>
+               <td>Nombre entre ** **</td>
+               <td>/\*\*([0-9]+)\*\*/</td>
+            </tr>
+         </table>
+      </td>
+      <td><input class="pluginAttribute" name="regEx" value="/_([0-9]+)_/"></td>
+   </tr>
+</table>

@@ -1,0 +1,219 @@
+<div class="fdjSopNbCasTests">
+<div class="pluginInitFunction"  style="display: none;">fdjSopNbCasTestsJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">fdjSopNbCasTestsJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="fdjSopNbCasTests_taskTypes_form" method="get" action="{$fdjSopNbCasTests_ajaxPhpURL}">
+      <fieldset>
+         <label for="fdjSopNbCasTests_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="fdjSopNbCasTests_startdatepicker datepicker" name="fdjSopNbCasTests_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="fdjSopNbCasTests_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="fdjSopNbCasTests_enddatepicker datepicker" name="fdjSopNbCasTests_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <label for="fdjSopNbCasTests_taskTypes">Type de tâche:</label>
+         <select class="fdjSopNbCasTests_taskTypes" name="fdjSopNbCasTests_taskTypes" title="TaskType">
+            {foreach from=$fdjSopNbCasTests_taskTypes key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+         </select>
+         <input class="fdjSopNbCasTests_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getFdjSopNbCasTests" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+
+<div>
+   <div class="fdjSopNbCasTestsDiv float" align="left"  style="width:95%; margin-top:1em;">
+      {include file="`$fdjSopNbCasTests_ajaxFile`"}
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+      <span class="fdjSopNbCasTestsHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="fdjSopNbCasTestsConfig_link float pointer">
+         <img title="Help" src="images/b_config.png"/>
+      </span>
+   </div>
+   <div class="ui-helper-clearfix"></div>
+
+   <div class="fdjSopNbCasTestsHelpDialog ui-helper-hidden" title="FDJ SOP Nb Tests">
+      <p>
+         RegEx cas de test : <span style="margin-left:1em;">{$fdjSopNbCasTests_regEx_tests}</span><br>
+         RegEx Taches: <span style="margin-left:1em;">{$fdjSopNbCasTests_regEx_taskType}</span>
+      </p>
+   </div>
+   <div class="fdjSopNbCasTestsOptionDialog ui-helper-hidden" title="{t}Options{/t}">
+      <table class="invisible fdjSopNbCasTests_userSettings_table">
+       <thead>
+          <tr>
+             <th class="left"></th>
+             <th class="left">{t}User{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+         {foreach from=$fdjSopNbCasTests_userSettings key=id item=i}
+          <tr class="fdjSopNbCasTests_userSettings_tr">
+             <td class="right"><input class="opt_enabled" type="checkbox" {if $i.enabled}checked="checked"{/if}></td>
+             <td class="left opt_name" title="{$id}">{$i.name}</td>
+             <td class="ui-helper-hidden opt_userid">{$id}</td>
+          </tr>
+         {/foreach}
+       </tbody>
+      </table>
+   </div>
+
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function fdjSopNbCasTestsJsDestroy() {
+      jQuery(".fdjSopNbCasTestsHelpDialog").dialog('destroy').remove();
+   }
+
+   function fdjSopNbCasTests_updateForm() {
+      var form = jQuery('.fdjSopNbCasTests_taskTypes_form');
+
+      // send attributesJsonStr because the ajax php need to know about 'userSettings'
+      var userSettings = {};
+      $(".fdjSopNbCasTests_userSettings_table .fdjSopNbCasTests_userSettings_tr").each(function() {
+         var opt_enabled = $(this).find(".opt_enabled").attr('checked') ? 1 : 0;
+         var opt_userid  = $(this).find(".opt_userid").html();
+
+         var userData = new Object();
+         userData.enabled      = opt_enabled;
+         userSettings[opt_userid] = userData;
+      });
+
+      // save userSettings in the attributesJsonStr so it can be restored
+      var attr = jQuery('.FdjSopNbCasTestsAttr.attributesJsonStr');
+      var attributesJson = jQuery.parseJSON(attr.text());
+      attributesJson['userSettings'] = userSettings;
+
+      // save the selected taskType in the attributesJsonStr so it can be restored
+      // Note: FdjSopNbCasTestsAttr is declared by construction in dashboard.html (plugin attributes are saved by the dashboard)
+      attributesJson['taskType'] = jQuery('.fdjSopNbCasTests_taskTypes').val();
+
+      var attributesJsonStr = JSON.stringify(attributesJson);
+      attr.text(attributesJsonStr);
+      console.log('attributesJsonStr=',attributesJsonStr);
+
+      form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
+   }
+
+
+   function fdjSopNbCasTests_ajaxUpdate() {
+
+      // send attributesJsonStr because the ajax php need to know about 'userSettings'
+      fdjSopNbCasTests_updateForm();
+
+      // ajax call to update indicator
+      var form = jQuery('.fdjSopNbCasTests_taskTypes_form');
+
+      // WARN: Dialogbox is declared in <body>, and there is no parents('.codevttDashboard') !!!
+      //var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+      var dashboardId = $('.codevttDashboard').attr('data-dashboardId');
+      form.find("input[name=dashboardId]").val(dashboardId);
+
+      jQuery.ajax({
+         async: false,
+         type: form.attr('method'),
+         url: form.attr('action'),
+         dataType:"json",
+         data: form.serialize(),
+         success: function(data) {
+            jQuery(".fdjSopNbCasTestsDiv").html(jQuery.trim(data['fdjSopNbCasTests_htmlContent']));
+            // tabs and datatable libs need to be reload
+            jQuery.each(data['fdjSopNbCasTests_jsFiles'], function( index, value ) {
+               jQuery.ajax({
+                     async: false,
+                     url: value,
+                     dataType: "script"
+               });
+            });
+            saveDashboard();
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            if(errorThrown == 'Forbidden') {
+               window.location = '{$page}';
+            }
+         }
+      });
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is add to the dashboard.
+   function fdjSopNbCasTestsJsInit() {
+      console.log('fdjSopNbCasTestsJsInit');
+
+      jQuery(".fdjSopNbCasTestsHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".fdjSopNbCasTestsHelpDialog").dialog("open");
+      });
+      jQuery(".fdjSopNbCasTestsHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".fdjSopNbCasTests_startdatepicker").datepicker("setDate" ,"{$fdjSopNbCasTests_startDate}");
+      var endDatePicker = jQuery(".fdjSopNbCasTests_enddatepicker").datepicker("setDate" ,"{$fdjSopNbCasTests_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+      // ------------------------
+      // on reload with new date range
+      jQuery('.fdjSopNbCasTests_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         fdjSopNbCasTests_ajaxUpdate();
+      });
+
+      jQuery(".fdjSopNbCasTestsConfig_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".fdjSopNbCasTestsOptionDialog").dialog("open");
+      });
+      jQuery(".fdjSopNbCasTestsOptionDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         //hide: "fade",
+         modal: true,
+         buttons: {
+            Ok: function() {
+               // stop form from submitting normally
+               //event.preventDefault();
+
+               fdjSopNbCasTests_ajaxUpdate();
+
+               jQuery(this).dialog( "close" );
+            },
+            Cancel: function() {
+               // TODO restore previous values
+               jQuery(this).dialog( "close" );
+            }
+         }
+      });
+
+   };
+</script>
+</div>

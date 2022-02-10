@@ -1,0 +1,38 @@
+<div class="fdjSopUsines_ajax">
+   <span class="fdjSopUsines_generalErrorMsg error_font">{$fdjSopUsines_generalErrorMsg}</span>
+   {if $fdjSopUsines_tableCatPerJobs}
+   <table class="fdjSopUsinesCatPerJobs">
+      <thead>
+         <tr>
+            <th>Usine</th>
+            <th>{t}Task{/t}</th>
+            <th>{t}Nb Days{/t}</th>
+            <th>%</th>
+            <th>-{$fdjSopUsines_jobMngt.pcent}% Mngt</th>
+         </tr>
+      </thead>
+      <tbody>
+      {foreach from=$fdjSopUsines_tableCatPerJobs key=jobName item=tableCategories}
+         {foreach from=$tableCategories key=catName item=tableCatStats}
+         <tr>
+            <td>{$jobName}</td>
+            <td>{$catName}</td>
+            <td>{$tableCatStats.nbDays}</td>
+            <td>{$tableCatStats.pcent} %</td>
+            <td>{$tableCatStats.pcentNoMngt} %</td>
+         </tr>
+         {/foreach}
+      {/foreach}
+         <tr>
+            <td></td>
+            <td>{$fdjSopUsines_jobMngt.name}</td>
+            <td>-</td>
+            <td>-</td>
+            <td>{$fdjSopUsines_jobMngt.pcent} %</td>
+         </tr>
+      </tbody>
+   </table>
+   {else}
+   {t}No data.{/t}
+   {/if}
+</div>

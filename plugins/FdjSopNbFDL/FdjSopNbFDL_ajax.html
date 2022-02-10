@@ -1,0 +1,194 @@
+<div class="fdjSopNbFDL_ajax">
+   <div id="tabsFdjSopNbFDL" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbFDL_tabOverview">{t}Overview{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbFDL_tabDetailed">{t}Timetracks{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbFDL_tabTasks">{t}Tasks{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbFDL_tabDuplicates">Doublons</a></li>
+      </ul>
+
+      <div id="fdjSopNbFDL_tabOverview">
+         <span class="fdjSopNbFDL_generalErrorMsg error_font">{$fdjSopNbFDL_generalErrorMsg}</span>
+         <div style="margin-top:1em; text-align: center;">
+         <h3>{$fdjSopNbFDL_selectedTaskTypeStr}</h3>
+         </div>
+         <div style="margin-top:1em;" >
+            <table class="invisible">
+               <tr>
+                  <td nowrap><span style='font-weight:bold;'>Total UO</span></td>
+                  <td> : </td>
+                  <td><span style='font-weight:bold;'>{$fdjSopNbFDL_totalUO} UO</span></td>
+               </tr>
+               <tr>
+                  <td nowrap>Valeur d'une FDL</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbFDL_fdlValueInUO} UO</td>
+               </tr>
+               <tr>
+                  <td nowrap>Nb notes sans FDL</td>
+                  <td> : </td>
+                  <td {if (0 != $fdjSopNbFDL_nbNotesNoFDL)}style="color:red"{/if}>{$fdjSopNbFDL_nbNotesNoFDL} / {$fdjSopNbFDL_nbTimetracks}</td>
+               </tr>
+               <tr>
+                  <td nowrap>Nb de composants installés</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbFDL_nbFdlWithDuplicates}</td>
+               </tr>
+               <tr>
+                  <td nowrap>Nb de FDL (hors doublons)</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbFDL_nbFDL}</td>
+               </tr>
+               {if (3 != $fdjSopNbFDL_selectedTaskType)}
+               <tr>
+                  <td nowrap>Nb de FDL doublons</td>
+                  <td> : </td>
+                  <td {if (0 != $fdjSopNbFDL_nbDuplicatedFDL)}style="color:orange"{/if}>{$fdjSopNbFDL_nbDuplicatedFDL} &nbsp;&nbsp; {if (0 != $fdjSopNbFDL_nbDuplicatedFDL)}(potentielles "Reproduction d'une installation"){/if}</td>
+               </tr>
+               {/if}
+               <tr>
+                  <td nowrap>FDL en doublon</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbFDL_listDuplicatedFDL}</td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+               </tr>
+               <tr>
+                  <td>Valeur de référence d'une UO</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbFDL_uoInManDaysRef} j/h</td>
+               </tr>
+               <tr>
+                  <td>Valeur réelle d'une UO</td>
+                  <td> : </td>
+                  <td {if ($fdjSopNbFDL_uoPerfColor)}style="color:{$fdjSopNbFDL_uoPerfColor}"{/if}>{$fdjSopNbFDL_uoInManDaysReal} j/h</td>
+               </tr>
+               <tr>
+                  <td>Ratio</td>
+                  <td> : </td>
+                  <td {if ($fdjSopNbFDL_uoPerfColor)}style="color:{$fdjSopNbFDL_uoPerfColor}"{/if}>{$fdjSopNbFDL_uoPerf}</td>
+               </tr>
+            </table>
+         </div>
+         <div>
+         <table class="fdjSopNbFDLOverviewTable datatable_csv">
+            <thead>
+               <tr>
+                  <th>Env</th>
+                  <th>Nb FDL</th>
+                  <th>UO calc</th>
+                  <th>Liste FDL</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$fdjSopNbFDL_overviewArray key=id item=tableLine}
+               <tr>
+                  <td>{$tableLine.env}</td>
+                  <td>{$tableLine.nbFDL}</td>
+                  <td>{$tableLine.nbCalculatedUO}</td>
+                  <td>{$tableLine.listFDL}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+
+      <div id="fdjSopNbFDL_tabDetailed">
+         <div style="margin-top: 1em;">
+         <table class="fdjSopNbFDLValuesTable datatable_csv">
+            <thead>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>{t}User{/t}</th>
+                  <th>{t}Task{/t}</th>
+                  <!--th>Nb UO saisis</th-->
+                  <th>Nb UO calc</th>
+                  <th>Nb FDL</th>
+                  <th>Liste FDL</th>
+                  <th>Note</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$fdjSopNbFDL_timetracksArray key=id item=tableLine}
+               <tr>
+                  <td nowrap>{$tableLine.ttDate}</td>
+                  <td>{$tableLine.user}</td>
+                  <td>{$tableLine.issueId}</td>
+                  <!--td>{$tableLine.ttUO}</td-->
+                  <td>{$tableLine.ttCalculatedUO}</td>
+                  <td>{$tableLine.nbFDL}</td>
+                  <td>{$tableLine.listFDL}</td>
+                  <td>{$tableLine.ttNote}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+      <div id="fdjSopNbFDL_tabTasks">
+         <div style="margin-top: 1em;">
+         <span>Tâches prises en compte dans le calcul des FDL :</span>
+         <table class="fdjSopNbFDLTasksTable datatable_csv">
+            <thead>
+               <tr>
+                  <th>{t}TaskId{/t}</th>
+                  <th>{t}Summary{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$fdjSopNbFDL_selectedTasks key=id item=tableLine}
+               <tr>
+                  <td>{$tableLine.taskId}</td>
+                  <td>{$tableLine.summary}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+      <div id="fdjSopNbFDL_tabDuplicates">
+         <div style="margin-top: 1em;">
+         <span>La recherche de doublons se fait dans les commandes suivantes:</span>
+         <table class="fdjSopNbFDLPrevCommandsTable invisible">
+            <tbody>
+               {foreach from=$fdjSopNbFDL_prevCommands key=id item=cmdName}
+               <tr>
+                  <td title="{$id}">{$cmdName}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+         <div style="margin-top: 1em;">
+         <span>Liste des imputations à l'origine des doublons :</span>
+         <table class="fdjSopNbFDLPrevDupTimetracksTable datatable_csv">
+            <thead>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>{t}Command{/t}</th>
+                  <th>{t}Task{/t}</th>
+                  <th>{t}User{/t}</th>
+                  <th>{t}Note{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$fdjSopNbFDL_prevDupTimetracks key=id item=tableLine}
+               <tr>
+                  <td>{$tableLine.ttDate}</td>
+                  <td>{$tableLine.cmdName}</td>
+                  <td>{$tableLine.issueId}</td>
+                  <td>{$tableLine.user}</td>
+                  <td>{$tableLine.ttNote}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+   </div>
+</div>
+

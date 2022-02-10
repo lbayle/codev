@@ -1,0 +1,129 @@
+<div class="fdjSopNbSupport_ajax">
+{if $fdjSopNbSupport_userActivityArray}
+   <div id="fdjSopNbSupport_userActivity">
+
+      <div>
+         <table class="invisible">
+            <tbody>
+               <tr>
+                  <th>Support HIA</th>
+                  <td>:</td>
+                  <td>{$fdjSopNbSupport_pcentSupportHIA}%</td>
+                  <!--td>de l'activité globale sur période</td-->
+               </tr>
+               <tr>
+                  <th>Support Utilisateur</th>
+                  <td>:</td>
+                  <td>{$fdjSopNbSupport_pcentSupportUser}%</td>
+                  <!--td>de l'activité globale sur période</td-->
+               </tr>
+            </tbody>
+         </table>
+      </div>
+
+      <div id="tabsFdjSopNbSupport" class="tabs {$ui_tabs_jquery}" style="margin-top: 1em;">
+         <ul class="{$ui_tabs_jquery_ul}">
+            <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbSupport_tabUsers">{t}Users{/t}</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbSupport_tabTasksHIA">Tâches Support HIA</a></li>
+            <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbSupport_tabTasksUsers">Tâches Support Utilisateur</a></li>
+         </ul>
+
+         <div id="fdjSopNbSupport_tabUsers">
+            <div style="margin-top: 1em;">
+               <table class="fdjSopNbSupportValuesTable datatable_minimal">
+                  <thead>
+                     <tr>
+                        <th>{t}User{/t}</th>
+                        <th>Support HIA</th>
+                        <th>Support Utilisateur</th>
+                        <th>Autre</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {foreach from=$fdjSopNbSupport_userActivityArray key=id item=tableLine}
+                     <tr>
+                        <td title="{$id}">{$tableLine.userName}</td>
+                        <td>{$tableLine.elapsedSupportHIA}</td>
+                        <td>{$tableLine.elapsedSupportUser}</td>
+                        <td>{$tableLine.elapsedOther}</td>
+                     </tr>
+                     {/foreach}
+                  </tbody>
+               <tfoot>
+                  <tr>
+                     <td>{t}TOTAL{/t}</td>
+                     <td>{$fdjSopNbSupport_totalElapsedSupportHIA}</td>
+                     <td>{$fdjSopNbSupport_totalElapsedSupportUser}</td>
+                     <td>{$fdjSopNbSupport_totalElapsedOther}</td>
+                  </tr>
+               </tfoot>
+               </table>
+            </div>
+         </div>
+
+         <div id="fdjSopNbSupport_tabTasksHIA">
+            <div style="margin-top: 1em;">
+            <table class="datatable_minimal">
+               <thead>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                     <th>{t}Elapsed{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$fdjSopNbSupport_taskListSupportHIA key=id item=tableLine}
+                  <tr>
+                     <td>{$tableLine.taskId}</td>
+                     <td>{$tableLine.summary}</td>
+                     <td>{$tableLine.elapsed}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+               <tfoot>
+                  <tr>
+                     <td>{t}TOTAL{/t}</td>
+                     <td></td>
+                     <td>{$fdjSopNbSupport_totalElapsedSupportHIA}</td>
+                  </tr>
+               </tfoot>
+            </table>
+            </div>
+         </div>
+
+         <div id="fdjSopNbSupport_tabTasksUsers">
+            <div style="margin-top: 1em;">
+            <table class="datatable_minimal">
+               <thead>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                     <th>{t}Elapsed{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$fdjSopNbSupport_taskListSupportUser key=id item=tableLine}
+                  <tr>
+                     <td>{$tableLine.taskId}</td>
+                     <td>{$tableLine.summary}</td>
+                     <td>{$tableLine.elapsed}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+               <tfoot>
+                  <tr>
+                     <td>{t}TOTAL{/t}</td>
+                     <td></td>
+                     <td>{$fdjSopNbSupport_totalElapsedSupportUser}</td>
+                  </tr>
+               </tfoot>
+            </table>
+            </div>
+         </div>
+      </div>
+   </div>
+{else}
+{t}No data.{/t}
+{/if}
+</div>
+

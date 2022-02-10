@@ -1,0 +1,35 @@
+<table class="invisible">
+   <tr>
+      <td>{t}Title{/t}:</td>
+      <td><input class="pluginAttribute" name="widgetTitle" value="== FDJ == SOP - nbre d'installations v2"></td>
+   </tr>
+   <tr>
+      <td>Nombre d'UO pour une installation:<br><br>
+      </td>
+      <td><input class="pluginAttribute" name="valueInUO" value="1"></td>
+   </tr>
+   <tr>
+      <td>Recherche du nbre d'installations par expression régulière:<br><br>
+         Exemples:
+         <table>
+            <tr>
+               <td>Nombre entre _ _</td>
+               <td>/_([0-9]+)_/</td>
+            </tr>
+            <tr>
+               <td>Nombre entre < > </td>
+               <td>/<([0-9]+)>/</td>
+            </tr>
+            <tr>
+               <td>Nombre entre [ ]</td>
+               <td>/\[([0-9]+)\]/</td>
+            </tr>
+            <tr>
+               <td>Nombre entre ** **</td>
+               <td>/\*\*([0-9]+)\*\*/</td>
+            </tr>
+         </table>
+      </td>
+      <td><input class="pluginAttribute" name="regEx_install" value="/_([0-9]+)_/"></td>
+   </tr>
+</table>

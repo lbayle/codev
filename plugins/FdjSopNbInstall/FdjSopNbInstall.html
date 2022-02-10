@@ -1,0 +1,215 @@
+<div class="FdjSopNbInstall">
+<div class="pluginInitFunction"  style="display: none;">fdjSopNbInstallJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">fdjSopNbInstallJsDestroy</div>
+
+<div align="left" style="margin-top:1em;">
+   <form class="fdjSopNbInstall_taskTypes_form" method="get" action="{$fdjSopNbInstall_ajaxPhpURL}">
+      <fieldset>
+         <label for="fdjSopNbInstall_startdatepicker">{t}From{/t}:</label>
+         <input type="text" class="fdjSopNbInstall_startdatepicker datepicker" name="fdjSopNbInstall_startdate" autocomplete="off" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="fdjSopNbInstall_enddatepicker">{t}To{/t}:</label>
+         <input type="text" class="fdjSopNbInstall_enddatepicker datepicker" name="fdjSopNbInstall_enddate" autocomplete="off" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <input class="fdjSopNbInstall_submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getFdjSopNbInstall" />
+         <input type="hidden" name="attributesJsonStr" value="" />
+         <input type="hidden" name="dashboardId" value="" />
+      </fieldset>
+   </form>
+</div>
+<div>
+   <div class="fdjSopNbInstallDiv float" align="left" style="width:95%; margin-top:1em;">
+      {include file="`$fdjSopNbInstall_ajaxFile`"}
+   </div>
+
+   <div class="floatr" style="margin-top:1em; width: 16px">
+      <span class="fdjSopNbInstallHelpDialog_link float pointer">
+         <img title="Help" src="images/help_icon.gif"/>
+      </span>
+      <span class="fdjSopNbInstallConfig_link float pointer">
+         <img title="Help" src="images/b_config.png"/>
+      </span>
+   </div>
+   <div class="ui-helper-clearfix"></div>
+
+   <div class="fdjSopNbInstallHelpDialog ui-helper-hidden" title="FDJ SOP Calcul Nb FDL">
+      <p>
+         RegEx FDL : <span style="margin-left:1em;">{$fdjSopNbInstall_regEx_FDL}</span><br>
+         RegEx Taches: <span style="margin-left:1em;">{$fdjSopNbInstall_regEx_taskType}</span>
+      </p>
+      <p>
+         <br>
+         La recherche des doublons se fait sur les commandes au status < 'closed'
+      </p>
+   </div>
+
+   <div class="fdjSopNbInstallOptionDialog ui-helper-hidden" title="{t}Options{/t}">
+      <table class="invisible fdjSopNbInstall_userSettings_table">
+       <thead>
+          <tr>
+             <th class="left"></th>
+             <th class="left">{t}User{/t}</th>
+          </tr>
+       </thead>
+       <tbody>
+         {foreach from=$fdjSopNbInstall_userSettings key=id item=i}
+          <tr class="fdjSopNbInstall_userSettings_tr">
+             <td class="right"><input class="opt_enabled" type="checkbox" {if $i.enabled}checked="checked"{/if}></td>
+             <td class="left opt_name" title="{$id}">{$i.name}</td>
+             <td class="ui-helper-hidden opt_userid">{$id}</td>
+          </tr>
+         {/foreach}
+       </tbody>
+      </table>
+   </div>
+
+
+</div>
+
+<script type="text/javascript">
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function fdjSopNbInstallJsDestroy() {
+      jQuery(".fdjSopNbInstallHelpDialog").dialog('destroy').remove();
+   }
+
+   function fdjSopNbInstall_updateForm() {
+      var form = jQuery('.fdjSopNbInstall_taskTypes_form');
+
+      // send attributesJsonStr because the ajax php need to know about 'userSettings'
+      var userSettings = {};
+      $(".fdjSopNbInstall_userSettings_table .fdjSopNbInstall_userSettings_tr").each(function() {
+         var opt_enabled = $(this).find(".opt_enabled").attr('checked') ? 1 : 0;
+         var opt_userid  = $(this).find(".opt_userid").html();
+
+         var userData = new Object();
+         userData.enabled      = opt_enabled;
+         userSettings[opt_userid] = userData;
+      });
+
+      // save userSettings in the attributesJsonStr so it can be restored
+      var attr = jQuery('.FdjSopNbInstallAttr.attributesJsonStr');
+      var attributesJson = jQuery.parseJSON(attr.text());
+      attributesJson['userSettings'] = userSettings;
+
+      // save the valueInUO in the attributesJsonStr so it can be restored
+      attributesJson['valueInUO'] = {$fdjSopNbInstall_valueInUO};
+
+
+      var attributesJsonStr = JSON.stringify(attributesJson);
+      attr.text(attributesJsonStr);
+      console.log('attributesJsonStr=',attributesJsonStr);
+
+      form.find('input[name=attributesJsonStr]').val(attributesJsonStr);
+   }
+
+
+   function fdjSopNbInstall_ajaxUpdate() {
+
+      // send attributesJsonStr because the ajax php need to know about 'userSettings'
+      fdjSopNbInstall_updateForm();
+
+      // ajax call to update indicator
+      var form = jQuery('.fdjSopNbInstall_taskTypes_form');
+
+      // WARN: Dialogbox is declared in <body>, and there is no parents('.codevttDashboard') !!!
+      //var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
+      var dashboardId = $('.codevttDashboard').attr('data-dashboardId');
+      form.find("input[name=dashboardId]").val(dashboardId);
+
+      jQuery.ajax({
+         async: false,
+         type: form.attr('method'),
+         url: form.attr('action'),
+         dataType:"json",
+         data: form.serialize(),
+         success: function(data) {
+            jQuery(".fdjSopNbInstallDiv").html(jQuery.trim(data['fdjSopNbInstall_htmlContent']));
+            // tabs and datatable libs need to be reload
+            jQuery.each(data['fdjSopNbInstall_jsFiles'], function( index, value ) {
+               jQuery.ajax({
+                     async: false,
+                     url: value,
+                     dataType: "script"
+               });
+            });
+            saveDashboard();
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            if(errorThrown == 'Forbidden') {
+               window.location = '{$page}';
+            }
+         }
+      });
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is add to the dashboard.
+   function fdjSopNbInstallJsInit() {
+      console.log('fdjSopNbInstallJsInit');
+
+      jQuery(".fdjSopNbInstallHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".fdjSopNbInstallHelpDialog").dialog("open");
+      });
+      jQuery(".fdjSopNbInstallHelpDialog").dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+      // datepicker
+
+      {if $locale != en}
+      jQuery.datepicker.setDefaults(jQuery.datepicker.regional['{$locale}']);
+      {/if}
+
+      // Set the date
+      var startDatePicker = jQuery(".fdjSopNbInstall_startdatepicker").datepicker("setDate" ,"{$fdjSopNbInstall_startDate}");
+      var endDatePicker = jQuery(".fdjSopNbInstall_enddatepicker").datepicker("setDate" ,"{$fdjSopNbInstall_endDate}");
+
+      // Add range date
+      startDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+      });
+      endDatePicker.datepicker("option","beforeShow",function(input) {
+         jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+      });
+
+      // ------------------------
+      // on reload with new date range
+      jQuery('.fdjSopNbInstall_submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+         fdjSopNbInstall_ajaxUpdate();
+      });
+
+      jQuery(".fdjSopNbInstallConfig_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".fdjSopNbInstallOptionDialog").dialog("open");
+      });
+      jQuery(".fdjSopNbInstallOptionDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         //hide: "fade",
+         modal: true,
+         buttons: {
+            Ok: function() {
+               // stop form from submitting normally
+               //event.preventDefault();
+
+               fdjSopNbInstall_ajaxUpdate();
+
+               jQuery(this).dialog( "close" );
+            },
+            Cancel: function() {
+               // TODO restore previous values
+               jQuery(this).dialog( "close" );
+            }
+         }
+      });
+
+   };
+</script>
+</div>

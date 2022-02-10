@@ -1,0 +1,126 @@
+<div class="fdjSopNbCasTests_ajax">
+
+   <div id="tabsFdjSopNbCasTests" class="float tabs {$ui_tabs_jquery}" style="width:95%; margin-top:1em;" >
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbCasTests_tabOverview">{t}Overview{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbCasTests_tabDetailed">{t}Detailed{/t}</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#fdjSopNbCasTests_tabTasks">{t}Tasks{/t}</a></li>
+      </ul>
+
+      <div id="fdjSopNbCasTests_tabOverview">
+         <span class="fdjSopNbCasTests_generalErrorMsg error_font">{$fdjSopNbCasTests_generalErrorMsg}</span>
+         <div style="margin-top:1em; text-align: center;">
+         <h3>{$fdjSopNbCasTests_selectedTaskTypeStr}</h3>
+         </div>
+         <div>
+            <table class="invisible">
+               <tr>
+                  <td><span style="font-weight:bold">Total UO</span></td>
+                  <td> : </td>
+                  <td><span style="font-weight:bold">{$fdjSopNbCasTests_totalUO} UO</span></td>
+               </tr>
+               <tr>
+                  <td><span style="font-weight:bold">Nombre de tests</span></td>
+                  <td> : </td>
+                  <td><span style="font-weight:bold">{$fdjSopNbCasTests_nbTests}</span></td>
+               </tr>
+               <tr>
+                  <td>Valeur d'un test</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbCasTests_testValueInUO} UO</td>
+               </tr>
+               <tr>
+                  <td>Nombre d'imputations</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbCasTests_nbTimetracks}</td>
+               </tr>
+               <tr>
+                  <td>Nombre d'imputations avec tests</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbCasTests_nbTimetracksWithTests}</td>
+               </tr>
+               <tr>
+                  <td>Nombre d'imputations sans tests</td>
+                  <td> : </td>
+                  <td {if (0 != $fdjSopNbCasTests_nbTimetracksNoTests)}style="color:red"{/if}>{$fdjSopNbCasTests_nbTimetracksNoTests}</td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+               </tr>
+               <tr>
+                  <td>Valeur de référence d'une UO</td>
+                  <td> : </td>
+                  <td>{$fdjSopNbCasTests_uoInManDaysRef} j/h</td>
+               </tr>
+               <tr>
+                  <td>Valeur réelle d'une UO</td>
+                  <td> : </td>
+                  <td {if ($fdjSopNbCasTests_uoPerfColor)}style="color:{$fdjSopNbCasTests_uoPerfColor}"{/if}>{$fdjSopNbCasTests_uoInManDaysReal} j/h</td>
+               </tr>
+               <tr>
+                  <td>Ratio</td>
+                  <td> : </td>
+                  <td {if ($fdjSopNbCasTests_uoPerfColor)}style="color:{$fdjSopNbCasTests_uoPerfColor}"{/if}>{$fdjSopNbCasTests_uoPerf}</td>
+                  <td></td>
+               </tr>
+            </table>
+         </div>
+      </div>
+
+      <div id="fdjSopNbCasTests_tabDetailed">
+         <div style="margin-top: 1em;">
+         <table class="fdjSopNbCasTestsValuesTable datatable_csv">
+            <thead>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>{t}User{/t}</th>
+                  <th>{t}Task{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <!--th>Nb UO saisis</th-->
+                  <th>Nb UO calc</th>
+                  <th>Nb Tests</th>
+                  <th>Note</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$fdjSopNbCasTests_timetracksArray key=id item=tableLine}
+               <tr>
+                  <td>{$tableLine.ttDate}</td>
+                  <td>{$tableLine.user}</td>
+                  <td>{$tableLine.issueId}</td>
+                  <td>{$tableLine.elapsed}</td>
+                  <!--td>{$tableLine.ttUO}</td-->
+                  <td>{$tableLine.ttCalculatedUO}</td>
+                  <td>{$tableLine.nbTests}</td>
+                  <td>{$tableLine.ttNote}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+      <div id="fdjSopNbCasTests_tabTasks">
+         <div style="margin-top: 1em;">
+         <table class="fdjSopNbCasTestsTasksTable datatable_csv">
+            <thead>
+               <tr>
+                  <th>{t}TaskId{/t}</th>
+                  <th>{t}Summary{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$fdjSopNbCasTests_selectedTasks key=id item=tableLine}
+               <tr>
+                  <td>{$tableLine.taskId}</td>
+                  <td>{$tableLine.summary}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+   </div>
+</div>
+
