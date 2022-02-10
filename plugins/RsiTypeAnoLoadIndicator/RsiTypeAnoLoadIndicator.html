@@ -1,0 +1,180 @@
+<div class="rsiTypeAnoLoadIndicator">
+<div class="pluginInitFunction"  style="display: none;">rsiTypeAnoLoadIndicatorJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">rsiTypeAnoLoadIndicatorJsDestroy</div>
+{if isset($rsiTypeAnoLoadIndicator_jqplotData)}
+<div>
+   <div class="rsiTypeAnoLoadIndicatorChart area_chart chart inlineBlock" style="width:95%;"></div>
+   <div class="inlineBlock" style="margin-top:1em;">
+      <ul>
+         <li>
+            <span class="rsiTypeAnoLoadIndicatorHelpDialog_link pointer">
+               <img title="{t}Help{/t}" src="images/help_icon.gif"/>
+            </span>
+         </li>
+         <li>
+            <span class="rsiTypeAnoLoadIndicatorValuesDialog_link pointer">
+               <img title="{t}show values{/t}" src="images/b_browse.png"/>
+            </span>
+         </li>
+         <li>
+            <span class="pointer">
+               <img title="{t}Export consommé{/t}" src="images/b_export_xls.gif" onclick="$('.rsiTypeAnoLoadIndicatorValuesTable').table2CSV({literal}{{/literal}filename : 'RsiTypeAno_consomme.csv'{literal}}{/literal})"/>
+            </span>
+         </li>
+         <li>
+            <span class="pointer">
+               <img title="{t}Export nombre d'anomalies{/t}" src="images/b_export_xls.gif" onclick="$('.rsiTypeAnoLoadIndicatorValues2Table').table2CSV({literal}{{/literal}filename : 'RsiTypeAno_nbAno.csv'{literal}}{/literal})"/>
+            </span>
+         </li>
+         <li>
+            <span class="pointer">
+               <img title="{t}Export liste d'anomalies{/t}" src="images/b_export_xls.gif" onclick="$('.rsiTypeAnoLoadIndicatorValues3Table').table2CSV({literal}{{/literal}filename : 'RsiTypeAno_liste.csv'{literal}}{/literal})"/>
+            </span>
+         </li>
+      </ul>
+   </div>
+   <div class="rsiTypeAnoLoadIndicatorHelpDialog ui-helper-hidden" title="Consommé par type d'anomalie">
+      <p><strong>{t}Description{/t}</strong><br>
+         TODO
+      </p>
+   </div>
+   
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+<div class="rsiTypeAnoLoadIndicatorValuesDialog ui-helper-hidden" title="Consommé par type d'anomalie">
+
+   <div id="rsiTypeAnoLoadIndicatorValuesTabs" class="tabs {$ui_tabs_jquery}" style="margin-top:2em;">
+      <ul class="{$ui_tabs_jquery_ul}">
+         <li class="{$ui_tabs_jquery_li}"><a href="#rsiTypeAnoLoadIndicatorValues_tabConso">Consommé</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#rsiTypeAnoLoadIndicatorValues_tabNbre">Nombre d'ano traitées</a></li>
+         <li class="{$ui_tabs_jquery_li}"><a href="#rsiTypeAnoLoadIndicatorValues_tabTaches">Liste d'anomalies</a></li>
+      </ul>
+
+      <div id="rsiTypeAnoLoadIndicatorValues_tabConso">
+         <table class="rsiTypeAnoLoadIndicatorValuesTable">
+            <thead>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>Ano Recette</th>
+                  <th>Ano Production</th>
+                  <th>Ano Autre</th>
+                  <th>TOTAL</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$rsiTypeAnoLoadIndicator_tableData key=id item=i}
+               <tr>
+                  <td class="right">{$id}</td>
+                  <td class="right">{$i.anoRecetteElapsed}</td>
+                  <td class="right">{$i.anoProductionElapsed}</td>
+                  <td class="right">{$i.anoOtherElapsed}</td>
+                  <td class="right">{$i.anoTotalElapsed}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+      </div>
+      <div id="rsiTypeAnoLoadIndicatorValues_tabNbre">
+         <table class="rsiTypeAnoLoadIndicatorValues2Table">
+            <thead>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>Ano Recette</th>
+                  <th>Ano Production</th>
+                  <th>Ano Autre</th>
+                  <th>TOTAL</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$rsiTypeAnoLoadIndicator_tableData key=id item=i}
+               <tr>
+                  <td class="right">{$id}</td>
+                  <td class="right">{$i.anoRecetteNbIssues}</td>
+                  <td class="right">{$i.anoProductionNbIssues}</td>
+                  <td class="right">{$i.anoOtherNbIssues}</td>
+                  <td class="right">{$i.anoTotalNbIssues}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+      </div>
+      <div id="rsiTypeAnoLoadIndicatorValues_tabTaches">
+         <table class="rsiTypeAnoLoadIndicatorValues3Table">
+            <thead>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>Ano Recette</th>
+                  <th>Ano Production</th>
+                  <th>Ano Autre</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$rsiTypeAnoLoadIndicator_tableData key=id item=i}
+               <tr>
+                  <td class="right">{$id}</td>
+                  <td class="right">{$i.anoRecetteBugidList}</td>
+                  <td class="right">{$i.anoProductionBugidList}</td>
+                  <td class="right">{$i.anoOtherBugidList}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+{else}
+   {t}No data.{/t}
+{/if}
+
+<script type="text/javascript">
+
+   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
+   function rsiTypeAnoLoadIndicatorJsDestroy() {
+      jQuery(".rsiTypeAnoLoadIndicatorHelpDialog").dialog('destroy').remove();
+      jQuery(".rsiTypeAnoLoadIndicatorValuesDialog").dialog('destroy').remove();
+   }
+
+   // this function will be run at jQuery(document).ready (see dashboard.html) or
+   // when a new widjet is added to the dashboard.
+   function rsiTypeAnoLoadIndicatorJsInit() {
+
+      {if $rsiTypeAnoLoadIndicator_jqplotData}
+
+      jQuery(".rsiTypeAnoLoadIndicatorHelpDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".rsiTypeAnoLoadIndicatorHelpDialog").dialog("open");
+      });
+      jQuery(".rsiTypeAnoLoadIndicatorHelpDialog").dialog({
+         autoOpen: false,
+         hide: "fade"
+      });
+
+      jQuery(".rsiTypeAnoLoadIndicatorValuesDialog_link").click(function(e) {
+         e.preventDefault();
+         jQuery(".rsiTypeAnoLoadIndicatorValuesDialog").dialog("open");
+      });
+      jQuery(".rsiTypeAnoLoadIndicatorValuesDialog").dialog({
+         autoOpen: false,
+         height: 'auto',
+         width: "auto",
+         hide: "fade"
+      });
+
+      // ------------------------
+      // display initial chart
+      var chart = jQuery('.rsiTypeAnoLoadIndicatorChart');
+      var chartoptions = chart.data('plotoptions');
+
+      chartoptions.axes.xaxis.ticks = {$rsiTypeAnoLoadIndicator_jqplotXaxis};
+      chartoptions.legend.location = 'nw';
+      chartoptions.legend.placement = 'inside';
+      chartoptions.seriesColors = {$rsiTypeAnoLoadIndicator_jqplotSeriesColors};
+      chartoptions.legend.labels = {$rsiTypeAnoLoadIndicator_jqplotLegendLabels};
+
+      chart.jqplot({$rsiTypeAnoLoadIndicator_jqplotData}, chartoptions);
+      {/if}
+   }
+
+</script>
+</div>
