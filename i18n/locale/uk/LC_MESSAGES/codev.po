@@ -12,7 +12,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-02-10 12:01:17+0000\n"
+"PO-Revision-Date: 2022-02-14 12:01:11+0000\n"
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -839,7 +839,7 @@ msgstr "Діяльність проєктів"
 #. tpl/menu/global_menu.html
 #. tpl/missing_timetracks.html
 msgid "Missing Timetracks"
-msgstr ""
+msgstr "Відсутні хронометри"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
@@ -1872,7 +1872,7 @@ msgstr "Опис помилки"
 
 #. tpl/missing_timetracks.html
 msgid "Missing timetracks per user"
-msgstr ""
+msgstr "Відсутні хронометри для кожного користувача"
 
 #. tpl/missing_timetracks.html
 #. tpl/planning_report.html
@@ -1894,11 +1894,11 @@ msgstr "робочі дні"
 
 #. tpl/missing_timetracks.html
 msgid "Missing timetracks"
-msgstr ""
+msgstr "Відсутні хронометри"
 
 #. tpl/missing_timetracks.html
 msgid "Missing days"
-msgstr ""
+msgstr "Відсутні дні"
 
 #. tpl/missing_timetracks.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
@@ -2201,7 +2201,7 @@ msgstr "Вилучити"
 #. tpl/time_tracking.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Enter a keyword or *** to display all..."
-msgstr ""
+msgstr "Введіть ключове слово або ***, щоб відобразити всі…"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -3740,7 +3740,7 @@ msgstr "Документація доступна на "
 
 #. tpl/doc.html
 msgid "CodevTT Documentation"
-msgstr ""
+msgstr "Документація CodevTT"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
@@ -5339,7 +5339,7 @@ msgstr "користувачі"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Change Mantis issue id"
-msgstr ""
+msgstr "Змінити ідентифікатор проблеми Mantis"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
@@ -5844,11 +5844,11 @@ msgstr "Проєкт не визначений у списку проєктів 
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr ""
+msgstr "Будь ласка, перемістіть файл конфігурації до: "
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr ""
+msgstr "Будь ласка, вилучте: "
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
@@ -6276,7 +6276,7 @@ msgstr "Інструкції щодо оновлення"
 
 #: install/install.php:132
 msgid "If you're upgrading from an older CodevTT version, do the following steps:"
-msgstr ""
+msgstr "Якщо ви оновлюєтеся зі старішої версії CodevTT, виконайте такі дії:"
 
 #: install/install.php:134
 msgid "Upgrade Mantis first ! (not mandatory)"
@@ -6284,7 +6284,7 @@ msgstr "Спочатку поновіть Mantis! (не обов'язково)"
 
 #: install/install.php:135
 msgid "Backup your database"
-msgstr ""
+msgstr "Створіть резервну копію вашої бази даних"
 
 #: install/install.php:136
 msgid "Copy CodevTT configuration files from your previous installation"
@@ -6775,11 +6775,11 @@ msgstr "Виберіть користувацьке поле, поверніть
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
-msgstr ""
+msgstr "Завдання не існує!"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
 msgid "Task is not in team's projects"
-msgstr ""
+msgstr "Завдання не в проєктах команди"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
 msgid "Timetrack added by "
