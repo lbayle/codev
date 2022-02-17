@@ -6,6 +6,7 @@
 # Author: Beta16
 # Author: Dansita
 # Author: Fitoschido
+# Author: GpieroMW
 # Author: Joetaras
 # Author: Margherita.mignanelli
 # Author: Ontsed
@@ -20,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-02-10 12:01:15+0000\n"
+"PO-Revision-Date: 2022-02-17 12:00:57+0000\n"
 "Last-Translator: NSV <gianluca@pierri.org>\n"
 "Language-Team: Italian <gianluca.pierri@linfanet.it>\n"
 "Language: it_it\n"
@@ -4385,9 +4386,8 @@ msgid "status changed from 'resolved' to any higher status (and still in this st
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "% Rejected"
-msgstr "% Riaperte"
+msgstr "% Rifiutato"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
