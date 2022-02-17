@@ -57,6 +57,7 @@
   position: absolute;
   left: -100000px;
   width: 100%;
+  top: 8px;
   z-index: 1051; }
 
 .select2-results {
@@ -83,6 +84,7 @@
   border-bottom-right-radius: 0; }
 
 .select2-container--open .select2-dropdown--below {
+  left: 8px;
   border-top: none;
   border-top-left-radius: 0;
   border-top-right-radius: 0; }
