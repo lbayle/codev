@@ -4,6 +4,7 @@
 # Author: Alex Khimich
 # Author: DDPAT
 # Author: Green Zero
+# Author: Ice bulldog
 # Author: Movses
 # Author: SimondR
 # Author: Visem
@@ -12,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-02-14 12:01:11+0000\n"
+"PO-Revision-Date: 2022-02-24 12:01:03+0000\n"
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
