@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-02-10 12:01:15+0000\n"
+"PO-Revision-Date: 2022-02-28 12:01:20+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5864,7 +5864,7 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr ""
+msgstr "제거해 주십시오: "
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
@@ -6302,7 +6302,7 @@ msgstr "먼저 Mantis를 업그레이드하십시오! (필수는 아님)"
 
 #: install/install.php:135
 msgid "Backup your database"
-msgstr ""
+msgstr "내 데이터베이스 백업"
 
 #: install/install.php:136
 msgid "Copy CodevTT configuration files from your previous installation"
