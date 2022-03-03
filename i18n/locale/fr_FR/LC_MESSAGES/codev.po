@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-02-10 12:01:14+0000\n"
+"PO-Revision-Date: 2022-03-03 12:01:13+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -2882,7 +2882,7 @@ msgstr "Exporter"
 
 #. tpl/scheduler.html
 msgid "Assignment"
-msgstr "Affectations"
+msgstr "Affectation"
 
 #. tpl/scheduler.html
 msgid "RAF"
@@ -6220,7 +6220,7 @@ msgstr "CodevTT vérifie si une mise à jour est disponible"
 
 #: install/install_step1.php:264
 msgid "Enable proxy"
-msgstr "Activer le proxy"
+msgstr "Activer le serveur mandataire (proxy)"
 
 #: install/install_step1.php:265
 msgid "Server"
