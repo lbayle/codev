@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-02-10 12:01:18+0000\n"
+"PO-Revision-Date: 2022-03-14 12:01:22+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -838,7 +838,7 @@ msgstr "專案活動"
 #. tpl/menu/global_menu.html
 #. tpl/missing_timetracks.html
 msgid "Missing Timetracks"
-msgstr ""
+msgstr "缺少時間表"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
@@ -1870,7 +1870,7 @@ msgstr "錯誤描述"
 
 #. tpl/missing_timetracks.html
 msgid "Missing timetracks per user"
-msgstr ""
+msgstr "缺少各使用者的時間表"
 
 #. tpl/missing_timetracks.html
 #. tpl/planning_report.html
@@ -1892,11 +1892,11 @@ msgstr "工作日"
 
 #. tpl/missing_timetracks.html
 msgid "Missing timetracks"
-msgstr ""
+msgstr "缺少時間表"
 
 #. tpl/missing_timetracks.html
 msgid "Missing days"
-msgstr ""
+msgstr "缺少日"
 
 #. tpl/missing_timetracks.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
@@ -2198,7 +2198,7 @@ msgstr "移除"
 #. tpl/time_tracking.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Enter a keyword or *** to display all..."
-msgstr ""
+msgstr "輸入關鍵字或是 *** 來全部顯示出…"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
@@ -3737,7 +3737,7 @@ msgstr "文件可用，位於\\"
 
 #. tpl/doc.html
 msgid "CodevTT Documentation"
-msgstr ""
+msgstr "CodevTT 文件"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
@@ -5331,7 +5331,7 @@ msgstr "使用者"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Change Mantis issue id"
-msgstr ""
+msgstr "更改 Mantis 問題 ID"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
@@ -5836,11 +5836,11 @@ msgstr "專案未定義在團隊的專案清單裡"
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr ""
+msgstr "請移動設定檔案到：\\"
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr ""
+msgstr "請移除：\\"
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
@@ -6269,7 +6269,7 @@ msgstr "更新指示"
 
 #: install/install.php:132
 msgid "If you're upgrading from an older CodevTT version, do the following steps:"
-msgstr ""
+msgstr "如果您要從舊版本的 CodevTT 更新，請依照以下步驟："
 
 #: install/install.php:134
 msgid "Upgrade Mantis first ! (not mandatory)"
@@ -6277,7 +6277,7 @@ msgstr "先更新 Mantis！（非必要）"
 
 #: install/install.php:135
 msgid "Backup your database"
-msgstr ""
+msgstr "備份您的資料庫"
 
 #: install/install.php:136
 msgid "Copy CodevTT configuration files from your previous installation"
@@ -6768,11 +6768,11 @@ msgstr "挑選一個自訂欄位，回傳各自訂欄位值的流逝時間"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
-msgstr ""
+msgstr "任務不存在！"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
 msgid "Task is not in team's projects"
-msgstr ""
+msgstr "任務不在團隊的專案裡"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
 msgid "Timetrack added by "
