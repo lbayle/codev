@@ -11,7 +11,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-03-17 12:01:23+0000\n"
+"PO-Revision-Date: 2022-03-21 12:01:02+0000\n"
 "Language: diq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3476,7 +3476,7 @@ msgstr "Terixê abıriyayışi"
 
 #. tpl/edit_team.html
 msgid "optionnal"
-msgstr ""
+msgstr "opsiyonel"
 
 #. tpl/edit_team.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -3811,7 +3811,7 @@ msgstr ""
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "No data."
-msgstr ""
+msgstr "Melumat çıniyo."
 
 #. tpl/statistics.html
 msgid "Start Year"
@@ -4113,7 +4113,7 @@ msgstr "Karê asayeyi"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 msgid "Task name"
-msgstr ""
+msgstr "Nameyê wezifa"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
