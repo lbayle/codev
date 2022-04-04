@@ -11,6 +11,7 @@
 # Author: Liuxinyu970226
 # Author: Shimamura Sakura
 # Author: SomeyaMako
+# Author: StarrySky
 # Author: TsuyaMarisa
 # Author: 予弦
 # Author: 佛壁灯
@@ -24,7 +25,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-03-17 12:01:28+0000\n"
+"PO-Revision-Date: 2022-04-04 11:01:10+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1996,7 +1997,7 @@ msgstr "用户ID"
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 msgid "Group"
-msgstr ""
+msgstr "组"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
@@ -2256,7 +2257,7 @@ msgstr "删除工作"
 
 #. tpl/edit_jobs.html
 msgid "Edit Job"
-msgstr ""
+msgstr "编辑工作"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_team.html
@@ -3317,7 +3318,7 @@ msgstr "值班任务"
 
 #. tpl/edit_team.html
 msgid "Team name"
-msgstr ""
+msgstr "团队名称"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -3387,20 +3388,20 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "import groups"
-msgstr ""
+msgstr "导入组"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "User groups"
-msgstr ""
+msgstr "用户组"
 
 #. tpl/edit_team.html
 msgid "CSV file"
-msgstr ""
+msgstr "CSV文件"
 
 #. tpl/edit_team.html
 msgid "upload"
-msgstr ""
+msgstr "上传"
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -3428,11 +3429,11 @@ msgstr "定界符"
 
 #. tpl/edit_team.html
 msgid "1st column"
-msgstr ""
+msgstr "第一栏"
 
 #. tpl/edit_team.html
 msgid "2nd column"
-msgstr ""
+msgstr "第二栏"
 
 #. tpl/edit_team.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -3491,16 +3492,16 @@ msgstr "出发日期"
 
 #. tpl/edit_team.html
 msgid "optionnal"
-msgstr ""
+msgstr "可选"
 
 #. tpl/edit_team.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "(no group)"
-msgstr ""
+msgstr "（没有组）"
 
 #. tpl/edit_team.html
 msgid "add new group"
-msgstr ""
+msgstr "添加新的组"
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
