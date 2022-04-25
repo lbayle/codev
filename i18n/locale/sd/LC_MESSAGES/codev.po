@@ -10,7 +10,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-03-17 12:01:27+0000\n"
+"PO-Revision-Date: 2022-04-25 11:01:25+0000\n"
 "Language: sd\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5213,7 +5213,7 @@ msgstr "پھريون نالو"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username"
-msgstr "واپرائيندڙ-نانءُ"
+msgstr "واپرائيندڙنانءُ"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -5287,7 +5287,7 @@ msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "username"
-msgstr "واپرائيندڙ-نانءُ"
+msgstr "واپرائيندڙنانءُ"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
