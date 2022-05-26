@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-04-28 11:01:09+0000\n"
+"PO-Revision-Date: 2022-05-26 11:01:38+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -743,7 +743,7 @@ msgstr "Feiertage hinzufügen"
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr "Feiertage hinzufügen (z.B. Maria Himmelfahrt)"
+msgstr "Feiertage hinzufügen (z. B. Maria Himmelfahrt)"
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
@@ -909,7 +909,7 @@ msgstr "Gantt"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
-msgstr "Gantt Balkendiagramm"
+msgstr "Gantt-Balkendiagramm"
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
@@ -969,7 +969,7 @@ msgstr "Verträge"
 
 #. tpl/menu/global_menu.html
 msgid "Mantis Reports"
-msgstr "Mantis Auswertungen"
+msgstr "Mantis-Auswertungen"
 
 #. tpl/menu/global_menu.html
 #. tpl/edit_team.html
@@ -1339,7 +1339,7 @@ msgstr "Der Internet Explorer zeigt die Webseite evt. nicht korrekt an"
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
-msgstr "Bitte denken Sie darüber nach, einen Standardkonformen Browser zu verwenden"
+msgstr "Bitte denken Sie darüber nach, einen standardkonformen Browser zu verwenden"
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
@@ -1351,7 +1351,7 @@ msgstr "Pluginverzeichnis nach neuen Erweiterungen durchsuchen"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
-msgstr "Neue Plugin suchen"
+msgstr "Neue Plugins suchen"
 
 #. tpl/plugin_manager.html
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
