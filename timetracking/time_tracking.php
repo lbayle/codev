@@ -81,8 +81,9 @@ class TimeTrackingController extends Controller {
             $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
             $defaultBugText = '';
 
-            $sessionProjectId = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
-            $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',$sessionProjectId);
+            //$sessionProjectId = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+            //$defaultProjectid = Tools::getSecurePOSTIntValue('projectid',$sessionProjectId);
+            $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',0);
 
             $job = Tools::getSecurePOSTIntValue('trackJobid',0);
             $duration = Tools::getSecurePOSTNumberValue('timeToAdd',0);
