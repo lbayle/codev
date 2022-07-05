@@ -1,11 +1,11 @@
 #!/bin/bash
 # ---------------------------------------------------
-CodevTT backup script
-This script backups the mantis database every day and keeps only 3 days of backups.
+#CodevTT backup script
+#This script backups the mantis database every day and keeps only 3 days of backups.
 
 # add this to your crontable to backup mantis+CodevTT database
-$ crontab -e
-55 23 * * * /var/www/html/codevtt/tools/backup_cronjob.sh > /tmp/codevtt/reports/codevtt_cron.log
+#$ crontab -e
+#55 23 * * * /var/www/html/codevtt/tools/backup_cronjob.sh > /tmp/codevtt/reports/codevtt_cron.log
 
 # ***** restore backup *****
 #mysql --force -uroot -p<password> bugtracker < bugtracker.sql
