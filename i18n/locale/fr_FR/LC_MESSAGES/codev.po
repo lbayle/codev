@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-04-28 11:01:10+0000\n"
+"PO-Revision-Date: 2022-07-14 11:01:23+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -2379,7 +2379,7 @@ msgstr "Réf"
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "None"
-msgstr "Aucun"
+msgstr "Néant"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
@@ -5895,7 +5895,7 @@ msgstr "Balises"
 
 #: classes/issue.class.php:2199
 msgid "none"
-msgstr "aucun(e)"
+msgstr "néant"
 
 #: classes/issue.class.php:2204 reports/issue_info_tools.php:115
 msgid "DriftColor"
