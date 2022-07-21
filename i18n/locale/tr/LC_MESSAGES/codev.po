@@ -22,7 +22,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-04-28 11:01:13+0000\n"
+"PO-Revision-Date: 2022-07-21 11:01:29+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -849,7 +849,7 @@ msgstr "Projeler Etkinlik"
 #. tpl/menu/global_menu.html
 #. tpl/missing_timetracks.html
 msgid "Missing Timetracks"
-msgstr ""
+msgstr "Eksik Zaman İzleri"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
