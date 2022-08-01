@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-07-28 11:01:59+0000\n"
+"PO-Revision-Date: 2022-08-01 11:01:17+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -3040,7 +3040,7 @@ msgstr "Créer un projet spécifique de TâchesAnnexes"
 
 #. tpl/create_team.html
 msgid "WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing."
-msgstr "ATTENTION : désactiver la création de projet TâchesAnnexes n’est généralement PAS une bonne idée, à moins de savoir exactement ce que vous faites."
+msgstr "ATTENTION : désactiver la création de projet TâchesAnnexes n’est généralement PAS une bonne idée, à moins de savoir exactement ce que vous faites."
 
 #. tpl/create_team.html
 msgid "Project Name"
@@ -6208,7 +6208,7 @@ msgstr "Suffixe des tables de la base de données "
 
 #: install/install_step1.php:255
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
-msgstr "ATTENTION – Installation sur Windows : pour éviter une erreur d’élévation de privilège, utilisez l’utilisateur <b>root</b> de MySQL (ceci pourra être changé dans config.ini une fois l’installation terminée)."
+msgstr "AVERTISSEMENT – Installation sur Windows : pour éviter une erreur d’élévation de privilège, utilisez l’utilisateur <b>root</b> de MySQL (ceci pourra être changé dans config.ini une fois l’installation terminée)."
 
 #: install/install_step1.php:260
 msgid "Proxy Settings"
