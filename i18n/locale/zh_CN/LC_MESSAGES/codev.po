@@ -8,6 +8,7 @@
 # Author: Fanjiayi
 # Author: Frog7301
 # Author: Gerongfenh
+# Author: Lakejason0
 # Author: Liuxinyu970226
 # Author: Shimamura Sakura
 # Author: SomeyaMako
@@ -25,7 +26,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-07-28 11:02:03+0000\n"
+"PO-Revision-Date: 2022-08-08 11:00:58+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1306,7 +1307,7 @@ msgstr "密码"
 #. tpl/modal/login.html
 #. tpl/tools/dashboard.html
 msgid "Loading"
-msgstr "正在载入"
+msgstr "正在加载"
 
 #. tpl/modal/login.html
 msgid "Login failed."
@@ -2401,7 +2402,7 @@ msgstr "未包含在“检查预算”中的规定"
 #. tpl/scheduler.html
 #. tpl/gantt.html
 msgid "Reload"
-msgstr "重新载入"
+msgstr "重新加载"
 
 #. tpl/tools/wbsEditor.html
 #. tpl/scheduler.html
