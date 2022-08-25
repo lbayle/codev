@@ -10,6 +10,7 @@
 # Author: Metalhead64
 # Author: Palmertim00
 # Author: ThePiscin
+# Author: ThisCarthing
 # Author: Umherirrender
 msgid ""
 msgstr ""
@@ -17,7 +18,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-07-28 11:01:58+0000\n"
+"PO-Revision-Date: 2022-08-25 11:01:34+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
@@ -3426,11 +3427,11 @@ msgstr "Trennzeichen"
 
 #. tpl/edit_team.html
 msgid "1st column"
-msgstr ""
+msgstr "1. Spalte"
 
 #. tpl/edit_team.html
 msgid "2nd column"
-msgstr ""
+msgstr "2. Spalte"
 
 #. tpl/edit_team.html
 #. plugins/ImportUsers/ImportUsers.html
