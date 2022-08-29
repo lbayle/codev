@@ -4,12 +4,13 @@
 # Author: Dishual
 # Author: Fulup
 # Author: Gwenn-Ael
+# Author: Huñvreüs
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-07-28 11:01:57+0000\n"
+"PO-Revision-Date: 2022-08-29 11:01:04+0000\n"
 "Language: br\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2735,7 +2736,7 @@ msgstr ""
 #. tpl/command_edit.html
 #. tpl/edit_team.html
 msgid "save"
-msgstr "Saveteiñ"
+msgstr "enrollañ"
 
 #. tpl/command_edit.html
 msgid "Delete from the Command ?"
