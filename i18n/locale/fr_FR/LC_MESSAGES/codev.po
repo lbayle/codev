@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-09-08 11:01:03+0000\n"
+"PO-Revision-Date: 2022-09-29 11:01:00+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -536,7 +536,7 @@ msgstr "Note : les TâchesAnnexes définies dans les Commandes ne sont pas aff
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "ID"
-msgstr "ID"
+msgstr "Identifiant"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
@@ -1986,7 +1986,7 @@ msgstr "Informations sur l’utilisateur"
 
 #. tpl/user_info.html
 msgid "User ID"
-msgstr "ID de l’utilisateur"
+msgstr "Identifiant de l’utilisateur"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
@@ -2696,7 +2696,7 @@ msgstr "Enlever la tâche de cette commande ?"
 #. tpl/servicecontract_edit.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Id"
-msgstr "Id"
+msgstr "Identifiant"
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
@@ -2773,7 +2773,7 @@ msgstr "Pas un nombre"
 
 #. tpl/command_edit.html
 msgid "task id"
-msgstr "ID de tâche"
+msgstr "identifiant de tâche"
 
 #. tpl/command_edit.html
 msgid "Not a comma separated number list"
@@ -2983,7 +2983,7 @@ msgstr "Notes d’imputation"
 #. tpl/team_activity_report.html
 #. tpl/time_tracking.html
 msgid "Ext.ID"
-msgstr "ID ext."
+msgstr "Id.ext."
 
 #. tpl/team_activity_report.html
 msgid "Timetrack Note"
@@ -5971,7 +5971,7 @@ msgstr "Trier les tâches par ID"
 
 #: filters/IssueIdFilter.php:59
 msgid "Issue ID"
-msgstr "ID de tâche"
+msgstr "Identifiant d’anomalie"
 
 #: filters/ProjectCategoryFilter.php:49
 msgid "Sort issues per project categories"
