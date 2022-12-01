@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-10-27 11:02:10+0000\n"
+"PO-Revision-Date: 2022-12-01 12:01:05+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -2063,7 +2063,7 @@ msgstr "Référence externe"
 
 #. tpl/issue_info.html
 msgid "Remove task from command"
-msgstr "Enlever la tâche de la commande"
+msgstr "Retirer la tâche de la commande"
 
 #. tpl/issue_info.html
 msgid "Add to command"
@@ -2174,7 +2174,7 @@ msgstr "Ajouter à une commande"
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
-msgstr "ajouter / enlever la date jalon de la tâche"
+msgstr "ajouter / retirer la date jalon de la tâche"
 
 #. tpl/issue_info.html
 msgid "Delivery date"
@@ -2182,7 +2182,7 @@ msgstr "Date de livraison"
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
-msgstr "ajouter / enlever la date de livraison"
+msgstr "ajouter / retirer la date de livraison"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
@@ -2204,7 +2204,7 @@ msgstr "Actualiser"
 #. tpl/commandset_edit.html
 #. tpl/servicecontract_edit.html
 msgid "Remove"
-msgstr "Enlever"
+msgstr "Retirer"
 
 #. tpl/issue_info.html
 #. tpl/time_tracking.html
@@ -2266,7 +2266,7 @@ msgstr "Supprimer le poste"
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr "Enlever ce lien :"
+msgstr "Retirer ce lien :"
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
@@ -2335,7 +2335,7 @@ msgstr "Échec"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr "Enlever les champs personnalisés de CodevTT :"
+msgstr "Retirer les champs personnalisés de CodevTT :"
 
 #. tpl/uninstall.html
 #. tpl/prepare_project.html
@@ -2344,11 +2344,11 @@ msgstr "Terminé"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "Enlever les tables CodevTT de la BDD Mantis :"
+msgstr "Retirer les tables CodevTT de la base de données Mantis :"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
-msgstr "Enlever les fichiers de configuration de CodevTT :"
+msgstr "Retirer les fichiers de configuration de CodevTT :"
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
@@ -2684,11 +2684,11 @@ msgstr "supprimer l’association Commande–Tâche"
 
 #. tpl/command_edit.html
 msgid "Remove Task"
-msgstr "Enlever la tâche"
+msgstr "Retirer la tâche"
 
 #. tpl/command_edit.html
 msgid "Remove Task from this Command ?"
-msgstr "Enlever la tâche de cette commande ?"
+msgstr "Retirer la tâche de cette commande ?"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -2710,7 +2710,7 @@ msgstr "supprimer l’association commande – macro-commande"
 #. tpl/command_edit.html
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet"
-msgstr "Enlever la Macro-Commande"
+msgstr "Retirer la macro-commande"
 
 #. tpl/command_edit.html
 msgid "Remove this Command from the CommandSet ?"
@@ -3342,11 +3342,11 @@ msgstr "Ajouter un administrateur d’équipe"
 
 #. tpl/edit_team.html
 msgid "Remove administrator"
-msgstr "Enlever l’administrateur"
+msgstr "Retirer l’administrateur"
 
 #. tpl/edit_team.html
 msgid "Remove the following Team Administrator ?"
-msgstr "Enlever l’administrateur d’équipe ?"
+msgstr "Retirer l’administrateur d’équipe suivant ?"
 
 #. tpl/edit_team.html
 msgid "Delete team"
@@ -3729,11 +3729,11 @@ msgstr "--- Nouvelle commande ---"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr "Enlever la commande"
+msgstr "Retirer la commande"
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
-msgstr "Enlever la commande de cette macro-commande ?"
+msgstr "Retirer la commande de cette macro-commande ?"
 
 #. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
@@ -4017,7 +4017,7 @@ msgstr "supprimer l’association Contrat–Macro-Commande"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
-msgstr "Enlever la Macro-Commande de ce Contrat ?"
+msgstr "Retirer la macro-commande de ce contrat ?"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-Project association"
@@ -4025,7 +4025,7 @@ msgstr "supprimer l’association Contrat–Projet"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr "Enlever le projet"
+msgstr "Retirer le projet"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
