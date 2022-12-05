@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-12-01 12:01:05+0000\n"
+"PO-Revision-Date: 2022-12-05 12:00:56+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -5121,15 +5121,15 @@ msgstr "Aucun filtre"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on External ID"
-msgstr "Filtre par ID externe"
+msgstr "Filtre par identifiant externe"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Issues with External ID"
-msgstr "Problèmes ayant un ID externe"
+msgstr "Problèmes ayant un identifiant externe"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Issues without External ID"
-msgstr "Problèmes sans ID externe"
+msgstr "Problèmes sans identifiant externe"
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_cfg.html
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:69
@@ -5967,7 +5967,7 @@ msgstr "Version ciblée du projet"
 
 #: filters/IssueIdFilter.php:51
 msgid "Sort issues per ID"
-msgstr "Trier les tâches par ID"
+msgstr "Trier les tâches par identifiant"
 
 #: filters/IssueIdFilter.php:59
 msgid "Issue ID"
@@ -5987,7 +5987,7 @@ msgstr "Trier les tâches : avec ou sans ID externe"
 
 #: filters/IssueExtIdFilter.php:57
 msgid "Issue External ID"
-msgstr "ID externe de la tâche"
+msgstr "Identifiant externe de la tâche"
 
 #: filters/IssueTagFilter.php:49
 msgid "Sort issues per tags"
@@ -6098,7 +6098,7 @@ msgstr "D’autres administrateurs pourront être ajoutés ultérieurement, pour
 #. ------- External ID
 #: install/install_step3.php:572
 msgid "Tasks external ID field"
-msgstr "Champ ID externe des tâches"
+msgstr "Champ identifiant externe des tâches"
 
 #: install/install_step3.php:594
 msgid "Create a new CustomField"
