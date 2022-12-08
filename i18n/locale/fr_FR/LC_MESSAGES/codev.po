@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-15 16:01+0100\n"
-"PO-Revision-Date: 2022-12-05 12:00:56+0000\n"
+"PO-Revision-Date: 2022-12-08 12:01:01+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
@@ -5983,7 +5983,7 @@ msgstr "Catégorie de projet"
 
 #: filters/IssueExtIdFilter.php:49
 msgid "Sort issues: with/without External ID"
-msgstr "Trier les tâches : avec ou sans ID externe"
+msgstr "Trier les tâches : avec ou sans identifiant externe"
 
 #: filters/IssueExtIdFilter.php:57
 msgid "Issue External ID"
