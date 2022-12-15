@@ -5,13 +5,14 @@
 # Author: LNDDYL
 # Author: Liuxinyu970226
 # Author: Winston Sung
+# Author: 捍粵者
 # Author: 烈羽
 msgid ""
 msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-10-27 11:02:17+0000\n"
+"PO-Revision-Date: 2022-12-15 12:01:11+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2279,7 +2280,7 @@ msgstr "此步驟將會清除 Mantis 資料庫。"
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
-msgstr "強烈建議在您進行之前先備份您的 Mantis 資料庫！"
+msgstr "極力建議您繼續前先備份Mantis資料庫"
 
 #. tpl/uninstall.html
 msgid "Backup data"
@@ -2757,7 +2758,7 @@ msgstr "命令名稱"
 
 #. tpl/command_edit.html
 msgid "Not a number"
-msgstr "不是一個數字"
+msgstr "不是數字"
 
 #. tpl/command_edit.html
 msgid "task id"
@@ -4414,7 +4415,7 @@ msgstr "實際進度變化與理論進度。"
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 msgid "Theoretical progress"
-msgstr "理論上的進度"
+msgstr "理論進度"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
@@ -5706,7 +5707,7 @@ msgstr "[CodevTT] 時間表提醒！"
 
 #: classes/user.class.php:1564 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
-msgstr "親愛的 "
+msgstr "親愛的＼"
 
 #: classes/user.class.php:1565
 msgid "Please fill your CodevTT timesheet"
@@ -6122,7 +6123,7 @@ msgstr "針對邊際任務"
 
 #: install/install_step3.php:684
 msgid "Proceed Step 3"
-msgstr "進行步驟 3"
+msgstr "前往第三步"
 
 #: install/install_step3.php:837
 msgid "CodevTT admin"
@@ -6232,7 +6233,7 @@ msgstr "連接埠"
 
 #: install/install_step1.php:273
 msgid "Proceed Step 1"
-msgstr "進行步驟 1"
+msgstr "前往第一步"
 
 #: install/install_step2.php:25
 msgid "Install - Step 2"
@@ -6256,7 +6257,7 @@ msgstr "CodevTT 的 URL"
 
 #: install/install_step2.php:134
 msgid "Proceed Step 2"
-msgstr "進行步驟 2"
+msgstr "前往第二步"
 
 #: install/install.php:25 install/install.php:142
 #: install/install_menu.inc.php:22
@@ -6900,7 +6901,7 @@ msgstr "標準問題優先進度安排"
 #. Set task id list
 #: scheduler/scheduler.php:59
 msgid "Select a task"
-msgstr "選擇一個任務"
+msgstr "選擇任務"
 
 #: scheduler/scheduler.php:108
 msgid "Today"
