@@ -5,6 +5,7 @@
 # Author: LNDDYL
 # Author: Liuxinyu970226
 # Author: Winston Sung
+# Author: 列维劳德
 # Author: 捍粵者
 # Author: 烈羽
 msgid ""
@@ -12,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 13:48+0200\n"
-"PO-Revision-Date: 2022-12-15 12:01:11+0000\n"
+"PO-Revision-Date: 2022-12-19 12:01:11+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
