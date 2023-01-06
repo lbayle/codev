@@ -31,10 +31,10 @@ MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
 
 # ====================================================
 
-# Set ATOS proxy
-#ENV http_proxy=http://193.56.47.8:8080
-#ENV https_proxy=http://193.56.47.8:8080
-#RUN sed -i '2iproxy=http:\/\/193.56.47.8:8080' /etc/yum.conf
+# Set proxy
+#ENV http_proxy=http://111.222.333.444:8080
+#ENV https_proxy=http://111.222.333.444:8080
+#RUN sed -i '2iproxy=http:\/\/111.222.333.444:8080' /etc/yum.conf
 
 # ------------------
 # Add Epel & Remi repositories
