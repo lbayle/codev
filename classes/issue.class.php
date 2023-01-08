@@ -43,6 +43,8 @@ class Issue extends Model implements Comparable {
 
    private static $relationshipLabels;
 
+   protected static $typeList; // array of possible values for the CodevTT_type customField ('Task','Bug', ...)
+
    /**
     * Initialize complex static variables
     * @static
@@ -218,6 +220,30 @@ class Issue extends Model implements Comparable {
          throw $e;
       }
    }
+
+   /**
+    * Returns the possible values for the CodevTT_type customField ('Task','Bug', ...)
+    */
+   public static function getTypeCandidates() {
+
+      if (null == self::$typeList) {
+
+         $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+         self::$typeList = array();
+         $sql = AdodbWrapper::getInstance();
+         $query = "SELECT possible_values FROM {custom_field} WHERE id = ".$sql->db_param();
+         $q_params[]=$customField_type;
+         $result = $sql->sql_query($query, $q_params);
+
+         $row = $sql->fetchObject($result);
+         self::$typeList=explode('|', $row->possible_values);
+
+         self::$logger->error("DEBUG typeCandidates:".implode(',', self::$typeList));
+
+      }
+      return self::$typeList;
+   }
+
 
    /**
     * Get custom fields

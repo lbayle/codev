@@ -319,6 +319,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
                'availableStatusList' => $issue->getAvailableStatusList(true),
                'targetVersionId' => $targetVersionId,
                'availableTargetVersion' => $versionList,
+               'codevttTypeList' => Issue::getTypeCandidates(),
             );
             if (NULL != $issue->getDeadLine(TRUE)) {
                $taskInfo['deadline'] = date("Y-m-d", $issue->getDeadLine());

@@ -323,6 +323,19 @@ function isTimetrackingFieldsValid() {
                   }
                }
                cb.val(data.currentStatus);
+
+               cb = jQuery("#futi_codevttType");
+               cb.empty();
+               candidates = data.codevttTypeList;
+               for (var id in candidates) {
+                  if (candidates.hasOwnProperty(id)) {
+                     cb.append(
+                        jQuery('<option>').attr('value', candidates[id]).append(candidates[id])
+                     );
+                  }
+               }
+               cb.val(data.codevttType);
+               
                cb = jQuery("#futi_cbTargetVersion");
                cb.empty();
                cb.append(new Option('', '0'));
