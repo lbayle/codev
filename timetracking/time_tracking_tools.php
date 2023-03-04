@@ -32,6 +32,190 @@ class TimeTrackingTools {
    }
 
    /**
+    * base struct of a weekTasks element
+    */
+   public static function weekTasksElement($bugid, $userid, $teamid, array $weekDates) {
+      try {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $projectId = $issue->getProjectId();
+         $project = ProjectCache::getInstance()->getProject($projectId);
+
+         // if project not declared in current team, then
+         // user cannot add a timetrack by clicking in the weekTasks table
+         // Note: (this would generate an error on addTimetrack)
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $isTeamProject = !is_null($team->getProjectType($projectId));
+         $bugResolvedStatusThreshold = $issue->getBugResolvedStatusThreshold();
+
+         if ((!$project->isSideTasksProject(array($teamid))) &&
+             (!$project->isExternalTasksProject())) {
+            $tooltipAttr = $issue->getTooltipItems($teamid, $userid);
+            $infoTooltip = Tools::imgWithTooltip('images/b_info.png', $tooltipAttr);
+
+            // if backlog is wrong give a chance to correct it
+            if ($issue->isResolved() && (0 == $issue->getBacklog())) {
+               $isBacklogEditable = false;
+            } else {
+               $isBacklogEditable = true;
+               // TODO change cell color to red
+            }
+            $isForbidUpdateStatusOnTimetracking = (0 == $team->getGeneralPreference('isForbidUpdateStatusOnTimetracking')) ? false : true;
+            $isStatusEditable = $isTeamProject && (!$isForbidUpdateStatusOnTimetracking);
+            $statusName = Constants::$statusNames[$issue->getStatus()];
+
+         } else {
+            $infoTooltip = '';
+            $isBacklogEditable = false;
+            $isStatusEditable  = false;
+            $statusName = '';
+         }
+
+         $weekTask = array(
+            "bugId" => $bugid,
+            "backlog" => $issue->getBacklog(),
+            'statusId' => $issue->getStatus(),
+            'statusName' => $statusName,
+            //"summary" => $issue->getSummary(),
+            "htmlDescription" => SmartyTools::getIssueDescription($bugid,$issue->getTcId(),$issue->getSummary()),
+            "infoTooltip" => $infoTooltip,
+            "isTeamProject" => $isTeamProject,
+            "projectId" => $issue->getProjectId(),
+            "defaultJobId" => Jobs::JOB_NA,  // later on, we may want use some custom default job
+            'isBacklogEditable' => $isTeamProject ? $isBacklogEditable : false,
+            'isStatusEditable' => $isStatusEditable,
+            'bugResolvedStatusThreshold' =>  $bugResolvedStatusThreshold,
+            "weekDays" => array(),
+         );
+      } catch (Exception $e) {
+         $summary = T_('Error: Task not found in Mantis DB !');
+         $weekTask = array(
+            "bugId" => $bugid,
+            "backlog" => '!',
+            'statusId' => 0,
+            'statusName' => '',
+            "summary" => $summary,
+            "htmlDescription" =>  Tools::mantisIssueURL($bugid, NULL, TRUE).' '.$bugid.' : <span class="error_font">'.$summary.'</span>',
+            "infoTooltip" => '',
+            "isTeamProject" => false,
+            "projectId" => -1,
+            "defaultJobId" => Jobs::JOB_NA,
+            'isBacklogEditable' => false,
+            'isStatusEditable' => false,
+            'bugResolvedStatusThreshold' =>  0,
+            "weekDays" => array(),
+         );
+      }
+
+      // background color & tooltip depends on fixed holidays
+      $holidays = Holidays::getInstance();
+      $ttForbidenStatusList = $team->getTimetrackingForbidenStatusList($issue->getProjectId());
+      $isForbidenStatus = array_key_exists($issue->getStatus(), $ttForbidenStatusList);
+      
+      $issueExists = Issue::exists($bugid);
+      for ($i = 1; $i <= 7; $i++) {
+         $title = NULL;
+         $bgColor = NULL;
+         $isEditable = $issueExists && $isTeamProject && (!$isForbidenStatus);
+         if($i <= 5) {
+            $h = $holidays->isHoliday($weekDates[$i]);
+            if ($h) {
+               $bgColor = $h->color;
+               $title = $h->description;
+               $isEditable = false;
+            }
+         } else {
+            $bgColor = Holidays::$defaultColor;
+            $isEditable = false;
+         }
+         $weekTask['weekDays'][$i] = array (
+            'dayId' => "$i",
+            'duration' => 0,
+            //'timetracks' => '',
+            'bgColor' => $bgColor,
+            'title' => $title,
+            'isEditable' => $isEditable,
+         );
+      }
+      return $weekTask;
+   }
+
+
+   /**
+    *
+    * @param type $userid
+    * @param type $teamid
+    * @param type $startTimestamp
+    * @param type $endTimestamp
+    * @param array $weekDates
+    * @param array $incompleteDays
+    * @return array mixed
+    */
+   public static function getWeekTasks_lite($userid, $teamid, $startTimestamp, $endTimestamp, array $weekDates, array $incompleteDays) {
+      $weekTasks = array();
+      $sql = AdodbWrapper::getInstance();
+
+      // -----
+      $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
+      $formatedProjList = implode( ', ', array_keys($projList));
+      $query = "SELECT timetracking.id, timetracking.bugid, timetracking.jobid, timetracking.date, timetracking.duration ".
+               " FROM codev_timetracking_table as timetracking ".
+               " JOIN {bug} AS bug ON timetracking.bugid = bug.id ".
+               " WHERE timetracking.userid =  ".$sql->db_param().
+               " AND timetracking.date >= ".$sql->db_param().
+               " AND timetracking.date <  ".$sql->db_param();
+               //" AND bug.project_id IN (".$formatedProjList.")";
+      $q_params[]=$userid;
+      $q_params[]=$startTimestamp;
+      $q_params[]=$endTimestamp;
+
+      $result = $sql->sql_query($query, $q_params);
+
+      while($row = $sql->fetchObject($result)) {
+         if (!array_key_exists($row->bugid, $weekTasks)) {
+            $weekTasks[$row->bugid] = self::weekTasksElement($row->bugid, $userid, $teamid, $weekDates);
+         }
+         $weekTasks[$row->bugid]['weekDays'][date('N',$row->date)]['duration'] += $row->duration;
+         //$weekTasks[$row->bugid]['weekDays'][date('N',$row->date)]['timetracks'] .= "$row->id,";
+      }
+
+      // prepare 'tfoot' line
+      $totalElapsed = array();
+      $todayAtMidnight = mktime(0,0,0);
+      for ($i = 1; $i <= 7; $i++) {
+         $weekDate = $weekDates[$i];
+         $totalElapsed[$weekDate] = array(
+            'date' => date('Y-m-d', $weekDate),
+            "elapsed" => 0,
+            "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
+         );
+      }
+
+      // sum per day
+      foreach ($weekTasks as $bugid => $taskInfo) {
+         for ($i = 1; $i <= 7; $i++) {
+            $totalElapsed[$weekDates[$i]]['elapsed'] += $weekTasks[$bugid]['weekDays'][$i]['duration'];
+         }
+      }
+
+      // add recent used tasks (no timetracks yet)
+      $user = UserCache::getInstance()->getUser($userid);
+      $recentBugidList = $user->getRecentlyUsedIssues(8);
+      foreach ($recentBugidList as $bugid) {
+         if (!array_key_exists($bugid, $weekTasks)) {
+            $taskInfo = self::weekTasksElement($bugid, $userid, $teamid, $weekDates);
+            $weekTasks[$bugid] = $taskInfo;
+         }
+      }
+
+      //self::$logger->error('weekTracks=' . var_export($weekTasks, true));
+      //self::$logger->error('totalElapsed=' . var_export($totalElapsed, true));
+      return array(
+         "weekTasks" => $weekTasks,
+         "totalElapsed" => $totalElapsed,
+      );
+   }
+
+   /**
     * @param int[] $weekDates
     * @param int $userid
     * @param TimeTracking $timeTracking
@@ -54,6 +238,8 @@ class TimeTrackingTools {
 
       $weekTasks = NULL;
       $holidays = Holidays::getInstance();
+
+      // returns : $weekTracks[bugid][jobid][dayOfWeek] = duration
       $weekTracks = $timeTracking->getWeekDetails($userid);
 
       foreach ($weekTracks as $bugid => $jobList) {
@@ -195,6 +381,7 @@ class TimeTrackingTools {
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
                'description' => $description,
+               'backlog' => $backlog,
                'formattedBacklog' => $formattedBacklog,
                'jobid' => $jobid,
                'jobName' => $jobs->getJobName($jobid),

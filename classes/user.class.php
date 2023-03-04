@@ -1416,7 +1416,7 @@ class User extends Model {
       $now = time();
       $sql = AdodbWrapper::getInstance();
 
-      $query = 'SELECT DISTINCT bugid, date FROM codev_timetracking_table '.
+      $query = 'SELECT DISTINCT bugid FROM codev_timetracking_table '.
               " WHERE userid = ".$sql->db_param() .
               " AND date <=  ".$sql->db_param();
       $q_params[]=$this->id;

@@ -40,6 +40,7 @@ class Team extends Model {
           'isTrackNoteMandatory' => 0,
           'sendTimesheetEmailNotification' => 1,
           'isForbidUpdateStatusOnTimetracking' => 0,
+          'isDisplayTimetrackingLite' => 0,
          );
 
       self::$generalPrefsDescriptionList = array(
@@ -49,6 +50,7 @@ class Team extends Model {
           'isTrackNoteMandatory'                => 'The timetrack note in the updateBacklog dialogbox is mandatory',
           'sendTimesheetEmailNotification'      => 'Send timesheet email reminder',
           'isForbidUpdateStatusOnTimetracking'  => 'Do not allow to update the status when adding a timetrack',
+          'isDisplayTimetrackingLite'           => 'Enable the Timetracking-lite page',
          );
 
    }

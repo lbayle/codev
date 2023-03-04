@@ -65,6 +65,9 @@ abstract class Controller {
          if (0 != $this->teamid) {
             $team = TeamCache::getInstance()->getTeam($this->teamid);
             $this->smartyHelper->assign('teamName', $team->getName());
+
+            $isDisplayTimetrackingLite = (0 == $team->getGeneralPreference('isDisplayTimetrackingLite')) ? false : true;
+            $this->smartyHelper->assign('isDisplayTimetrackingLite', $isDisplayTimetrackingLite);
          }
 
          $this->session_userid = (int)$_SESSION['userid'];

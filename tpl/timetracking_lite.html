@@ -1,0 +1,214 @@
+<style type="text/css" media="screen">
+
+   #loading {
+      z-index: 100;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -64px;
+      margin-left: -64px;
+   }
+</style>
+
+<div id="content" class="center">
+
+   {if isset($managedUser_realname)}
+   <h2>{$managedUser_realname}</h2>
+
+   <div align="center" style="display: inline-block;">
+      <div style="margin-top: 2em;">
+         <table style="background-color: transparent; border: none; padding: 0;">
+            <tr style="background-color: transparent; border: none; padding: 0;">
+               <td width="300" align="right">
+                  <button id="btAddTask" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {t}Add task{/t}</button>
+               </td>
+               <td>
+                  <div style ="text-align:center;">
+                     {if isset($ccheckBoxTitle)}
+                     <label id="dialog_ConsistencyCheck_link" class="hover" title="{t}Click to show errors{/t}" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">&nbsp;{$ccheckBoxTitle}&nbsp;</label>
+                     {/if}
+                  </div>
+               </td>
+               <td width="300" align="left">
+                  <div  style="text-align: right;">
+                     <input type="button" id="previousweek" title="{t}Previous week{/t}" value="&lt;&lt;" />
+                     <label>{t}Week{/t} {$tt_weekid}, {$tt_year}</label>
+                     <input type="button" id="nextweek" title="{t}Next week{/t}" value="&gt;&gt;" />
+                  </div>
+               </td>
+            </tr>
+            <tr style="background-color: transparent; border: none; padding: 0;">
+               <td colspan="3" >
+                  <div id="weekTaskDetailsDiv">
+                     <table id="weekTaskDetails">
+                        <thead>
+                           <tr>
+                              <th>{t}Task{/t}</th>
+                              <th></th>
+                              <th>{t}Status{/t}</th>
+                              <th title="{t}Backlog{/t}">{t}BL{/t}</th>
+                              {foreach from=$weekDates key=id item=i}
+                              <th id="dayHeader-{$id+1}" data-isodate="{$i.date}" class="dayHeader {$i.class}">{$i.formattedDate|nl2br}</th>
+                              {/foreach}
+                              {foreach from=$weekEndDates key=id item=i}
+                              <th id="dayHeader-{$id+6}" data-isodate="{$i.date}" class="dayHeader {$i.class}" style="background-color: #D8D8D8;">{$i.formattedDate|nl2br}</th>
+                              {/foreach}
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {foreach from=$weekTasksLite key=id item=i}
+                           <tr data-bugid='{$i.bugId}' data-defaultJobId='{$i.defaultJobId}' style="height:28px">
+                              <td><span {if !$i.isTeamProject}style="color:gray;"{/if}>{$i.htmlDescription}</span></td>
+                              <td style="width:19px;">{$i.infoTooltip}</td>
+                              {if $i.isStatusEditable}
+                              <td class="statusTd hover" data-statusId='{$i.statusId}'>
+                                 <span class="statusSpan">{$i.statusName}</span>
+                              </td>
+                              {else}
+                              <td>{$i.statusName}</td>
+                              {/if}
+                              <td class="backlogTd {if $i.isBacklogEditable}hover isEditable{/if}">
+                                 <span class="backlogSpan">{$i.backlog}</span>
+                              </td>
+
+                              {foreach from=$i.weekDays key=day item=j}
+                              <td class="durationTd {if $j.isEditable}hover isEditable{/if}" {if $j.title}title="{$j.title}"{/if} style="{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >
+                                 <span class="durationSpan">{if 0 != $j.duration}{$j.duration}{/if}</span>
+                              </td>
+                              {/foreach}
+                           </tr>
+                           {/foreach}
+                        </tbody>
+                        <tfoot>
+                           <tr>
+                              <td>{t}TOTAL{/t}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              {foreach $dayTotalElapsedLite as $i}
+                              <td class="dayTotalElapsed {$i.class}" data-isodate="{$i.date}" >{if $i.elapsed != 0}{$i.elapsed}{/if}</td>
+                              {/foreach}
+                           </tr>
+                        </tfoot>
+                     </table>
+                  </div>
+                  
+               </td>
+            </tr>
+            <tr style="background-color: transparent; border: none; padding: 0;">
+               <td colspan="3" >
+               <div id="actionLogsDiv" style="margin-top: 3em; height:100px; overflow:scroll; border:1px solid lightgray;">
+                  <span class="success_font">{t}Hint: Click in a field to edit 'Elapsed time' or 'Backlog'{/t}</span><br>
+               </div>
+               </td>
+            </tr>
+         </table>         
+      </div>
+   </div>
+   
+   
+   <div id="divAddTaskDialog" title="Add task to table" class="ui-helper-hidden">
+      
+      <form id="formAddTask" name="formAddTask" method="post" action="{$ajaxPage}">
+         <fieldset>
+            <table class="invisible">
+               <tr>
+                  <td><input type="checkbox" id="addTask_onlyAssignedTo" {if $isOnlyAssignedTo} checked="checked" {/if}/></td>
+                  <td></td>
+                  <td><label for="addTask_onlyAssignedTo">{t}Hide tasks not assigned to me{/t}</label></td>
+               </tr>
+               <tr>
+                  <td><input type="checkbox" id="addTask_hideResolved" {if $isHideResolved} checked="checked" {/if}/></td>
+                  <td></td>
+                  <td><label for="addTask_hideResolved">{t}Hide resolved tasks{/t}</label></td>
+               </tr>
+               <tr>
+                  <td>{t}Project{/t}</td>
+                  <td></td>
+                  <td>
+                     <select id="addTask_projectid" title="{t}Project{/t}">
+                        <option value="0">{t}(all){/t}</option>
+                        {foreach from=$projects key=id item=i}
+                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+               </tr>
+               <tr>
+                  <td>{t}Task{/t}</td>
+                  <td></td>
+                  <td>
+                     <select class="select2" id="addTask_bugid" name="addTask_bugid" style="width: 600px;" title="{t}Task{/t}"></select>
+                  </td>
+               </tr>
+            </table>
+         </fieldset>
+      </form>
+   </div>
+
+   <div id="dialog_ConsistencyCheck" title="{$ccheckBoxTitle}" class="ui-helper-hidden">
+      <div align='left'>
+         <table class='invisible'>
+         {foreach from=$ccheckErrList key=id item=i}
+            <tr>
+               <td>{if isset($i.issueURL)}{$i.issueURL}{/if}</td>
+               <td>{if isset($i.user)}{$i.user}{/if}</td>
+               <td>{if isset($i.date)}{$i.date}{/if}</td>
+               <td>{if isset($i.issueStatus)}{$i.issueStatus}{/if}</td>
+               <td><span style='{$i.severityColor}'>[{$i.severity}]</span></td>
+               <td><span style='{$i.severityColor}' {if isset($i.addInfo)}title='{$i.addInfo}'{/if}>{$i.desc}</span></td>
+            </tr>
+         {/foreach}
+         </table>
+      </div>
+   </div>
+   
+   <form id="formReloadTimetrackingPage" method="post" action="{$page}" >
+   <fieldset>
+      <input type="hidden" name="action" value="" />
+      <input type="hidden" name="year" value="{$tt_year}" />
+      <input type="hidden" name="weekid" value="{$tt_weekid}" />
+      <input type="hidden" name="userid" value="{$userid}" />
+   </fieldset>
+   </form>
+   
+   
+   
+   <script type="text/javascript">
+      // this is to transmit SMARTY variables to timetracking_lite.js
+      var timetrackingSmartyData = {
+         page:"{$page}",
+         ajaxPage:"{$ajaxPage}",
+         userid:"{$userid}", // (managedUserid)
+         weekid:"{$tt_weekid}",
+         year:"{$tt_year}",
+         nbWeeksThisYear:"{$nbWeeksThisYear}",
+         nbWeeksPrevYear:"{$nbWeeksPrevYear}",
+         durationList:{$durationList},
+         status_new:"{$status_new}",
+
+         // i18n
+         i18n_Ok:"{t}OK{/t}",
+         i18n_Cancel:"{t}Cancel{/t}",
+         i18n_Delete:"{t}Delete{/t}",
+         i18n_Update:"{t}Update{/t}",
+         i18n_pleaseWait:"{t}Please wait...{/t}",
+         i18n_task:"{t}Task{/t}",
+         i18n_job:"{t}Job{/t}",
+         i18n_duration:"{t}Duration{/t}",
+         i18n_TypeToSearch:"{t}Enter a keyword or *** to display all...{/t}",
+         i18n_invalidBacklogFormat:"{t}Invalid backlog format{/t}",
+         i18n_checkStatus01:"{t}Task not resolved, backlog cannot be '0'{/t}",
+         i18n_StatusCantBe:"{t}Status can't be : {/t}",
+         i18n_pleaseUpdateStatus:"{t}Please update status before editing timetracks{/t}"
+      };
+   </script>
+   <script type="text/javascript" src="js/datatable.js"></script>
+   <script src="js/timetracking_lite.js"></script>
+
+   {else}
+   <p class="center ui-state-error-text">{t}Please select a team to access this page.{/t}</p>
+   {/if}
+
+</div>
+

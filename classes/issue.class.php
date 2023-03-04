@@ -339,7 +339,7 @@ class Issue extends Model implements Comparable {
 
    /**
     * search the given string in bugid & summary
-    * not realy REGEX, but if searchStr='*' then display all
+    * not realy REGEX, but if searchStr='***' then display all
     * 
     * @param String $searchStr
     * @param array $projectidList

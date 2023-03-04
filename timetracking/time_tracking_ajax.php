@@ -190,8 +190,8 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
          $bugid = Tools::getSecurePOSTIntValue('bugid');
          $issue = IssueCache::getInstance()->getIssue($bugid);
-         $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
-         $issue->setBacklog($formattedBacklog);
+         $backlog = Tools::getSecurePOSTNumberValue('backlog');
+         $issue->setBacklog($backlog);
 
          // setStatus
          $newStatus = Tools::getSecurePOSTNumberValue('statusid');
@@ -501,9 +501,9 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             // sideTasks & externalTasks have no backlog nor status update
             if ((Project::type_regularProject == $projType) &&
                 (Jobs::JOB_SUPPORT != $job)) {
-               $formattedBacklog = Tools::getSecurePOSTNumberValue('backlog');
+               $backlog = Tools::getSecurePOSTNumberValue('backlog');
                $newStatus        = Tools::getSecurePOSTIntValue('statusid');
-               $issue->setBacklog($formattedBacklog);
+               $issue->setBacklog($backlog);
                $issue->setStatus($newStatus);
             }
 
