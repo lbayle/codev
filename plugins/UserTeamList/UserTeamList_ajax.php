@@ -22,11 +22,11 @@ require('../../path.inc.php');
 // Note: i18n is included by the Controler class, but Ajax dos not use it...
 require_once('i18n/i18n.inc.php');
 
-if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
+if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
 
    $logger = Logger::getLogger("UserTeamList_ajax");
-   $action = Tools::getSecureGETStringValue('action');
-   $dashboardId = Tools::getSecureGETStringValue('dashboardId');
+   $action = Tools::getSecurePOSTStringValue('action');
+   $dashboardId = Tools::getSecurePOSTStringValue('dashboardId');
 
    if(!isset($_SESSION[PluginDataProviderInterface::SESSION_ID.$dashboardId])) {
       $logger->error("PluginDataProvider not set (dashboardId = $dashboardId");
@@ -41,7 +41,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
    $smartyHelper = new SmartyHelper();
    if('getUserTeamList' == $action) {
 
-      $displayedUserid  = Tools::getSecureGETIntValue("userTeamList_userid", 0);
+      $displayedUserid  = Tools::getSecurePOSTIntValue("userTeamList_userid", 0);
 
       $indicator = new UserTeamList($pluginDataProvider);
 
@@ -67,6 +67,45 @@ if(Tools::isConnectedUser() && filter_input(INPUT_GET, 'action')) {
       // return html & chart data
       $jsonData = json_encode($data);
       echo $jsonData;
+
+   } else if('updateUserTeamInfo' == $action) {
+
+         try {
+            $displayed_userid = Tools::getSecurePOSTIntValue('displayed_userid');
+            $teamid = Tools::getSecurePOSTIntValue('teamid');
+            $arrivalDate = Tools::getSecurePOSTStringValue('arrivalDate');
+            $departureDate = Tools::getSecurePOSTStringValue('departureDate');
+            $accessLevel = Tools::getSecurePOSTIntValue('accessLevelId');
+            $arrivalTimestamp   = Tools::date2timestamp($arrivalDate);
+            $departureTimestamp = (empty($departureDate)) ? 0 : Tools::date2timestamp($departureDate);
+
+            if (empty($arrivalDate)) {
+               $data = array();
+               $data['statusMsg'] = "ERROR: arrivalDate must be set !";
+            } else if (!empty($departureDate) && $arrivalTimestamp > $departureTimestamp) {
+               $data = array();
+               $data['statusMsg'] = "ERROR: arrivalDate > departureDate !";
+            } else {
+               $team = TeamCache::getInstance()->getTeam($teamid);
+               $team->updateMember($displayed_userid, $arrivalTimestamp, $departureTimestamp, $accessLevel);
+
+               // fetch values from DB (check & return real values)
+               $data = $team->getTeamMemberData($displayed_userid);
+
+               $data["statusMsg"] = "SUCCESS";
+               if ($arrivalTimestamp   != $data['arrivalTimestamp'])   {$data["statusMsg"] = "ERROR: team member update failed ! (arrivalDate)";}
+               if ($departureTimestamp != $data['departureTimestamp']) {$data["statusMsg"] = "ERROR: team member update failed ! (departureDate)";}
+               if ($accessLevel        != $data['accessLevelId'])      {$data["statusMsg"] = "ERROR: team member update failed ! (accessLevel)";}
+            }
+         } catch (Exception $e) {
+            $logger->error("EXCEPTION editTeamMember: ".$e->getMessage());
+            $logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            Tools::sendBadRequest($e->getMessage());
+         }
+
+         // return status & data
+         $jsonData = json_encode($data);
+         echo $jsonData;
 
    } else {
       Tools::sendNotFoundAccess();

@@ -88,7 +88,9 @@ class UserTeamList extends IndicatorPluginAbstract {
    public static function getJsFiles() {
       return array(
          'js_min/datatable.min.js',
-         'lib/select2/select2.min.js'
+         'lib/select2/select2.min.js',
+         'js_min/datepicker.min.js',
+         'plugins/UserTeamList/UserTeamList.js',
       );
    }
 
@@ -155,7 +157,8 @@ class UserTeamList extends IndicatorPluginAbstract {
                   'team_name' => $row->team_name,
                   'arrival_date' => date('Y-m-d', $row->arrival_date),
                   'departure_date' => (0 == $row->departure_date) ? '' : date('Y-m-d', $row->departure_date),
-                  'access_level' => Team::$accessLevelNames[$row->access_level],
+                  'accessLevel' => Team::$accessLevelNames[$row->access_level],
+                  'accessLevel_id' => $row->access_level,
                );
             }
          }
@@ -166,7 +169,6 @@ class UserTeamList extends IndicatorPluginAbstract {
          'user_id' => $this->displayedUserid,
          'teamList' => $teamList, // the teams of displayedUserid
          );
-
       return $this->execData;
    }
 
@@ -180,6 +182,7 @@ class UserTeamList extends IndicatorPluginAbstract {
       $availableUsers = SmartyTools::getSmartyArray($this->execData['userList'],$this->displayedUserid);
 
       $smartyVariables = array(
+         'userTeamList_accessLevelList' =>Team::$accessLevelNames,
          'userTeamList_availableUsers' => $availableUsers,
          'userTeamList_userTeams' => $this->execData['teamList'],
 

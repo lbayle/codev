@@ -3,7 +3,7 @@
 <div class="pluginDestroyFunction"  style="display: none;">userTeamListJsDestroy</div>
 
 <div align="left" style="margin-top:1em;">
-   <form id="userTeamList_dateRange_form" method="get" action="{$userTeamList_ajaxPhpURL}">
+   <form id="userTeamList_dateRange_form" method="POST" action="{$userTeamList_ajaxPhpURL}">
       <fieldset>
          <label for="userTeamList_userid">{t}User{/t}: </label>
          <select class="userTeamList_userid" name="userTeamList_userid" style="min-width: 300px;">
@@ -19,67 +19,48 @@
    </form>
 </div>
 <div>
-   <div class="userTeamListDiv" align="left" style="margin-top: 1em;">
+   <div id="userTeamListDiv" align="left" style="margin-top: 1em;">
       {include file="`$userTeamList_ajaxFile`"}
    </div>
    <div class="ui-helper-clearfix"></div>
 </div>
 
+<div id="userTeamList_dialog" title="{t}Update team{/t}" class="ui-helper-hidden">
+   <input type="hidden" id="userTeamListDlg_teamId"/>
+   <table class="invisible">
+      <tbody>
+         <tr id="userTeamListDlg_tr_role">
+            <th>{t}Role{/t} :</th>
+            <td>
+               <select id="userTeamListDlg_select_role">
+                  {foreach from=$userTeamList_accessLevelList key=id item=i}
+                  <option value="{$id}">{$i}</option>
+                  {/foreach}
+               </select>
+            </td>
+            <td></td>
+         </tr>
+         <tr id="userTeamListDlg_tr_arrivalDate">
+            <th>{t}Arrival Date{/t} :</th>
+            <td><input type="text" id="userTeamListDlg_arrivalDate" name="userTeamListDlg_arrivalDate" class="datepicker" maxlength="10" size="10" title="{t}Arrival date{/t}" /></td>
+            <td></td>
+         </tr>
+         <tr id="userTeamListDlg_tr_departureDate">
+            <th>{t}Departure Date{/t} :</th>
+            <td><input type="text" id="userTeamListDlg_departureDate" name="userTeamListDlg_departureDate" class="datepicker" maxlength="10" size="10" title="{t}Departure date{/t}" /></td>
+            <td><span class="help_font">({t}optionnal{/t})</span></td>
+         </tr>
+      </tbody>
+   </table>
+</div>
+
+
 <script type="text/javascript">
-
-   // destroy callback: called when the widjet is removed from the dashboard (see inettuts_codevtt.js).
-   function userTeamListJsDestroy() {
-      console.log('userTeamListJsDestroy');
-      //jQuery(".userTeamListHelpDialog").dialog('destroy').remove();
-   }
-
-   // this function will be run at jQuery(document).ready (see dashboard.html) or
-   // when a new widjet is added to the dashboard.
-   function userTeamListJsInit() {
-
-      // set select2 with width adapted to the content
-      $(".userTeamList_userid").select2({ width: 'resolve' });
-
-      // ------------------------
-      // on reload with new date range
-      jQuery('.userTeamList_submit').click(function(event) {
-         /* stop form from submitting normally */
-         event.preventDefault();
-
-         var form = jQuery('#userTeamList_dateRange_form');
-
-         var dashboardId = $(this).parents('.codevttDashboard').attr('data-dashboardId');
-         form.find("input[name=dashboardId]").val(dashboardId);
-
-         var url = form.attr('action');
-         var type = form.attr('method');
-         jQuery.ajax({
-            async: false,
-            type: type,
-            url: url,
-            dataType:"json",
-            data: form.serialize(),
-            success: function(data) {
-
-               jQuery(".userTeamListDiv").html(jQuery.trim(data['userTeamList_htmlContent']));
-
-               jQuery.each(data['userTeamList_jsFiles'], function( index, value ) {
-                  jQuery.ajax({
-                        async: false,
-                        url: value,
-                        dataType: "script"
-                  });
-               });
-               //console.log('js load done');
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-               if(errorThrown == 'Forbidden') {
-                  window.location = '{$page}';
-               }
-            }
-         });
-      });
+   // this is to transmit SMARTY variables to the .js file
+   var userTeamListSmartyData = {
+      ajaxPage:"{$userTeamList_ajaxPhpURL}",
+      i18n_update:"{t}Update{/t}",
+      i18n_cancel:"{t}Cancel{/t}"
    };
 </script>
 </div>

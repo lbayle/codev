@@ -2,6 +2,7 @@
    <table id="userTeamList_team_table" class="datatable_csv">
       <thead>
          <tr>
+            <th></th>
             <th>{t}Team{/t}</th>
             <th>{t}Arrival date{/t}</th>
             <th>{t}Departure date{/t}</th>
@@ -10,11 +11,14 @@
       </thead>
       <tbody>
          {foreach from=$userTeamList_userTeams item=i key=id}
-         <tr>
-            <td title="{$i.team_id}">{$i.team_name}</td>
-            <td>{$i.arrival_date}</td>
-            <td>{$i.departure_date}</td>
-            <td>{$i.access_level}</td>
+         <tr class="userTeamList_userTeamsTr" data-teamid='{$i.team_id}'>
+            <td class="ui-state-error-text" style="width:20px;">
+               <img class="userTeamList_link pointer" align="absmiddle" title="{t}Edit{/t}" src="images/b_edit.png"/>
+            </td>
+            <td class="userTeamList_teamName" title="{$i.team_id}">{$i.team_name}</td>
+            <td class="userTeamList_arrivalDate">{$i.arrival_date}</td>
+            <td class="userTeamList_departureDate">{$i.departure_date}</td>
+            <td class="userTeamList_accessLevel" data-accessLevel_id='{$i.accessLevel_id}'>{$i.accessLevel}</td>
          </tr>
          {/foreach}
       </tbody>
