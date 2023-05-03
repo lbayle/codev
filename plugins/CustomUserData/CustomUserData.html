@@ -1,0 +1,58 @@
+<div class="CustomUserData">
+<div class="pluginInitFunction"  style="display: none;">CustomUserDataJsInit</div>
+<div class="pluginDestroyFunction"  style="display: none;">CustomUserDataJsDestroy</div>
+
+<div>
+   <div class="userTeamListDiv" align="left" style="margin-top: 1em;">
+      <table id="CustomUserData_table" class="datatable_csv">
+         <thead>
+            <tr>
+               <th data-field="user_login">{t}User{/t}</th>
+               <th data-field="user_realname">{t}Name{/t}</th>
+               
+               {foreach from=$CustomUserData_fieldNames item=i key=id}
+               <th data-field="{$id}">{$i}</th>
+               {/foreach}
+
+               <th data-field="user_email">{t}Email{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$CustomUserData_users item=i key=id}
+            <tr data-userid='{$i.user_id}'>
+            {if $i.isEditable}
+               <td title="{$i.user_id}">{$i.user_login}</td>
+               <td>{$i.user_realname}</td>
+
+               {foreach from=$CustomUserData_fieldNames item=j key=jid}
+               <td data-field="{$jid}" class="userFieldTd hover"> <span class="userFieldSpan">{$i[$jid]}</span> </td>
+               {/foreach}
+               <td>{$i.user_email}</td>
+            {else}
+               <td title="{$i.user_id}"><span style="color:gray">{$i.user_login}</span></td>
+               <td><span style="color:gray">{$i.user_realname}</span></td>
+
+               {foreach from=$CustomUserData_fieldNames item=j key=jid}
+               <td data-field="{$jid}"><span style="color:gray">{$i[$jid]}</span></td>
+               {/foreach}
+
+               <td><span style="color:gray">{$i.user_email}</span></td>
+            {/if}
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
+   </div>
+   <div class="ui-helper-clearfix"></div>
+</div>
+
+
+<script>
+      // this is to transmit SMARTY variables to the .js file
+      var CustomUserDataSmartyData = {
+         ajaxPage:"{$CustomUserData_ajaxPhpURL}"
+      };
+   
+</script>
+
+</div>

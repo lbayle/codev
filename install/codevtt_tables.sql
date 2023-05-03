@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "codev_config_table" (
 
 
 INSERT INTO "codev_config_table" ("config_id", "value", "type") VALUES
-('database_version', 22, 1),
+('database_version', 23, 1),
 ('blogCategories', '1:General,2:Timetracking,3:Admin', 3);
 
 
@@ -570,8 +570,17 @@ CREATE TABLE IF NOT EXISTS "codev_timetrack_note_table" (
   PRIMARY KEY ("timetrackid", "noteid")
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+-- '--------------------------------------------------------
 
 
+CREATE TABLE IF NOT EXISTS "codev_custom_user_data_table" (
+  "user_id" int(11) NOT NULL COMMENT 'MantisBT user id',
+  "field_01" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_02" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_03" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_04" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 

@@ -151,6 +151,12 @@ class Constants {
       'enable_email_notification' => 1,  // default is enabled
    );
 
+   // ---CustomUserData---
+   public static $customUserData = array(
+      #'field_01' => 'custom 1',  // if field name is undefined, field is not displayed
+   );
+   
+   
    // ---CNIL---
    // French "Commission nationale de l'informatique et des libertés"
    public static $cnil_company = NULL;
@@ -339,6 +345,13 @@ class Constants {
          }
       }
 
+      $customUserData = $ini_array['CustomUserData'];
+      if (is_array($customUserData)) {
+         foreach ($customUserData as $key => $val) {
+            self::$customUserData[$key] = $val;
+         }
+      }
+      
       // -----
 
       /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
@@ -446,6 +459,17 @@ class Constants {
       $i18n[] = '; this mostly depends on your environment: Windows, UX, Docker, apache version...';
       $i18n['force_lc_numeric'] = self::$force_lc_numeric;
 
+      
+      $customUserData = array();
+      $customUserData[] = '; the CustomUserData plugin allows to set some user specific data';
+      $customUserData[] = '; such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc.';
+      $customUserData[] = '; it was introduced to ease the export of CodevTT data to other tools.';
+      $customUserData[] = '; You have 5 available fields, this section defines the field names to be displayed';
+      $customUserData[] = '; see the "codev_custom_user_data_table" in the DB';
+      $customUserData[] = ';field_01 = "custom 1"';
+      $customUserData[] = ';field_02 = "custom 2"';
+      
+      // -----------------------------------------
 
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';
@@ -481,6 +505,8 @@ class Constants {
       $ini_array['dashboardDefaultPlugins'] = $dashboards;
       $ini_array[] = '';
       $ini_array['email'] = $emailSettings;
+      $ini_array[] = '';
+      $ini_array['CustomUserData'] = $customUserData;
       $ini_array[] = '';
 
       return Tools::write_php_ini($ini_array, $file);

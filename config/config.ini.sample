@@ -104,4 +104,15 @@ Admin = "AdminTools,TimetrackDetailsIndicator,UserTeamList"
 ; --- 0 2 * * 5 php /var/www/html/codevtt/tools/send_timesheet_emails.php
 enable_email_notification = 1
 
+; the CustomUserData plugin allows to set some user specific data
+; such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc.
+; it was introduced to ease the export of CodevTT data to other tools.
+; You have 5 available fields, this section defines the field names to be displayed
+; see the "codev_custom_user_data_table" in the DB
+[CustomUserData]
+field_01 = "custom 1"
+field_02 = "custom 2"
+field_03 = "custom 3"
+;field_04 = "custom 4"
+;field_05 = "custom 5"
 
