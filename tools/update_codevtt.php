@@ -756,6 +756,30 @@ function update_v21_to_v22() {
 
 }
 
+/**
+ * update 1.7.0 to 1.8.0 (DB v22 to DB v23)
+ *
+ */
+function update_v22_to_v23() {
+
+   $sql = AdodbWrapper::getInstance();
+
+   $sqlScriptFilename = Constants::$codevRootDir.'/install/codevtt_update_v22_v23.sql';
+   if (!file_exists($sqlScriptFilename)) {
+      echo "<span class='error_font'>SQL script not found:$sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+   // execute the SQL script
+   echo "- Execute SQL script: $sqlScriptFilename<br>";
+   $retCode = Tools::execSQLscript2($sqlScriptFilename);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlScriptFilename</span><br/>";
+      exit;
+   }
+
+}
+
 
 // ======================================================
 // toolbox

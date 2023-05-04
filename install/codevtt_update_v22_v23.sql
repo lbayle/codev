@@ -8,12 +8,18 @@ CREATE TABLE IF NOT EXISTS "codev_custom_user_data_table" (
   "field_02" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_03" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_04" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
-  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini'
+  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_06" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_07" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_08" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_09" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_10" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- enable new plugins
 INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "version", "description") VALUES
-('CustomUserData', 1, 'Admin', 'Admin', '1.0.0', 'bla bla TODO');
+('CustomUserData', 1, 'TeamAdmin,Team,User', 'Admin,Activity', '1.0.0', 'Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc.<br>The initial goal is to ease the export of CodevTT data to other tools.');
 
 -- tag version
 UPDATE "codev_config_table" SET "value"='23' WHERE "config_id"='database_version';

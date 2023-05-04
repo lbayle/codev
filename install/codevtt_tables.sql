@@ -521,6 +521,7 @@ INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "ve
 ('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the budget history'),
 ('BurnDownChart', 1, 'Project,Task,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the backlog history'),
 ('CostsIndicator', 1, 'Task,Command,CommandSet,ServiceContract', 'Financial', '1.0.0', 'Compute costs, using the UserDailyCosts defined in team settings'),
+('CustomUserData', 1, 'TeamAdmin,Team,User', 'Admin,Activity', '1.0.0', 'Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc.<br>The initial goal is to ease the export of CodevTT data to other tools.'),
 ('DeadlineAlertIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display unresolved tasks that should have been delivered'),
 ('DriftAlertIndicator', 1, 'Homepage,Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Display tasks where the elapsed time is greater than the estimated effort'),
 ('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the EffortEstim reliability rate history<br>rate = EffortEstim / elapsed (on resolved tasks only)'),
@@ -579,7 +580,13 @@ CREATE TABLE IF NOT EXISTS "codev_custom_user_data_table" (
   "field_02" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_03" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_04" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
-  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini'
+  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_06" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_07" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_08" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_09" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  "field_10" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
