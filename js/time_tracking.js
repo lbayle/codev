@@ -141,9 +141,7 @@ jQuery(document).ready(function() {
    });
 
    jQuery("#bugid").change(function() {
-      if ('0' === jQuery("#projectid").val()) {
          getJobsAndDurations(event);
-      }
    });
 
 
