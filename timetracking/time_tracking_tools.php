@@ -490,6 +490,16 @@ class TimeTrackingTools {
          $managedUserName = $managedUser->getName();
 
          $ttForbidenStatusList = $team->getTimetrackingForbidenStatusList($issue->getProjectId());
+
+         $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
+         $versionList = $project->getVersionList();
+         rsort($versionList);
+
+         $fixedInVersion = $issue->getFixedInVersion();
+         if (empty($fixedInVersion)) {
+            $fixedInVersion = $issue->getTargetVersion();
+         }
+
       } catch (Exception $e) {
          $backlog = '!';
          $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
@@ -510,6 +520,8 @@ class TimeTrackingTools {
          $handlerName = 'ERROR';
          $managedUserName = 'ERROR';
          $ttForbidenStatusList = array();
+         $versionList = array();
+         $fixedInVersion = null;
       }
 
       // prepare json data for the BacklogDialogbox
@@ -538,6 +550,8 @@ class TimeTrackingTools {
          'handlerId' => $handlerId,
          'handlerName' => $handlerName,
          'ttForbidenStatusList' => $ttForbidenStatusList,
+         'versionList' => $versionList,
+         'fixedInVersion' => $fixedInVersion,
       );
 
       if (0 !== $trackDuration) {

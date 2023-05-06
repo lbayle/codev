@@ -462,6 +462,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             $duration      = Tools::getSecurePOSTNumberValue('timeToAdd'); // 'duree'
             $trackUserid = Tools::getSecurePOSTIntValue('trackUserid');
             $taskHandlerId = Tools::getSecurePOSTIntValue('handlerid', 0); // optional
+            $fixedInVersion = Tools::getSecurePOSTStringValue('fixedInVersion', ''); // optional
 
             $issue = IssueCache::getInstance()->getIssue($defaultBugid);
             $errMessage = '';
@@ -505,6 +506,13 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                $issue->setBacklog($formattedBacklog);
                $issue->setStatus($newStatus);
             }
+
+            if ((!empty($fixedInVersion)) && 
+                ($newStatus >= $issue->getBugResolvedStatusThreshold())) {
+               $logger->error("set fixedInVersion = $fixedInVersion");
+               $issue->setFixedInVersion($fixedInVersion);
+            }
+
 
             // The taskHandler is not always specified,
             // it is present on a regular updateBacklogDialogbox

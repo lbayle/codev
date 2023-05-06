@@ -1169,30 +1169,21 @@ class Project extends Model {
    }
 
    /**
-    * returns an array of ProjectVersion instances
-    * key=version, value= ProjectVersion
+    * returns an array of VersionNames
     *
-    * @param int $team_id (TODO)
-    * @return ProjectVersion[]
+    * @return array[id] => versionName
     */
-   #public function getVersionList($team_id = NULL) {
    public function getVersionList() {
-      if (is_null($this->projectVersionList)) {
-         $this->projectVersionList = array();
-         $issueList = $this->getIssues();
-         foreach ($issueList as $issue) {
-            $tagVersion = "VERSION_".$issue->getTargetVersion();
+      $versionList = array();
+      $sql = AdodbWrapper::getInstance();
+      $query = "SELECT * FROM {project_version} ".
+               "WHERE project_id = ".$sql->db_param();
 
-            if (!array_key_exists($tagVersion, $this->projectVersionList)) {
-               $this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
-            }
-            $this->projectVersionList[$tagVersion]->addIssue($issue->getId());
-         }
-
-         ksort($this->projectVersionList);
+      $result = $sql->sql_query($query, array($this->id));
+      while($row = $sql->fetchObject($result)) {
+         $versionList[$row->id] = $row->version;
       }
-
-      return $this->projectVersionList;
+      return $versionList;
    }
 
    /**

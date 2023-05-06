@@ -90,6 +90,7 @@ class Issue extends Model implements Comparable {
    private $view_state; // public = 10, private = 50
    private $description;
    private $target_version;
+   private $fixed_in_version;
    private $relationships; // array(relationshipType, array(bugId))
    private $issueNoteList;
    private $commandList;
@@ -206,6 +207,7 @@ class Issue extends Model implements Comparable {
          $this->resolution = $row->resolution;
          $this->version = $row->version;
          $this->target_version = $row->target_version;
+         $this->fixed_in_version = $row->fixed_in_version;
          $this->last_updated = $row->last_updated;
          $this->view_state = $row->view_state;
 
@@ -680,6 +682,10 @@ class Issue extends Model implements Comparable {
 
    public function getTargetVersion() {
       return $this->target_version;
+   }
+
+   public function getFixedInVersion() {
+      return $this->fixed_in_version;
    }
 
    public function getTcId() {
@@ -1780,6 +1786,24 @@ class Issue extends Model implements Comparable {
       $old_tversion = $this->target_version;
       $this->target_version = $version;
       $this->setMantisBugHistory('target_version', $old_tversion, $version); // TODO old_version
+   }
+
+   /**
+    * Set fixed_in_version (by id).
+    *
+    * @param type $version version or '' to remove.
+    */
+   public function setFixedInVersion($version) {
+
+      $sql = AdodbWrapper::getInstance();
+
+      $query = "UPDATE {bug} SET fixed_in_version = ".$sql->db_param().
+               " WHERE id= ".$sql->db_param();
+      $sql->sql_query($query, array($version, $this->bugId));
+
+      $old_version = $this->fixed_in_version;
+      $this->fixed_in_version = $version;
+      $this->setMantisBugHistory('fixed_in_version', $old_version, $version);
    }
 
    private function setCustomField($field_id, $value, $field_name=NULL) {

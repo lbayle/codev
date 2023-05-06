@@ -41,6 +41,11 @@
                   <td><select id="status" name="status" {if $isForbidUpdateStatusOnTimetracking}disabled{/if}> </select></td>
                   <td></td>
                </tr>
+               <tr id="tr_fixedInVersion">
+                  <th><label for="status">{t}Fixed in version{/t} :</label></th>
+                  <td><select id="fixedInVersion" name="fixedInVersion"> </select></td>
+                  <td></td>
+               </tr>
                <tr id="tr_timeToAdd">
                   <th>{t}Duration{/t} :</th>
                   <td><select id="timeToAdd" name="timeToAdd" title="{t}Duration (in days){/t}"></select></td>

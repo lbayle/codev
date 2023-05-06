@@ -130,8 +130,33 @@ function openUpdateBacklogDialogbox(updateBacklogJsonData) {
       }
    }
 
+   // set available fixedInVersion
+   jQuery('#fixedInVersion').empty();
+   var availItemList = data['versionList'];
+   for (var id in availItemList) {
+
+      if (availItemList.hasOwnProperty(id)) {
+         if (availItemList[id] == data['fixedInVersion']) {
+            jQuery('#fixedInVersion').append(
+               jQuery('<option>').attr('id', id).attr('selected', 'selected').append(availItemList[id])
+            );
+         } else {
+            jQuery('#fixedInVersion').append(
+               jQuery('<option>').attr('id', id).append(availItemList[id])
+            );
+         }
+      }
+   }
+
    g_ttForbidenStatusList = data['ttForbidenStatusList'];
    g_currentStatus = data['currentStatus'];
+
+   // field fixedInVersion should only be displayed if resolved
+   if ((g_currentStatus < data['bugResolvedStatusThreshold']) || (0 === data['versionList'].length)) {
+      jQuery("#tr_fixedInVersion").hide();
+   } else {
+         jQuery("#tr_fixedInVersion").show();
+   }
 
    // set assignedTo
    jQuery('#handlerid').empty();
@@ -284,6 +309,14 @@ jQuery(document).ready(function() {
       changeBackLogValue(previousStatus);
       var selectedStatusId = jQuery("#status").children(":selected").attr("id");
       jQuery("#formUpdateBacklog").find("input[name=statusid]").val(selectedStatusId);
+      
+      // field fixedInVersion should only be displayed if resolved
+      var bugResolvedStatusThreshold = jQuery("#bugResolvedStatusThreshold").val();      
+      if ((selectedStatusId < bugResolvedStatusThreshold) || (0 === $('#fixedInVersion').has('option').length)){
+         jQuery("#tr_fixedInVersion").hide();
+      } else {
+         jQuery("#tr_fixedInVersion").show();
+      }     
    });
 
    var backlog = jQuery("#backlog");
