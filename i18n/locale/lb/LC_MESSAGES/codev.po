@@ -1,26 +1,25 @@
-# Translation of CodevTT to Breton (brezhoneg)
+# Translation of CodevTT to Luxembourgish (Lëtzebuergesch)
 # Exported from translatewiki.net
 #
-# Author: Dishual
-# Author: Fulup
-# Author: Gwenn-Ael
-# Author: Huñvreüs
+# Author: Les Meloures
+# Author: Nemo bis
+# Author: Robby
+# Author: Soued031
+# Author: Volvox
 msgid ""
 msgstr ""
 ""
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:01+0000\n"
-"Language: br\n"
+"PO-Revision-Date: 2023-05-08 11:02:03+0000\n"
+"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
+"Language: lb\n"
 "X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
-msgstr "Fazi(où) en trevelloù Mantis"
+msgstr ""
 
 #. tpl/check.html
 #. tpl/project_activity_report.html
@@ -52,7 +51,7 @@ msgstr "Fazi(où) en trevelloù Mantis"
 #. plugins/ResetDashboard/ResetDashboard.html
 #: plugins/WBSExport/WBSExport.class.php:146
 msgid "User"
-msgstr "Implijer"
+msgstr "Benotzer"
 
 #. tpl/check.html
 #. tpl/ajax/weekTaskDetails.html
@@ -79,15 +78,15 @@ msgstr "Implijer"
 #: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
 #: gantt/gantt_ajax.php:192
 msgid "Task"
-msgstr "Trevell"
+msgstr "Aufgab"
 
 #. tpl/check.html
 msgid "extRef"
-msgstr "RefExt"
+msgstr ""
 
 #. tpl/check.html
 msgid "last modification date"
-msgstr "Deiz ar c'hemm diwezhañ"
+msgstr ""
 
 #. tpl/check.html
 #. tpl/productivity_report.html
@@ -116,7 +115,7 @@ msgstr "Deiz ar c'hemm diwezhañ"
 #: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
 #: tools.php:1559
 msgid "Status"
-msgstr "Statud"
+msgstr "Status"
 
 #. tpl/check.html
 #. tpl/servicecontract_edit.html
@@ -166,7 +165,7 @@ msgstr "Statud"
 #: scheduler/SchedulerEvent.class.php:127
 #: scheduler/SchedulerEvent.class.php:128 tools.php:1555
 msgid "Project"
-msgstr "Raktres"
+msgstr "Projet"
 
 #. tpl/check.html
 #. tpl/ajax/schedulerAffectationSummary.html
@@ -205,17 +204,17 @@ msgstr "Raktres"
 #: scheduler/SchedulerEvent.class.php:87 scheduler/SchedulerEvent.class.php:130
 #: gantt/gantt_ajax.php:194 gantt/gantt_ajax.php:231 tools.php:1561
 msgid "Summary"
-msgstr "Taolenn"
+msgstr "Resumé"
 
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Level"
-msgstr "Live"
+msgstr "Niveau"
 
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Error Description"
-msgstr "Deskrivadur ar fazi"
+msgstr "Feelerbeschreiwung"
 
 #. tpl/check.html
 #. tpl/user_info.html
@@ -239,11 +238,11 @@ msgstr "Deskrivadur ar fazi"
 #. tpl/holidays_report.html
 #. tpl/gantt.html
 msgid "Please select a team to access this page."
-msgstr "Dibabit ur skipailh, mar plij, evit diraez ar bajenn-mañ."
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
-msgstr "Kevrat-servij nevez"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/form/teamSelector.html
@@ -263,7 +262,7 @@ msgstr "Kevrat-servij nevez"
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Team"
-msgstr "Skipailh"
+msgstr "Ekipp"
 
 #. tpl/servicecontract_edit.html
 #. tpl/set_holidays.html
@@ -275,7 +274,7 @@ msgstr "Skipailh"
 #. plugins/CustomUserData/CustomUserData.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Name"
-msgstr "Anv"
+msgstr "Numm"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -284,7 +283,7 @@ msgstr "Anv"
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Reference"
-msgstr "Daveenn"
+msgstr "Referenz"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -292,7 +291,7 @@ msgstr "Daveenn"
 #. tpl/command_info.html
 #. tpl/plugin_manager.html
 msgid "Version"
-msgstr "Doare"
+msgstr "Versioun"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -300,7 +299,7 @@ msgstr "Doare"
 #. tpl/team_activity_report.html
 #. tpl/command_info.html
 msgid "Reporter"
-msgstr "Titourer"
+msgstr "Reporter"
 
 #. tpl/servicecontract_edit.html
 #. tpl/edit_holidays.html
@@ -335,7 +334,7 @@ msgstr "Titourer"
 #. plugins/TasksPivotTable/TasksPivotTable.html
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Description"
-msgstr "Deskrivadur"
+msgstr "Beschreiwung"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -346,29 +345,29 @@ msgstr "Deskrivadur"
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Start date"
-msgstr "Deiziad kregiñ"
+msgstr "Ufanksdatum"
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
-msgstr "Deiziad deroù"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
 msgid "End date"
-msgstr "Deiziad echuiñ"
+msgstr "Schlussdatum"
 
 #. tpl/servicecontract_edit.html
 msgid "EndDate"
-msgstr "Deiziad fin"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 #. tpl/command_info.html
 msgid "State"
-msgstr "Stad"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -380,7 +379,7 @@ msgstr "Stad"
 #. Delete
 #: plugins/BlogPlugin/BlogPost.class.php:425
 msgid "Delete"
-msgstr "Dilemel"
+msgstr "Läschen"
 
 #. tpl/servicecontract_edit.html
 #. tpl/edit_holidays.html
@@ -394,37 +393,37 @@ msgstr "Dilemel"
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Some fields are missing:"
-msgstr "Disoñjet eo bet ar maeziennoù-mañ :"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
-msgstr "Anv ar Gevrat-servij"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
-msgstr "Dilemel ar Gevrat-servij"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Delete this ServiceContract ?"
-msgstr "Dilemel ar Gevrat-servij-mañ ?"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Nb CommandSets"
-msgstr "Nv. a Vakroioù-urzhiad"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 msgid "CommandSets"
-msgstr "Makro-urzhiadoù"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "SideTasks Projects"
-msgstr "Raktresoù Trevelloù Kar"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
-msgstr "--- Makro-urzhiad Nevez ---"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/edit_holidays.html
@@ -438,7 +437,7 @@ msgstr "--- Makro-urzhiad Nevez ---"
 #. tpl/issue_info.html
 #. tpl/menu/global_menu.html
 msgid "Add"
-msgstr "Ouzhpennañ"
+msgstr "Derbäisetzen"
 
 #. tpl/servicecontract_edit.html
 #. tpl/forecasting_report.html
@@ -447,20 +446,20 @@ msgstr "Ouzhpennañ"
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "No data"
-msgstr "Roadenn ebet"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 #. tpl/issue_info.html
 msgid "Remove"
-msgstr "Dilemel"
+msgstr "Ewechhuelen"
 
 #. tpl/servicecontract_edit.html
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
 msgid "Ref"
-msgstr "Dave"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -469,20 +468,20 @@ msgstr "Dave"
 #. tpl/command_info.html
 #. tpl/menu/global_menu.html
 msgid "CommandSet"
-msgstr "Makro-urzhiad"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-CommandSet association"
-msgstr "Dilemel ar c'hevreadur Kevrat-servij-Makro-urzhiad"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 msgid "Remove CommandSet"
-msgstr "Dilemel Makro-urzhiad"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove CommandSet from this Contract ?"
-msgstr "Dilemel ar Makro-Urzhiad evit ar Gevrat-servij-mañ ?"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -490,19 +489,19 @@ msgstr "Dilemel ar Makro-Urzhiad evit ar Gevrat-servij-mañ ?"
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Id"
-msgstr "Id"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-Project association"
-msgstr "Dilemel ar c'hevreadur Kevrat-servij-Raktres"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr "Dilemel Raktres"
+msgstr "Projet ewechhuelen"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
-msgstr "Dilemel raktres ar Gevrat-servij-mañ ?"
+msgstr ""
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -510,7 +509,7 @@ msgstr "Dilemel raktres ar Gevrat-servij-mañ ?"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "Sorry, only managers can access this page."
-msgstr "Rankout a rit bezañ Merour evit diraez ar bajenn-mañ."
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/team_monthly_activity_report.html
@@ -535,7 +534,7 @@ msgstr "Rankout a rit bezañ Merour evit diraez ar bajenn-mañ."
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:290
 #: gantt/gantt_ajax.php:196
 msgid "Progress"
-msgstr "Araokaat"
+msgstr "Fortschrëtt"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/ajax/schedulerAffectationSummary.html
@@ -571,7 +570,7 @@ msgstr ""
 #: plugins/WBSExport/WBSExport.class.php:151
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:292 tools.php:1494
 msgid "EffortEstim"
-msgstr "Karg kentañ"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/productivity_report.html
@@ -586,7 +585,7 @@ msgstr "Karg kentañ"
 #: reports/project_info.php:233 tests/filters.php:69
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:293
 msgid "Reestimated"
-msgstr "Adpriziet"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/team_monthly_activity_report.html
@@ -619,7 +618,7 @@ msgstr "Adpriziet"
 #: plugins/WBSExport/WBSExport.class.php:152
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:294
 msgid "Elapsed"
-msgstr "Bevezet"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/ajax/schedulerAffectationSummary.html
@@ -653,7 +652,7 @@ msgstr "Bevezet"
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
 #: tools.php:1488 tools.php:1497
 msgid "Backlog"
-msgstr "A chom d'ober"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/statistics.html
@@ -690,16 +689,15 @@ msgstr ""
 #: scheduler/SchedulerEvent.class.php:161 gantt/gantt_ajax.php:255
 #: tools.php:273
 msgid "Drift"
-msgstr "Tuadur"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr "Skoazell e-barzh"
+msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
-#, fuzzy
 msgid "Support NOT included"
-msgstr "Skoazell e-barzh"
+msgstr ""
 
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/productivity_report.html
@@ -715,7 +713,7 @@ msgstr "Skoazell e-barzh"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. tpl/ajax/schedulerAffectationSummary.html
 #. tpl/productivity_report.html
@@ -728,11 +726,11 @@ msgstr "ID"
 #: classes/issue_selection.class.php:349
 #: plugins/WBSExport/WBSExport.class.php:145
 msgid "ExtRef"
-msgstr "RefExt"
+msgstr "Extern Ref."
 
 #. tpl/ajax/schedulerAffectationSummary.html
 msgid "Assigned users"
-msgstr "implijerien Deverket"
+msgstr ""
 
 #. tpl/ajax/projectDetails.html
 #. tpl/project_activity_report.html
@@ -752,7 +750,7 @@ msgstr "implijerien Deverket"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Category"
-msgstr "Rummad"
+msgstr "Kategorie"
 
 #. tpl/ajax/projectDetails.html
 #. tpl/productivity_report.html
@@ -760,7 +758,7 @@ msgstr "Rummad"
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
 msgid "Nb Days"
-msgstr "Nv a zeizioù"
+msgstr "Zuel vun Deeg"
 
 #. tpl/ajax/projectDetails.html
 #. tpl/productivity_report.html
@@ -783,7 +781,7 @@ msgstr "Nv a zeizioù"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:228
 msgid "Tasks"
-msgstr "Trevelloù"
+msgstr "Aufgaben"
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/productivity_report.html
@@ -808,12 +806,11 @@ msgstr ""
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 msgid "Job"
-msgstr "Labour"
+msgstr "Aarbecht"
 
 #. tpl/ajax/weekTaskDetails.html
-#, fuzzy
 msgid "update backlog"
-msgstr "Trevelloù diskwelet"
+msgstr ""
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/servicecontract_info.html
@@ -830,11 +827,11 @@ msgstr "Trevelloù diskwelet"
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
 msgid "TOTAL"
-msgstr "HOLLAD"
+msgstr "TOTAL"
 
 #. tpl/statistics.html
 msgid "Start Year"
-msgstr "Dezioù kregiñ"
+msgstr "Ufanksjoer"
 
 #. tpl/statistics.html
 #. tpl/user_info.html
@@ -846,12 +843,12 @@ msgstr "Dezioù kregiñ"
 #. tpl/team_dashboard.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Compute"
-msgstr "Jediñ"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 msgid "Adherence to deadlines"
-msgstr "Doujañ d'an termenoù degas"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Efficiency - System Disponibility"
@@ -859,23 +856,23 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Reopened Rate"
-msgstr "Feur distreiñ"
+msgstr ""
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:71
 msgid "Available Workforce"
-msgstr "Barregezh produiñ"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability"
-msgstr "Fiziusted e priziañ ar garg"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr "% Trevelloù"
+msgstr "% Aufgaben"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
@@ -887,12 +884,11 @@ msgstr ""
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "show values"
-msgstr "Diskouz an talvoudennoù"
+msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "% Tasks Delivered on time"
-msgstr "Trevelloù degaset e koulz"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/edit_holidays.html
@@ -920,7 +916,7 @@ msgstr "Trevelloù degaset e koulz"
 #. plugins/BurnDownChart/BurnDownChart_ajax.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Date"
-msgstr "Deiziad"
+msgstr "Datum"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
@@ -934,74 +930,71 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Effort Deviation"
-msgstr "Striv tuadur"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Harp ebet"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "BI"
-msgstr "BI"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "BS"
-msgstr "BS"
+msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort Deviation (ExtRefOnly)"
-msgstr "Striv tuadur"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 msgid "Efficiency Rate"
-msgstr "Feur efedusted"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Exclude side tasks to get the percent of time spent working on the projects"
-msgstr "Tregantad a amzer dremenet war an trevelloù raktres e-keñver an amzer hollek bevezet (hag ivez Trevelloù Kar)"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Efficiency"
-msgstr "Efedusted"
+msgstr ""
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Efficiency"
-msgstr "% Efedusted"
+msgstr ""
 
 #. tpl/statistics.html
 #, c-format
 msgid "% Sys Disp."
-msgstr "% Disp Sys"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Sys Disp."
-msgstr "Disp Sys"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
 msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "% Reopened"
-msgstr "niver addigoret"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
 msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Nb Reopened"
-msgstr "niver addigoret"
+msgstr ""
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "man-days"
-msgstr "deiz-gwaz"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
@@ -1009,17 +1002,17 @@ msgstr ""
 
 #. tpl/statistics.html
 msgid "Developers Workload"
-msgstr "Barregezh produiñ"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "nb production days"
-msgstr "Niver a zevezhioù produiñ"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Compares the effort estimation to the elapsed time."
-msgstr "A geñveri ar garg deroù d'an amzer bevezet"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1032,19 +1025,19 @@ msgstr "A geñveri ar garg deroù d'an amzer bevezet"
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Help"
-msgstr "Skoazell"
+msgstr "Hëllef"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "(on resolved tasks only)"
-msgstr "(war an trevelloù diskoulmet hepken)"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
-msgstr "feur = 1 : prizadur peurvat. <br>feur &lt; 1 : isprizet<br> feur &gt, 1 : dreistprizet"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1056,24 +1049,24 @@ msgstr "feur = 1 : prizadur peurvat. <br>feur &lt; 1 : isprizet<br> feur &gt, 1 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Formula"
-msgstr "Formulenn"
+msgstr "Formel"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "EffortAdd"
-msgstr "Karg ouzhpennet"
+msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: classes/consistency_check2.class.php:414
 msgid "elapsed"
-msgstr "bevezet"
+msgstr ""
 
 #. tpl/statistics.html
 msgid "Sorry, you do NOT have access to this page."
-msgstr "Hon digarezit, ne c'hallit ket diraez ar bajenn-mañ."
+msgstr ""
 
 #. tpl/user_info.html
 #. tpl/project_info.html
@@ -1082,30 +1075,28 @@ msgstr "Hon digarezit, ne c'hallit ket diraez ar bajenn-mañ."
 #. tpl/issue_info.html
 #. tpl/command_info.html
 msgid "Indicators"
-msgstr "Titourennoù"
+msgstr "Indicateuren"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User info"
-msgstr "Implijer"
+msgstr "Benotzerinformatioun"
 
 #. tpl/user_info.html
 #. tpl/modal/login.html
 #: plugins/ImportUsers/ImportUsers_ajax.php:165
 msgid "Login"
-msgstr "Kevreañ"
+msgstr "Aloggen"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User ID"
-msgstr "Implijer"
+msgstr "Benotzernummer"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Group"
-msgstr ""
+msgstr "Grupp"
 
 #. tpl/user_info.html
 #. tpl/edit_team.html
@@ -1115,9 +1106,8 @@ msgid "Role"
 msgstr "Roll"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "Team arrival date"
-msgstr "Deiziat degouezhout"
+msgstr ""
 
 #. tpl/user_info.html
 #. tpl/edit_jobs.html
@@ -1131,19 +1121,18 @@ msgstr "Deiziat degouezhout"
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Cancel"
-msgstr "Nullañ"
+msgstr "Ofbriechen"
 
 #. tpl/user_info.html
 #. tpl/time_tracking.html
 #. tpl/modal/login.html
 #. tpl/plugin_manager.html
 msgid "Please wait..."
-msgstr "Gortozit mar plij..."
+msgstr "Waart wgl. ..."
 
 #. tpl/bvi.html
-#, fuzzy
 msgid "Average Backlog Variation"
-msgstr "Titouroù diwar-benn an drevell"
+msgstr ""
 
 #. tpl/bvi.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
@@ -1173,23 +1162,23 @@ msgstr "Titouroù diwar-benn an drevell"
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "No data."
-msgstr "Roadenn ebet"
+msgstr ""
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Monthly Activity"
-msgstr "Obererezh miziek"
+msgstr "Monatlech Aktivitéit"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/project_activity_report.html
 #. tpl/team_activity_report.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Detailed"
-msgstr "Dre ar munud"
+msgstr ""
 
 #. tpl/team_monthly_activity_report.html
 msgid "Tasks per User"
-msgstr "Trevelloù dre implijer"
+msgstr "Aufgabe pro Benotzer"
 
 #. tpl/team_monthly_activity_report.html
 #. tpl/project_activity_report.html
@@ -1215,39 +1204,39 @@ msgstr "Trevelloù dre implijer"
 #. plugins/TasksPivotTable/TasksPivotTable_ajax2.html
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 msgid "Export to CSV"
-msgstr "Ezporzhiañ da CVS"
+msgstr "Als CSV exportéieren"
 
 #. tpl/team_monthly_activity_report.html
 msgid "Elapsed in period"
-msgstr "Bevezet er mare"
+msgstr ""
 
 #. tpl/index.html
 msgid "IE may not correctly display this website"
-msgstr "Gallout a ra IE chom hep dont mat war wel el lec'hienn-mañ"
+msgstr ""
 
 #. tpl/index.html
 msgid "please consider using a standard complient web-browser"
-msgstr "ma vez kudennoù, implijit, mar plij, ur merdeer a zouj da standardoù ar web."
+msgstr ""
 
 #. tpl/index.html
 msgid "A new CodevTT version is available !"
-msgstr "Un doare CodevTT  nevez a c'haller kaout !"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Add fixed holidays"
-msgstr "Ouzhpennañ vakañsoù"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "In here you can set National Days, religious holidays, etc."
-msgstr "Ouzhpennañ an Deizioù Broadel, ar gouelioù relijiel, pe ehan bloaz an embregerezhioù amañ."
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong."
-msgstr "Notenn : Ne ranker ket disklêriañ an devezhioù DAL amañ."
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Holiday Description"
-msgstr "Deskrivadur vakañsoù"
+msgstr ""
 
 #. tpl/edit_holidays.html
 #. tpl/edit_jobs.html
@@ -1256,21 +1245,21 @@ msgstr "Deskrivadur vakañsoù"
 #: install/install_step3.php:654 install/install_step3.php:660
 #: install/install_step3.php:665
 msgid "Color"
-msgstr "Liv"
+msgstr "Faarf"
 
 #. tpl/edit_holidays.html
 #. tpl/edit_jobs.html
 #: install/install_step3.php:634
 msgid "open a colorPicker in a new Tab"
-msgstr "Digeriñ un diuzer liv en un ivinell nevez"
+msgstr ""
 
 #. tpl/edit_holidays.html
 msgid "Permanently remove this date ?"
-msgstr "Dilemel an deiziad-mañ evit mat ?"
+msgstr "Dësen Datum definitiv ewechhuelen?"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
-msgstr "Dilemel Vakañsoù"
+msgstr ""
 
 #. tpl/edit_holidays.html
 #. tpl/edit_jobs.html
@@ -1279,7 +1268,7 @@ msgstr "Dilemel Vakañsoù"
 #. tpl/workflow.html
 #. tpl/create_team.html
 msgid "Sorry, you need to be in the admin-team to access this page."
-msgstr "Rankout a rit bezañ lodenn eus ar skipailh merañ evit diraez ar bajenn-mañ."
+msgstr ""
 
 #. tpl/set_holidays.html
 #. tpl/filters.html
@@ -1289,7 +1278,7 @@ msgstr "Rankout a rit bezañ lodenn eus ar skipailh merañ evit diraez ar bajenn
 #. tpl/issue_info.html
 #. tpl/command_info.html
 msgid "Select"
-msgstr "Diuzañ"
+msgstr "Eraussichen"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -1299,83 +1288,83 @@ msgstr "Diuzañ"
 #: reports/export_odt.php:164 reports/export_odt_ajax.php:32
 #: reports/export_odt_ajax.php:61 smarty_tools_ajax.php:46
 msgid "(all)"
-msgstr "(pep tra)"
+msgstr ""
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Duration (in days)"
-msgstr "Pad (e deizioù)"
+msgstr "Dauer (an Deeg)"
 
 #. tpl/set_holidays.html
 msgid "Monday"
-msgstr "Lun"
+msgstr "Méindeg"
 
 #. tpl/set_holidays.html
 msgid "Tuesday"
-msgstr "Meurzh"
+msgstr "Dënschdeg"
 
 #. tpl/set_holidays.html
 msgid "Wednesday"
-msgstr "Merc'her"
+msgstr "Mëttwoch"
 
 #. tpl/set_holidays.html
 msgid "Thursday"
-msgstr "Yaou"
+msgstr "Donneschdeg"
 
 #. tpl/set_holidays.html
 msgid "Friday"
-msgstr "Gwener"
+msgstr "Freideg"
 
 #. tpl/productivity_report.html
 msgid "Production days"
-msgstr "Deizioù produiñ"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:76
 msgid "Load per Job"
-msgstr "Karg dre bost"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Project Detail"
-msgstr "Munud ar raktres"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:74
 msgid "Load per Project"
-msgstr "Karg dre Raktres"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Productivity indicators"
-msgstr "Titourennoù produüsted"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks"
-msgstr "Trevelloù addigoret"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Production Days"
-msgstr "Deizioù produiñ"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 msgid "Projects"
-msgstr "Raktresoù"
+msgstr "Projeten"
 
 #. tpl/productivity_report.html
 #. tpl/create_team.html
 #. 4) --- add SideTaskProject Categories
 #. add SideTaskProject Categories
 msgid "Project Management"
-msgstr "Merañ ar raktres"
+msgstr "Gestioun vum Projet"
 
 #. tpl/productivity_report.html
 msgid "Other SideTasks"
-msgstr "Trevelloù kar all"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/project_activity_report.html
@@ -1386,77 +1375,77 @@ msgstr "Trevelloù kar all"
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:319
 msgid "Total"
-msgstr "Hollad"
+msgstr "Total"
 
 #. tpl/productivity_report.html
 msgid "Days spent on the projects during the period (team members only)"
-msgstr "Niver a zeizioù en deus tremenet ar skipailh war ar raktresoù e-pad ar mare (evit izili ar skipailh hepken)"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Project Management"
-msgstr "Trevelloù kar : Merañ ar raktres"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Days spent on project management tasks"
-msgstr "Niver a zeizioù tremenet evit merañ ar raktresoù"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "SideTasks: Others"
-msgstr "Trevelloù kar all"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
-msgstr "Niver a zeizioù tremenet war an Trevelloù Kar nemet merañ ar raktres hag an ezvezañsoù"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Production Days : total"
-msgstr "Deizoù produiñ : hollad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "number of days billed"
-msgstr "Niver a zeizioù fakturennet"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
 msgid "projects"
-msgstr "raktresoù"
+msgstr "Projeten"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr "Trevelloù Kar"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Not available."
-msgstr "N'eo ket hegerz."
+msgstr "Net disponibel."
 
 #. tpl/productivity_report.html
 #. tpl/tools/dashboard.html
 msgid "Indicator"
-msgstr "Titourenn"
+msgstr "Indicateur"
 
 #. tpl/productivity_report.html
 #. tpl/edit_team.html
 #. tpl/workflow.html
 #. tpl/forecasting_report.html
 msgid "Value"
-msgstr "Talvoudenn"
+msgstr "Wäert"
 
 #. tpl/productivity_report.html
 msgid "Available Workload"
-msgstr "Barregezh produiñ"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "System Availability"
-msgstr "Hegerzded Reizhiad"
+msgstr "Disponibilitéit vum System"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "Feur fiziusted ar garg_Mgr"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr "Feur fiziusted ar garg kentañ"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
@@ -1464,27 +1453,27 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Development workload (developers only)"
-msgstr "Amzer bevezet e diorroerien"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "ProjProdDays"
-msgstr "Deizioù produiñ : Raktresoù"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "TotalProdDays"
-msgstr "Deizioù produiñ : hollad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Platform Availability"
-msgstr "Hergerzded ar savenn diorren"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
-msgstr "Dihegerzded Reizhiad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "prodDays"
-msgstr "Deizioù produiñ"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
@@ -1492,12 +1481,12 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Tasks NOT delivered on time"
-msgstr "Trevelloù n'int ket degaset e koulz."
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "nb tasks"
-msgstr "Nv a drevelloù"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/filters.html
@@ -1506,34 +1495,34 @@ msgstr "Nv a drevelloù"
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #: classes/time_tracking.class.php:458
 msgid "nb days"
-msgstr "Nv a zeizioù"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #. $tooltipAttr[T_('DeliveryDate')] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
 #: reports/issue_info_tools.php:109
 msgid "DeliveryDate"
-msgstr "Deiziad degas"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "DeadLine"
-msgstr "DeadLine"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Tasks delivered on time"
-msgstr "Trevelloù degaset e koulz"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr "Roll ar c'hargoù evit Karg_kentañ"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
-msgstr "Notenn : Tuadur war an trevelloù diskoulmet er prantad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Drift - All tasks"
-msgstr "Tuadur - an holl drevelloù"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1541,13 +1530,12 @@ msgid "Overflow day quantity"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Computed on task Resolved/Closed in the given period"
-msgstr "Notenn : Tuadur war an trevelloù diskoulmet er prantad"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not taken into account"
-msgstr "Ne vez ket kontet an trevelloù addigoret"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1557,95 +1545,89 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Tasks in drift"
-msgstr "Trevelloù e koulz"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks for which the elapsed time is greater than the estimated effort"
-msgstr "Trevelloù zo uheloc'h o amzer bevezet eget ar budjed kentañ"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "drift"
-msgstr "tuadur"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks in time"
-msgstr "Trevelloù e koulz"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in time"
-msgstr "Trevelloù diskoulmet e koulz"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks ahead"
-msgstr "Trevelloù en a-raok"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Tasks resolved in less time than the estimated effort"
-msgstr "Trevelloù zo uheloc'h o amzer bevezet eget ar budjed kentañ"
+msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Effort deviation"
-msgstr "Striv tuadur"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "Karg priziet gant ar merour"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager"
-msgstr "Merour"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Tasks Mgr"
-msgstr "Trevelloù"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "EffortDeviation"
-msgstr "Striv tuadur"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
-msgstr "Trevell ebet diskoulmet..."
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 msgid "Drift relatively to the managers Estimation"
-msgstr "Tuadur e-keñver priziadur ar merour"
+msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift relatively to (EE + AddEE)"
-msgstr "Tuadur e-keñver priziadur ar merour"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Drift - Tasks (ExtRefOnly)"
-msgstr "Tuadur - Trevelloù (ExtRefOnly)"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Drift (ExtRefOnly)"
-msgstr "Tuadur (ExtRefOnly)"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Drift ExtRefOnly"
-msgstr "Tuadur ExtRefOnly"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Tasks without ExternalRef are excluded"
@@ -1653,74 +1635,71 @@ msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Reopened tasks are not included"
-msgstr "N'eo kontet an trevelloù addigoret"
+msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "No Drift on External tasks."
-msgstr "Tuadur - an holl drevelloù"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "nb resolved"
-msgstr "niver diskoulmet"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "nb reopened"
-msgstr "niver addigoret"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
-msgstr "niver addigoret / niver diskoulmet"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "Rate"
-msgstr "Feur"
+msgstr ""
 
 #. tpl/productivity_report.html
 msgid "tasks having been reopened in the period"
-msgstr "Trevelloù addigoret evit ar mare"
+msgstr ""
 
 #. tpl/filters.html
 msgid "Set project filters"
-msgstr "Ouzhpennañ siloù"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
-msgstr "Ar maeziennoù-mañ a rank bezañ titouret"
+msgstr ""
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Reporters"
-msgstr "Titourer"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "Handlers"
-msgstr "Deverket da"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr "Patrom ODT"
+msgstr ""
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
 msgid "Categories"
-msgstr "Rummadoù"
+msgstr "Kategorien"
 
 #. tpl/export_odt.html
 msgid "errorThrown"
-msgstr "errorThrown"
+msgstr ""
 
 #. tpl/export_odt.html
 #. tpl/holidays_report.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Filters"
-msgstr "Siloù"
+msgstr "Filteren"
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Reported by"
-msgstr "Titourer"
+msgstr ""
 
 #. tpl/export_odt.html
 #. tpl/modal/update_issueBacklog.html
@@ -1730,24 +1709,24 @@ msgstr "Titourer"
 #: classes/wbsElement.class.php:686 classes/wbsElement.class.php:688
 #: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
 msgid "Assigned to"
-msgstr "Deverket da"
+msgstr ""
 
 #. tpl/export_odt.html
 msgid "Download"
-msgstr "Pellgargañ"
+msgstr "Eroflueden"
 
 #. tpl/project_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Projects Activity"
-msgstr "Obererezh Raktresoù"
+msgstr "Projets-Aktivitéit"
 
 #. tpl/project_activity_report.html
 msgid "Users"
-msgstr "Implijerien"
+msgstr "Benotzer"
 
 #. tpl/project_activity_report.html
 msgid "Tasks per project"
-msgstr "Trevelloù dre Raktres"
+msgstr "Aufgabe pro Projet"
 
 #. tpl/project_activity_report.html
 #. tpl/edit_jobs.html
@@ -1760,13 +1739,13 @@ msgstr "Trevelloù dre Raktres"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #: tools.php:1485
 msgid "Type"
-msgstr "Seurt"
+msgstr "Typ"
 
 #. tpl/project_activity_report.html
 #. tpl/team_activity_report.html
 #. tpl/issue_info.html
 msgid "Target version"
-msgstr "Stumm pal"
+msgstr ""
 
 #. tpl/project_activity_report.html
 #. tpl/command_edit.html
@@ -1779,27 +1758,27 @@ msgstr "Stumm pal"
 #: classes/issue.class.php:2229 plugins/WBSExport/WBSExport.class.php:144
 #: tools.php:1565
 msgid "Target"
-msgstr "Pal"
+msgstr "Zil"
 
 #. tpl/project_activity_report.html
 msgid "Total time spent on this issue"
-msgstr "Amzer hollek tremenet war an trevell-mañ"
+msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "No data available"
-msgstr "n'eus ket roadennoù da gaout"
+msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "Time spent on Projects per users"
-msgstr "Amzer dispignet war ar raktresoù gant an implijer"
+msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With ExternalTasks Project"
-msgstr "Gant ar raktres trevelloù diavaez"
+msgstr ""
 
 #. tpl/project_activity_report.html
 msgid "With SideTasks Project"
-msgstr "Enlakaat ar raktres trevelloù kar"
+msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
@@ -1807,28 +1786,27 @@ msgstr "Enlakaat ar raktres trevelloù kar"
 #. tpl/holidays_report.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Set filters"
-msgstr "Silañ an trevelloù"
+msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Task Filters"
-msgstr "Siloù"
+msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
-#, fuzzy
 msgid "Drag & drop the filters to apply"
-msgstr "Riklañ-dilec'hiañ ar maeziennoù da ziskwel el lagadennoù-titouriñ"
+msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Available Filters"
-msgstr "Siloù a zo da gaout"
+msgstr ""
 
 #. tpl/form/selectFiltersDialogbox.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Applied Filters"
-msgstr "Siloù oberiant"
+msgstr ""
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/project_info.html
@@ -1849,7 +1827,7 @@ msgstr "Siloù oberiant"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "From"
-msgstr "Eus"
+msgstr "Vum"
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/project_info.html
@@ -1872,7 +1850,7 @@ msgstr "Eus"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Start Date"
-msgstr "Deiziad kregiñ"
+msgstr "Ufanksdatum"
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/project_info.html
@@ -1892,7 +1870,7 @@ msgstr "Deiziad kregiñ"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "To"
-msgstr "Da"
+msgstr ""
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/project_info.html
@@ -1912,7 +1890,7 @@ msgstr "Da"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "End Date (included)"
-msgstr "Deiziad echuiñ (laket e-barzh)"
+msgstr ""
 
 #. tpl/logs.html
 msgid "Logfile:"
@@ -1920,51 +1898,49 @@ msgstr ""
 
 #. tpl/logs.html
 msgid "Line"
-msgstr "Linenn"
+msgstr "Linn"
 
 #. tpl/logs.html
 msgid "Log"
-msgstr "Log"
+msgstr "Logbuch"
 
 #. tpl/edit_jobs.html
 msgid "Job Name"
-msgstr "Anv ar Post"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr "Dilemel ar Post-mañ"
+msgstr ""
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Edit Job"
-msgstr "Kemmañ postoù"
+msgstr ""
 
 #. tpl/edit_jobs.html
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Job list"
-msgstr "Kemmañ postoù"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Delete job"
-msgstr "Dilemel ar Post-mañ"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
-msgstr "Dilemel al liamm-mañ :"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Job Color"
-msgstr "Liv ar Post"
+msgstr ""
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
-msgstr "Maeziennoù diank :"
+msgstr ""
 
 #. tpl/edit_jobs.html
 #. tpl/edit_team.html
 msgid "Jobs"
-msgstr "Labourioù"
+msgstr "Aarbechten"
 
 #. tpl/edit_jobs.html
 #. tpl/time_tracking.html
@@ -1974,15 +1950,15 @@ msgstr "Labourioù"
 #. tpl/gantt.html
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "OK"
-msgstr "Mat eo"
+msgstr "OK"
 
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
-msgstr "C'hoant ho peus da zistaliañ CodevTT eus ho servijer Mantis ?"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr "Gant ar bazenn-mañ e vo naetaet diaz roadennoù Mantis."
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
@@ -1990,20 +1966,20 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup data"
-msgstr "Saveteiñ ar roadennoù"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr "Generet e vo ar restr saveteiñ e kavlec'h an danevelloù"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Filename"
-msgstr "Anv ar restr"
+msgstr "Numm vum Fichier"
 
 #. tpl/uninstall.html
 #. tpl/menu/global_menu.html
 msgid "Uninstall"
-msgstr "Distaliañ"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Dumping MantisDB to"
@@ -2011,15 +1987,15 @@ msgstr ""
 
 #. tpl/uninstall.html
 msgid "Backup successfully done"
-msgstr "Saveteiñ graet gant berzh !"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
-msgstr "Distaliadur ehanet!"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT from Mantis menu:"
-msgstr "Dilemel CodevTT eus lañser Mantis"
+msgstr ""
 
 #. tpl/uninstall.html
 #. tpl/edit_team.html
@@ -2027,45 +2003,44 @@ msgstr "Dilemel CodevTT eus lañser Mantis"
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #: plugins/AdminTools/AdminTools.class.php:70
 msgid "TODO"
-msgstr "TODO"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Failed"
-msgstr "C'hwitet"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT customFields:"
-msgstr "Dilemel ar maeziennoù personelaet CodevTT :"
+msgstr ""
 
 #. tpl/uninstall.html
 #. tpl/prepare_project.html
 msgid "Done"
-msgstr "Graet"
+msgstr "Fäerdeg"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "Dilemel eus taolennoù Diaz Roaadennoù Mantis :"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
-msgstr "Dilemel restroù kefluniañ CodevTT :"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
-msgstr "Dilemel lugantoù Mantis :"
+msgstr "Mantis-Plugin ewechhuelen:"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove ExternalTasks project:"
-msgstr "Gant ar raktres trevelloù diavaez"
+msgstr ""
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
-msgstr "Dilemel ar raktresoù-mañ gant an dorn :"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "New command"
-msgstr "Urhiad nevez"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/modal/update_issueBacklog.html
@@ -2077,12 +2052,12 @@ msgstr "Urhiad nevez"
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1500
 msgid "Deadline"
-msgstr "Termen echuiñ"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "Sold Charge"
-msgstr "Kargoù gwerzhet"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/planning_report.html
@@ -2094,25 +2069,25 @@ msgstr "Kargoù gwerzhet"
 #: classes/scheduler.class.php:74 reports/planning_report.php:489
 #: scheduler/SchedulerEvent.class.php:140
 msgid "days"
-msgstr "deizioù"
+msgstr "Deeg"
 
 #. tpl/command_edit.html
 msgid "Delete Command"
-msgstr "Dilemel an urzhiad"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Delete this Command ?"
-msgstr "Dilemel an urzhiad-se ?"
+msgstr ""
 
 #. tpl/command_edit.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "Nb tasks"
-msgstr "Nv a drevelloù"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
 msgid "WBS"
-msgstr "WBS"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
@@ -2123,11 +2098,11 @@ msgstr "WBS"
 #: plugins/ManagementCosts/ManagementCosts.class.php:251
 #: plugins/CostsIndicator/CostsIndicator.class.php:303
 msgid "Provisions"
-msgstr ""
+msgstr "Provisiounen"
 
 #. tpl/command_edit.html
 msgid "Parent CommandSets"
-msgstr "Makro Urzhiadoù peuzheñvel"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Add tasks (comma separated)"
@@ -2135,49 +2110,49 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
-msgstr "Krouiñ an urzhiad a-raok ouzhpennañ trevelloù."
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "delete Command-Task association"
-msgstr "Dilemel ar c'hevreadur Urhiad-Makro-Urhziad"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Remove Task"
-msgstr "Dilemel an trevell"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Remove Task from this Command ?"
-msgstr "Dilemel trevell an urzhiad-se ?"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
-msgstr "Krouiñ an urzhiad a-raok ouzhpennañ anezhi ouzh ur Makro-urzhiad"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 msgid "No CommandSet found."
-msgstr "Makro-urzhiad ebet"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "delete CommandSet-Command association"
-msgstr "Dilemel ar c'hevreadur Urhiad-Makro-Urhziad"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Remove this Command from the CommandSet ?"
-msgstr "Dilemel an Urzhiad eus ar Makro-urzhiad ?"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Create the Command first."
-msgstr "Krouiñ an Urzhiad kentañ."
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "CSV Import"
-msgstr "Enporzh CSV"
+msgstr "CSV-Import"
 
 #. tpl/command_edit.html
 msgid "Import templates"
-msgstr "Patromoù enporzhiañ"
+msgstr "Schablounen importéieren"
 
 #. tpl/command_edit.html
 msgid "Add Provision"
@@ -2188,7 +2163,7 @@ msgstr ""
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Budget Days"
-msgstr "Budjed e deizioù"
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
@@ -2196,11 +2171,11 @@ msgstr "Budjed e deizioù"
 #. tpl/command_info.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget"
-msgstr "Budjed"
+msgstr "Budget"
 
 #. tpl/command_edit.html
 msgid "add to budget check"
-msgstr "Ouzphennañ d'ar \"gwiriañ budjed\""
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
@@ -2209,19 +2184,18 @@ msgstr "Ouzphennañ d'ar \"gwiriañ budjed\""
 #. tpl/command_info.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Edit"
-msgstr "Kemmañ"
+msgstr "Änneren"
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Average Daily Rate"
-msgstr "Feur pemdeziek etre"
+msgstr ""
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Add to 'check budget'"
-msgstr "Ouzphennañ d'ar \"gwiriañ budjed\""
+msgstr ""
 
 #. tpl/command_edit.html
 #. tpl/time_tracking.html
@@ -2229,44 +2203,42 @@ msgstr "Ouzphennañ d'ar \"gwiriañ budjed\""
 #. tpl/issue_info.html
 #. plugins/UserTeamList/UserTeamList.html
 msgid "Update"
-msgstr "Hizivaat"
+msgstr "Aktualiséieren"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
 msgid "save"
-msgstr "enrollañ"
+msgstr "späicheren"
 
 #. tpl/command_edit.html
 msgid "Delete from the Command ?"
-msgstr "Diverkañ eus an Urzhiad ?"
+msgstr ""
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Edit Provision"
-msgstr "Kemmañ postoù"
+msgstr "Provisioun änneren"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Updated successfully !"
-msgstr "Saveteiñ graet gant berzh !"
+msgstr "Aktualiséierung ofgeschloss!"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
 msgid "Field is missing"
-msgstr "Maezienn disoñjet"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Command name"
-msgstr "Anv an urzhiad"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Not a number"
-msgstr "N'eo ket un niverenn"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "task id"
-msgstr "id trevell"
+msgstr ""
 
 #. tpl/command_edit.html
 msgid "Not a comma separated number list"
@@ -2274,17 +2246,17 @@ msgstr ""
 
 #. tpl/command_edit.html
 msgid "Missing field"
-msgstr "Maezienn diank"
+msgstr ""
 
 #. tpl/command_edit.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR: Please check"
-msgstr ""
+msgstr "FEELER: WGL. nokucken"
 
 #. tpl/doc.html
 #. tpl/edit_team.html
 msgid "General"
-msgstr "Hollek"
+msgstr "Allgemeng"
 
 #. tpl/doc.html
 msgid "Task priority in Planning & Gantt"
@@ -2292,56 +2264,54 @@ msgstr ""
 
 #. tpl/doc.html
 msgid "Documentation is available at "
-msgstr "An teuliadur a c'haller kavout el lec'hienn "
+msgstr "Dokumentatioun ass disponibel op "
 
 #. tpl/doc.html
-#, fuzzy
 msgid "CodevTT Documentation"
-msgstr "Teuliadur"
+msgstr ""
 
 #. tpl/doc.html
 msgid "You can help on translations: "
-msgstr "Gallout a rit sikour d'ober troidigezhioù : "
+msgstr "Dir kënnt beim Iwwersetzen hëllefen: "
 
 #. tpl/doc.html
 msgid "statistics"
-msgstr "stadegoù"
+msgstr "Statistiken"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr "Mont e darempred gant an aozer :/"
+msgstr "Den Auteur kontaktéieren: "
 
 #. tpl/doc.html
 #. tpl/scheduler.html
 #. tpl/command_info.html
 #. tpl/gantt.html
-#, fuzzy
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "DIWALLIT : n'eus ket bet gallet diskwel an enskrivadennoù kent !"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "New command set"
-msgstr "Makro-urzhiad nevez"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Command set name"
-msgstr "Anv ar Makro-urzhiad"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Delete CommandSet"
-msgstr "Dilemel Makro-Urzhiad"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Delete this CommandSet ?"
-msgstr "Dilement ar Makro-Urzhiad-se ?"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Nb Commands"
-msgstr "Nv Makro-urzhiadioù"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Service Contracts"
-msgstr "Kevrat Servij"
+msgstr ""
 
 #. tpl/commandset_edit.html
 #. tpl/servicecontract_info.html
@@ -2355,19 +2325,19 @@ msgstr "Kevrat Servij"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #: classes/issue.class.php:2199
 msgid "Commands"
-msgstr "Urzhiadoù"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "--- New Command ---"
-msgstr "--- Urzhiad nevez ---"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Remove Command"
-msgstr "Dilemel Urzhiad"
+msgstr ""
 
 #. tpl/commandset_edit.html
 msgid "Remove Command from this CommandSet ?"
-msgstr "Dilemel an Urzhiad eus ar Makro-urzhiad ?"
+msgstr ""
 
 #. tpl/commandset_edit.html
 #. tpl/servicecontract_info.html
@@ -2378,26 +2348,25 @@ msgstr "Dilemel an Urzhiad eus ar Makro-urzhiad ?"
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Command"
-msgstr "Urzhiad"
+msgstr "Commande"
 
 #. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
-msgstr "Krouiñ ar Makro-Urzhiad a-raok ouzhpennañ urzhiadoù dezhañ."
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/team_dashboard.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "ERROR"
-msgstr "FAZI"
+msgstr "FEELER"
 
 #. tpl/time_tracking.html
 msgid "Query FAILED"
-msgstr "Reked c'hwitet"
+msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Add timetrack"
-msgstr "Enskrivadennoù"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -2410,7 +2379,7 @@ msgstr "Enskrivadennoù"
 #. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
 #. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
 msgid "Duration"
-msgstr "Pad"
+msgstr "Dauer"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -2421,19 +2390,19 @@ msgstr "Pad"
 #. plugins/TimetrackList/TimetrackList.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
 msgid "Note"
-msgstr "Notenn"
+msgstr "Notiz"
 
 #. tpl/time_tracking.html
 msgid "Reduce the tasks selection by setting some filters"
-msgstr "Bihanait roll an trevelloù en ur ouzhpennañ siloù"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide tasks not assigned to me"
-msgstr "Kuzhat an trevelloù n'int deverket din"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide resolved tasks"
-msgstr "Kuzhat an trevelloù diskoulmet"
+msgstr ""
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
@@ -2442,22 +2411,21 @@ msgstr ""
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Week"
-msgstr "Sizhun"
+msgstr "Woch"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Previous week"
-msgstr "Sizun gent"
+msgstr "Vireg Woch"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
 msgid "Next week"
-msgstr "Sizhun da-heul"
+msgstr "Nächst Woch"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Week timetracks"
-msgstr "Enskrivadennoù"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2466,30 +2434,26 @@ msgstr ""
 
 #. tpl/time_tracking.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Timetrack note"
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/edit_team.html
 msgid "delete this row"
-msgstr "Diverkañ ar bajenn-mañ"
+msgstr "dës Rei läschen"
 
 #. tpl/time_tracking.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
-#, fuzzy
 msgid "Edit timetrack"
-msgstr "Nevesaat heulierezh an amzer"
+msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Future timetracks"
-msgstr "Nevesaat heulierezh an amzer"
+msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Delete track"
-msgstr "Diverkañ ar skipailh"
+msgstr ""
 
 #. tpl/time_tracking.html
 #. tpl/issue_info.html
@@ -2499,9 +2463,8 @@ msgstr ""
 
 #. tpl/missing_timetracks.html
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Missing Timetracks"
-msgstr "Enskrivadennoù"
+msgstr ""
 
 #. tpl/missing_timetracks.html
 msgid "Missing timetracks per user"
@@ -2515,30 +2478,28 @@ msgstr ""
 #: reports/issue_info.php:122 timetracking/team_monthly_activity_report.php:73
 #: timetracking/time_tracking.php:189 timetracking/team_activity_report.php:65
 msgid "Errors"
-msgstr "Fazioù"
+msgstr "Feeler"
 
 #. tpl/missing_timetracks.html
 #. tpl/holidays_report.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
 msgid "workdays"
-msgstr "deizioù oberet"
+msgstr "Aarbechtsdeeg"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing timetracks"
-msgstr "Maeziennoù diank :"
+msgstr ""
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing days"
-msgstr "Maezienn diank"
+msgstr ""
 
 #. tpl/missing_timetracks.html
 #. plugins/CustomUserData/CustomUserData.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr "Postel"
+msgstr "E-Mail"
 
 #. tpl/missing_timetracks.html
 #: timetracking/team_monthly_activity_report.php:142
@@ -2546,7 +2507,7 @@ msgstr "Postel"
 #: scheduler/scheduler_ajax.php:386 scheduler/scheduler_ajax.php:387
 #: scheduler/scheduler_ajax.php:390
 msgid "Error"
-msgstr "Fazi"
+msgstr "Feeler"
 
 #. tpl/tools/wbsEditor.html
 #. tpl/tools/wbsReader.html
@@ -2554,47 +2515,47 @@ msgstr "Fazi"
 #. tpl/command_info.html
 #. tpl/gantt.html
 msgid "Reload"
-msgstr "Adkargañ"
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 #. tpl/scheduler.html
 #: management/command_edit.php:163 management/commandset_edit.php:117
 #: management/servicecontract_edit.php:132
 msgid "Save"
-msgstr "Enrollañ"
+msgstr "Späicheren"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
-msgstr "Gwrizienn ar WBS  ne c'hall ket bezañ adanvet"
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "Root element cannot be deleted."
-msgstr "Gwrizienn ar WBS ne c'hall ket bezañ dilamet."
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "Delete Failed: Folder must be empty."
-msgstr "Ne c'haller ket dilemel : goullo e rank bezañ an teuliad"
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 msgid "New Folder"
-msgstr "Teuliad nevez"
+msgstr ""
 
 #. tpl/tools/wbsEditor.html
 #. plugins/WBSExport/WBSExport_ajax.html
 msgid "Rename"
-msgstr "Adenvel"
+msgstr "Ëmbenennen"
 
 #. tpl/tools/wbsEditor.html
 msgid "Add subfolder"
-msgstr "Ouzhpennañ un isteuliad"
+msgstr ""
 
 #. tpl/tools/dashboard.html
 msgid "Add an indicator to the dashboard"
-msgstr "Ouzhpennañ ur merker d'an daolenn-stur"
+msgstr ""
 
 #. tpl/tools/dashboard.html
 msgid "Add Indicator"
-msgstr "Ouzhpennañ ur merker"
+msgstr ""
 
 #. tpl/tools/dashboard.html
 #. tpl/servicecontract_info.html
@@ -2602,79 +2563,79 @@ msgstr "Ouzhpennañ ur merker"
 #. tpl/command_info.html
 #: reports/planning_report.php:480 scheduler/SchedulerEvent.class.php:135
 msgid "Attributes"
-msgstr "Perzhioù"
+msgstr ""
 
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
 msgid "Loading"
-msgstr "O kargañ"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
-msgstr "Prientiñ ar raktres :"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Configure existing Projects"
-msgstr "Kefluniañ ar raktresoù a zo anezho"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Select the projects to be managed with CoDevTT"
-msgstr "Diuzit ar raktresoù da vezañ meret gant CoDevTT"
+msgstr ""
 
 #. tpl/prepare_project.html
 msgid "Prepare"
-msgstr "Prientiñ"
+msgstr "Preparéieren"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
 msgid "ServiceContract"
-msgstr "Kevrat Servij"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "--- Create New ServiceContract ---"
-msgstr "--- Krouiñ ur Gevrat Servij nevez"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "Charges"
-msgstr "Kargoù"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:296
 msgid "SideTasks"
-msgstr "Trevelloù kar"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #: install/install_step4.php:51
 msgid "Go to"
-msgstr "Mont da"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "No Command found."
-msgstr "Urzhiad ebet"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "No sidetasks found."
-msgstr "Trevell kar ebet"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "All tasks"
-msgstr "An holl drevelloù"
+msgstr "All Aufgaben"
 
 #. tpl/servicecontract_info.html
 msgid "No Total found."
-msgstr "Hollad ebet da gaout"
+msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr "Notenn : n'eo ket dikwelet an trevelloù kar en urzhiadoù."
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "No task found."
-msgstr "N'eus bet kavet trevell ebet."
+msgstr ""
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
@@ -2683,45 +2644,43 @@ msgstr ""
 
 #. tpl/servicecontract_info.html
 msgid "No provision found."
-msgstr "N'eus bet kavet adstumm ebet"
+msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Select User"
-msgstr "Diuziñ un implijer"
+msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Select team user"
-msgstr "Diuziñ un ezel eus ar skipailh"
+msgstr ""
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
-msgstr "Chenñch implijer"
+msgstr "Benotzer änneren"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr "Ma vez diasket e vo krouet un notenn \"glasel\" eus Mantis"
+msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
-msgstr "Ouzhpennañ un notenn CRA"
+msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Edit timesheet note"
-msgstr "Kemmañ an notenn"
+msgstr ""
 
 #. tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
-msgstr "Diverkañ an notenn drevelloù "
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Current backlog"
-msgstr "Skipailh bremañ"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Update Backlog"
-msgstr "A chom d'ober"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 #. tpl/issue_info.html
@@ -2730,12 +2689,11 @@ msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "Ne c'hall ket ar statud bezañ : "
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Task resolved, backlog must be '0'"
-msgstr "Trevelloù diskoulmet e koulz"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
@@ -2743,89 +2701,88 @@ msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
-msgstr "Ouzhpennit un notenn, mar plij"
+msgstr ""
 
 #. tpl/modal/consistency_check.html
 #. tpl/planning_report.html
 msgid "Click to show errors"
-msgstr "Klikañ evit diskouez ar fazioù"
+msgstr "Klickt fir d'Feeler ze weisen"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
-msgstr "N'eus bet diuzet trevell ebet !"
+msgstr ""
 
 #. tpl/modal/select_issues.html
 msgid "Browse..."
-msgstr "Merdeiñ..."
+msgstr "Eraussichen"
 
 #. tpl/modal/select_issues.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Select all"
-msgstr "Diuzañ pep tra"
+msgstr "Alles markéieren"
 
 #. tpl/modal/login.html
 msgid "Length of"
-msgstr "Hed"
+msgstr "D'Längt vun"
 
 #. tpl/modal/login.html
 msgid "must be between"
-msgstr "a rank bezañ etre"
+msgstr ""
 
 #. tpl/modal/login.html
 msgid "and"
-msgstr "ha"
+msgstr "an"
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
-msgstr "Anavezout CodevTT"
+msgstr ""
 
 #. tpl/modal/login.html
 #. tpl/edit_team.html
 msgid "login"
-msgstr "Kevreañ"
+msgstr "Aloggen"
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr "Ger-tremen"
+msgstr "Passwuert"
 
 #. tpl/modal/login.html
 msgid "Login failed."
-msgstr "C'hwitet eo ar c'hevreañ."
+msgstr "Aloggen huet net funktionéiert"
 
 #. tpl/modal/login.html
 #: plugins/ImportUsers/ImportUsers_ajax.php:166
 msgid "Password"
-msgstr "Ger-tremen"
+msgstr "Passwuert"
 
 #. tpl/modal/login.html
 msgid "Lost your password?"
-msgstr "Ankouaet ho ker-tremen ganeoc'h ?"
+msgstr "Hutt Dir Äert Passwuert vergiess?"
 
 #. tpl/modal/login.html
 msgid "Redirection"
-msgstr "Adkas"
+msgstr "Viruleedung"
 
 #. tpl/modal/fairplay.html
 msgid "Fair play !"
-msgstr "C'hoari reizh !"
+msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "You are using CodevTT since"
-msgstr "Implijout a rit CodevTT abaoe"
+msgstr ""
 
 #. tpl/modal/fairplay.html
 msgid "If you like this software, please consider making a donation."
-msgstr "M'emaoc'h plijet gant ar meziant-mañ, grit un donezon deomp."
+msgstr ""
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
 msgid "Weekly Activity"
-msgstr "Obererezh sizhuniek"
+msgstr "Wëchentlech Aktivitéit"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timesheets"
-msgstr "Enskrivadennoù"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
@@ -2833,55 +2790,52 @@ msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Workload"
-msgstr "Karg"
+msgstr ""
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timesheet notes"
-msgstr "Ouzhpennañ un notenn CRA"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "All Tasks"
-msgstr "An holl drevelloù"
+msgstr ""
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timetrack notes"
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timetrack Note"
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #. tpl/team_activity_report.html
 msgid "Read by"
-msgstr "Gwelet gant"
+msgstr ""
 
 #. tpl/team_activity_report.html
 #. plugins/AdminTools/AdminTools.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Action"
-msgstr "Ober"
+msgstr "Aktioun"
 
 #. tpl/team_activity_report.html
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:418
 msgid "Mark as read"
-msgstr "Merkañ evel lennet"
+msgstr "Als gelies markéieren"
 
 #. tpl/team_activity_report.html
 msgid "Delete note"
-msgstr "Dilemel an notenn"
+msgstr "Notiz läschen"
 
 #. tpl/planning_report.html
 msgid "zoom in"
-msgstr "zoumañ"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "zoom out"
-msgstr "dizoumañ"
+msgstr ""
 
 #. tpl/planning_report.html
 #. tpl/scheduler.html
@@ -2891,186 +2845,175 @@ msgstr "dizoumañ"
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Options"
-msgstr "Dibarzhioù"
+msgstr "Optiounen"
 
 #. tpl/planning_report.html
 msgid "Planning Options"
-msgstr "Dibarzhioù an implij-amzer"
+msgstr ""
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Unassigned tasks"
-msgstr "Deverket da"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "Team's backlog"
-msgstr "Blaklog ar skipailh"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "tasks"
-msgstr "Trevelloù"
+msgstr "Aufgaben"
 
 #. tpl/planning_report.html
 msgid "workload"
-msgstr "Karg"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr "NvDeizioùAChom"
+msgstr ""
 
 #. tpl/planning_report.html
 msgid "day"
-msgstr "deiz"
+msgstr "Dag"
 
 #. tpl/edit_team.html
 msgid "Team Members"
-msgstr "Izli ar spipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Projects"
-msgstr "Raktresoù ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Preferences"
-msgstr "Penndibaboù"
+msgstr "Astellungen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetrack Durations"
-msgstr "Enskrivadennoù"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Costs management"
-msgstr "Merañ ar c'houstoù"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "OnDuty tasks"
-msgstr "Nv a drevelloù"
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/create_team.html
 msgid "Tools"
-msgstr "Ostilhoù"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team name"
-msgstr "Anv ar skipailh"
+msgstr "Numm vun der Ekipp"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
-msgstr "Deiziad krouiñ"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Enabled"
-msgstr "Gweredekaet"
+msgstr "Aktivéiert"
 
 #. tpl/edit_team.html
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
-msgstr "Notenn : Un <em>Team Admin</em> a rank bezañ disklêriet evel <em>TeamMember</em> evit bezañ kemeret e kont gant ar merkerioù produiñ."
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Administrators"
-msgstr "Merourien skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "add as team administrator"
-msgstr "ouzhpennañ evel merour skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add a team administrator"
-msgstr "Ouzhpennañ ur merour skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Remove administrator"
-msgstr "Lemel ar merour"
+msgstr "Administrateur ewechhuelen"
 
 #. tpl/edit_team.html
 msgid "Remove the following Team Administrator ?"
-msgstr "Lemel ar merour skipailh merour war-lerc'h ?"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Delete team"
-msgstr "Diverkañ ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Active team members"
-msgstr "Ouzhpennañ un ezel skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add team member"
-msgstr "Ouzhpennañ un ezel skipailh"
+msgstr "Team-Member derbäisetzen"
 
 #. tpl/edit_team.html
 msgid "Arrival-Date"
-msgstr "Deiziad erruout"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add User"
-msgstr "Ouzhpennañ implijer"
+msgstr "Benotzer derbäisetzen"
 
 #. tpl/edit_team.html
 msgid "Import all users from team"
-msgstr "Enporzhiañ izili ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import"
-msgstr "Enporzhiañ"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Import user groups from CSV"
-msgstr "Enporzhiañ izili ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "import groups"
-msgstr "Enporzhiañ implijerien"
+msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "User groups"
-msgstr "Implijerien"
+msgstr "Benotzergruppen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "CSV file"
-msgstr "Silañ an trevelloù"
+msgstr "CSV Fichier"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "upload"
-msgstr "Adkargañ"
+msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Import template"
-msgstr "Patrom enporzhiañ"
+msgstr "Schabloun importéieren"
 
 #. tpl/edit_team.html
 msgid "Info"
-msgstr "Titouroù"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Group examples: FrontEnd, BackEnd, Architect, Designers, Qualifiers"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "CSV File Format"
-msgstr "Furmad ar restr"
+msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "delimiter"
-msgstr "disranner"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "1st column"
@@ -3084,7 +3027,7 @@ msgstr ""
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Colors"
-msgstr "Livioù"
+msgstr "Faarwen"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
@@ -3093,9 +3036,8 @@ msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "Users not assigned to any group"
-msgstr "Kuzhat an trevelloù n'int deverket din"
+msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
@@ -3103,49 +3045,47 @@ msgid "Not a team member, but assigned to a group"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Number of team members"
-msgstr "Ouzhpennañ un ezel skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
-msgstr "Deiziad erruout er skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
 msgid "Arrival Date"
-msgstr "Deiziad erruout"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Departure date from the team"
-msgstr "Deiziad loc'hañ ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
 msgid "Departure Date"
-msgstr "Deiziad loc'hañ"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Update team member"
-msgstr "Hizivaat ezel ar sikpailh"
+msgstr "Member vun der Ekipp aktualiséieren"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Arrival date"
-msgstr "Deiziad en em gavout"
+msgstr "Datum vun der Arrivée"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
 msgid "Departure date"
-msgstr "Deiziad mont kuit"
+msgstr "Datum vum Depart"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "optionnal"
-msgstr "Dibarzhioù"
+msgstr "fakultativ"
 
 #. tpl/edit_team.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -3158,59 +3098,59 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Create SideTasksProject"
-msgstr "Krouiñ ur raktres Trevelloù kar"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Project name"
-msgstr "Anv ar raktres"
+msgstr "Numm vum Projet"
 
 #. tpl/edit_team.html
 msgid "Create project"
-msgstr "Krouiñ ur raktres"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Average Daily Cost"
-msgstr "Koust pemdeziek keitat"
+msgstr "Duerchschnëttlech Käschte pro Dag"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
-msgstr "Ar c'houst pemdeziek keitat (KPK) eo an talvoud dre ziouer pa ne vez ket dielfennet ar c'houst pemdeziek hiniennel (KPH)"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Currency"
-msgstr "Sturiad ar skipailh"
+msgstr "Wärung fir d'Ekipp"
 
 #. tpl/edit_team.html
 msgid "Team Average Daily Cost"
-msgstr "Koust Pemdeziek keitat ar skipailh"
+msgstr "Duerchschnëttlech Käschte vun der Ekipp pro Dag"
 
 #. tpl/edit_team.html
 msgid "Default currency for the team."
-msgstr "Sturiad ar skipailh dre ziouer"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr "Gant an holl verkerioù e vo implijet an deulenn-mañ ha kemmet e vo an holl dalvoudoù dielfennet en teulennoù all."
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Currency"
-msgstr "Teulenn"
+msgstr "Wärung"
 
 #. tpl/edit_team.html
 msgid "Coef"
-msgstr "Feur"
+msgstr "Coef"
 
 #. tpl/edit_team.html
 msgid "referal currency"
-msgstr "Teulenn dave"
+msgstr "Referenzwährung"
 
 #. tpl/edit_team.html
 msgid "TODO: describe how and where it is used in CodevTT"
-msgstr "Da ober : deskrivañ penaos ha pelec'h e vo implijet an dra-se e CodevTT"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Costs"
-msgstr "Koust devezhiek hiniennel"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
@@ -3218,63 +3158,60 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
-msgstr "Ouzhpennañ koust pemdeziek implijer"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
-msgstr "Ouzhpennañ koust pemdeziek un implijer"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team creation date"
-msgstr "Deiziad krouiñ ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "User arrival date"
-msgstr "Deiziat degouezhout"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "User Daily Cost"
-msgstr "Koust pemdeziek implijer"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetracking settings"
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Timetracking disabled if task status in"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Forbidden status list"
-msgstr "Kemmañ postoù"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Forbiden status list"
-msgstr "Kemmañ postoù"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
-msgstr "Lagadennoù an trevelloù"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
-msgstr "Maeziennoù lagadennoù"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "No custom IssueTooltips defined for your projects."
-msgstr "lagadenn ditouriñ personelaet ebet dielfennet evit ar raktresoù."
+msgstr ""
 
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
 msgid "Consistency Check"
-msgstr "Prouad anterinded"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Enable/Disable alerts"
-msgstr "Gweredekaat/Diweredekaat ar c'hemennoù diwall"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Add OnDuty tasks"
@@ -3285,24 +3222,20 @@ msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly diffe
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Inactivity tasks"
-msgstr "Dioberiantiz"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "No 'inactivity' task defined in your SideTasks projects."
-msgstr "lagadenn ditouriñ personelaet ebet dielfennet evit ar raktresoù."
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "delete OnDuty task"
-msgstr "Diuzañ un drevell"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetrack durations list"
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
@@ -3333,58 +3266,55 @@ msgstr ""
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Display"
-msgstr "Diskwel"
+msgstr "Weisen"
 
 #. tpl/edit_team.html
 msgid "add a custom duration"
-msgstr "Ouzhpennañ ur pad"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Delete duration"
-msgstr "Dilemel ur pad"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Deleted the following duration ?"
-msgstr "Dilemel ar pad da-heul ?"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Team Member"
-msgstr "Ezel ar skipailh"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Source Team"
-msgstr "Skipailh Mammenn"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Inactivity task"
-msgstr "Dioberiantiz"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Remove user from this team ?"
-msgstr "Tennañ an implijer eus ar skipailh-mañ ?"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Remove this project from the team ?"
-msgstr "Tennañ ar raktres-mañ eus ar skipailh ?"
+msgstr "Dëse Projet aus der Ekipp ewechhuelen?"
 
 #. tpl/edit_team.html
 msgid "Remove IssueTooltip customisation for project"
-msgstr "Dilemel personelaat al lagadennoù titouriñ evit ar raktres"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Job list for project :"
-msgstr "titouroù-lagadennoù evit ar raktres"
+msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Forbiden Status for project:"
-msgstr "titouroù-lagadennoù evit ar raktres"
+msgstr ""
 
 #. tpl/edit_team.html
 msgid "Please select a CSV file"
@@ -3396,20 +3326,20 @@ msgstr ""
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
-msgstr "Rankout a rit bezañ Teamleader evit mont d'ar bajenn-mañ."
+msgstr ""
 
 #. tpl/commandset_info.html
 msgid "--- Create New CommandSet ---"
-msgstr "--- Krouiñ ur Makro-Urzhiad nevez ---"
+msgstr ""
 
 #. tpl/commandset_info.html
 msgid "Service Contract"
-msgstr "Kevrat Servij"
+msgstr ""
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "None"
-msgstr "Hini ebet"
+msgstr ""
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
@@ -3423,126 +3353,124 @@ msgstr ""
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr "Bilañs miziek NEMET SuiviOp."
+msgstr ""
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr "Bilañs miziek (niver a fichennoù/stad e dibenn ar miz)"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
-msgstr "Ha sur oc'h e fell deoc'h cheñch ar c'hefluniadur ?"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "settings ?"
-msgstr "Arventennoù"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clonning"
-msgstr "Klonañ"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "into"
-msgstr "Titouroù"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone project settings"
-msgstr "Klonañ ar c'hefluniadur raktres"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone From"
-msgstr "Klonañ"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Clone To"
-msgstr "Klonañ war-zu"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Workflow transitions"
-msgstr "Kelc'hiadoù buhez"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Settings"
-msgstr "Arventennoù"
+msgstr "Astellungen"
 
 #. tpl/workflow.html
 msgid "No workflow transitions defined, using default configuration."
-msgstr "N'eus bet termenet kelc'hiad buhez ebet, implijout ar c'hefluniadur dre ziouer"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "Configuration Option"
-msgstr "Dibarzh ar C'hefluniadur"
+msgstr ""
 
 #. tpl/workflow.html
 msgid "No configuration options defined, using default configuration."
-msgstr "N'eus bet termenet dibarzh ebet, implij ar c'hefluniadur dre ziouer."
+msgstr ""
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
 msgstr ""
 
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Unassigned tasks will not be displayed"
-msgstr "DIWALLIT : n'eus ket bet gallet diskwel an enskrivadennoù kent !"
+msgstr ""
 
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "deviation"
-msgstr "Darempred"
+msgstr ""
 
 #. tpl/forecasting_report.html
 #. plugins/ManagementCosts/ManagementCosts.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Overview"
-msgstr "Brassell"
+msgstr "Iwwersiicht"
 
 #. tpl/forecasting_report.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 msgid "Task list"
-msgstr "Roll an trevelloù"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Team Info"
-msgstr "Deskrivadur ar skipailh"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Team Name"
-msgstr "Anv ar skipailh"
+msgstr "Numm vun der Ekipp"
 
 #. tpl/create_team.html
 msgid "Team Administrator"
-msgstr "Merour Skipailh"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
-msgstr "Raktresoù Trevelloù kar"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Add common ExternalTasks Project"
-msgstr "Ouzhpennañ ar raktres trevelloù diabarzh boutin"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Create specific SideTask Project"
-msgstr "Krouiñ ur raktres Trevelloù kar arbennik"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing."
-msgstr "DIWALLIT ! Chom hep krouiñ ur raktres Trevelloù kar n'eo ket ur soñj mat dre vras, ha miret eo evit un implij araokaet."
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Project Name"
-msgstr "Anv raktres"
+msgstr "Numm vum Projet"
 
 #. tpl/create_team.html
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
-msgstr "Emvod, a-raok gwerzh, heuliañ raktresoù, ...."
+msgstr ""
 
 #. tpl/create_team.html
 #: admin/edit_team.php:160
 msgid "Incident"
-msgstr "Gwallzarvoud"
+msgstr "Tëschefall"
 
 #. tpl/create_team.html
 msgid "Server or Platform down, ..."
@@ -3550,7 +3478,7 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Sys. Admin, Scritps, ..."
-msgstr "Melestadur Reizhiad, Skriptoù...."
+msgstr ""
 
 #. tpl/create_team.html
 #: admin/edit_team.php:162
@@ -3559,7 +3487,7 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
-msgstr "Skor, Teulioù, Stummañ, Wiki..."
+msgstr ""
 
 #. tpl/create_team.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -3567,7 +3495,7 @@ msgstr "Skor, Teulioù, Stummañ, Wiki..."
 #: admin/edit_team.php:159
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:395
 msgid "Inactivity"
-msgstr "Dioberiantiz"
+msgstr "Inaktivitéit"
 
 #. tpl/create_team.html
 msgid "On Duty, Waste, other special cases"
@@ -3575,15 +3503,15 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Custom Fields"
-msgstr "Maeziennoù personelaet"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "CodevTT custom fields"
-msgstr "Maeziennoù  CodevTT"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "These are sample sideTasks, you can create more with Mantis"
@@ -3591,23 +3519,23 @@ msgstr ""
 
 #. tpl/create_team.html
 msgid "Project management"
-msgstr "Merañ ar raktres"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Team meeting"
-msgstr "Emvod skipailh"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Network is down"
-msgstr "Dihegerzded rouedad"
+msgstr "Reseau funktionéiert net"
 
 #. tpl/create_team.html
 msgid "Compilation scripts"
-msgstr " Kempunañ skriptoù"
+msgstr ""
 
 #. tpl/create_team.html
 msgid "Update team WIKI"
-msgstr "Hizivaat WIKI"
+msgstr "WIKI vun der Ekipp aktualiséieren"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
@@ -3620,71 +3548,69 @@ msgstr ""
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
 #: management/commandset_edit.php:83 management/servicecontract_edit.php:83
 msgid "Create"
-msgstr "Krouiñ"
+msgstr ""
 
 #. tpl/scheduler.html
 msgid "Export"
-msgstr "ezporzh"
+msgstr "Export"
 
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr "Implij-amzer"
-
-#. tpl/scheduler.html
-#, fuzzy
-msgid "Assignment"
-msgstr "Deverket da"
-
-#. tpl/scheduler.html
-msgid "RAF"
 msgstr ""
 
 #. tpl/scheduler.html
+msgid "Assignment"
+msgstr ""
+
+#. tpl/scheduler.html
+msgid "RAF"
+msgstr "RAF"
+
+#. tpl/scheduler.html
 msgid "User assignment"
-msgstr "Dileuridigezhioù an implijer"
+msgstr ""
 
 #. tpl/scheduler.html
 msgid "Add user"
-msgstr "Ouzhpennañ un implijer"
+msgstr "Benotzer derbäisetzen"
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "Time on task"
-msgstr "Heuliañ an obererezh"
+msgstr "Zäit fir d'Aufgab"
 
 #. tpl/scheduler.html
 msgid "Auto"
-msgstr "Emgefre"
+msgstr "Automatesch"
 
 #. tpl/scheduler.html
 msgid "Total assigned effort"
-msgstr "Karg hollek deverket"
+msgstr ""
 
 #. tpl/scheduler.html
 msgid "Save user assignment for this task"
-msgstr "Enrollañ deverkadennoù an trevell-mañ"
+msgstr ""
 
 #. tpl/scheduler.html
 msgid "Scheduling method"
-msgstr "Hentenn steuñvekaat"
+msgstr ""
 
 #. tpl/scheduler.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 msgid "Display ExtRef instead of mantis_id"
-msgstr "Diskwel an daveenn diavaez e-lec'h mantis_id"
+msgstr ""
 
 #. tpl/scheduler.html
 msgid "Initial date"
-msgstr "Deiziad deroù"
+msgstr "Ufanksdatum"
 
 #. tpl/scheduler.html
 msgid "Number of days to display"
-msgstr "Niver a zeizioù da ziskwel"
+msgstr "Zuel vun den Deeg déi gewise ginn"
 
 #. tpl/scheduler.html
 msgid "Number of days to compute"
-msgstr "Niver a zeizioù da jediñ"
+msgstr "Zuel vun den Deeg déi berechent ginn"
 
 #. tpl/scheduler.html
 msgid "Task warning threshold (n days before dealine)"
@@ -3692,57 +3618,53 @@ msgstr ""
 
 #. tpl/scheduler.html
 msgid "Save options"
-msgstr "enrollañ an dibarzhioù"
+msgstr "Optioune späicheren"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide tasks from observed teams"
-msgstr "Kuzhat an trevelloù n'int deverket din"
+msgstr ""
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
 #: tools.php:1482
 msgid "External ID"
-msgstr "Id diavaez"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Remove task from command"
-msgstr "Dilemel trevell an urzhiad-se ?"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Add to command"
-msgstr "Ouzhpennañ an urzhiad"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Properties"
-msgstr "Perzhioù"
+msgstr "Eegenschaften"
 
 #. tpl/issue_info.html
 msgid "Timetracks"
-msgstr "Enskrivadennoù"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Time tracking"
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Update timetracking"
-msgstr "Nevesaat heulierezh an amzer"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Task Info"
-msgstr "Deskrivadur ar skipailh"
+msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Update task info"
-msgstr "Nevesaat heulierezh an amzer"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "External Ref"
-msgstr "Daveenn diavaez"
+msgstr ""
 
 #. tpl/issue_info.html
 #: classes/issue.class.php:2231 reports/planning_report.php:459
@@ -3750,7 +3672,7 @@ msgstr "Daveenn diavaez"
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
 msgid "Priority"
-msgstr "Kentwir"
+msgstr "Prioritéit"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
@@ -3759,47 +3681,47 @@ msgstr "Kentwir"
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
 msgid "Severity"
-msgstr "Grevusted"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Relation"
-msgstr "Darempred"
+msgstr "Relatioun"
 
 #. tpl/issue_info.html
 msgid "Mantis notes"
-msgstr "Notennoù Mantis"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Get mantis notes"
-msgstr "Diskwel an notennoù Mantis"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Click refresh button to display..."
-msgstr "Klikit war ar bouton hizivaat evit diskwel an notennoù..."
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "First Timetrack date"
-msgstr "Deiziad enskrivañ kentañ"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Latest Timetrack date"
-msgstr "Deiziad enskrivañ diwezhañ"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "WARNING: Prior timetracks could not be displayed !"
-msgstr "DIWALLIT : n'eus ket bet gallet diskwel an enskrivadennoù kent !"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Update timetracking values"
-msgstr "Hizivaat an amzerioù"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Remove from :"
-msgstr "Dilemel eus :"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Add to Command"
-msgstr "Ouzhpennañ d'an urzhiad"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "set/remove task specific deadline"
@@ -3807,11 +3729,11 @@ msgstr ""
 
 #. tpl/issue_info.html
 msgid "Delivery date"
-msgstr "Deiziad degas"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "set/remove delivery date"
-msgstr "Lakaat/Dilemel an deiziad degas"
+msgstr ""
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
@@ -3823,19 +3745,19 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Set command filters"
-msgstr "Silañ an urzhiadoù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "--- Create New Command ---"
-msgstr "-- Krouiñ ur Makro-urzhiad nevez --"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Command Filters"
-msgstr "Siloù urzhiadoù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Reduce the command selection by setting some filters"
-msgstr "Bihanaat ar roll urzhiadoù en ur ouzhpennañ siloù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
@@ -3843,22 +3765,22 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
-msgstr "Adprizet (deizioù)"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Drift (days)"
-msgstr "Tuadur (e deizioù)"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Drift (percent)"
-msgstr "Tuadur (dregantadoù)"
+msgstr ""
 
 #. tpl/command_info.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
 #. plugins/ManagementCosts/ManagementCosts_ajax.html
 #. plugins/ManagementCosts/ManagementCosts_ajax2.html
 msgid "Days"
-msgstr "Deizioù"
+msgstr "Deeg"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
@@ -3866,13 +3788,13 @@ msgstr ""
 
 #. tpl/command_info.html
 msgid "balance"
-msgstr "Mentelad"
+msgstr ""
 
 #. tpl/command_info.html
 #. tpl/gantt.html
 #. tpl/menu/global_menu.html
 msgid "Gantt"
-msgstr "Gantt"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Default ADR"
@@ -3885,68 +3807,68 @@ msgstr ""
 #. tpl/command_info.html
 #. tpl/gantt.html
 msgid "Task filter:"
-msgstr "siloù war an trevelloù"
+msgstr "Aufgabefilter:"
 
 #. tpl/command_info.html
 msgid "Show resolved tasks"
-msgstr "Diskwel an trevelloù diskoulmet"
+msgstr "Geléist Aufgabe weisen"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
 msgid "Filter"
-msgstr "Sil"
+msgstr "Filter"
 
 #. tpl/command_info.html
 msgid "Warning"
-msgstr "Diwallit"
+msgstr "Warnung"
 
 #. tpl/command_info.html
 msgid "Reload page to update charges & indicators"
-msgstr "Adkargañ ar bajenn evit hivizaat ar c'hargoù hag ar merkerioù"
+msgstr ""
 
 #. tpl/command_info.html
 msgid "Format"
-msgstr "Furmad"
+msgstr "Format"
 
 #. tpl/holidays_report.html
 msgid "Year"
-msgstr "Bloaz"
+msgstr "Joer"
 
 #. tpl/holidays_report.html
 msgid "Displayed tasks"
-msgstr "Trevelloù diskwelet"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Home"
-msgstr "Degemer"
+msgstr "Haaptsäit"
 
 #. tpl/menu/global_menu.html
 msgid "TimeTracking & team activity"
-msgstr "Heuliañ an amzer & Obererezh skipailh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Activity"
-msgstr "Obererezh"
+msgstr "Aktivitéit"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
-msgstr "Heuliañ an amzer"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
-msgstr "Heuliañ an ehanoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Leaves"
-msgstr "Ezvezañsoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Check DeadLines"
-msgstr "Doujañ d'an DeadLines"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Workload planning"
-msgstr "Implij-amzer ar c'hargoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Timeline scheduler"
@@ -3954,155 +3876,153 @@ msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
-msgstr "Diagramm Gantt"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Task Information"
-msgstr "Titouroù diwar-benn an drevell"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Project Information"
-msgstr "Titouroù diwar-benn ur raktres"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Team Statistics"
-msgstr "Stadegoù skipailh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "User Statistics"
-msgstr "Stadegoù"
+msgstr "Benotzerstatistiken"
 
 #. tpl/menu/global_menu.html
 msgid "History"
-msgstr "Istor"
+msgstr "Geschicht"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts & Commands"
-msgstr "Kevratoù & Urzhiadoù"
+msgstr "Kontrakter & Commanden"
 
 #. tpl/menu/global_menu.html
 msgid "Contracts"
-msgstr "Kevratoù"
+msgstr "Kontrakter"
 
 #. tpl/menu/global_menu.html
 msgid "Mantis Reports"
-msgstr "Danevelloù Mantis"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Check"
-msgstr "Gwiriañ"
+msgstr "Kontroll"
 
 #. tpl/menu/global_menu.html
 msgid "Import / Export"
-msgstr "Enporzhiañ/Ezporzhiañ"
+msgstr "Import / Export"
 
 #. tpl/menu/global_menu.html
 msgid "Import/Export tools"
-msgstr "Binvioù Enporzhiañ/Ezporzhiañ"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
-msgstr "Ezporzhiañ war-zu LibreOffice"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Blog"
-msgstr "Blog"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 #: install/install_step3.php:870 install/install_menu.inc.php:68
 msgid "Documentation"
-msgstr "Teuliadur"
+msgstr "Dokumentatioun"
 
 #. tpl/menu/global_menu.html
 msgid "About CodevTT"
-msgstr "Diwar-benn CodevTT"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "CodevTT Administration"
-msgstr "Melestradur CodevTT"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Admin"
-msgstr "Melestradurezh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Create Team"
-msgstr "Krouiñ Skipailh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Team"
-msgstr "Kemmañ skipailh"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Tools & Statistics"
-msgstr "Ostilhoù & Stadegoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Jobs"
-msgstr "Kemmañ postoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
-msgstr "Kemmañ ezvezañsoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
-msgstr "Prientiñ Raktresoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
-msgstr "Klonañ Raktresoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
-msgstr "Merour lugantoù"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 #. plugins/AdminTools/AdminTools.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Logs"
-msgstr "Marilhoù"
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "Klask lugantoù er c'havlec'h \"lugantoù\"."
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
-msgstr "Klask lugantoù nevez"
+msgstr ""
 
 #. tpl/plugin_manager.html
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
-#, fuzzy
 msgid "Plugins"
-msgstr "Lugant"
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Domain(s)"
-msgstr "Domani(où)"
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Enable Plugin"
-msgstr "Gweredekaat al lugant"
+msgstr ""
 
 #. tpl/plugin_manager.html
 msgid "Disable Plugin"
-msgstr "Diweredekaat al lugant"
+msgstr ""
 
 #. tpl/template.html
 msgid "Disconnect"
-msgstr "Digevreañ"
+msgstr ""
 
 #. tpl/template.html
 msgid "Note: For a better user experience, use a standards compliant browser such as :"
-msgstr "Ma c'hoarvez kudennoù, implijit, mar plij, ur merdeer a zouj da standardoù ar web, evel: "
+msgstr ""
 
 #. tpl/template.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "or"
-msgstr "pe"
+msgstr "oder"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
 #. plugins/AdminTools/AdminTools_cfg.html
@@ -4148,77 +4068,68 @@ msgstr "pe"
 #. plugins/ResetDashboard/ResetDashboard_cfg.html
 #. plugins/CostsIndicator/CostsIndicator_cfg.html
 msgid "Title"
-msgstr "Titl"
+msgstr "Titel"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
-#, fuzzy
 msgid "Deadline alerts"
-msgstr "DeadLine"
+msgstr ""
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 msgid "No late task."
-msgstr "Trevell ebet gant dale."
+msgstr ""
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "Dilemel ur pad"
+msgstr "Erausgesicht Aktiounen duerchféieren"
 
 #. plugins/AdminTools/AdminTools.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ResetDashboard/ResetDashboard.html
 msgid "Execute"
-msgstr ""
+msgstr "Ausféieren"
 
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:65
-#, fuzzy
 msgid "Administration tools"
-msgstr "Melestradur CodevTT"
+msgstr ""
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "N'eus bet diuzet trevell ebet !"
+msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr ""
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "users"
-msgstr "Implijerien"
+msgstr "Benotzer"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Change Mantis issue id"
-msgstr "Krouiñ implijerien Mantis"
+msgstr ""
 
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
-#, fuzzy
 msgid "Task backlog variation"
-msgstr "Titouroù diwar-benn an drevell"
+msgstr ""
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
-msgstr "Diskouez an trevelloù"
+msgstr ""
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
-#, fuzzy
 msgid "Display task column"
-msgstr "Trevelloù diskwelet"
+msgstr ""
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
-#, fuzzy
 msgid "Date range"
-msgstr "Furmad an deiziad"
+msgstr "Datumsberäich"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -4236,14 +4147,14 @@ msgstr ""
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 msgid "current week"
-msgstr "Er sizhun-mañ"
+msgstr "aktuell Woch"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 msgid "current month"
-msgstr "Miz red"
+msgstr "aktuelle Mount"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:79
@@ -4262,7 +4173,7 @@ msgstr ""
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "Interval"
-msgstr "Esaouenn"
+msgstr "Intervall"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
@@ -4271,7 +4182,7 @@ msgstr "Esaouenn"
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 msgid "Monthly"
-msgstr "Bep miz"
+msgstr "All Mount"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
@@ -4280,12 +4191,11 @@ msgstr "Bep miz"
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 msgid "Weekly"
-msgstr "Bep sizhun"
+msgstr "All Woch"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "User selection"
-msgstr "Adkas"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4296,80 +4206,75 @@ msgstr "Adkas"
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Graph"
-msgstr "Grafik"
+msgstr "Graphik"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph values"
-msgstr "Talvoudoù ar grafik"
+msgstr "Wäerter vum Grafik"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Range values"
-msgstr "Talvoudoù ar prantad"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
-msgstr "Dibarzhioù ar varregezh produiñ"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Select by group"
-msgstr "Diuziñ un implijer"
+msgstr "No Grupp eraussichen"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
-msgstr "Hegerzded"
+msgstr "Disponibilitéit"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Productivity Coefficient"
-msgstr "Feur produüsted"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
-msgstr "Feur prod."
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "SUM(userWorkforce * availability * prodCoef)"
-msgstr "SAMMAD(Barregezh produiñ*hergerzhded*Feurprod)"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available workforce"
-msgstr "Barregezh produiñ"
+msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
-msgstr "Nerzh labour"
+msgstr "Aarbechtskraaft"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Period"
-msgstr "Prantad"
+msgstr "Period"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "to"
-msgstr "Emgefre"
+msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
 msgid "End Date"
-msgstr "Deiziad dibenn"
+msgstr "Schlussdatum"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Number of days to add on the period"
-msgstr "Niver a zeizioù da jediñ"
+msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Nb days"
-msgstr "Nv a zeizioù"
+msgstr "Zuel vun Deeg"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Task backlog"
-msgstr "Blaklog ar skipailh"
+msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Fill Period With Timetracks"
@@ -4385,14 +4290,12 @@ msgid "It is not in the philosophy of CodevTT to allow users to enter several ti
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Error !"
-msgstr "Fazi"
+msgstr "Feeler !"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "days available on period"
-msgstr "Bevezet er prantad"
+msgstr "disponibel Deeg an der Period"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
@@ -4400,15 +4303,13 @@ msgid "Fill period with timetracks"
 msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
-#, fuzzy
 msgid "Managemnt load history"
-msgstr "Koustoù merañ"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Progress History Indicator"
-msgstr "Titourennoù produüsted"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4418,13 +4319,12 @@ msgstr ""
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoretical progress"
-msgstr "Araokadenn ent teorikel"
+msgstr "Theoretesche Fortschrëtt"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "A geñveri ar garg deroù d'an amzer bevezet"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4434,13 +4334,12 @@ msgstr ""
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real progress"
-msgstr "Araokadenn wirion"
+msgstr "Reelle Fortschrëtt"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Displays the backlog"
-msgstr "Trevelloù diskwelet"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4453,33 +4352,28 @@ msgid "Historical Progression Chart"
 msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Elapsed"
-msgstr "bevezet"
+msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 msgid "Mngt Provisions"
 msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Sorry, you need to be manager to use this plugin"
-msgstr "Rankout a rit bezañ Teamleader evit mont d'ar bajenn-mañ."
+msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task"
-msgstr "Trevell ebet gant dale."
+msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "comma separated"
-msgstr "Makro-urzhiad nevez"
+msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task list"
-msgstr "Trevell ebet gant dale."
+msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated list of mantis tasks"
@@ -4512,9 +4406,8 @@ msgstr ""
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
-#, fuzzy
 msgid "Timetrack filter"
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4524,9 +4417,8 @@ msgstr "Heuliañ an obererezh"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "Ouzhpennañ un ezel skipailh"
+msgstr "Nëmme Membere vun der Ekipp"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4535,7 +4427,7 @@ msgstr "Ouzhpennañ un ezel skipailh"
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Display options"
-msgstr "Diskwel an dibarzhioù"
+msgstr "Optioune vun deem wat gewise gëtt"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
@@ -4543,19 +4435,17 @@ msgstr "Diskwel an dibarzhioù"
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 msgid "Involved users"
-msgstr "implijerien o kemer perzh"
+msgstr ""
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Total elapsed"
-msgstr "bevezet"
+msgstr ""
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "sidetasks"
-msgstr "Trevelloù Kar"
+msgstr ""
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Groups"
@@ -4566,29 +4456,25 @@ msgid "Display the elapsed time for each user group"
 msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Tasks Drift alert"
-msgstr "Trevelloù dre implijer"
+msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Display resolved issues"
-msgstr "Diskwel an trevelloù diskoulmet"
+msgstr "Geléist Problemer weisen"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift current tasks"
-msgstr "Trevelloù diskwelet"
+msgstr ""
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift resolved tasks"
-msgstr "Trevelloù diskwelet"
+msgstr ""
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "Hizivaat WIKI"
+msgstr ""
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4603,13 +4489,13 @@ msgstr ""
 #: plugins/ManagementCosts/ManagementCosts.class.php:246
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr "Koustoù"
+msgstr "Käschten"
 
 #. plugins/ManagementCosts/ManagementCosts_cfg.html
 #. plugins/ManagementCosts/ManagementCosts.html
 #: plugins/ManagementCosts/ManagementCosts.class.php:58
 msgid "Management costs"
-msgstr "Koustoù merañ"
+msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
@@ -4622,7 +4508,7 @@ msgstr ""
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "week"
-msgstr "sizhun"
+msgstr "Woch"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
@@ -4630,7 +4516,7 @@ msgstr "sizhun"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "weeks"
-msgstr "sizhunvezhioù"
+msgstr "Wochen"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
@@ -4638,12 +4524,11 @@ msgstr "sizhunvezhioù"
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "month"
-msgstr "miz"
+msgstr "Mount"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "BugValidation History Indicator"
-msgstr "Titourennoù produüsted"
+msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
@@ -4651,7 +4536,7 @@ msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
-msgstr "% Kadarnaet"
+msgstr "% Validéiert"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
@@ -4663,7 +4548,7 @@ msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
-msgstr "% Distaolet"
+msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
@@ -4682,9 +4567,8 @@ msgid "Nb of issues having fail validation tests"
 msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "Nb Fail"
-msgstr "C'hwitet"
+msgstr ""
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
@@ -4707,88 +4591,84 @@ msgstr ""
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Preview import"
-msgstr "Alberz"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "File Format"
-msgstr "Furmad ar restr"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Standard CSV format with :"
-msgstr "Restr CSV skoueriek  gant :"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "enclosure"
-msgstr "klozet"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Date format"
-msgstr "Furmad an deiziad"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Number format"
-msgstr "Furmad niverel"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "Encoding"
-msgstr "O kargañ"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
-msgstr "Erbedet eo enkodañ e <strong>UTF-8</strong> met ASCII hag ISO-8859-1 a vez embreget ivez."
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr "Bannoù"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
-msgstr "Ar restr a zle bezañ 7 bann enni, al linenn gentañ zo anvioù ar maeziennoù enni"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr "Taolenn : MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
 msgid "File"
-msgstr "Restr"
+msgstr "Fichier"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Set All"
-msgstr "Diuzañ pep tra"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "TargetVersion"
-msgstr "Doare"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
-msgstr "Fichennoù Mantis evit krouiñ"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "WBS Tree"
-msgstr "Teuliadoù WBS"
+msgstr "WBS-Bam"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Category not set on all issues"
-msgstr "Ar rummad a rank bezañ dielfennet evit an holl drevelloù."
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Type not set on all issues"
-msgstr "Amzer hollek tremenet war an trevell-mañ"
+msgstr ""
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Import done !"
-msgstr "Enporzhiadur echuet !"
+msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4819,7 +4699,7 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:393
 msgid "Other"
-msgstr "All"
+msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
@@ -4829,7 +4709,7 @@ msgstr ""
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:394
 msgid "External"
-msgstr "Diavaez"
+msgstr "Extern"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External tasks except 'Leave' category"
@@ -4857,45 +4737,41 @@ msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#, fuzzy
 msgid "Committer"
-msgstr "Siloù urzhiadoù"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#, fuzzy
 msgid "Commit date"
-msgstr "Anv an urzhiad"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Select All"
-msgstr "Diuzañ pep tra"
+msgstr "Alles uwielen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Dates"
-msgstr "Deiziadoù"
+msgstr "Datumen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Start"
-msgstr "Deiziad deroù"
+msgstr "Ufank"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "End"
-msgstr "Fin"
+msgstr "Schluss"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
-msgstr "Orin"
+msgstr "Origine"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination"
-msgstr "Lec'h-kas :"
+msgstr "Destinatioun"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Please, fill all fields correctly"
-msgstr "Maeziennoù a c'haller kaout"
+msgstr "All Felder wgl. korrekt ausfëllen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
@@ -4903,27 +4779,24 @@ msgid "Destination task must be different from origin"
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin task"
-msgstr "Nv a drevelloù"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Move selected timetracks"
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Destination task"
-msgstr "Lec'h-kas :"
+msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
 msgstr ""
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Timetracks moved successfully !"
-msgstr "Saveteiñ graet gant berzh !"
+msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:67
@@ -4932,45 +4805,43 @@ msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
-msgstr "Ket"
+msgstr "Neen"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Yes"
-msgstr "Ya"
+msgstr "Jo"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"
 msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "No filter"
-msgstr "Silañ an trevelloù"
+msgstr "Kee Filter"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:265
 msgid "Bugs only"
-msgstr "Drein hepken"
+msgstr "Nëmme Feeler"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:268
 msgid "Tasks only"
-msgstr "Trevelloù hepken"
+msgstr "Nëmmen Aufgaben"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on External ID"
-msgstr "Silañ dre an ID diavaez"
+msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Issues with External ID"
-msgstr "Kudennoù gant un ID diavaez"
+msgstr ""
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues without External ID"
-msgstr "Kudennoù gant un ID diavaez"
+msgstr ""
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:77
@@ -4979,51 +4850,49 @@ msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Selling price for period"
-msgstr "Priz gwerzh evit ar prantad"
+msgstr "Verkafspräis fir d'Period"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Elapsed during period"
-msgstr "Bevezet er prantad"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr "A chom da broduiñ (e fin ar prantad)"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr "Priz gwerzh evit ar prantad"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr "Ma werzhit servijoù diouzh an deiz gant ur priz dibar evit pep trevell e roio an adveziant-mañ deoc'h priz ur strobad trevelloù war ur prantad amzer lakaet."
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
-#, fuzzy
 msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
-msgstr "Evit an adveziant-mañ eo ret leuniañ maezienn bersonelaet MantisBT \"Priz an deiz\" evit pep trevell."
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr "Priz gwerzh= Priz an deiz x bevezet e-pad ar prantad"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr "A chom = KargMgr - bevezet abaoe deroù an drevell betek fin ar prantad"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 msgid "Include sideTasks"
-msgstr "En o zouez an trevelloù kar"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "Trevelloù e koulz"
+msgstr "Numm vun der Aufgab"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
@@ -5031,47 +4900,46 @@ msgstr "Trevelloù e koulz"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Task ExtRef"
-msgstr "RefExt"
+msgstr "Extern Referenz vun der Aufgab"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 msgid "Task ID"
-msgstr "Trevell ID"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 msgid "Elapsed on period"
-msgstr "Bevezet er prantad"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr "A chom da vezañ produet e dibenn ar prantad"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining"
-msgstr "A chom"
+msgstr "Et bleiwen"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr "Priz an deiz"
+msgstr "Präis pro Dag"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price on period"
-msgstr "Priz ar prantad"
+msgstr ""
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
-msgstr "Priz"
+msgstr "Präis"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
 msgid "Progress history"
-msgstr "Istor an araokadennoù"
+msgstr ""
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
@@ -5081,21 +4949,20 @@ msgstr "Istor an araokadennoù"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
-#, fuzzy
 msgid "Values"
-msgstr "Talvoudenn"
+msgstr "Wäerter"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
-msgstr "Teorikel"
+msgstr "Theoretesch"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real"
-msgstr "Gwirion"
+msgstr "Reell"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "% Progress"
-msgstr "% Araokadenn"
+msgstr "% Fortschrëtt"
 
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_cfg.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
@@ -5124,27 +4991,24 @@ msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestima
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "% Budget Drift"
-msgstr "Budjed e deizioù"
+msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
-msgstr "(\"adpriziet - budjed) / budjed"
+msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
 msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift"
-msgstr "Budjed e deizioù"
+msgstr ""
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Budget history"
-msgstr "Budjed e deizioù"
+msgstr ""
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_cfg.html
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:69
@@ -5152,18 +5016,16 @@ msgid "Load per customfield values"
 msgstr ""
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.html
-#, fuzzy
 msgid "Custom field"
-msgstr "Maeziennoù personelaet"
+msgstr ""
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Timetrack list"
 msgstr ""
 
 #. plugins/TimetrackList/TimetrackList.html
-#, fuzzy
 msgid "Update timetrack"
-msgstr "Nevesaat heulierezh an amzer"
+msgstr ""
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -5172,9 +5034,8 @@ msgid "Backlog per User"
 msgstr ""
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#, fuzzy
 msgid "No task with backlog"
-msgstr "Blaklog ar skipailh"
+msgstr ""
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
@@ -5187,39 +5048,35 @@ msgstr ""
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Ongoing tasks"
-msgstr "Trevelloù war ober"
+msgstr ""
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr "Na ziskwel nemet an trevelloù bet oberiant (heuliet) war ar prantad"
+msgstr ""
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr "An amzer lakaet war an drevell e-pad ar prantad (hag a c'hall bezañ nebeutoc'h eget an amzer hollek lakaet abaoe deroù an drevell)"
+msgstr ""
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "List the users having spent time on the task during the period"
-msgstr "Roll an implijerien bet o lakaat amzer war an drevell-mañ e-pad ar prantad"
+msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Nb submitted"
-msgstr "Kaset"
+msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Nb resolved"
-msgstr "niver diskoulmet"
+msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Submitted issues"
-msgstr "Kaset"
+msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Resolved issues"
-msgstr "Diskwel an trevelloù diskoulmet"
+msgstr "Geléist Aufgaben"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
 #: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:65
@@ -5227,150 +5084,146 @@ msgid "Submitted/Resolved Issues History"
 msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-#, fuzzy
 msgid "Submitted/Resolved issues"
-msgstr "Diskwel an trevelloù diskoulmet"
+msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-#, fuzzy
 msgid "Submitted / Resolved Issues"
-msgstr "Diskwel an trevelloù diskoulmet"
+msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Submitted"
-msgstr "Kaset"
+msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Resolved"
-msgstr "Diskoulmet"
+msgstr "Geléist"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "You need to be manager to import issues."
-msgstr "Digarezit ni, rankout a rit bezañ merour evit enporzhiañ an trevelloù"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
-msgstr "N'eus nemet ar verourien skipailh a zo aotreet da grouiñ implijerien"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_cfg.html
 #: plugins/ImportUsers/ImportUsers.class.php:67
 msgid "Import users"
-msgstr "Enporzhiañ implijerien"
+msgstr "Benotzer importéieren"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Create Mantis users"
-msgstr "Krouiñ implijerien Mantis"
+msgstr "Mantis-Benotzer uleeën"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Add users to CodevTT team & projects"
-msgstr "Ouzhpennañ implijerien d'ar raktresoù ha d'ar skipailh CodevTT"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr "N'eus nemet ar verourien skipailh a zo aotreet da grouiñ implijerien"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Send password by mail"
-msgstr "Kas ar ger-tremen dre bostel"
+msgstr "Passwuert per E-Mail schécken"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr "Kas ur ger-tremen dre bostel da bep implijer"
+msgstr "All Benotzer e Passwuert per E-Mail schécken"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Generate password"
-msgstr "Genel ar ger-tremen"
+msgstr "Passwuert generéieren"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
-msgstr "Diskwel ur ger-tremen ganet (boutin d'an holl implijerien krouet)"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "username"
-msgstr "anv implijer"
+msgstr "Benotzernumm"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already exists"
-msgstr "An anaouder-mañ zo anezhañ c'hoazh."
+msgstr "Benotzer gëtt et schonn"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis project access level"
-msgstr "Gwirioù da dizhout mantis"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
-msgstr "Ne c'hall ket an implijer bezañ ouzhpenn d'ar raktresoù Mantis"
+msgstr "De Benotzer kann net bäi Mantis-Projeten derbäigesat ginn"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "CodevTT role"
-msgstr "Maeziennoù  CodevTT"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already belong to this team"
-msgstr "Ezel eus ar skipailh eo an implijer c'hoazh."
+msgstr "Benotzer gehéiert schonn zu dëser Ekipp"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to this team"
-msgstr "Ne c'hall ket an implijer bezañ ouzhpennet d'ar skipailh-mañ"
+msgstr "De Benotzer kann net bei dës Ekipp derbäigesat ginn"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis users to create:"
-msgstr "Implijerien Mantis da grouiñ :"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "First name"
-msgstr "Anv-bihan"
+msgstr "Virnumm"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username"
-msgstr "Anv implijer"
+msgstr "Benotzernumm"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis role"
-msgstr "Gwirioù Mantis"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team"
-msgstr "Deiziad errout er skipailh"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username not set on all users"
-msgstr "Rankout a ra an anv implijer bezañ termenet gant an holl implijerien"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Project access level not set on all users"
-msgstr "Rankout a ra an anv implijer bezañ termenet gant an holl implijerien"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "CodevTT roles not set on all users"
-msgstr "Rankout a ra ar rol CodevTT bezañ termenet gant an holl implijerien"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team not set on all users"
-msgstr "Rankout  a ra an deiziad erruout er skipailh bezañ termenet evit an holl implijerien"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! The password for every created users is"
-msgstr "Enporzhiadur echuet ! Ger-tremen an implijerien krouet zo"
+msgstr ""
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr "Enporzhiadur graet ! Ur postel gant un anaouder hag ur ger-tremen zo bet kaset da bep implijer."
+msgstr ""
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "No errors"
-msgstr "Fazi ebet"
+msgstr "Keng Feeler"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "Consistency check"
-msgstr "Prouad anterinded"
+msgstr ""
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:62
@@ -5389,7 +5242,7 @@ msgstr ""
 
 #. plugins/WBSExport/WBSExport_cfg.html
 msgid "Hello World"
-msgstr "HelloWorld"
+msgstr ""
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
@@ -5398,167 +5251,163 @@ msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
-msgstr "Freskaat"
+msgstr "Aktualiséieren"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Send new message"
-msgstr "Kas ur gemennadenn nevez"
+msgstr "Neie Message schécken"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expire"
-msgstr "A ya d'e dermen"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Exp. date"
-msgstr "Deiziad termen"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
-msgstr "Deiziad termen (diret)"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr "An holl dud (an holl skipailhoù)"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall options"
-msgstr "Dibarzhioù eus ar voger kemennadennoù"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
-msgstr "Degemerer"
+msgstr "Empfänger"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Current team"
-msgstr "Skipailh bremañ"
+msgstr "Aktuell Ekipp"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "All my teams"
-msgstr "An holl skipailhoù"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Assigned to me"
-msgstr "Deverket da"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Posted by me"
-msgstr "Embannet ganin"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "All"
-msgstr "An holl"
+msgstr "All"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hidden messages"
-msgstr "Kemennadennoù kuzhet"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #: plugins/BlogPlugin/BlogPost.class.php:430
 msgid "Hide"
-msgstr "Kuzhat"
+msgstr "Verstoppen"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Message wall help"
-msgstr "Skoazell ar voger kemennadennoù"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Buttons"
-msgstr "Boutonoù"
+msgstr "Knäppercher"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Add new message"
-msgstr "Ouzhpennañ ur gemennadenn nevez"
+msgstr "Neie Message derbäisetzen"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Post a new message"
-msgstr "Postañ ur gemennadenn nevez"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Set message wall options"
-msgstr "Enrollañ dibarzhioù ar voger kemennadennoù"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
-msgstr "Merket evel lennet. Kuzhet e c'hall bezañ ar gemennadenn"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr "Kuzhat ar gemennadenn. Diouzh an diabarzh \"Diskwel ar c'hemennadennoù kuzhet\" eo."
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
-msgstr "Diskouez"
+msgstr "Weisen"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Unhide a hidden message"
-msgstr "Diguzhat ur gemennadenn kuzhet"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Delete a message."
-msgstr "Diverkañ ar gemennadenn"
+msgstr "Ee Message läschen."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr "Ha sur eo ho peus c'hoant da lemel ar gemennadenn-mañ da vat ?"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
-msgstr "Moger gemenadennoù"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "Gréisst"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
-msgstr ""
+msgstr "Kleng"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Medium"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
-#, fuzzy
 msgid "Large"
-msgstr "Pal"
+msgstr "Grouss"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
-msgstr ""
+msgstr "Riseg"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
-msgstr "Anavezet gant"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Submission date"
-msgstr "Deiziad kas"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
-msgstr "Deiziad termen"
+msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
-msgstr "Aozer"
+msgstr "Auteur"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Dest"
-msgstr "Desk"
+msgstr ""
 
 #. plugins/BurnDownChart/BurnDownChart.html
-#, fuzzy
 msgid "Backlog history"
-msgstr "Budjed e deizioù"
+msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Task type filter"
-msgstr "siloù war an trevelloù"
+msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
@@ -5571,33 +5420,31 @@ msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "Nei"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "Op"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb Issues"
-msgstr ""
+msgstr "Zuel vun de Problemer"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb new"
 msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#, fuzzy
 msgid "Nb open"
-msgstr "niver addigoret"
+msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
 msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Display task list"
-msgstr "Trevelloù diskwelet"
+msgstr ""
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
@@ -5624,12 +5471,11 @@ msgstr ""
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Average"
-msgstr ""
+msgstr "Duerchschnëtt"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "(in days)"
-msgstr "Nv a zeizioù"
+msgstr "(an Deeg)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
@@ -5637,17 +5483,15 @@ msgstr ""
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
+msgstr "Modus"
+
+#. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
+msgid "Nb timetracks"
 msgstr ""
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
-msgid "Nb timetracks"
-msgstr "Enskrivadennoù"
-
-#. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "Missing"
-msgstr "Maezienn diank"
+msgstr "Feelt"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5655,19 +5499,16 @@ msgid "Effort estimation reliability rate"
 msgstr ""
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "EffortEstim ReliabilityRate"
-msgstr "Feur fiziusted ar garg kentañ"
+msgstr ""
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "MgrEffortEstim ReliabilityRate"
-msgstr "Feur fiziusted ar garg_Mgr"
+msgstr ""
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
-#, fuzzy
 msgid "EffortEstim reliability history"
-msgstr "Fiziusted e priziañ ar garg"
+msgstr ""
 
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #: scheduler/SchedulerEvent.class.php:163 gantt/gantt_ajax.php:257
@@ -5686,18 +5527,16 @@ msgid "Tasks pivot table"
 msgstr ""
 
 #. plugins/ResetDashboard/ResetDashboard.html
-#, fuzzy
 msgid "Reset selected dashboards"
-msgstr "Dilemel ur pad"
+msgstr ""
 
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
-#, fuzzy
 msgid "Domain"
-msgstr "Domani(où)"
+msgstr "Domaine"
 
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
 msgid "Item"
-msgstr ""
+msgstr "Element"
 
 #. plugins/ResetDashboard/ResetDashboard_cfg.html
 msgid "Reset Dashboard"
@@ -5705,12 +5544,11 @@ msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
-msgstr ""
+msgstr "Schätzung vun de gesamte Käschten:"
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "Costs Mgr"
-msgstr "Koustoù"
+msgstr ""
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
@@ -5746,27 +5584,27 @@ msgstr ""
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
-msgstr "Ne c'haller ket ouzhpennañ an ezvezañs-se"
+msgstr ""
 
 #: admin/edit_holidays.php:51
 msgid "Couldn't remove the holiday"
-msgstr "Ne c'haller ket dilemel an ezvezañs-se"
+msgstr ""
 
 #: admin/edit_team_ajax.php:92
 msgid "Issue tooltips for project"
-msgstr "titouroù-lagadennoù evit ar raktres"
+msgstr ""
 
 #: admin/edit_team_ajax.php:93
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
-msgstr "Riklañ-dilec'hiañ ar maeziennoù da ziskwel el lagadennoù-titouriñ"
+msgstr ""
 
 #: admin/edit_team_ajax.php:94
 msgid "Available fields"
-msgstr "Maeziennoù a c'haller kaout"
+msgstr "Disponibel Felder"
 
 #: admin/edit_team_ajax.php:95
 msgid "Tooltip"
-msgstr "Lagadennoù-titouriñ"
+msgstr ""
 
 #: admin/edit_team_ajax.php:445
 msgid "ERROR: joblist cannot be empty !"
@@ -5778,11 +5616,11 @@ msgstr ""
 
 #: admin/edit_team_ajax.php:498
 msgid "Couldn't enable/disable team"
-msgstr "Ne c'haller ket gweredekaat/diweredekaat ar skipailh"
+msgstr ""
 
 #: admin/edit_team_ajax.php:501
 msgid "Couldn't update the creation date"
-msgstr "C'hwitet eo hizivadur an deiziad krouiñ"
+msgstr ""
 
 #: admin/edit_team_ajax.php:694 management/command_edit_ajax.php:375
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:223
@@ -5799,7 +5637,7 @@ msgstr ""
 #: admin/admin_dashboard.php:75 import/import_dashboard.php:66
 #: reports/team_dashboard.php:98
 msgid "Sorry, you need to be identified."
-msgstr ""
+msgstr "Entschëllegt, Dir musst Iech identifizéieren."
 
 #: admin/plugin_manager.php:69
 msgid "Could not create classmap: "
@@ -5827,11 +5665,11 @@ msgstr ""
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
-msgstr "C'hwitet eo bet dilamadur ar skipailh"
+msgstr ""
 
 #: admin/edit_team.php:95
 msgid "Couldn't update the team leader"
-msgstr "C'hwitet eo hizivadur an team leader"
+msgstr ""
 
 #: admin/edit_team.php:199
 msgid "Couldn't add the project to the team"
@@ -5843,55 +5681,55 @@ msgstr ""
 
 #: admin/edit_team.php:283
 msgid "Configure Tooltips"
-msgstr "Kefluniañ al lagadennoù-titouriñ"
+msgstr ""
 
 #: admin/edit_team.php:408
 msgid "enabled"
-msgstr "gweredekaet"
+msgstr ""
 
 #: admin/edit_team.php:408
 msgid "disabled"
-msgstr "diweredekaet"
+msgstr "desaktivéiert"
 
 #: classes/command.class.php:59
 msgid "to be sent"
-msgstr "Da vezañ kaset"
+msgstr ""
 
 #: classes/command.class.php:60
 msgid "Sent"
-msgstr "Kaset"
+msgstr ""
 
 #: classes/command.class.php:61
 msgid "to be validated"
-msgstr "da vezañ kadarnaet"
+msgstr ""
 
 #: classes/command.class.php:62
 msgid "validated"
-msgstr "kadarnaet"
+msgstr ""
 
 #: classes/command.class.php:63
 msgid "to be closed"
-msgstr "da vezañ klozet"
+msgstr ""
 
 #: classes/command.class.php:64
 msgid "closed"
-msgstr "klozet"
+msgstr ""
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
-msgstr "fakturenn da gas"
+msgstr ""
 
 #: classes/command.class.php:66
 msgid "bill sent"
-msgstr "fakturenn kaset"
+msgstr ""
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr "paeet"
+msgstr ""
 
 #: classes/user.class.php:1560
 msgid "for team"
-msgstr "evit ar skipailh"
+msgstr ""
 
 #: classes/user.class.php:1562
 msgid "[CodevTT] Timesheet reminder !"
@@ -5911,12 +5749,12 @@ msgstr ""
 
 #: classes/user.class.php:1579 classes/consistency_check2.class.php:719
 msgid "not defined."
-msgstr "Anspisaet"
+msgstr "net definéiert."
 
 #: classes/consistency_check2.class.php:69 reports/export_odt.php:263
 #: reports/export_odt.php:273 tests/odt.php:74 tests/odt.php:84
 msgid "unknown"
-msgstr "dianav"
+msgstr "onbekannt"
 
 #: classes/consistency_check2.class.php:178
 msgid "Backlog on resolved issues should be 0"
@@ -6005,11 +5843,11 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:704
 msgid " days"
-msgstr "deiz"
+msgstr "Deeg"
 
 #: classes/consistency_check2.class.php:708
 msgid "inconsistent"
-msgstr "diboell"
+msgstr ""
 
 #: classes/consistency_check2.class.php:744
 msgid "No default project workflow defined, check config file: "
@@ -6033,7 +5871,7 @@ msgstr ""
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:203
 msgid "monitored"
-msgstr "evezhiet"
+msgstr ""
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
@@ -6066,7 +5904,7 @@ msgstr ""
 
 #: classes/issue.class.php:2191 tools.php:1549
 msgid "Tags"
-msgstr "Tikedennoù"
+msgstr ""
 
 #: classes/issue.class.php:2199
 msgid "none"
@@ -6090,11 +5928,11 @@ msgstr ""
 
 #: classes/PluginManager.class.php:79
 msgid "Disabled"
-msgstr "Diweredekaet"
+msgstr "Desaktivéiert"
 
 #: classes/PluginManager.class.php:80
 msgid "Removed"
-msgstr "Tennet kuit"
+msgstr ""
 
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
@@ -6111,7 +5949,7 @@ msgstr ""
 
 #: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "FEELER:Währung schonn definéiert"
 
 #: filters/ProjectFilter.php:51
 msgid "Sort issues per Project"
@@ -6131,15 +5969,15 @@ msgstr ""
 
 #: filters/ProjectCategoryFilter.php:57
 msgid "Project Category"
-msgstr "Rummad Raktres"
+msgstr ""
 
 #: filters/IssueIdFilter.php:51
 msgid "Sort issues per ID"
-msgstr ""
+msgstr "Problemer no der ID zortéieren"
 
 #: filters/IssueIdFilter.php:59
 msgid "Issue ID"
-msgstr ""
+msgstr "ID-Probleem"
 
 #: filters/ProjectVersionFilter.php:45
 msgid "Sort issues per Project TargetVersion"
@@ -6171,12 +6009,12 @@ msgstr ""
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Typ (Aufgab/Feeler)"
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:186
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:337
 msgid "Y-m-d"
-msgstr "d-m-Y"
+msgstr ""
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
 msgid "Average backlog"
@@ -6185,11 +6023,11 @@ msgstr ""
 #: install/install.php:25 install/install.php:133
 #: install/install_menu.inc.php:22
 msgid "Install"
-msgstr "Staliañ"
+msgstr ""
 
 #: install/install.php:122
 msgid "Upgrade instructions"
-msgstr ""
+msgstr "Instruktioune fir den Upgrade"
 
 #: install/install.php:123
 msgid "If you're upgrading from an older CodevTT version, do the following steps:"
@@ -6197,7 +6035,7 @@ msgstr ""
 
 #: install/install.php:125
 msgid "Upgrade Mantis first ! (not mandatory)"
-msgstr ""
+msgstr "Mantis fir d'éischt aktualiséieren! (net obligatoresch)"
 
 #: install/install.php:126
 msgid "Backup your database"
@@ -6209,7 +6047,7 @@ msgstr ""
 
 #: install/install.php:128
 msgid "Run this script: "
-msgstr ""
+msgstr "Dëse Skript starten: "
 
 #: install/install_step5.php:25
 msgid "Installation finished"
@@ -6263,7 +6101,7 @@ msgstr ""
 
 #: install/install_step4.php:83
 msgid "Done !"
-msgstr "Graet !"
+msgstr "Fäerdeg!"
 
 #: install/install_step1.php:25
 msgid "Install - Step 1"
@@ -6275,7 +6113,7 @@ msgstr ""
 
 #: install/install_step1.php:218
 msgid "SGBD"
-msgstr ""
+msgstr "SGBD"
 
 #: install/install_step1.php:229
 msgid "Hostname"
@@ -6311,11 +6149,11 @@ msgstr ""
 
 #: install/install_step1.php:265
 msgid "Server"
-msgstr "Servijer"
+msgstr "Server"
 
 #: install/install_step1.php:266
 msgid "Port"
-msgstr "Porzh"
+msgstr ""
 
 #: install/install_step1.php:273
 msgid "Proceed Step 1"
@@ -6367,7 +6205,7 @@ msgstr ""
 
 #: install/install_step3.php:400
 msgid "CodevTT_DailyPrice"
-msgstr "CodevTT_Priz an deiz"
+msgstr ""
 
 #: install/install_step3.php:406
 msgid "CodevTT_External ID"
@@ -6453,7 +6291,7 @@ msgstr ""
 
 #: install/install_step3.php:865
 msgid "Leave"
-msgstr "Mont kuit"
+msgstr ""
 
 #: install/install_step3.php:866
 msgid "Sick Leave"
@@ -6461,15 +6299,15 @@ msgstr ""
 
 #: install/install_step3.php:867
 msgid "Analyse"
-msgstr "Dielfennañ"
+msgstr ""
 
 #: install/install_step3.php:868
 msgid "Development"
-msgstr "Diorren"
+msgstr "Entwécklung"
 
 #: install/install_step3.php:869
 msgid "Tests"
-msgstr "Amprouadennoù"
+msgstr ""
 
 #: install/install_step3.php:956
 msgid "CodevTT_ExternalTasks"
@@ -6491,23 +6329,23 @@ msgstr ""
 
 #: install/install_step3.php:999
 msgid "Sick"
-msgstr "Klañv"
+msgstr ""
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
-msgstr "Pazenn 1"
+msgstr "Schrëtt 1"
 
 #: install/install_menu.inc.php:30
 msgid "Step 2"
-msgstr "Pazenn 2"
+msgstr "Schrëtt 2"
 
 #: install/install_menu.inc.php:34
 msgid "Step 3"
-msgstr "Pazenn 3"
+msgstr "Schrëtt 3"
 
 #: install/install_menu.inc.php:38
 msgid "Step 4"
-msgstr "Pazenn 4"
+msgstr "Schrëtt 4"
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
@@ -6516,7 +6354,7 @@ msgstr ""
 #: management/command_info_ajax.php:340 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
-msgstr ""
+msgstr "automatesch"
 
 #: management/commandset_info.php:88
 msgid "Errors affecting the CommandSet"
@@ -6542,9 +6380,8 @@ msgstr ""
 
 #: reports/issue_info_ajax.php:203 reports/issue_info_ajax.php:252
 #: reports/issue_info_ajax.php:299 reports/issue_info_ajax.php:364
-#, fuzzy
 msgid "Sorry, you're not an active member of this team"
-msgstr "Hon digarezit, ne c'hallit ket diraez ar bajenn-mañ."
+msgstr ""
 
 #: reports/issue_info.php:90
 msgid "You do not have permissions to display task :"
@@ -6591,11 +6428,11 @@ msgstr ""
 
 #: reports/issue_info_tools.php:39
 msgid "No date defined"
-msgstr ""
+msgstr "Keen Datum definéiert"
 
 #: reports/issue_info_tools.php:41
 msgid "No target version defined"
-msgstr ""
+msgstr "Keng Zil-Versioun definéiert"
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
@@ -6624,7 +6461,7 @@ msgstr ""
 
 #: timetracking/holidays_report.php:66
 msgid "External Tasks"
-msgstr ""
+msgstr "Extern Aufgaben"
 
 #: timetracking/holidays_report.php:71
 msgid "Sidetasks Inactivity"
@@ -6636,16 +6473,16 @@ msgstr ""
 
 #: timetracking/holidays_report.php:140
 msgid "today"
-msgstr "hiziv"
+msgstr "haut"
 
 #. light grey
 #: timetracking/holidays_report.php:206
 msgid "User not in team"
-msgstr "N'emañ ket an implijer er skipailh"
+msgstr ""
 
 #: timetracking/holidays_report.php:244
 msgid "Other team"
-msgstr "Skipailh all"
+msgstr "Aner Ekipp"
 
 #: timetracking/time_tracking_ajax.php:161
 msgid "Timetracking is forbidden when issue's status is :"
@@ -6665,14 +6502,12 @@ msgid "Timetrack not added: Job is not specified"
 msgstr ""
 
 #: timetracking/time_tracking_ajax.php:481
-#, fuzzy
 msgid "Timetrack not added: bugid is not specified"
-msgstr "Ouzhpennit un notenn, mar plij"
+msgstr ""
 
 #: timetracking/time_tracking_ajax.php:484
-#, fuzzy
 msgid "Timetrack not added: duration is not specified"
-msgstr "Ouzhpennit un notenn, mar plij"
+msgstr ""
 
 #: timetracking/time_tracking_ajax.php:522
 msgid "ERROR: Failed to add timetrack !"
@@ -6687,9 +6522,8 @@ msgid "Display unresolved tasks that should have been delivered"
 msgstr ""
 
 #: plugins/AdminTools/AdminTools.class.php:68
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "Melestradur CodevTT"
+msgstr ""
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
@@ -6705,7 +6539,7 @@ msgstr ""
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:276
 msgid "Management"
-msgstr "Merañ"
+msgstr "Gestioun"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
@@ -6716,9 +6550,8 @@ msgid "Task is not in team's projects"
 msgstr ""
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
-#, fuzzy
 msgid "Timetrack added by "
-msgstr "Heuliañ an obererezh"
+msgstr ""
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
@@ -6750,7 +6583,7 @@ msgstr ""
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:334
 msgid "No group defined"
-msgstr ""
+msgstr "Kee Grupp definéiert"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
@@ -6767,9 +6600,8 @@ msgid "Display a history of all the teams for a given user"
 msgstr ""
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "Maeziennoù personelaet"
+msgstr ""
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
@@ -6811,7 +6643,7 @@ msgstr ""
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
 msgid "Please, fill all fields"
-msgstr "Leuniit an holl vaeziennoù"
+msgstr "Fëllt wgl. all Felder aus"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
 msgid "This origin task doesn't exist"
@@ -6835,11 +6667,11 @@ msgstr ""
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr "Priz gwerzh = Priz an deiz x bevezet e-pad ar prantad"
+msgstr ""
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr "DIWALLIT : ret eo deoc'h stagañ ar vaezienn bersonelaet \"CodevTT_Priz an deiz\" d'ar raktresoù da heul : "
+msgstr ""
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
@@ -6871,16 +6703,15 @@ msgstr ""
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
 msgid "(unknown 0)"
-msgstr "(dianav 0)"
+msgstr "(onbekannt 0)"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:88
 msgid "List the active tasks on a given period"
-msgstr "Rollañ an trevelloù oberiant war ar prantad"
+msgstr ""
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:90
-#, fuzzy
 msgid "Tasks having received timetracks during the period"
-msgstr "Trevelloù addigoret evit ar mare"
+msgstr ""
 
 #: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:68
 msgid "Display the number of issues submitted/resolved in a period"
@@ -6888,15 +6719,15 @@ msgstr ""
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Import a list of users to MantisBT / CodevTT"
-msgstr ""
+msgstr "Eng Lëscht vu Benotzer a MantisBT / CodevTT importéieren"
 
 #: plugins/ImportUsers/ImportUsers.class.php:74
 msgid "Note: only available for administrators & team leaders"
-msgstr ""
+msgstr "Notiz: just fir Administrateuren & Cheffe vun Equippen disponibel"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"
-msgstr ""
+msgstr "Dir däerft keng Benotzer importéieren"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
@@ -6908,19 +6739,19 @@ msgstr ""
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:168
 msgid "CodevTT URL: "
-msgstr ""
+msgstr "CodevTT-URL: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
-msgstr ""
+msgstr "Mantis-URL: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
-msgstr "A galon"
+msgstr "Mat beschte Gréiss"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
-msgstr ""
+msgstr "[CodevTT] Äert Passwuert"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:73
 msgid "Check all the timetracks of the period and return their repartition per project categories"
@@ -6936,7 +6767,7 @@ msgstr ""
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:349
 msgid "All Projects"
-msgstr "An holl raktresoù"
+msgstr "All Projeten"
 
 #: plugins/WBSExport/WBSExport.class.php:53
 msgid "WBS Export"
@@ -6952,24 +6783,24 @@ msgstr ""
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
 msgid "Low"
-msgstr "Izel"
+msgstr "Niddereg"
 
 #: plugins/BlogPlugin/BlogPost.class.php:114
 msgid "Normal"
-msgstr "Reizh"
+msgstr "Normal"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
 msgid "High"
-msgstr "Uhel"
+msgstr "Héich"
 
 #. This case happens when an Administrator sends a message to "All" users
 #: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
-msgstr "An holl"
+msgstr "Jiddereen"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:67
 msgid "Messages"
-msgstr "Kemennadennoù"
+msgstr "Messagen"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:70
 msgid "Display a message wall on the homepage"
@@ -6989,39 +6820,39 @@ msgstr ""
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:174
 msgid "Last week"
-msgstr ""
+msgstr "Lescht Woch"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:175
 msgid "+1 week"
-msgstr ""
+msgstr "+1 Woch"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:176
 msgid "+2 week"
-msgstr ""
+msgstr "+2 Wochen"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:177
 msgid "+3 week"
-msgstr ""
+msgstr "+3 Wochen"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:178
 msgid "+1 months"
-msgstr ""
+msgstr "+1 Mount"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:179
 msgid "+2 months"
-msgstr ""
+msgstr "+ 2 Méint"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:180
 msgid "+3 months"
-msgstr ""
+msgstr "+3 Méint"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:181
 msgid "+6 months"
-msgstr ""
+msgstr "+6 Méint"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:182
 msgid "Over a year"
-msgstr ""
+msgstr "Méi wéi 1 Joer"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:271
 msgid "All (tasks & bugs)"
@@ -7073,35 +6904,35 @@ msgstr ""
 #. Set task id list
 #: scheduler/scheduler.php:59
 msgid "Select a task"
-msgstr "Diuzañ un drevell"
+msgstr "Sicht en Aufgab eraus"
 
 #: scheduler/scheduler.php:108
 msgid "Today"
-msgstr "Hiziv"
+msgstr "Haut"
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"
-msgstr "Dilun"
+msgstr "Méindeg vun dëser Woch"
 
 #: scheduler/scheduler.php:110
 msgid "First week of this month"
-msgstr "Sizhun gentañ ar miz-mañ"
+msgstr "Éischt Woch vun dësem Mount"
 
 #: scheduler/scheduler.php:116
 msgid "2 weeks"
-msgstr "2 sizhun"
+msgstr "2 Wochen"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
-msgstr "1 miz"
+msgstr "1 Mount"
 
 #: scheduler/scheduler.php:118
 msgid "2 months"
-msgstr "2 viz"
+msgstr "2 Méint"
 
 #: scheduler/scheduler.php:119
 msgid "3 months"
-msgstr "3 miz."
+msgstr "3 Méint"
 
 #: scheduler/SchedulerTaskProvider.class.php:46
 msgid "Daily breakdown scheduling"
@@ -7118,21 +6949,21 @@ msgstr ""
 #. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
 #: scheduler/scheduler_ajax.php:389
 msgid "Issue not found in MantisDB !"
-msgstr ""
+msgstr "Probleem gouf an der MantisDB net fonnt!"
 
 #: scheduler/scheduler_ajax.php:513
 msgid "Options saved successfully"
-msgstr ""
+msgstr "Optioune gespäichert"
 
 #: smarty_tools_ajax.php:35
 msgid "All projects"
-msgstr ""
+msgstr "All Projeten"
 
 #: smarty_tools.php:126
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: tools.php:1503
 msgid "Delivery Date"
-msgstr "Deiziad degas"
+msgstr ""
 

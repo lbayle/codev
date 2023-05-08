@@ -5,6 +5,7 @@
 # Author: Brettchenweber
 # Author: FF-11
 # Author: Gebu
+# Author: Justman10000
 # Author: Killarnee
 # Author: ManuelFranz
 # Author: Metalhead64
@@ -14,18 +15,19 @@
 # Author: Umherirrender
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2022-10-27 11:02:08+0000\n"
+"PO-Revision-Date: 2023-05-08 11:02:02+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2022-02-08 19:38:45+0000\n"
-"X-Generator: MediaWiki 1.40.0-alpha; Translate 2022-10-21\n"
+"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/check.html
@@ -4330,14 +4332,11 @@ msgstr "Zeiterfassungen auflisten und bearbeiten"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:77
-#, fuzzy
 msgid "Add multiple timetracks at once"
-msgstr "Mehrere Aufgaben hinzufügen"
+msgstr "Mehrere Timetracks auf einmal hinzufügen"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -4351,9 +4350,8 @@ msgstr "Gebuchter Aufwand im Zeitraum"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
-#, fuzzy
 msgid "Fill period with timetracks"
-msgstr "Zeiterfassungen auflisten und bearbeiten"
+msgstr "Fülle den Zeitraum mit Zeitleisten"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
 msgid "Managemnt load history"
@@ -4757,12 +4755,8 @@ msgid "Waste"
 msgstr "Verlust"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n"
-"(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Sidetasks „Vorfall“ und „Inaktivität“ der aktuellen Auswahl<br>\n(falls die Option „Verlust“ nicht ausgewählt wurde, wird dies in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4789,17 +4783,11 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Externe Abwesenheitsaufgaben und Inaktivitäts-Sidetasks, die nicht in der aktuellen Aufgabenauswahl sind."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n"
-"(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Zeigt Verlust-Sidetasks: Kategorien „Vorfall“ und „Inaktivität“<br>\n(falls nicht ausgewählt, werden Sidetasks in „verstrichen“ eingeschlossen)."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show full activity:\n"
-"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4941,17 +4929,17 @@ msgstr ""
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "Verkaufspreis für den Zeitraum"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "Wenn du tägliche Dienstleistungen mit einem bestimmten Preis für jede Aufgabe verkaufst, zeigt dir dieses Plugin den Preis für deinen Stapel von Aufgaben über einen bestimmten Zeitraum an."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
-msgstr ""
+msgstr "Für dieses Plugin musst du das benutzerdefinierte Feld \"CodevTT_DailyPrice\" zu deinen Mantis-Projekten hinzufügen und einen Wert für jede Aufgabe festlegen."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #, fuzzy
@@ -5009,7 +4997,7 @@ msgstr "Warnung"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
-msgstr ""
+msgstr "Täglicher Preis"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #, fuzzy
@@ -5053,7 +5041,7 @@ msgstr "Fortschritt"
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:68
 msgid "Load History"
-msgstr ""
+msgstr "Verlauf laden"
 
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
@@ -5068,7 +5056,7 @@ msgstr "Aufwandsschätzung Manager inkl. Provisionen"
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Burndown chart"
-msgstr ""
+msgstr "Grafik zum Ausbrand"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
@@ -5097,7 +5085,7 @@ msgstr "Budget Abweichung Historie"
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_cfg.html
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:69
 msgid "Load per customfield values"
-msgstr ""
+msgstr "Werte pro Benutzerfeld laden"
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.html
 #, fuzzy
@@ -5507,7 +5495,7 @@ msgstr ""
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:73
 msgid "Statistics on the age of open tasks"
-msgstr ""
+msgstr "Statistik über das Alter der offenen Aufgaben"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
@@ -5555,7 +5543,7 @@ msgstr "Zeit je Status"
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:69
 msgid "Timetracking analysis"
-msgstr ""
+msgstr "Timetracking-Analyse"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average delay between the timetrack date and it's creation date (in days)"
@@ -5728,7 +5716,7 @@ msgstr "Bitte Dateien mit folgenden Endungen hochladen: "
 #: admin/edit_team_ajax.php:782
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:311
 msgid "No group defined for team member"
-msgstr ""
+msgstr "Keine Gruppe für Teammitglied definiert"
 
 #: admin/admin_dashboard.php:75 import/import_dashboard.php:66
 #: reports/team_dashboard.php:98
@@ -5895,7 +5883,7 @@ msgstr "Zeiterfassungen für gelöschte Einträge prüfen (nicht benötigt, wenn
 #. for all timetracks of the team, check that the Mantis issue exist.
 #: classes/consistency_check2.class.php:188
 msgid "Command issues should belong to the team's project-list"
-msgstr ""
+msgstr "Befehlsausgaben sollten auf die Projektliste des Teams gehören"
 
 #: classes/consistency_check2.class.php:286
 msgid "Backlog should be 0 (not "
@@ -5959,11 +5947,11 @@ msgstr "Das Projekt ist nicht in der Projektliste des Teams definiert"
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr ""
+msgstr "Bitte verschiebe die Konfigurationsdatei nach: "
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr ""
+msgstr "Bitte entfernen: "
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:203
 msgid "monitored"
@@ -6107,7 +6095,7 @@ msgstr "Sortieren nach CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Typ (Aufgabe/Bug)"
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:186
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:337
@@ -6129,7 +6117,7 @@ msgstr "Upgrade-Anweisungen"
 
 #: install/install.php:123
 msgid "If you're upgrading from an older CodevTT version, do the following steps:"
-msgstr ""
+msgstr "Wenn du ein Upgrade von einer älteren CodevTT-Version durchführst, tue die folgenden Schritte:"
 
 #: install/install.php:125
 msgid "Upgrade Mantis first ! (not mandatory)"
@@ -6137,7 +6125,7 @@ msgstr "Zuerst Mantis aktualisieren! (nicht verpflichtend)"
 
 #: install/install.php:126
 msgid "Backup your database"
-msgstr ""
+msgstr "Sichere deine Datenbank"
 
 #: install/install.php:127
 msgid "Copy CodevTT configuration files from your previous installation"
@@ -6484,11 +6472,11 @@ msgstr "Leider sind Sie kein aktives Mitglied dieses Teams"
 
 #: reports/issue_info.php:90
 msgid "You do not have permissions to display task :"
-msgstr ""
+msgstr "Du hast keine Berechtigung, die Aufgabe anzuzeigen:"
 
 #: reports/issue_info.php:101
 msgid "Task not found in Mantis DB :"
-msgstr ""
+msgstr "Aufgabe nicht in Mantis DB gefunden:"
 
 #: reports/statistics.php:86
 msgid "No projects in this team"
@@ -6585,11 +6573,11 @@ msgstr "Anderes Team"
 
 #: timetracking/time_tracking_ajax.php:161
 msgid "Timetracking is forbidden when issue's status is :"
-msgstr ""
+msgstr "Das Timetracking ist verboten, wenn der Status der Ausgabe :"
 
 #: timetracking/time_tracking_ajax.php:442
 msgid "ERROR: Failed to delete the timetrack !"
-msgstr ""
+msgstr "ERROR: Das Löschen der Zeitspur ist fehlgeschlagen!"
 
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking_ajax.php:474
@@ -6610,7 +6598,7 @@ msgstr "Zeiterfassung nicht hinzugefügt: Dauer wurde nicht angegeben."
 
 #: timetracking/time_tracking_ajax.php:522
 msgid "ERROR: Failed to add timetrack !"
-msgstr ""
+msgstr "ERROR: Zeitspur kann nicht hinzugefügt werden!"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:62
 msgid "Task deadlines alert"
@@ -6646,16 +6634,15 @@ msgstr "In der Periode verfügbare Arbeitstage, ausgenommen Urlaube und externe 
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
 msgid "Task is not in team's projects"
-msgstr ""
+msgstr "Die Aufgabe gehört nicht zu den Projekten des Teams"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
-#, fuzzy
 msgid "Timetrack added by "
-msgstr "Zeiterfassungsnotiz"
+msgstr "Timetrack hinzugefügt von "
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
-msgstr ""
+msgstr "Die Aufgabe existiert nicht!"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
 msgid "Management load history"
@@ -6667,23 +6654,23 @@ msgstr "Vergleicht die verstrichene Zeit bei der Verwaltung von sideTasks mit de
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:75
 msgid "Import Mantis relationship-tree to WBS"
-msgstr ""
+msgstr "Mantis-Beziehungsbaum in WBS importieren"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:78
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
-msgstr ""
+msgstr "Importieren einer Mantis-Eltern-Kind-Beziehung in eine Command WBS-Struktur"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr ""
+msgstr "Belastung pro Benutzergruppe"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
-msgstr ""
+msgstr "Überprüfe alle Timetracks des Zeitraums und gib ihre Aufteilung nach Benutzergruppen zurück"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:334
 msgid "No group defined"
-msgstr ""
+msgstr "Keine Gruppe definiert"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
@@ -6768,11 +6755,11 @@ msgstr "Eintragsstatusverlauf anzeigen"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "Verkaufspreis = Tagespreis x abgelaufene Periode"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "WARNUNG: Du musst das benutzerdefinierte Feld \"CodevTT_DailyPrice\" den folgenden Projekten zuweisen: "
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
@@ -6780,7 +6767,7 @@ msgstr "Den Fortschrittsverlauf anzeigen"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
-msgstr ""
+msgstr "Anzeige der verstrichenen Zeit in einer Periode"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -6792,7 +6779,7 @@ msgstr "Den Budgetverlauf anzeigen"
 
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:72
 msgid "Choose a customfield, return the elapsed time for each customField value"
-msgstr ""
+msgstr "Wähle ein benutzerdefiniertes Feld aus und gib die verstrichene Zeit für jeden customField-Wert zurück"
 
 #: plugins/TimetrackList/TimetrackList.class.php:84
 msgid "List and edit timetracks"
@@ -6808,7 +6795,7 @@ msgstr "(unbekannt 0)"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:88
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "Liste der aktiven Aufgaben für einen bestimmten Zeitraum"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:90
 #, fuzzy
@@ -6877,7 +6864,7 @@ msgstr "WBS-Export"
 
 #: plugins/WBSExport/WBSExport.class.php:57
 msgid "Export WBS to CSV file"
-msgstr ""
+msgstr "WBS in CSV-Datei exportieren"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
@@ -6914,11 +6901,11 @@ msgstr "Administratoren und Mitgliedern des Teams erlauben, Nachrichten zu sende
 
 #: plugins/BurnDownChart/BurnDownChart.class.php:66
 msgid "Display the backlog history"
-msgstr ""
+msgstr "Anzeige des Verlaufs des Rückstands"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:70
 msgid "Open issues seniority statistics"
-msgstr ""
+msgstr "Offene Fragen zur Senioritätsstatistik"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:174
 msgid "Last week"
@@ -6962,7 +6949,7 @@ msgstr "Alle (Aufgaben & Fehler)"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"
-msgstr ""
+msgstr "Anzeige der Verzögerung zwischen dem Datum der Zeitspur und ihrem Erstellungsdatum"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
@@ -6986,11 +6973,11 @@ msgstr "Aufgaben durch das Hinzufügen mehrerer Filter gruppieren"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:60
 msgid "Remove dashboard plugins"
-msgstr ""
+msgstr "Dashboard-Plugins entfernen"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:63
 msgid "Remove all plugins from a dashboard. This is usefull if a plugin crashes the page"
-msgstr ""
+msgstr "Entferne alle Plugins aus einem Dashboard. Das ist nützlich, wenn ein Plugin die Seite zum Absturz bringt."
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
@@ -7068,3 +7055,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Liefertermin"
+

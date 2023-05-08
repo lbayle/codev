@@ -10,14 +10,15 @@
 # Author: 烈羽
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2022-12-19 12:01:11+0000\n"
+"PO-Revision-Date: 2023-05-08 11:02:06+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2022-02-08 19:38:45+0000\n"
-"X-Generator: MediaWiki 1.40.0-alpha; Translate 2022-10-21\n"
+"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/check.html
@@ -4212,14 +4213,12 @@ msgid "Graph"
 msgstr "圖形"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "顯示值"
+msgstr "圖形值"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "顯示值"
+msgstr "範圍值"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
@@ -4250,9 +4249,8 @@ msgid "Available workforce"
 msgstr "可用人力"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
-#, fuzzy
 msgid "Workforce"
-msgstr "工作流程"
+msgstr "人力"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -4261,9 +4259,8 @@ msgstr "週期"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "to"
-msgstr "自動"
+msgstr "到"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
@@ -4293,12 +4290,8 @@ msgid "Add multiple timetracks at once"
 msgstr "一次添加多個時間表"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
-msgstr ""
-"允許使用者同時輸入多個時間表並不符合 CodevTT 的準則。然而，會有必須輸入長期所缺失時間表的時候（例如：當 CodevTT 安裝完的時間晚於專案，需銜接上的情況）。\n"
-"此權限僅授予團隊管理員。"
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
+msgstr "允許使用者同時輸入多個時間表並不符合 CodevTT 的準則。然而，會有必須輸入長期所缺失時間表的時候（例如：當 CodevTT 安裝完的時間晚於專案，需銜接上的情況）。\n此權限僅授予團隊管理員。"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4437,18 +4430,16 @@ msgstr "僅團隊成員"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "儲存選項"
+msgstr "顯示選項"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Involved users"
-msgstr "已分配使用者"
+msgstr "涉及使用者"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
@@ -4486,9 +4477,8 @@ msgid "Drift resolved tasks"
 msgstr "調度已解決任務"
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "更新團隊 wiki"
+msgstr "更新團隊"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4706,9 +4696,7 @@ msgid "Waste"
 msgstr "浪費"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr "目前「事件」和「不活躍」邊際任務的選項。<br>（如果「浪費」選項沒被選擇，這將被會包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4736,18 +4724,12 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "額外留下任務和不活躍邊際任務未在目前任務選擇裡"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr "顯示浪費的邊際任務：「事件」和「不活躍」分類<br>（如果未勾選，邊際任務會被包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show full activity:\n"
-"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
-"顯示全部活動：\n"
-"         <br>如果有勾選，任務上的時間表不包含在會被顯示於額外欄位的目前選項裡。"
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr "顯示全部活動：\n         <br>如果有勾選，任務上的時間表不包含在會被顯示於額外欄位的目前選項裡。"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
@@ -4907,9 +4889,8 @@ msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to e
 msgstr "剩餘 = 管理成效估計 - 自任務開始到週期結尾的流逝"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "邊際任務"
+msgstr "包含邊際任務"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
@@ -4936,7 +4917,6 @@ msgstr "任務ID"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Elapsed on period"
 msgstr "週期內的流逝"
 
@@ -4945,9 +4925,8 @@ msgid "Remaining to produce at end of period"
 msgstr "在週期結尾的剩餘生產"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "警告"
+msgstr "剩餘"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
@@ -5085,9 +5064,8 @@ msgid "The time spent on the task during the period (which can be less than the 
 msgstr "在週期期間花在任務上的時間（這可以少於自任務開始以來花費的總時間）"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "List the users having spent time on the task during the period"
-msgstr "於此週期任務已被重新開啟"
+msgstr "列出在此週期裡有花費時間在任務上的使用者"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Nb submitted"
@@ -6628,17 +6606,16 @@ msgid "Display a history of all the teams for a given user"
 msgstr "顯示指定使用者所有歸屬團隊的歷史"
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "自訂欄位"
+msgstr "自訂使用者資料"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "允許設定一些使用者特定資料，像是員工 ID、在其他資料庫/軟體的使用者 ID、電話號碼、等等。"
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "最初目標是簡化將 CodevTT 資料匯出到其他工具的過程。"
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
@@ -6997,5 +6974,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "交付日期"
 
-#~ msgid "Hide tasks with no activity since"
-#~ msgstr "隱藏不活躍任務，自"

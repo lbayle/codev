@@ -13,22 +13,23 @@
 # Author: Wladek92
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2022-12-22 12:01:17+0000\n"
+"PO-Revision-Date: 2023-05-08 11:02:03+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr_fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.40.0-alpha; Translate 2022-10-21\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POT-Import-Date: 2022-02-08 19:38:45+0000\n"
+"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
@@ -947,7 +948,7 @@ msgstr "Dérive"
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Sans soutien"
+msgstr "Sans prise en charge"
 
 #. tpl/statistics.html
 msgid "BI"
@@ -1050,7 +1051,7 @@ msgstr "(uniquement sur les tâches résolues)"
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "rate = 1 : estimation was perfect.<br>rate &lt; 1 : underestimated<br>rate &gt; 1 : overestimated"
-msgstr "taux = 1 : estimation parfaite.<br>taux &lt; 1 : sous-estimé<br>taux &gt; 1 : sur-estimé"
+msgstr "taux = 1 : estimation parfaite.<br>taux &lt; 1 : sous-estimé<br>taux &gt; 1 : surestimé"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1688,7 +1689,7 @@ msgstr "Rapporteurs"
 
 #. tpl/export_odt.html
 msgid "Handlers"
-msgstr "Assigné à"
+msgstr "Affecté à"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
@@ -1722,7 +1723,7 @@ msgstr "Signalé par"
 #: classes/wbsElement.class.php:686 classes/wbsElement.class.php:688
 #: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
 msgid "Assigned to"
-msgstr "Assigné à"
+msgstr "Affecté à"
 
 #. tpl/export_odt.html
 msgid "Download"
@@ -4299,12 +4300,8 @@ msgid "Add multiple timetracks at once"
 msgstr "Ajouter plusieurs imputations en une seule opération"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
-msgstr ""
-"Ce n’est pas dans la philosophie de CodevTT de permettre aux utilisateurs de saisir plusieurs feuilles de temps en même temps. Cependant, il est parfois nécessaire de saisir des feuilles de temps manquantes sur de longues périodes (par ex. pour un rattrapage quand CodevTT est installé tardivement sur un projet).\n"
-"Ce droit n’est accordé qu’aux administrateurs d’équipe."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
+msgstr "Ce n’est pas dans la philosophie de CodevTT de permettre aux utilisateurs de saisir plusieurs feuilles de temps en même temps. Cependant, il est parfois nécessaire de saisir des feuilles de temps manquantes sur de longues périodes (par ex. pour un rattrapage quand CodevTT est installé tardivement sur un projet).\nCe droit n’est accordé qu’aux administrateurs d’équipe."
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4490,9 +4487,8 @@ msgid "Drift resolved tasks"
 msgstr "Dérive des tâches résolues"
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "Mise à jour du Wiki d’équipe"
+msgstr "Mise à jour de l’équipe"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4710,12 +4706,8 @@ msgid "Waste"
 msgstr "Pertes"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Tâches annexes « Incident » et « Inactivité » dans la sélection actuelle.<br>\n"
-"         (Si l’option « pertes » est désactivée, ce sera inclus dans le « consommé ».)"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Tâches annexes « Incident » et « Inactivité » dans la sélection actuelle.<br>\n         (Si l’option « pertes » est désactivée, ce sera inclus dans le « consommé ».)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4742,17 +4734,11 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Absences et tâches annexes d’inactivité ne faisant pas partie de la sélection de tâche actuelle"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Afficher les tâches annexes de pertes : catégories « Incident » et « Inactivité ».<br>\n"
-"         (Si désactivé, ce sera inclus dans le « consommé ».)"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Afficher les tâches annexes de pertes : catégories « Incident » et « Inactivité ».<br>\n         (Si désactivé, ce sera inclus dans le « consommé ».)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show full activity:\n"
-"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
 msgstr "Montrer toute l'activité:<br /> Si activé, les imputations sur les tâches hors sélection seront affichées dans des colonnes supplémentaires."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -5592,11 +5578,11 @@ msgstr "Le Coût-Journalier-Moyen est utilisé lorsqu'aucun Coût-Journalier-Ind
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
-msgstr "Le Coût-Journalier-Moyen est utilisé lorsque la tâche n’est encore assignée à personne."
+msgstr "Le CoûtJournalierMoyen est utilisé lorsque la tâche n’est encore affectée à personne."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
-msgstr "L’arriéré est calculé avec le CJI de la personne à qui la tâche est assignée."
+msgstr "L’arriéré est calculé avec le CJI de la personne à qui la tâche est affectée."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
@@ -5948,7 +5934,7 @@ msgstr "CouleurDuGestionnaireDérive"
 
 #: classes/issue.class.php:2225 tools.php:1563
 msgid "Assigned"
-msgstr "Assigné à"
+msgstr "Affecté à"
 
 #: classes/issue.class.php:2233 tools.php:1571
 msgid "ETA"
@@ -6628,17 +6614,16 @@ msgid "Display a history of all the teams for a given user"
 msgstr "Affiche un historique de toutes les équipes pour un utilisateur donné"
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "Champ personnalisé"
+msgstr "Données utilisateur personnalisées"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "Permet de définir des données spécifiques à l’utilisateur, telles que l’identifiant d’un employé, l’identifiant de l’utilisateur dans d’autres bases de données ou logiciels, le numéro de téléphone, etc."
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "L’objectif initial est de faciliter l’exportation des données de CodeVTT vers d’autres outils."
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
@@ -6996,5 +6981,3 @@ msgstr "sem."
 msgid "Delivery Date"
 msgstr "Date de livraison"
 
-#~ msgid "Hide tasks with no activity since"
-#~ msgstr "Masquer les tâches sans activité depuis"

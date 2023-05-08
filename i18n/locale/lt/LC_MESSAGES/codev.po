@@ -2,18 +2,20 @@
 # Exported from translatewiki.net
 #
 # Author: Eitvys200
+# Author: Nokeoo
 # Author: Nuodas
 # Author: Zygimantus
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2022-10-27 11:02:11+0000\n"
+"PO-Revision-Date: 2023-05-08 11:02:04+0000\n"
 "Language: lt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2022-02-08 19:38:45+0000\n"
-"X-Generator: MediaWiki 1.40.0-alpha; Translate 2022-10-21\n"
+"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
 #. tpl/check.html
@@ -594,7 +596,7 @@ msgstr ""
 #: reports/project_info.php:233 tests/filters.php:69
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:293
 msgid "Reestimated"
-msgstr ""
+msgstr "Iš naujo įvertinta"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/team_monthly_activity_report.html
@@ -2148,7 +2150,7 @@ msgstr "WBS"
 #: plugins/ManagementCosts/ManagementCosts.class.php:251
 #: plugins/CostsIndicator/CostsIndicator.class.php:303
 msgid "Provisions"
-msgstr ""
+msgstr "Nuostatos"
 
 #. tpl/command_edit.html
 #, fuzzy
@@ -3620,7 +3622,7 @@ msgstr ""
 #. tpl/create_team.html
 #: admin/edit_team.php:162
 msgid "Team Workshop"
-msgstr ""
+msgstr "Komandos seminaras"
 
 #. tpl/create_team.html
 msgid "Support, Doc, Training, Wiki, ..."
@@ -4254,9 +4256,8 @@ msgstr ""
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:65
-#, fuzzy
 msgid "Administration tools"
-msgstr "CodevTT administracija"
+msgstr "Administravimo įrankiai"
 
 #. plugins/AdminTools/AdminTools.html
 #, fuzzy
@@ -4469,9 +4470,7 @@ msgid "Add multiple timetracks at once"
 msgstr "Pridėti keletą užduočių"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -4701,7 +4700,7 @@ msgstr "Išlaidos"
 #. plugins/ManagementCosts/ManagementCosts.html
 #: plugins/ManagementCosts/ManagementCosts.class.php:58
 msgid "Management costs"
-msgstr ""
+msgstr "Valdymo išlaidos"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
@@ -4889,7 +4888,7 @@ msgstr "Importuoti vartotojus"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:80
 msgid "Load per User"
-msgstr ""
+msgstr "Apkrova vienam naudotojui"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
@@ -4907,9 +4906,7 @@ msgid "Waste"
 msgstr "Atliekos"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4937,15 +4934,11 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show full activity:\n"
-"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -5893,11 +5886,11 @@ msgstr "Patarimas"
 
 #: admin/edit_team_ajax.php:445
 msgid "ERROR: joblist cannot be empty !"
-msgstr ""
+msgstr "KLAIDA: darbų sąrašas negali būti tuščias!"
 
 #: admin/edit_team_ajax.php:494
 msgid "Invalid team name"
-msgstr ""
+msgstr "Negalimas komandos pavadinimas"
 
 #: admin/edit_team_ajax.php:498
 msgid "Couldn't enable/disable team"
@@ -5917,7 +5910,7 @@ msgstr "Prašome įkelti failus su šiuo plėtiniu: "
 #: admin/edit_team_ajax.php:782
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:311
 msgid "No group defined for team member"
-msgstr ""
+msgstr "Komandos nario grupė neapibrėžta"
 
 #: admin/admin_dashboard.php:75 import/import_dashboard.php:66
 #: reports/team_dashboard.php:98
@@ -5930,7 +5923,7 @@ msgstr ""
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
-msgstr ""
+msgstr "Atsiprašome, šio darbo pakeisti negalima"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
@@ -5946,7 +5939,7 @@ msgstr "Nepavyko ištrinti darbo"
 
 #: admin/logs.php:59
 msgid "Sorry, logfile not found:"
-msgstr ""
+msgstr "Atsiprašome, žurnalo failas nerastas:"
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
@@ -6144,15 +6137,15 @@ msgstr ""
 
 #: classes/consistency_check2.class.php:783
 msgid "Project not defined in the team's project-list"
-msgstr ""
+msgstr "Projektas neapibrėžtas komandos projektų sąraše"
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr ""
+msgstr "Prašome perkelti konfigūracijos failą į: "
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr ""
+msgstr "Pašalinkite: "
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:203
 msgid "monitored"
@@ -6181,7 +6174,7 @@ msgstr ""
 
 #: classes/issue.class.php:65
 msgid "Constrained by"
-msgstr ""
+msgstr "Suvaržytas"
 
 #: classes/issue.class.php:66
 msgid "Constrains"
@@ -6276,7 +6269,7 @@ msgstr ""
 
 #: filters/IssueTagFilter.php:49
 msgid "Sort issues per tags"
-msgstr ""
+msgstr "Rūšiuoti problemas pagal žymas"
 
 #: filters/IssueTagFilter.php:57
 msgid "Issue Tag"
@@ -6296,7 +6289,7 @@ msgstr ""
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "Tipas (užduotis/klaida)"
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:186
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:337
@@ -6314,27 +6307,27 @@ msgstr "Įdiegti"
 
 #: install/install.php:122
 msgid "Upgrade instructions"
-msgstr ""
+msgstr "Atnaujinimo instrukcijos"
 
 #: install/install.php:123
 msgid "If you're upgrading from an older CodevTT version, do the following steps:"
-msgstr ""
+msgstr "Jei naujinate iš senesnės CodevTT versijos, atlikite šiuos žingsnius:"
 
 #: install/install.php:125
 msgid "Upgrade Mantis first ! (not mandatory)"
-msgstr ""
+msgstr "Pirmiausia atnaujinkite Mantis ! (neprivaloma)"
 
 #: install/install.php:126
 msgid "Backup your database"
-msgstr ""
+msgstr "Sukurkite atsarginę duomenų bazės kopiją"
 
 #: install/install.php:127
 msgid "Copy CodevTT configuration files from your previous installation"
-msgstr ""
+msgstr "Nukopijuokite CodevTT konfigūracijos failus iš ankstesnio diegimo"
 
 #: install/install.php:128
 msgid "Run this script: "
-msgstr ""
+msgstr "Paleisti šį kodą: "
 
 #: install/install_step5.php:25
 msgid "Installation finished"
@@ -6411,14 +6404,12 @@ msgid "Database Name"
 msgstr "Duomenų Bazės Pavadinimas"
 
 #: install/install_step1.php:237
-#, fuzzy
 msgid "Database Table Prefix "
-msgstr "Duomenų Bazės Pavadinimas"
+msgstr "Duomenų bazės lentelės priešdėlis "
 
 #: install/install_step1.php:241
-#, fuzzy
 msgid "Database Table Suffix "
-msgstr "Duomenų Bazės Pavadinimas"
+msgstr "Duomenų bazės lentelės priešdėlis "
 
 #: install/install_step1.php:255
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -6457,14 +6448,12 @@ msgid "Get Mantis customizations"
 msgstr "Gauti Mantis pritaikymus"
 
 #: install/install_step2.php:109
-#, fuzzy
 msgid "Path to Mantis"
-msgstr "Kelias į mantis"
+msgstr "Kelias į Mantis"
 
 #: install/install_step2.php:114
-#, fuzzy
 msgid "URL to Mantis"
-msgstr "mantis URL"
+msgstr "Mantis URL"
 
 #: install/install_step2.php:119
 msgid "URL to CodevTT"
@@ -6646,7 +6635,7 @@ msgstr ""
 #: management/command_info_ajax.php:340 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
-msgstr ""
+msgstr "automatinis"
 
 #: management/commandset_info.php:88
 msgid "Errors affecting the CommandSet"
@@ -6814,9 +6803,8 @@ msgid "Display unresolved tasks that should have been delivered"
 msgstr "Rodyti neišspręstas užduotys, kurios turėjo būti pristatytos"
 
 #: plugins/AdminTools/AdminTools.class.php:68
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "CodevTT administracija"
+msgstr "CodevTT administravimo įrankiai"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
@@ -6828,7 +6816,7 @@ msgstr ""
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"
-msgstr ""
+msgstr "Atsilikimas (dienos)"
 
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:276
 msgid "Management"
@@ -6840,16 +6828,15 @@ msgstr ""
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
 msgid "Task is not in team's projects"
-msgstr ""
+msgstr "Užduotis nėra komandos projektuose"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
-#, fuzzy
 msgid "Timetrack added by "
-msgstr "Laiko stebėjimas"
+msgstr "Laiko stebėjimą pridėjo "
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
-msgstr ""
+msgstr "Užduotis neegzistuoja !"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
 msgid "Management load history"
@@ -6877,7 +6864,7 @@ msgstr ""
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:334
 msgid "No group defined"
-msgstr ""
+msgstr "Grupė neapibrėžta"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
@@ -7270,3 +7257,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Pristatymo Data"
+

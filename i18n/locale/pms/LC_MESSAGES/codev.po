@@ -5,14 +5,15 @@
 # Author: Fitoschido
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2022-10-27 11:02:13+0000\n"
+"PO-Revision-Date: 2023-05-08 11:02:04+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2022-02-08 19:38:45+0000\n"
-"X-Generator: MediaWiki 1.40.0-alpha; Translate 2022-10-21\n"
+"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/check.html
@@ -4284,12 +4285,8 @@ msgid "Add multiple timetracks at once"
 msgstr "Gionté vàire travaj ansem"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
-msgstr ""
-"A l'é nen ant la filosofìa ëd CodevTT ëd përmëtte a j'utent d'anserì vàire programassion ant l'istess temp. Comsëssìa, a l'é dle vire necessari anserì dle programassion mancante ansima a dij perìod longh (për es., Arcuperassion cand CodevTT a l'é anstalà tard ansima a 'n proget).\n"
-"Ës drit-sì a l'é mach acordà a j'aministrator d'echip."
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
+msgstr "A l'é nen ant la filosofìa ëd CodevTT ëd përmëtte a j'utent d'anserì vàire programassion ant l'istess temp. Comsëssìa, a l'é dle vire necessari anserì dle programassion mancante ansima a dij perìod longh (për es., Arcuperassion cand CodevTT a l'é anstalà tard ansima a 'n proget).\nËs drit-sì a l'é mach acordà a j'aministrator d'echip."
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4475,9 +4472,8 @@ msgid "Drift resolved tasks"
 msgstr "Sghijament travaj arzolvù"
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "Agiornament ëd l'echip WIKI"
+msgstr "Agiornament ëd l'echip"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4695,12 +4691,8 @@ msgid "Waste"
 msgstr "Sgàir"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n"
-"         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "Travaj tacà 'Eveniment' et 'Inatività' ch'a fan part ëd la selession.<br>\n         (si l'opsion 'sgàir' a l'é disativà, sòn a sarà ancludù ant ël 'consumà')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4727,20 +4719,12 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Travaj d'assense esterne e travaj marginaj d'inatività che a fan nen part dla selession dij travaj corenta"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n"
-"         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "Smon-e jë sgàir dij travaj marginaj: categorìe 'Assident' e 'Inatività' <br>\n         (si nen selessionà, ij travaj marginaj a saran ancludù ant lë 'scadù')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show full activity:\n"
-"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
-"Smon-e tuta l'atività:\n"
-"         <br> Si ativà, le programassion dij travaj nen comprèis ant la selession corenta a saran ësmonùe ans dle colòne adissionaj."
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr "Smon-e tuta l'atività:\n         <br> Si ativà, le programassion dij travaj nen comprèis ant la selession corenta a saran ësmonùe ans dle colòne adissionaj."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
@@ -6615,17 +6599,16 @@ msgid "Display a history of all the teams for a given user"
 msgstr "Smon-e na stòria ëd tute j'echip për n'utent dàit"
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "Përsonalisé ël camp"
+msgstr "Përsonalisé ij dàit d'utent"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "A përmet ëd definì dij dàit ëspessìfich ëd l'utent tanme l'identificativ ëd n'ampiegà, l'identificavit ëd l'utent an d'àutre base ëd dàit o programa, ël nùmer ëd teléfon e via fòrt."
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "Ël but inissial a l'é ëd fassilité l'esportassion dij dàit ëd CodevTT vers d'àutri utiss."
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
@@ -6983,5 +6966,3 @@ msgstr "W"
 msgid "Delivery Date"
 msgstr "Dàita ëd consigna"
 
-#~ msgid "Hide tasks with no activity since"
-#~ msgstr "Stërmé ij travaj sensa atività da"
