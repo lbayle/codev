@@ -18,7 +18,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:04+0000\n"
+"PO-Revision-Date: 2023-05-11 11:07:05+0000\n"
 "Language: nl_nl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
-msgstr "Fout(en) in Mantis Taken"
+msgstr "Fout(en) in Mantis-taken"
 
 #. tpl/check.html
 #. tpl/project_activity_report.html
@@ -95,7 +95,7 @@ msgstr "extRef"
 
 #. tpl/check.html
 msgid "last modification date"
-msgstr "laatste wijziging datum"
+msgstr "datum laatste wijziging"
 
 #. tpl/check.html
 #. tpl/productivity_report.html
@@ -222,9 +222,8 @@ msgstr "Niveau"
 
 #. tpl/check.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "Error Description"
-msgstr "Beschrijving"
+msgstr "Foutbeschrijving"
 
 #. tpl/check.html
 #. tpl/user_info.html
@@ -251,9 +250,8 @@ msgid "Please select a team to access this page."
 msgstr "Selecteer een team om deze pagina te bekijken."
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "New service contract"
-msgstr "ServiceContract"
+msgstr "Nieuw servicecontract"
 
 #. tpl/servicecontract_edit.html
 #. tpl/form/teamSelector.html
@@ -360,7 +358,7 @@ msgstr "Begindatum"
 
 #. tpl/servicecontract_edit.html
 msgid "StartDate"
-msgstr "Startdatum"
+msgstr "Begindatum"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -408,35 +406,33 @@ msgstr "Sommige velden ontbreken:"
 
 #. tpl/servicecontract_edit.html
 msgid "Service contract name"
-msgstr "Service contract naam"
+msgstr "Naam servicecontract"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete ServiceContract"
-msgstr "Verwijderen ServiceContract"
+msgstr "Servicecontract verwijderen"
 
 #. tpl/servicecontract_edit.html
 msgid "Delete this ServiceContract ?"
-msgstr "Verwijder dit ServiceContract ?"
+msgstr "Dit servicecontract verwijderen?"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "Nb CommandSets"
-msgstr "CommandSets"
+msgstr "Aantal commandosets"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 msgid "CommandSets"
-msgstr "CommandSets"
+msgstr "Commandosets"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "SideTasks Projects"
-msgstr "SideTasks Project"
+msgstr "SideTasks-projecten"
 
 #. tpl/servicecontract_edit.html
 msgid "--- New CommandSet ---"
-msgstr "--- Nieuwe CommandSet ---"
+msgstr "--- Nieuwe commandoset ---"
 
 #. tpl/servicecontract_edit.html
 #. tpl/edit_holidays.html
@@ -459,7 +455,7 @@ msgstr "Toevoegen"
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "No data"
-msgstr "Geen gegevens."
+msgstr "Geen gegevens"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -471,9 +467,8 @@ msgstr "Verwijderen"
 #. tpl/servicecontract_edit.html
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
-#, fuzzy
 msgid "Ref"
-msgstr "ExtRef"
+msgstr "Ref"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -491,12 +486,11 @@ msgstr ""
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
 msgid "Remove CommandSet"
-msgstr "Verwijder CommandSet"
+msgstr "Commandoset verwijderen"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "Remove CommandSet from this Contract ?"
-msgstr "Verwijder Project van dit Contract ?"
+msgstr "Commandoset uit dit contract verwijderen?"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -512,11 +506,11 @@ msgstr ""
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
-msgstr "Verwijder Project"
+msgstr "Project verwijderen"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project from this Contract ?"
-msgstr "Verwijder Project van dit Contract ?"
+msgstr "Project uit dit contract verwijderen?"
 
 #. tpl/servicecontract_edit.html
 #. tpl/command_edit.html
@@ -708,7 +702,7 @@ msgstr ""
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support included"
-msgstr "Support inbegrepen"
+msgstr "Ondersteuning inbegrepen"
 
 #. tpl/ajax/issueGeneralInfo.html
 msgid "Support NOT included"
@@ -772,9 +766,8 @@ msgstr "Categorie"
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_ajax.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_ajax.html
-#, fuzzy
 msgid "Nb Days"
-msgstr "Dagen"
+msgstr "Aantal dagen"
 
 #. tpl/ajax/projectDetails.html
 #. tpl/productivity_report.html
@@ -825,9 +818,8 @@ msgid "Job"
 msgstr "Taak"
 
 #. tpl/ajax/weekTaskDetails.html
-#, fuzzy
 msgid "update backlog"
-msgstr "Geeft de achterstand weer"
+msgstr "achterstand bijwerken"
 
 #. tpl/ajax/weekTaskDetails.html
 #. tpl/servicecontract_info.html
@@ -848,7 +840,7 @@ msgstr "TOTAAL"
 
 #. tpl/statistics.html
 msgid "Start Year"
-msgstr "Start Jaar"
+msgstr "Beginjaar"
 
 #. tpl/statistics.html
 #. tpl/user_info.html
@@ -865,16 +857,15 @@ msgstr "Berekenen"
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 msgid "Adherence to deadlines"
-msgstr "Naleving van deadlines"
+msgstr "Naleving deadlines"
 
 #. tpl/statistics.html
 msgid "Efficiency - System Disponibility"
 msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Reopened Rate"
-msgstr "Heropende taken"
+msgstr "Heropeningspercentage"
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
@@ -885,13 +876,12 @@ msgstr ""
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "EffortEstim Reliability"
-msgstr "EffortEstim"
+msgstr "EffortEstim-betrouwbaarheid"
 
 #. tpl/statistics.html
 msgid "% Tasks"
-msgstr "% Van taken"
+msgstr "% taken"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
@@ -907,7 +897,7 @@ msgstr "waarden weergeven"
 
 #. tpl/statistics.html
 msgid "% Tasks Delivered on time"
-msgstr "% Van taken op tijd Geleverd"
+msgstr "% op tijd geleverde taken"
 
 #. tpl/statistics.html
 #. tpl/edit_holidays.html
@@ -953,7 +943,7 @@ msgstr "Inspanningsafwijking"
 
 #. tpl/statistics.html
 msgid "No Support"
-msgstr "Geen Ondersteuning"
+msgstr "Geen ondersteuning"
 
 #. tpl/statistics.html
 msgid "BI"
@@ -964,9 +954,8 @@ msgid "BS"
 msgstr "BS"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Effort Deviation (ExtRefOnly)"
-msgstr "Inspanningsafwijking"
+msgstr "Inspanningsafwijking (ExtRefOnly)"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1008,9 +997,8 @@ msgid "Compare the number of reopened tasks to the number of resolved tasks"
 msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Nb Reopened"
-msgstr "% Heropend"
+msgstr "Aantal heropend"
 
 #. tpl/statistics.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -1022,14 +1010,12 @@ msgid "Available man-days on the period (excluding leave and external tasks)"
 msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "Developers Workload"
-msgstr "Beschikbaar werklast"
+msgstr "Werkdruk ontwikkelaars"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "nb production days"
-msgstr "Productiedagen"
+msgstr "aantal productiedagen"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1053,9 +1039,8 @@ msgstr "Hulp"
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "(on resolved tasks only)"
-msgstr "Opgeloste taken tonen"
+msgstr "(alleen op opgeloste taken)"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1078,9 +1063,8 @@ msgstr "Formule"
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "EffortAdd"
-msgstr "EffortEstim"
+msgstr "EffortAdd"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1103,9 +1087,8 @@ msgid "Indicators"
 msgstr "Indicator"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User info"
-msgstr "Gebruiker"
+msgstr "Gebruikersinfo"
 
 #. tpl/user_info.html
 #. tpl/modal/login.html
@@ -1157,9 +1140,8 @@ msgid "Please wait..."
 msgstr "Een ogenblik geduld..."
 
 #. tpl/bvi.html
-#, fuzzy
 msgid "Average Backlog Variation"
-msgstr "Variatie taakachterstand"
+msgstr "Gemiddelde achterstandsvariatie"
 
 #. tpl/bvi.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
@@ -1262,9 +1244,8 @@ msgid "Note: adding RTTs is not a good idea, users may decide to work anyways an
 msgstr ""
 
 #. tpl/edit_holidays.html
-#, fuzzy
 msgid "Holiday Description"
-msgstr "Beschrijving"
+msgstr "Vakantiebeschrijving"
 
 #. tpl/edit_holidays.html
 #. tpl/edit_jobs.html
@@ -1410,28 +1391,24 @@ msgid "Days spent on the projects during the period (team members only)"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "SideTasks: Project Management"
-msgstr "Projectmanagement"
+msgstr "Bijtaken: Projectbeheer"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Days spent on project management tasks"
-msgstr "Projectmanagement"
+msgstr "Aan projectbeheertaken bestede dagen"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "SideTasks: Others"
-msgstr "SideTasks Project"
+msgstr "Bijtaken: Andere"
 
 #. tpl/productivity_report.html
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Production Days : total"
-msgstr "Productiedagen"
+msgstr "Productiedagen: totaal"
 
 #. tpl/productivity_report.html
 msgid "number of days billed"
@@ -1496,18 +1473,16 @@ msgid "TotalProdDays"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Platform Availability"
-msgstr "Systeembeschikbaarheid"
+msgstr "Platformbeschikbaarheid"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "prodDays"
-msgstr "Dagen"
+msgstr "prodDagen"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
@@ -1519,9 +1494,8 @@ msgstr "Taken die NIET op tijd zijn geleverd"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "nb tasks"
-msgstr "Nb taken"
+msgstr "Aantal taken"
 
 #. tpl/productivity_report.html
 #. tpl/filters.html
@@ -1556,9 +1530,8 @@ msgid "Note: Drift on tasks resolved in the period"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Drift - All tasks"
-msgstr "Afdwaling opgeloste taken"
+msgstr "Afdwaling: Alle taken"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1581,9 +1554,8 @@ msgstr ""
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Tasks in drift"
-msgstr "Waarschuwing afdwaling taken"
+msgstr "Taken in afdwaling"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1596,21 +1568,18 @@ msgstr ""
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Tasks in time"
-msgstr "Taak Info"
+msgstr "Taken in tijd"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Tasks resolved in time"
-msgstr "Taken die op tijd geleverd zijn"
+msgstr "Taken die op tijd opgelost zijn"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Tasks ahead"
-msgstr "Taak Info"
+msgstr "Taken voor de boeg"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1618,15 +1587,13 @@ msgid "Tasks resolved in less time than the estimated effort"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Effort deviation"
 msgstr "Inspanningsafwijking"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Manager Estimation"
-msgstr "Bestemming"
+msgstr "Schatting beheerder"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1635,13 +1602,11 @@ msgstr "Beheerder"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "Tasks Mgr"
-msgstr "Taken"
+msgstr "Taakbeheerder"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "EffortDeviation"
 msgstr "Inspanningsafwijking"
 
@@ -1678,24 +1643,20 @@ msgid "Tasks without ExternalRef are excluded"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "Reopened tasks are not included"
-msgstr "Heropende taken"
+msgstr "Heropende taken zijn niet inbegrepen"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "No Drift on External tasks."
-msgstr "Filter op externe ID"
+msgstr "Geen afdwaling op externe taken."
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "nb resolved"
-msgstr "Opgelost"
+msgstr "aantal opgelost"
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "nb reopened"
-msgstr "% Heropend"
+msgstr "aantal heropend"
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
@@ -1706,23 +1667,20 @@ msgid "Rate"
 msgstr ""
 
 #. tpl/productivity_report.html
-#, fuzzy
 msgid "tasks having been reopened in the period"
-msgstr "Taken die gedurende de periode tijdsporen hebben ontvangen"
+msgstr "taken die in de periode zijn heropend"
 
 #. tpl/filters.html
-#, fuzzy
 msgid "Set project filters"
-msgstr "Filters instellen"
+msgstr "Projectfilters instellen"
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
 msgstr "De volgende velden moeten worden ingesteld"
 
 #. tpl/export_odt.html
-#, fuzzy
 msgid "Reporters"
-msgstr "Melder"
+msgstr "Melders"
 
 #. tpl/export_odt.html
 msgid "Handlers"
@@ -1768,9 +1726,8 @@ msgstr "Download"
 
 #. tpl/project_activity_report.html
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Projects Activity"
-msgstr "Maandelijkse Activiteit"
+msgstr "Projectactiviteit"
 
 #. tpl/project_activity_report.html
 msgid "Users"
@@ -1796,7 +1753,6 @@ msgstr "Type"
 #. tpl/project_activity_report.html
 #. tpl/team_activity_report.html
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Target version"
 msgstr "Doelversie"
 
@@ -1826,14 +1782,12 @@ msgid "Time spent on Projects per users"
 msgstr ""
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "With ExternalTasks Project"
-msgstr "SideTasks Project"
+msgstr "Met ExternalTasks-project"
 
 #. tpl/project_activity_report.html
-#, fuzzy
 msgid "With SideTasks Project"
-msgstr "SideTasks Project"
+msgstr "Met SideTasks-project"
 
 #. tpl/form/selectFiltersDialogbox.html
 #. tpl/time_tracking.html
@@ -1860,9 +1814,8 @@ msgstr "Beschikbare filters"
 
 #. tpl/form/selectFiltersDialogbox.html
 #. plugins/TasksPivotTable/TasksPivotTable.html
-#, fuzzy
 msgid "Applied Filters"
-msgstr "Beschikbare filters"
+msgstr "Toegepaste filters"
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/project_info.html
@@ -1961,19 +1914,16 @@ msgid "Log"
 msgstr "Logboek"
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Job Name"
-msgstr "Naam"
+msgstr "Taaknaam"
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "delete Job"
-msgstr "Notitie verwijderen"
+msgstr "Taak verwijderen"
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Edit Job"
-msgstr "Bewerken"
+msgstr "Taak bewerken"
 
 #. tpl/edit_jobs.html
 #. tpl/edit_team.html
@@ -1981,18 +1931,16 @@ msgid "Edit Job list"
 msgstr ""
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Delete job"
-msgstr "Notitie verwijderen"
+msgstr "Taak verwijderen"
 
 #. tpl/edit_jobs.html
 msgid "Remove this link :"
 msgstr "Verwijder deze link :"
 
 #. tpl/edit_jobs.html
-#, fuzzy
 msgid "Job Color"
-msgstr "Kleur"
+msgstr "Taakkleur"
 
 #. tpl/edit_jobs.html
 msgid "Missing fields :"
@@ -2051,14 +1999,12 @@ msgid "Backup successfully done"
 msgstr "Back-up met succes gedaan"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Uninstall aborted !"
-msgstr "Deïnstalleren"
+msgstr "Deïnstalleren afgebroken!"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove CodevTT from Mantis menu:"
-msgstr "Verwijder gebruiker van dit team ?"
+msgstr "CodevTT uit het Mantis-menu verwijderen:"
 
 #. tpl/uninstall.html
 #. tpl/edit_team.html
@@ -2073,9 +2019,8 @@ msgid "Failed"
 msgstr "Mislukt"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove CodevTT customFields:"
-msgstr "CodevTT aangepaste velden"
+msgstr "CodevTT customFields verwijderen:"
 
 #. tpl/uninstall.html
 #. tpl/prepare_project.html
@@ -2083,28 +2028,24 @@ msgid "Done"
 msgstr "Afgerond"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "Taak uit opdracht verwijderen"
+msgstr "CodevTT-tabellen verwijderen uit MantisDB:"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove CodevTT config files:"
-msgstr "CodevTT aangepaste velden"
+msgstr "CodevTT-configuratiebestanden verwijderen:"
 
 #. tpl/uninstall.html
 msgid "Remove Mantis plugin:"
 msgstr "Mantis-plugin verwijderen:"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove ExternalTasks project:"
-msgstr "Verwijder Project"
+msgstr "ExternalTasks-project verwijderen:"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Please MANUALY delete the following projects:"
-msgstr "Upload bestanden met de volgende extensie: "
+msgstr "Verwijder de volgende projecten HANDMATIG:"
 
 #. tpl/command_edit.html
 msgid "New command"
@@ -2169,9 +2110,8 @@ msgid "Provisions"
 msgstr "Voorzieningen"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Parent CommandSets"
-msgstr "CommandSets"
+msgstr "Bovenliggende commandosets"
 
 #. tpl/command_edit.html
 msgid "Add tasks (comma separated)"
@@ -2190,9 +2130,8 @@ msgid "Remove Task"
 msgstr "Taak verwijderen"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Remove Task from this Command ?"
-msgstr "Taak uit opdracht verwijderen"
+msgstr "Taak verwijderen uit deze opdracht?"
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
@@ -2209,23 +2148,20 @@ msgid "delete CommandSet-Command association"
 msgstr ""
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Remove this Command from the CommandSet ?"
-msgstr "Van het commando verwijderen?"
+msgstr "Deze opdracht verwijderen uit de commandoset?"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Create the Command first."
-msgstr "Dit commando verwijderen?"
+msgstr "Maak eerst het commando aan."
 
 #. tpl/command_edit.html
 msgid "CSV Import"
 msgstr "CSV Importeren"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Import templates"
-msgstr "Importeersjabloon"
+msgstr "Sjablonen importeren"
 
 #. tpl/command_edit.html
 msgid "Add Provision"
@@ -2293,9 +2229,8 @@ msgstr "Voorziening bewerken"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Updated successfully !"
-msgstr "De opties zijn opgeslagen"
+msgstr "Bijwerken gelukt!"
 
 #. tpl/command_edit.html
 #. tpl/commandset_edit.html
@@ -2341,18 +2276,16 @@ msgid "Documentation is available at "
 msgstr "Documentatie is beschikbaar in "
 
 #. tpl/doc.html
-#, fuzzy
 msgid "CodevTT Documentation"
-msgstr "Documentatie"
+msgstr "CodevTT-documentatie"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
 msgstr "U kunt helpen op vertalingen: "
 
 #. tpl/doc.html
-#, fuzzy
 msgid "statistics"
-msgstr "Periode Statistieken"
+msgstr "statistieken"
 
 #. tpl/doc.html
 msgid "Contact the author: "
@@ -2366,34 +2299,28 @@ msgid "IMPORTANT: unassigned tasks will not be displayed !"
 msgstr "BELANGRIJK: niet-toegewezen taken worden niet weergegeven!"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "New command set"
-msgstr "Nieuwe opdracht"
+msgstr "Nieuwe commandoset"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Command set name"
-msgstr "Commandonaam"
+msgstr "Naam commandoset"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Delete CommandSet"
-msgstr "Commando verwijderen"
+msgstr "Commandoset verwijderen"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Delete this CommandSet ?"
-msgstr "Dit commando verwijderen?"
+msgstr "Deze commandoset verwijderen?"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Nb Commands"
-msgstr "Commando's"
+msgstr "Aantal commando's"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Service Contracts"
-msgstr "ServiceContract"
+msgstr "Servicecontracten"
 
 #. tpl/commandset_edit.html
 #. tpl/servicecontract_info.html
@@ -2418,9 +2345,8 @@ msgid "Remove Command"
 msgstr "Commando verwijderen"
 
 #. tpl/commandset_edit.html
-#, fuzzy
 msgid "Remove Command from this CommandSet ?"
-msgstr "Verwijder Project van dit Contract ?"
+msgstr "Commando verwijderen uit deze commandoset?"
 
 #. tpl/commandset_edit.html
 #. tpl/servicecontract_info.html
@@ -2448,9 +2374,8 @@ msgid "Query FAILED"
 msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Add timetrack"
-msgstr "Tijdspoor bewerken"
+msgstr "Tijdspoor toevoegen"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -2481,9 +2406,8 @@ msgid "Reduce the tasks selection by setting some filters"
 msgstr ""
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Hide tasks not assigned to me"
-msgstr "De taak is niet toegekend aan wie dan ook."
+msgstr "Taken verbergen die niet aan mij zijn toegewezen"
 
 #. tpl/time_tracking.html
 msgid "Hide resolved tasks"
@@ -2519,15 +2443,13 @@ msgstr "Ext.ID"
 
 #. tpl/time_tracking.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Timetrack note"
-msgstr "Tijdspoorfilter"
+msgstr "Tijdspoor-notitie"
 
 #. tpl/time_tracking.html
 #. tpl/edit_team.html
-#, fuzzy
 msgid "delete this row"
-msgstr "Dit commando verwijderen?"
+msgstr "deze rij verwijderen"
 
 #. tpl/time_tracking.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -2550,14 +2472,12 @@ msgstr ""
 
 #. tpl/missing_timetracks.html
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Missing Timetracks"
-msgstr "Verplaats probleem-tijdsporen"
+msgstr "Ontbrekende tijdsporen"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing timetracks per user"
-msgstr "Verplaats probleem-tijdsporen"
+msgstr "Ontbrekende tijdsporen per gebruiker"
 
 #. tpl/missing_timetracks.html
 #. tpl/planning_report.html
@@ -2577,14 +2497,12 @@ msgid "workdays"
 msgstr "werkdagen"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing timetracks"
-msgstr "Verplaats probleem-tijdsporen"
+msgstr "Ontbrekende tijdsporen"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing days"
-msgstr "Veld ontbreekt"
+msgstr "Ontbrekende dagen"
 
 #. tpl/missing_timetracks.html
 #. plugins/CustomUserData/CustomUserData.html
@@ -2645,9 +2563,8 @@ msgid "Add an indicator to the dashboard"
 msgstr "Het toevoegen van een indicator op het dashboard"
 
 #. tpl/tools/dashboard.html
-#, fuzzy
 msgid "Add Indicator"
-msgstr "Indicator"
+msgstr "Indicator toevoegen"
 
 #. tpl/tools/dashboard.html
 #. tpl/servicecontract_info.html
@@ -2684,14 +2601,12 @@ msgid "ServiceContract"
 msgstr "ServiceContract"
 
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "--- Create New ServiceContract ---"
-msgstr "Verwijderen ServiceContract"
+msgstr "--- Nieuw Servicecontract aanmaken ---"
 
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "Charges"
-msgstr "Doel"
+msgstr "Kosten"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
@@ -2718,9 +2633,8 @@ msgid "All tasks"
 msgstr "Alle taken"
 
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "No Total found."
-msgstr "Geen taak gevonden."
+msgstr "Geen totaal gevonden."
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
@@ -2738,18 +2652,16 @@ msgid "ADR"
 msgstr "ADR"
 
 #. tpl/servicecontract_info.html
-#, fuzzy
 msgid "No provision found."
-msgstr "Geen Opdracht gevonden."
+msgstr "Geen voorziening gevonden."
 
 #. tpl/modal/change_managedUser.html
 msgid "Select User"
 msgstr "Selecteer Gebruiker"
 
 #. tpl/modal/change_managedUser.html
-#, fuzzy
 msgid "Select team user"
-msgstr "Selecteer Gebruiker"
+msgstr "Selecteer teamgebruiker"
 
 #. tpl/modal/change_managedUser.html
 msgid "Change user"
@@ -2764,23 +2676,20 @@ msgid "Add as Timesheet note"
 msgstr "Voeg toe als Timesheet opmerking"
 
 #. tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "Edit timesheet note"
-msgstr "Voeg toe als Timesheet opmerking"
+msgstr "Notitie urenstaat bewerken"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
 msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Current backlog"
-msgstr "De Huidige Taken"
+msgstr "Huidige achterstand"
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Update Backlog"
-msgstr "Achterstand"
+msgstr "Achterstand bijwerken"
 
 #. tpl/modal/update_issueBacklog.html
 #. tpl/issue_info.html
@@ -2800,9 +2709,8 @@ msgid "Timetracking disabled if current status in : "
 msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Timetrack note is required"
-msgstr "Tijdspoorfilter"
+msgstr "Tijdspoor-notitie is vereist"
 
 #. tpl/modal/consistency_check.html
 #. tpl/planning_report.html
@@ -2886,38 +2794,32 @@ msgid "Timesheets"
 msgstr ""
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "sum(Backlog) of assigned tasks"
-msgstr "Niet-toegewezen taken"
+msgstr "som(Achterstand) van toegewezen taken"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Workload"
-msgstr "werkdruk"
+msgstr "Werkdruk"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timesheet notes"
-msgstr "Voeg toe als Timesheet opmerking"
+msgstr "Aantekeningen op de urenstaat"
 
 #. tpl/team_activity_report.html
 msgid "All Tasks"
 msgstr "Alle taken"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timetrack notes"
-msgstr "Tijdspoorfilter"
+msgstr "Tijdspoor-notities"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timetrack Note"
-msgstr "Tijdspoorfilter"
+msgstr "Tijdspoor-notitie"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Read by"
-msgstr "Gerapporteerd door:"
+msgstr "Gelezen door"
 
 #. tpl/team_activity_report.html
 #. plugins/AdminTools/AdminTools.html
@@ -2955,18 +2857,16 @@ msgid "Options"
 msgstr "Opties"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Planning Options"
-msgstr "Planning"
+msgstr "Planningsopties"
 
 #. tpl/planning_report.html
 msgid "Unassigned tasks"
 msgstr "Niet-toegewezen taken"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Team's backlog"
-msgstr "Taakachterstand"
+msgstr "De achterstand van het team"
 
 #. tpl/planning_report.html
 msgid "tasks"
@@ -2977,9 +2877,8 @@ msgid "workload"
 msgstr "werkdruk"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "nbDaysToDeadLine"
-msgstr "Deadline"
+msgstr "aantalDagenTotDeadline"
 
 #. tpl/planning_report.html
 msgid "day"
@@ -2998,9 +2897,8 @@ msgid "Preferences"
 msgstr "Voorkeuren"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetrack Durations"
-msgstr "Tijdspoorfilter"
+msgstr "Duur tijdsporen"
 
 #. tpl/edit_team.html
 msgid "Costs management"
@@ -3016,9 +2914,8 @@ msgid "Tools"
 msgstr "Hulpmiddelen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team name"
-msgstr "Team Naam"
+msgstr "Teamnaam"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -3033,24 +2930,20 @@ msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> 
 msgstr "Opmerking: Een <em>Team Admin</em> moet ook worden verklaard als <em>Teamlid</em> om te worden opgenomen in het productiviteitsrapport van het team."
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team Administrators"
-msgstr "CodevTT Administratie"
+msgstr "Teambeheerders"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "add as team administrator"
-msgstr "voeg een aangepaste duur toe"
+msgstr "toevoegen als teambeheerder"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Add a team administrator"
-msgstr "CodevTT Administratie"
+msgstr "Een teambeheerder toevoegen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Remove administrator"
-msgstr "CodevTT Administratie"
+msgstr "Beheerder verwijderen"
 
 #. tpl/edit_team.html
 msgid "Remove the following Team Administrator ?"
@@ -3061,9 +2954,8 @@ msgid "Delete team"
 msgstr "Team verwijderen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Active team members"
-msgstr "Ploeglid toevoegen"
+msgstr "Actieve teamleden"
 
 #. tpl/edit_team.html
 msgid "Add team member"
@@ -3088,30 +2980,25 @@ msgid "Import"
 msgstr "Importeren"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Import user groups from CSV"
-msgstr "Importeer alle gebruikers van het team"
+msgstr "Gebruikersgroepen uit CSV importeren"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "import groups"
-msgstr "Problemen importeren"
+msgstr "groepen importeren"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "User groups"
-msgstr "Gebruikers"
+msgstr "Gebruikersgroepen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "CSV file"
-msgstr "Filters instellen"
+msgstr "CSV-bestand"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "upload"
-msgstr "Herladen"
+msgstr "uploaden"
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -3128,9 +3015,8 @@ msgid "Group examples: FrontEnd, BackEnd, Architect, Designers, Qualifiers"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "CSV File Format"
-msgstr "Bestandsformaat"
+msgstr "CSV-bestandsindeling"
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -3159,9 +3045,8 @@ msgstr ""
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "Users not assigned to any group"
-msgstr "De taak is niet toegekend aan wie dan ook."
+msgstr "Gebruikers die niet aan een groep zijn toegewezen"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
@@ -3169,9 +3054,8 @@ msgid "Not a team member, but assigned to a group"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Number of team members"
-msgstr "Ploeglid toevoegen"
+msgstr "Aantal teamleden"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -3198,22 +3082,19 @@ msgstr "Ploeglid bijwerken"
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
-#, fuzzy
 msgid "Arrival date"
-msgstr "Aankomst Datum"
+msgstr "Aankomstdatum"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
 #. plugins/UserTeamList/UserTeamList_ajax.html
-#, fuzzy
 msgid "Departure date"
-msgstr "Vertrek datum"
+msgstr "Vertrekdatum"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "optionnal"
-msgstr "Opties"
+msgstr "optioneel"
 
 #. tpl/edit_team.html
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
@@ -3237,28 +3118,24 @@ msgid "Create project"
 msgstr "Project aanmaken"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Average Daily Cost"
-msgstr "Gemiddelde dagprijs"
+msgstr "Gemiddelde dagelijkse kosten"
 
 #. tpl/edit_team.html
 msgid "The ADC is the default UDC for team members"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team Currency"
-msgstr "Team Projecten"
+msgstr "Teamvaluta"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team Average Daily Cost"
-msgstr "Gemiddelde dagprijs"
+msgstr "Gemiddelde dagelijkse teamkosten"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Default currency for the team."
-msgstr "Datum van vertrek uit het team"
+msgstr "Standaardvaluta voor het team."
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
@@ -3281,37 +3158,32 @@ msgid "TODO: describe how and where it is used in CodevTT"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "User Daily Costs"
-msgstr "Periode Statistieken"
+msgstr "Dagelijkse kosten gebruiker"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Add UserDailyCost"
-msgstr "Gebruiker toevoegen"
+msgstr "Dagelijkse kosten gebruiker toevoegen"
 
 #. tpl/edit_team.html
 msgid "Add user daily cost"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team creation date"
-msgstr "Aanmaakdatum"
+msgstr "Aanmaakdatum team"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "User arrival date"
-msgstr "Aankomstdatum team"
+msgstr "Aankomstdatum gebruiker"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "User Daily Cost"
-msgstr "Gemiddelde dagprijs"
+msgstr "Dagelijkse kosten gebruiker"
 
 #. tpl/edit_team.html
 msgid "Timetracking settings"
@@ -3330,9 +3202,8 @@ msgid "Edit Forbiden status list"
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Issue Tooltips"
-msgstr "Probleem Tag"
+msgstr "Tooltips geven"
 
 #. tpl/edit_team.html
 msgid "Tooltip fields"
@@ -3352,9 +3223,8 @@ msgid "Enable/Disable alerts"
 msgstr "Inschakelen/Uitschakelen waarschuwingen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Add OnDuty tasks"
-msgstr "OnDuty taken"
+msgstr "OnDuty-taken toevoegen"
 
 #. tpl/edit_team.html
 msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
@@ -3369,14 +3239,12 @@ msgid "No 'inactivity' task defined in your SideTasks projects."
 msgstr ""
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "delete OnDuty task"
-msgstr "OnDuty taken"
+msgstr "OnDuty-taak verwijderen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetrack durations list"
-msgstr "Tijdspoorfilter"
+msgstr "Lijst duur tijdsporen"
 
 #. tpl/edit_team.html
 msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
@@ -3418,18 +3286,16 @@ msgid "Delete duration"
 msgstr "Duur verwijderen"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Deleted the following duration ?"
-msgstr "Duur verwijderen"
+msgstr "De volgende duur verwijderen?"
 
 #. tpl/edit_team.html
 msgid "Team Member"
 msgstr "Teamlid"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Source Team"
-msgstr "Team aanmaken"
+msgstr "Bronteam"
 
 #. tpl/edit_team.html
 msgid "Inactivity task"
@@ -3440,9 +3306,8 @@ msgid "Remove user from this team ?"
 msgstr "Verwijder gebruiker van dit team ?"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Remove this project from the team ?"
-msgstr "Verwijder gebruiker van dit team ?"
+msgstr "Dit project uit het team verwijderen?"
 
 #. tpl/edit_team.html
 msgid "Remove IssueTooltip customisation for project"
@@ -3473,14 +3338,12 @@ msgid "Sorry, you need to be Team Leader to access this page."
 msgstr "Sorry, je moet teamleider zijn om toegang te krijgen tot deze pagina."
 
 #. tpl/commandset_info.html
-#, fuzzy
 msgid "--- Create New CommandSet ---"
-msgstr "--- Nieuwe CommandSet ---"
+msgstr "--- Nieuwe commandoset aanmaken ---"
 
 #. tpl/commandset_info.html
-#, fuzzy
 msgid "Service Contract"
-msgstr "ServiceContract"
+msgstr "Servicecontract"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
@@ -3514,9 +3377,8 @@ msgid "settings ?"
 msgstr "instellingen?"
 
 #. tpl/workflow.html
-#, fuzzy
 msgid "Clonning"
-msgstr "Planning"
+msgstr "Klonen"
 
 #. tpl/workflow.html
 msgid "into"
@@ -3563,9 +3425,8 @@ msgid "Unassigned tasks will not be displayed"
 msgstr "Niet-toegewezen taken worden niet weergegeven"
 
 #. tpl/forecasting_report.html
-#, fuzzy
 msgid "deviation"
-msgstr "Relatie"
+msgstr "afwijking"
 
 #. tpl/forecasting_report.html
 #. plugins/ManagementCosts/ManagementCosts.html
@@ -3588,18 +3449,16 @@ msgid "Team Name"
 msgstr "Team Naam"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Team Administrator"
-msgstr "CodevTT Administratie"
+msgstr "Teambeheerder"
 
 #. tpl/create_team.html
 msgid "SideTasks Project"
 msgstr "SideTasks Project"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Add common ExternalTasks Project"
-msgstr "SideTasks Project"
+msgstr "Gemeenschappelijk ExternalTasks-project toevoegen"
 
 #. tpl/create_team.html
 msgid "Create specific SideTask Project"
@@ -3684,9 +3543,8 @@ msgid "Compilation scripts"
 msgstr ""
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Update team WIKI"
-msgstr "Ploeglid bijwerken"
+msgstr "TeamWIKI bijwerken"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
@@ -3719,9 +3577,8 @@ msgid "RAF"
 msgstr ""
 
 #. tpl/scheduler.html
-#, fuzzy
 msgid "User assignment"
-msgstr "Toewijzing"
+msgstr "Gebruikerstoewijzing"
 
 #. tpl/scheduler.html
 msgid "Add user"
@@ -3795,19 +3652,16 @@ msgid "Properties"
 msgstr "Eigenschappen"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Timetracks"
-msgstr "Wekelijkse tijdsporen"
+msgstr "Tijdsporen"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Time tracking"
-msgstr "Tijdspoorfilter"
+msgstr "Tijdregistratie"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Update timetracking"
-msgstr "Tijdspoor bewerken"
+msgstr "Tijdregistratie bijwerken"
 
 #. tpl/issue_info.html
 msgid "Task Info"
@@ -3818,9 +3672,8 @@ msgid "Update task info"
 msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "External Ref"
-msgstr "Extern ID"
+msgstr "Externe ref"
 
 #. tpl/issue_info.html
 #: classes/issue.class.php:2231 reports/planning_report.php:459
@@ -3856,24 +3709,20 @@ msgid "Click refresh button to display..."
 msgstr ""
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "First Timetrack date"
-msgstr "Tijdspoorfilter"
+msgstr "Datum eerste tijdspoor"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Latest Timetrack date"
-msgstr "Tijdspoorfilter"
+msgstr "Datum laatste tijdspoor"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "WARNING: Prior timetracks could not be displayed !"
-msgstr "BELANGRIJK: niet-toegewezen taken worden niet weergegeven!"
+msgstr "WAARSCHUWING: eerdere tijdsporen konden niet worden weergegeven!"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Update timetracking values"
-msgstr "Toekomstige tijdlijnen"
+msgstr "Tijdregistratie-waarden bijwerken"
 
 #. tpl/issue_info.html
 msgid "Remove from :"
@@ -3892,9 +3741,8 @@ msgid "Delivery date"
 msgstr "Bezorgdatum"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "set/remove delivery date"
-msgstr "Bezorgdatum"
+msgstr "bezorgdatum instellen/verwijderen"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
@@ -3905,14 +3753,12 @@ msgid "Backlog should not be set if status is : "
 msgstr "De backlog mag niet worden ingesteld als status : \\ is"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Set command filters"
-msgstr "Opdracht Filters"
+msgstr "Commandofilters instellen"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "--- Create New Command ---"
-msgstr "--- Nieuw commando ---"
+msgstr "--- Nieuw commando aanmaken ---"
 
 #. tpl/command_info.html
 msgid "Command Filters"
@@ -3931,9 +3777,8 @@ msgid "Reestimated (days)"
 msgstr ""
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Drift (days)"
-msgstr "Duur (in dagen)"
+msgstr "Afdwaling (in dagen)"
 
 #. tpl/command_info.html
 msgid "Drift (percent)"
@@ -3965,9 +3810,8 @@ msgid "Default ADR"
 msgstr "Standaard ADR"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Tasks & Provisions"
-msgstr "Voorzieningen"
+msgstr "Taken & Voorzieningen"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
@@ -4016,9 +3860,8 @@ msgid "Activity"
 msgstr "Activiteit"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Time Tracking"
-msgstr "Tijdspoorfilter"
+msgstr "Tijdregistratie"
 
 #. tpl/menu/global_menu.html
 msgid "Holidays Reports"
@@ -4029,9 +3872,8 @@ msgid "Leaves"
 msgstr ""
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Check DeadLines"
-msgstr "Deadline"
+msgstr "Deadlines controleren"
 
 #. tpl/menu/global_menu.html
 msgid "Workload planning"
@@ -4058,9 +3900,8 @@ msgid "Team Statistics"
 msgstr "Team Statistieken"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "User Statistics"
-msgstr "Periode Statistieken"
+msgstr "Gebruikersstatistieken"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -4124,28 +3965,24 @@ msgid "Edit Team"
 msgstr "Team bewerken"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Tools & Statistics"
-msgstr "Team Statistieken"
+msgstr "Hulpmiddelen & Statistieken"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Edit Jobs"
-msgstr "Bewerken"
+msgstr "Taken bewerken"
 
 #. tpl/menu/global_menu.html
 msgid "Edit Holidays"
 msgstr ""
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Prepare Projects"
-msgstr "De voorbereiding van het project:"
+msgstr "Projecten voorbereiden"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Clone Projects"
-msgstr "Team Projecten"
+msgstr "Projecten klonen"
 
 #. tpl/menu/global_menu.html
 msgid "Plugin Manager"
@@ -4293,17 +4130,15 @@ msgid "Show Tasks"
 msgstr "Taken weergeven"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
-#, fuzzy
 msgid "Display task column"
-msgstr "Weergegeven taken"
+msgstr "Taakkolom weergeven"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
-#, fuzzy
 msgid "Date range"
-msgstr "Datumformaat"
+msgstr "Datumbereik"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -4368,9 +4203,8 @@ msgid "Weekly"
 msgstr "Wekelijks"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "User selection"
-msgstr "Doorverwijzing"
+msgstr "Gebruikersselectie"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4384,23 +4218,20 @@ msgid "Graph"
 msgstr ""
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "waarden weergeven"
+msgstr "Grafiekwaarden"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "waarden weergeven"
+msgstr "Bereikwaarden"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
 msgstr "Beschikbare opties werkkracht"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Select by group"
-msgstr "Selecteer Gebruiker"
+msgstr "Per groep selecteren"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
@@ -4455,7 +4286,6 @@ msgid "Task backlog"
 msgstr "Taakachterstand"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Fill Period With Timetracks"
 msgstr "Periode vullen met tijdsporen"
 
@@ -4482,9 +4312,8 @@ msgid "Fill period with timetracks"
 msgstr "Periode vullen met tijdsporen"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
-#, fuzzy
 msgid "Managemnt load history"
-msgstr "Budgetgeschiedenis"
+msgstr "Beheerslastgeschiedenis"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4498,9 +4327,8 @@ msgstr ""
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Theoretical progress"
-msgstr "Echte vooruitgang"
+msgstr "Theoretische vooruitgang"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4553,9 +4381,8 @@ msgid "comma separated"
 msgstr ""
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task list"
-msgstr "Roottaak"
+msgstr "Lijst met hoofdtaken"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated list of mantis tasks"
@@ -4599,9 +4426,8 @@ msgstr "Tijdspoorfilter"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "Ploeglid toevoegen"
+msgstr "Alleen teamleden"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4609,30 +4435,26 @@ msgstr "Ploeglid toevoegen"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "Opties opslaan"
+msgstr "Weergaveopties"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Involved users"
-msgstr "Toegewezen gebruikers"
+msgstr "Betrokken gebruikers"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Total elapsed"
-msgstr "verstreken"
+msgstr "Totaal verstreken"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "sidetasks"
-msgstr "Neventaken"
+msgstr "bijtaken"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Groups"
@@ -4660,9 +4482,8 @@ msgid "Drift resolved tasks"
 msgstr "Afdwaling opgeloste taken"
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "Ploeglid bijwerken"
+msgstr "Team updaten"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -4715,9 +4536,8 @@ msgid "month"
 msgstr "maand"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "BugValidation History Indicator"
-msgstr "Historisch voortgangsoverzicht"
+msgstr "BugValidation-geschiedenisindicator"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
@@ -4802,9 +4622,8 @@ msgid "Date format"
 msgstr "Datumformaat"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "Number format"
-msgstr "Datumformaat"
+msgstr "Opmaak getallen"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Encoding"
@@ -4833,9 +4652,8 @@ msgid "File"
 msgstr "Bestand"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Set All"
-msgstr "Alles selecteren"
+msgstr "Alles instellen"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "TargetVersion"
@@ -4953,9 +4771,8 @@ msgid "End"
 msgstr "Einde"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin"
-msgstr "Oorsprong taak"
+msgstr "Oorsprong"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination"
@@ -4979,9 +4796,8 @@ msgid "Move selected timetracks"
 msgstr "Geselecteerde tijdsporen verplaatsen"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Destination task"
-msgstr "Bestemming"
+msgstr "Bestemmingstaak"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
@@ -5033,9 +4849,8 @@ msgid "Issues with External ID"
 msgstr "Problemen met externe ID"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues without External ID"
-msgstr "Problemen met externe ID"
+msgstr "Problemen zonder externe ID"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:77
@@ -5047,9 +4862,8 @@ msgid "Selling price for period"
 msgstr "Verkoopsprijs gedurende de periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Elapsed during period"
-msgstr "Verstreken tijd in periode"
+msgstr "Verstreken tijdens periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
@@ -5080,16 +4894,14 @@ msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to e
 msgstr "Overblijvend = MgrEffortEstim - Verstreken sinds het beginnen van de taak tot einde van de periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "Neventaken"
+msgstr "Bijtaken meenemen"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "Taak Info"
+msgstr "Taaknaam"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
@@ -5097,9 +4909,8 @@ msgstr "Taak Info"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Task ExtRef"
-msgstr "ExtRef"
+msgstr "ExtRef taak"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -5111,27 +4922,24 @@ msgstr "Taak-ID"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Elapsed on period"
-msgstr "Verstreken tijd in periode"
+msgstr "Verstreken in periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
 msgstr "Nog te produceren op einde periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "Waarschuwing"
+msgstr "Resterend"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
 msgstr "Dagprijs"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Price on period"
-msgstr "Verstreken tijd in periode"
+msgstr "Prijs in periode"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
@@ -5217,18 +5025,16 @@ msgid "Load per customfield values"
 msgstr ""
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.html
-#, fuzzy
 msgid "Custom field"
-msgstr "Aangepaste velden"
+msgstr "Aangepast veld"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Timetrack list"
 msgstr ""
 
 #. plugins/TimetrackList/TimetrackList.html
-#, fuzzy
 msgid "Update timetrack"
-msgstr "Tijdspoor bewerken"
+msgstr "Tijdspoor bijwerken"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
@@ -5237,9 +5043,8 @@ msgid "Backlog per User"
 msgstr ""
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#, fuzzy
 msgid "No task with backlog"
-msgstr "Taakachterstand"
+msgstr "Geen taak met achterstand"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
@@ -5268,24 +5073,20 @@ msgid "List the users having spent time on the task during the period"
 msgstr "Lijst de gebruikers op die tijd gespendeerd hebben op de taak tijdens de periode"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Nb submitted"
-msgstr "Verzonden"
+msgstr "Aantal ingediend"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Nb resolved"
-msgstr "Opgelost"
+msgstr "Aantal opgelost"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Submitted issues"
-msgstr "Verzonden"
+msgstr "Ingediende problemen"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Resolved issues"
-msgstr "Opgeloste problemen weergeven"
+msgstr "Opgeloste problemen"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
 #: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:65
@@ -5293,14 +5094,12 @@ msgid "Submitted/Resolved Issues History"
 msgstr ""
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-#, fuzzy
 msgid "Submitted/Resolved issues"
-msgstr "Opgeloste problemen weergeven"
+msgstr "Ingediende/opgeloste problemen"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
-#, fuzzy
 msgid "Submitted / Resolved Issues"
-msgstr "Opgeloste problemen weergeven"
+msgstr "Ingediende/opgeloste problemen"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.html
 msgid "Submitted"
@@ -5342,9 +5141,8 @@ msgid "Send password by mail"
 msgstr "Wachtwoord verzenden per e-mail"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Send a password per email to each user"
-msgstr "Wachtwoord verzenden per e-mail"
+msgstr "Een wachtwoord per e-mail naar elke gebruiker sturen"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
@@ -5474,9 +5272,8 @@ msgid "Expire"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Exp. date"
-msgstr "Einddatum"
+msgstr "Vervaldatum"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
@@ -5487,33 +5284,28 @@ msgid "Everybody (all teams)"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Message wall options"
-msgstr "Opties opslaan"
+msgstr "Opties berichtenmuur"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Current team"
-msgstr "De Huidige Taken"
+msgstr "Huidig team"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "All my teams"
-msgstr "Alle taken"
+msgstr "Al mijn teams"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Assigned to me"
-msgstr "Toegewezen aan"
+msgstr "Toegewezen aan mij"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Posted by me"
-msgstr "Beperkt door"
+msgstr "Geplaatst door mij"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
@@ -5538,18 +5330,16 @@ msgid "Buttons"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Add new message"
-msgstr "Ploeglid toevoegen"
+msgstr "Nieuw bericht toevoegen"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Post a new message"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Set message wall options"
-msgstr "Opties opslaan"
+msgstr "Opties berichtenmuur instellen"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
@@ -5568,9 +5358,8 @@ msgid "Unhide a hidden message"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Delete a message."
-msgstr "Team verwijderen"
+msgstr "Een bericht verwijderen."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
@@ -5593,9 +5382,8 @@ msgid "Medium"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
-#, fuzzy
 msgid "Large"
-msgstr "Doel"
+msgstr "Groot"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
@@ -5611,9 +5399,8 @@ msgid "Submission date"
 msgstr ""
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
-#, fuzzy
 msgid "Expiration date"
-msgstr "Aanmaakdatum"
+msgstr "Vervaldatum"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Author"
@@ -5624,15 +5411,13 @@ msgid "Dest"
 msgstr ""
 
 #. plugins/BurnDownChart/BurnDownChart.html
-#, fuzzy
 msgid "Backlog history"
-msgstr "Budgetgeschiedenis"
+msgstr "Achterstandsgeschiedenis"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Task type filter"
-msgstr "Taakfilter:"
+msgstr "Taaktypefilter"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
@@ -5668,9 +5453,8 @@ msgid "Open issues seniority"
 msgstr ""
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Display task list"
-msgstr "Weergegeven taken"
+msgstr "Takenlijst weergeven"
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
@@ -5700,9 +5484,8 @@ msgid "Average"
 msgstr ""
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "(in days)"
-msgstr "dagen"
+msgstr "(in dagen)"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
@@ -5713,14 +5496,12 @@ msgid "Mode"
 msgstr ""
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "Nb timetracks"
-msgstr "Wekelijkse tijdsporen"
+msgstr "Aantal tijdsporen"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "Missing"
-msgstr "Veld ontbreekt"
+msgstr "Ontbrekend"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5756,9 +5537,8 @@ msgid "Tasks pivot table"
 msgstr ""
 
 #. plugins/ResetDashboard/ResetDashboard.html
-#, fuzzy
 msgid "Reset selected dashboards"
-msgstr "Geselecteerde acties uitvoeren"
+msgstr "Geselecteerde dashboards resetten"
 
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
 msgid "Domain"
@@ -6833,9 +6613,8 @@ msgid "Display a history of all the teams for a given user"
 msgstr ""
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "Aangepaste velden"
+msgstr "Aangepaste gebruikersgegevens"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."

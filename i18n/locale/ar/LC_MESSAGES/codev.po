@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 #
 # Author: ASHmed
+# Author: Alshamiri1
 # Author: FiberAhmed
 # Author: Maroen1990
 # Author: Meno25
@@ -17,7 +18,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:01+0000\n"
+"PO-Revision-Date: 2023-05-11 11:06:59+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4524,9 +4525,8 @@ msgid "Drift resolved tasks"
 msgstr "انجراف المهام المحلولة"
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "تحديث فريق الويكي"
+msgstr "فريق التحديث"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -6677,17 +6677,16 @@ msgid "Display a history of all the teams for a given user"
 msgstr "عرض تاريخ جميع الفرق لمستخدم معين"
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "حقول مخصصة"
+msgstr "بيانات المستخدم المخصصة"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "يسمح بتعيين بعض البيانات الخاصة بالمستخدم مثل EmployeeId و userId في DB / Software أخرى و phoneNumber وما إلى ذلك."
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "الهدف الأولي هو تسهيل تصدير بيانات CodevTT إلى أدوات أخرى."
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"

@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:03+0000\n"
+"PO-Revision-Date: 2023-05-11 11:07:03+0000\n"
 "Language: ko\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4654,9 +4654,8 @@ msgid "Drift resolved tasks"
 msgstr "해결된 작업 없음..."
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "팀 위키 업데이트"
+msgstr "팀 업데이트"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -6820,9 +6819,8 @@ msgid "Display a history of all the teams for a given user"
 msgstr ""
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "사용자 지정 필드"
+msgstr "사용자 지정 데이터"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
