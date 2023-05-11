@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-04 21:02+0200\n"
+"POT-Creation-Date: 2023-05-11 18:46+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -108,7 +108,7 @@ msgstr "date de dernière modification"
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
 #: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2220 reports/project_info.php:300
+#: classes/issue.class.php:2244 reports/project_info.php:300
 #: reports/planning_report.php:458 reports/planning_report.php:481
 #: plugins/WBSExport/WBSExport.class.php:148
 #: scheduler/SchedulerEvent.class.php:113
@@ -152,7 +152,7 @@ msgstr "Statut"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2216
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
 #: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
 #: management/commandset_info.php:141 management/command_info.php:226
 #: management/servicecontract_info.php:138 reports/project_info.php:275
@@ -187,7 +187,7 @@ msgstr "Projet"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. add task summary in front
 #. insert in front
-#: classes/issue.class.php:2222 classes/issue_selection.class.php:345
+#: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: management/command_info.php:227 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
@@ -1755,7 +1755,7 @@ msgstr "Version ciblée"
 #. tpl/issue_info.html
 #. tpl/command_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2229 plugins/WBSExport/WBSExport.class.php:144
+#: classes/issue.class.php:2253 plugins/WBSExport/WBSExport.class.php:144
 #: tools.php:1565
 msgid "Target"
 msgstr "V.Ciblée"
@@ -2323,7 +2323,7 @@ msgstr "Contrat de Service"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "Commands"
 msgstr "Commandes"
 
@@ -2677,6 +2677,10 @@ msgstr "Effacer la note de la tâche "
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
 msgstr "RAF actuel"
+
+#. tpl/modal/update_issueBacklog.html
+msgid "Fixed in version"
+msgstr "Résolue dans la version"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
@@ -3667,7 +3671,7 @@ msgid "External Ref"
 msgstr "Réf. Externe"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2231 reports/planning_report.php:459
+#: classes/issue.class.php:2255 reports/planning_report.php:459
 #: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
@@ -3676,7 +3680,7 @@ msgstr "Priorité"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2227 reports/planning_report.php:460
+#: classes/issue.class.php:2251 reports/planning_report.php:460
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
@@ -5916,27 +5920,27 @@ msgstr "Contraint par"
 msgid "Constrains"
 msgstr "Contraint"
 
-#: classes/issue.class.php:2191 tools.php:1549
+#: classes/issue.class.php:2215 tools.php:1549
 msgid "Tags"
 msgstr "Balises"
 
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "none"
 msgstr "aucun(e)"
 
-#: classes/issue.class.php:2204 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2228 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "DriftColor"
 
-#: classes/issue.class.php:2208
+#: classes/issue.class.php:2232
 msgid "DriftMgrColor"
 msgstr "DriftMgrColor"
 
-#: classes/issue.class.php:2225 tools.php:1563
+#: classes/issue.class.php:2249 tools.php:1563
 msgid "Assigned"
 msgstr "Assigné à"
 
-#: classes/issue.class.php:2233 tools.php:1571
+#: classes/issue.class.php:2257 tools.php:1571
 msgid "ETA"
 msgstr "ETA"
 
@@ -6464,7 +6468,7 @@ msgstr "jours sont incomplets ou non définis"
 
 #: timetracking/team_monthly_activity_report.php:143
 #: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:495
+#: timetracking/time_tracking_tools.php:505
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
@@ -6507,23 +6511,23 @@ msgid "ERROR: Failed to delete the timetrack !"
 msgstr "ERREUR: Impossible de supprimer l'imputation !"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:474
+#: timetracking/time_tracking_ajax.php:475
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Imputation non créée: la note doit être spécifié"
 
-#: timetracking/time_tracking_ajax.php:478
+#: timetracking/time_tracking_ajax.php:479
 msgid "Timetrack not added: Job is not specified"
 msgstr "Imputation non créée: le poste doit être spécifié"
 
-#: timetracking/time_tracking_ajax.php:481
+#: timetracking/time_tracking_ajax.php:482
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Imputation non créée: tâche non spécifiée"
 
-#: timetracking/time_tracking_ajax.php:484
+#: timetracking/time_tracking_ajax.php:485
 msgid "Timetrack not added: duration is not specified"
 msgstr "Imputation non créée: la durée doit être spécifié"
 
-#: timetracking/time_tracking_ajax.php:522
+#: timetracking/time_tracking_ajax.php:530
 msgid "ERROR: Failed to add timetrack !"
 msgstr "ERREUR: Impossible d'ajouter l'imputation !"
 
@@ -6615,15 +6619,15 @@ msgstr "Affiche la liste des équipes pour un utilisateur"
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
 msgid "Custom user data"
-msgstr ""
+msgstr "Informations utilisateurs"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "Ajout d'informations utilisateurs supplementaires comme le matricule d'entreprise ou un identifiant dans une autre BDD/Application"
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "Ces champs permettent d'exporter plus facilement les données CodevTT vers d'autres applications."
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
@@ -6981,6 +6985,36 @@ msgstr "S"
 msgid "Delivery Date"
 msgstr "Date Livraison"
 
+#~ msgid "Add task"
+#~ msgstr "Ajouter une tâche"
+
+#~ msgid "Hint: Click in a field to edit 'Elapsed time' or 'Backlog'"
+#~ msgstr "Info: Cliquer dans les cases pour éditer le RAF ou une imputation"
+
+#~ msgid "Invalid backlog format"
+#~ msgstr "Format RAF non valide"
+
+#~ msgid "Time Tracking (lite)"
+#~ msgstr "Saisie des CRA (simplifiée)"
+
+#~ msgid "REFUSED"
+#~ msgstr "REFUSÉ"
+
+#~ msgid "ERROR: Failed to update backlog !"
+#~ msgstr "ERREUR: Impossible de mettre à jour le RAF !"
+
+#~ msgid "ERROR: Failed to getAvailableStatusList !"
+#~ msgstr "ERREUR: Impossible de récupérer la liste des status !"
+
+#~ msgid "ERROR: Failed to setStatus !"
+#~ msgstr "ERREUR: Impossible de modifier le status"
+
+#~ msgid "Sorry, multiple existing timetracks, please use the regular Timetracking page"
+#~ msgstr "Imputations multiples: veuillez utiliser la page de saisie des CRA classique"
+
+#~ msgid "ERROR: Failed to add/update timetrack !"
+#~ msgstr "ERREUR: Impossible de mettre à jour l'imputation !"
+
 #~ msgid "Hide tasks with no activity since"
 #~ msgstr "Cacher les tâches sans activité depuis"
 
@@ -7031,9 +7065,6 @@ msgstr "Date Livraison"
 
 #~ msgid "Couldn't add the job association"
 #~ msgstr "Impossible d'ajouter cette association"
-
-#~ msgid "Add task"
-#~ msgstr "Ajouter une tâche"
 
 #~ msgid "Add selection"
 #~ msgstr "Ajouter la sélection"
