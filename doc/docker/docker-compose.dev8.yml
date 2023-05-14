@@ -1,0 +1,83 @@
+version: '3.8'
+
+# --- docker-compose.dev.yml ---
+# This docker-compose file mounts a dev environment for CodevTT
+# 1) you have cloned CodevTT localy from git@gitlab.com:lbayle/codevtt.git
+# 2) it assumes that you have already build an image of mantis/codevtt with 
+#   https://gitlab.com/lbayle/codevtt/-/blob/master/doc/docker/Dockerfile_dev8
+
+services:
+# ---------------------------------------------------------
+  # docker exec -i mariadb-codevtt mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+  mariadb:
+    image: mariadb:latest
+    hostname: 'mariadb'
+    container_name: mariadb-codevtt
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=my_password
+      - MYSQL_DATABASE=bugtracker
+      - MYSQL_USER=mantisbt
+      - MYSQL_PASSWORD=mantisbt
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    networks:
+      - codevtt_net
+    volumes:
+      - /data/docker/mariadb/mysql:/var/lib/mysql
+      - /data/docker/mariadb/logs:/var/log/mariadb
+      - /data/docker/mariadb/conf.d:/etc/mysql/conf.d
+
+  # ---------------------------------------------------------
+  mantis-codevtt:
+   #image: lbayle/codevtt:latest    
+    image: codevtt:dev8
+    hostname: 'codevtt'
+    container_name: mantis-codevtt
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    links:
+      - mariadb
+    networks:
+      - codevtt_net
+    volumes:
+      - /data/docker/mantis-codevtt/logs:/tmp/codevtt/logs
+      - /data/docker/mantis-codevtt/logs-httpd:/var/log/httpd/
+      - /data/docker/mantis-codevtt/mantis/config:/var/www/html/mantis/config
+      - /data/docker/mantis-codevtt/mantis/plugins:/var/www/html/mantis/plugins
+      # Development: CodevTT src code is not in the container to be easily accessed by IDE & git
+      - /data/docker/mantis-codevtt/src:/var/www/html/codevtt
+
+# ---------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    hostname: 'phpmyadmin'
+    container_name: phpmyadmin-codevtt
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mariadb
+      - PMA_USER=mantisbt
+      - PMA_PASSWORD=mantisbt
+    links:
+      - mariadb
+    networks:
+      - codevtt_net
+    volumes:
+      - /data/docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+
+networks:
+  codevtt_net:
+    driver: bridge
+
+# end.
+
