@@ -27,12 +27,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:06+0000\n"
+"PO-Revision-Date: 2023-07-20 11:01:21+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
-"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
+"X-POT-Import-Date: 2023-05-11 18:30:24+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/check.html
@@ -126,7 +126,7 @@ msgstr "上次修改日期"
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
 #: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2220 reports/project_info.php:300
+#: classes/issue.class.php:2244 reports/project_info.php:300
 #: reports/planning_report.php:458 reports/planning_report.php:481
 #: plugins/WBSExport/WBSExport.class.php:148
 #: scheduler/SchedulerEvent.class.php:113
@@ -170,7 +170,7 @@ msgstr "状态"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2216
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
 #: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
 #: management/commandset_info.php:141 management/command_info.php:226
 #: management/servicecontract_info.php:138 reports/project_info.php:275
@@ -205,7 +205,7 @@ msgstr "项目"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. add task summary in front
 #. insert in front
-#: classes/issue.class.php:2222 classes/issue_selection.class.php:345
+#: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: management/command_info.php:227 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
@@ -1096,9 +1096,8 @@ msgid "Indicators"
 msgstr "指示器"
 
 #. tpl/user_info.html
-#, fuzzy
 msgid "User info"
-msgstr "用户"
+msgstr "用户信息"
 
 #. tpl/user_info.html
 #. tpl/modal/login.html
@@ -1774,7 +1773,7 @@ msgstr "目标版本"
 #. tpl/issue_info.html
 #. tpl/command_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2229 plugins/WBSExport/WBSExport.class.php:144
+#: classes/issue.class.php:2253 plugins/WBSExport/WBSExport.class.php:144
 #: tools.php:1565
 msgid "Target"
 msgstr "目标"
@@ -2050,9 +2049,8 @@ msgid "Remove Mantis plugin:"
 msgstr "移除Mantis插件："
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove ExternalTasks project:"
-msgstr "CodevTT外部任务项目"
+msgstr "移除ExternalTasks项目："
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -2280,16 +2278,15 @@ msgstr "一般"
 
 #. tpl/doc.html
 msgid "Task priority in Planning & Gantt"
-msgstr ""
+msgstr "计划和甘特图中的任务优先级"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
 msgstr "文档可在此找到\\"
 
 #. tpl/doc.html
-#, fuzzy
 msgid "CodevTT Documentation"
-msgstr "文档"
+msgstr "CodevTT文档"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
@@ -2344,7 +2341,7 @@ msgstr "劳务合同"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "Commands"
 msgstr "命令"
 
@@ -2386,9 +2383,8 @@ msgid "Query FAILED"
 msgstr "查询失败"
 
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Add timetrack"
-msgstr "编辑时间跟踪"
+msgstr "添加时间跟踪"
 
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
@@ -2428,7 +2424,7 @@ msgstr "隐藏已解决任务"
 
 #. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
-msgstr ""
+msgstr "隐藏具有禁止状态的任务（已关闭等）"
 
 #. tpl/time_tracking.html
 #. tpl/team_activity_report.html
@@ -2481,18 +2477,16 @@ msgstr "删除跟踪"
 #. tpl/issue_info.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Enter a keyword or *** to display all..."
-msgstr ""
+msgstr "输入关键字或 *** 来显示全部…"
 
 #. tpl/missing_timetracks.html
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Missing Timetracks"
-msgstr "移动问题时间跟踪"
+msgstr "缺少时间跟踪"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing timetracks per user"
-msgstr "移动问题时间跟踪"
+msgstr "缺少各用户的时间跟踪"
 
 #. tpl/missing_timetracks.html
 #. tpl/planning_report.html
@@ -2512,14 +2506,12 @@ msgid "workdays"
 msgstr "工作日"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing timetracks"
-msgstr "移动问题时间跟踪"
+msgstr "缺少时间跟踪"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing days"
-msgstr "丢失字段"
+msgstr "缺少日"
 
 #. tpl/missing_timetracks.html
 #. plugins/CustomUserData/CustomUserData.html
@@ -2705,6 +2697,10 @@ msgid "Current backlog"
 msgstr "当前积压工作"
 
 #. tpl/modal/update_issueBacklog.html
+msgid "Fixed in version"
+msgstr "版本中的修复"
+
+#. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
 msgstr "更新积压工作"
 
@@ -2723,7 +2719,7 @@ msgstr "任务已解决，积压工作必须为“0”"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr ""
+msgstr "时间跟踪停用，若当前状态为：\\"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -2971,9 +2967,8 @@ msgid "Delete team"
 msgstr "删除团队"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Active team members"
-msgstr "添加团队成员"
+msgstr "活跃团队成员"
 
 #. tpl/edit_team.html
 msgid "Add team member"
@@ -2998,9 +2993,8 @@ msgid "Import"
 msgstr "导入"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Import user groups from CSV"
-msgstr "从团队中导入所有用户"
+msgstr "从 CSV 导入用户组"
 
 #. tpl/edit_team.html
 msgid "import groups"
@@ -3031,12 +3025,11 @@ msgstr "信息"
 
 #. tpl/edit_team.html
 msgid "Group examples: FrontEnd, BackEnd, Architect, Designers, Qualifiers"
-msgstr ""
+msgstr "群组示例：FrontEnd、BackEnd、Architect、Designers、Qualifiers"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "CSV File Format"
-msgstr "文件格式"
+msgstr "CSV 文件格式"
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -3061,23 +3054,21 @@ msgstr "颜色"
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Team members assigned to a group"
-msgstr ""
+msgstr "团队成员已分配到群组"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "Users not assigned to any group"
-msgstr "任务未分配给任何人。"
+msgstr "用户未分配到任何群组"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Not a team member, but assigned to a group"
-msgstr ""
+msgstr "非团队成员，但已分配到群组"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Number of team members"
-msgstr "添加团队成员"
+msgstr "团队成员数目"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
@@ -3208,23 +3199,20 @@ msgid "User Daily Cost"
 msgstr "用户每日花费"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetracking settings"
-msgstr "时间跟踪细节"
+msgstr "时间跟踪设置"
 
 #. tpl/edit_team.html
 msgid "Timetracking disabled if task status in"
-msgstr ""
+msgstr "时间跟踪停用，若任务状态为"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Forbidden status list"
-msgstr "编辑工作清单"
+msgstr "编辑禁止状态列表"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Forbiden status list"
-msgstr "编辑工作清单"
+msgstr "编辑禁止状态列表"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -3347,17 +3335,16 @@ msgid "Job list for project :"
 msgstr "项目的工作清单："
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Forbiden Status for project:"
-msgstr "项目的工作清单："
+msgstr "项目的禁止状态："
 
 #. tpl/edit_team.html
 msgid "Please select a CSV file"
-msgstr ""
+msgstr "请选择一个 CSV 文件。"
 
 #. tpl/edit_team.html
 msgid "Please check table below and click 'OK' button to accept changes"
-msgstr ""
+msgstr "请检查下方的表格并单击“确定”按钮来接受更改"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -3656,9 +3643,8 @@ msgid "Save options"
 msgstr "保存选项"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Hide tasks from observed teams"
-msgstr "隐藏未分配我的任务"
+msgstr "隐藏来自观察团队的任务"
 
 #. tpl/issue_info.html
 #: scheduler/SchedulerEvent.class.php:116 gantt/gantt_ajax.php:224
@@ -3703,7 +3689,7 @@ msgid "External Ref"
 msgstr "外部参考"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2231 reports/planning_report.php:459
+#: classes/issue.class.php:2255 reports/planning_report.php:459
 #: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
@@ -3712,7 +3698,7 @@ msgstr "优先级"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2227 reports/planning_report.php:460
+#: classes/issue.class.php:2251 reports/planning_report.php:460
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
@@ -3736,19 +3722,16 @@ msgid "Click refresh button to display..."
 msgstr "点击刷新按钮以显示..."
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "First Timetrack date"
-msgstr "时间跟踪注释"
+msgstr "最初时间跟踪日期"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "Latest Timetrack date"
-msgstr "时间跟踪注释"
+msgstr "最新时间跟踪日期"
 
 #. tpl/issue_info.html
-#, fuzzy
 msgid "WARNING: Prior timetracks could not be displayed !"
-msgstr "重要：未分配的任务将不会显示！"
+msgstr "警告：之前的时间轨迹无法显示！"
 
 #. tpl/issue_info.html
 msgid "Update timetracking values"
@@ -3930,9 +3913,8 @@ msgid "Team Statistics"
 msgstr "团队统计"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "User Statistics"
-msgstr "周期统计"
+msgstr "用户统计"
 
 #. tpl/menu/global_menu.html
 msgid "History"
@@ -4148,9 +4130,8 @@ msgid "users"
 msgstr "用户"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Change Mantis issue id"
-msgstr "创建Mantis用户"
+msgstr "更改 Mantis 问题 ID"
 
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
@@ -4235,9 +4216,8 @@ msgid "Weekly"
 msgstr "每周"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "User selection"
-msgstr "重定向"
+msgstr "用户选择"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4251,23 +4231,20 @@ msgid "Graph"
 msgstr "图表"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Graph values"
-msgstr "显示值"
+msgstr "图表值"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Range values"
-msgstr "显示值"
+msgstr "范围值"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Available Workforce Options"
 msgstr "可用劳动力选项"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Select by group"
-msgstr "选择用户"
+msgstr "按群组选择"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Availability"
@@ -4290,9 +4267,8 @@ msgid "Available workforce"
 msgstr "可用劳动力"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
-#, fuzzy
 msgid "Workforce"
-msgstr "工作流"
+msgstr "人力"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
@@ -4333,7 +4309,7 @@ msgstr "同时添加多个任务"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
-msgstr ""
+msgstr "允许用户同时输入多个时间跟踪并不符合 CodevTT 的理念。然而，有时需要输入长期缺失的时间跟踪（例如 CodevTT 的安装时间晚于项目，需要追赶）。\n此权限仅授予团队管理员。"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4414,40 +4390,37 @@ msgid "Root task"
 msgstr "根任务"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "comma separated"
-msgstr "添加任务（逗号分隔）"
+msgstr "逗号分隔"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task list"
-msgstr "根任务"
+msgstr "根任务列表"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated list of mantis tasks"
-msgstr ""
+msgstr "以逗号分隔的 Mantis 任务列表"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
-msgstr ""
+msgstr "另外包含在树中的父任务（未选中：仅包含为文件夹）"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Include parent-tasks in its own folder (unchecked: include above)"
-msgstr ""
+msgstr "包含自己文件夹中的父任务（未选中：包含上述内容）"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Clear the WBS before import (remove all existing issues from the command)"
-msgstr ""
+msgstr "导入前清除 WBS（从命令中移除现有的全部问题）"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
 msgid "Import Relationship tree to command"
-msgstr ""
+msgstr "将关系树导入到命令"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "ERROR, Please check"
-msgstr "错误：请检查"
+msgstr "错误，请检查"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_cfg.html
@@ -4455,9 +4428,8 @@ msgstr "错误：请检查"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
-#, fuzzy
 msgid "Timetrack filter"
-msgstr "时间跟踪注释"
+msgstr "时间跟踪过滤器"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -4467,9 +4439,8 @@ msgstr "时间跟踪注释"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
-#, fuzzy
 msgid "Only team members"
-msgstr "添加团队成员"
+msgstr "仅团队成员"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
@@ -4477,39 +4448,34 @@ msgstr "添加团队成员"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Display options"
-msgstr "保存选项"
+msgstr "显示选项"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Involved users"
-msgstr "已分配用户"
+msgstr "涉及用户"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Total elapsed"
-msgstr "时间过去"
+msgstr "总经过时间"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "sidetasks"
 msgstr "边缘任务"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "Groups"
-msgstr "组"
+msgstr "群组"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Display the elapsed time for each user group"
-msgstr ""
+msgstr "显示每个用户组的已经过时间"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
 msgid "Tasks Drift alert"
@@ -4551,7 +4517,7 @@ msgstr "消耗"
 #. plugins/ManagementCosts/ManagementCosts.html
 #: plugins/ManagementCosts/ManagementCosts.class.php:58
 msgid "Management costs"
-msgstr ""
+msgstr "管理成本"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
@@ -4781,11 +4747,11 @@ msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n �
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
+msgstr "显示全部活动：\n         <br> 如果选中，未包含在当前选择中的任务的时间跟踪将显示在额外的列中。"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
-msgstr ""
+msgstr "警告：如果未选中“仅团队成员”，此选项将被禁用"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Move issue timetracks"
@@ -4905,55 +4871,50 @@ msgid "Check all the timetracks of the period and return their repartition per P
 msgstr "检查所有周期的时间跟踪，并按项目返回其重新分配"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Selling price for period"
-msgstr "运行周期"
+msgstr "周期销售价格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Elapsed during period"
-msgstr "运行周期"
+msgstr "周期经过时间"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
-msgstr ""
+msgstr "剩余产量（期末）"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:83
 msgid "Selling Price for the Period"
-msgstr ""
+msgstr "周期销售价格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr ""
+msgstr "如果您每项任务以特定价格出售每日服务，则此插件将提供您给定时间段内一批任务的价格。"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
-msgstr ""
+msgstr "对于此插件，您需要将“CodevTT_DailyPrice”自定义字段添加到您的 Mantis 项目中，并为每个任务设置一个值。"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr "运行周期"
+msgstr "销售价格 = 每日价格 x 周期经过时间"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr ""
+msgstr "剩余 = 管理工作量估计 - 自任务开始到期末所经过的时间"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#, fuzzy
 msgid "Include sideTasks"
-msgstr "边缘任务"
+msgstr "包含边缘任务"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
-#, fuzzy
 msgid "Task name"
-msgstr "适时任务"
+msgstr "任务名称"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
@@ -4961,9 +4922,8 @@ msgstr "适时任务"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Task ExtRef"
-msgstr "外部参考"
+msgstr "任务外部参考"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -4975,27 +4935,24 @@ msgstr "任务ID"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Elapsed on period"
-msgstr "运行周期"
+msgstr "经过周期"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
-msgstr ""
+msgstr "期末剩余产能"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Remaining"
-msgstr "警告"
+msgstr "剩余"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Daily Price"
 msgstr "每日价格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#, fuzzy
 msgid "Price on period"
-msgstr "运行周期"
+msgstr "周期价格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
@@ -5034,7 +4991,7 @@ msgstr "%进度"
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:68
 msgid "Load History"
-msgstr ""
+msgstr "加载历史"
 
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
@@ -5049,7 +5006,7 @@ msgstr "MgrEffortEstim+已检查的规定"
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Burndown chart"
-msgstr ""
+msgstr "燃尽图"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
@@ -5078,16 +5035,15 @@ msgstr "预算历史"
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_cfg.html
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:69
 msgid "Load per customfield values"
-msgstr ""
+msgstr "加载每个自定义字段值"
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.html
-#, fuzzy
 msgid "Custom field"
 msgstr "自定义字段"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Timetrack list"
-msgstr ""
+msgstr "时间跟踪列表"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Update timetrack"
@@ -5109,9 +5065,8 @@ msgstr "为每位用户，返回其分配任务的积压工作总和"
 
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "WBS path"
-msgstr "WBS导出"
+msgstr "WBS 路径"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 #, fuzzy
@@ -5119,28 +5074,24 @@ msgid "Ongoing tasks"
 msgstr "原始任务"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "Display only the tasks with activity (timetracks) on the period"
-msgstr "在期间内已重启的任务"
+msgstr "仅显示周期内有活动（时间跟踪）的任务"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr ""
+msgstr "周期内花费在任务上的时间（可以少于自任务开始以来花费的总时间）"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "List the users having spent time on the task during the period"
-msgstr "在期间内已重启的任务"
+msgstr "列出周期内花费时间在该任务上的用户"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Nb submitted"
-msgstr "已提交"
+msgstr "Nb 已提交"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Nb resolved"
-msgstr "nb已解决"
+msgstr "Nb 已解决"
 
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_ajax.html
 msgid "Submitted issues"
@@ -5433,24 +5384,23 @@ msgstr "信息墙"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Size"
-msgstr ""
+msgstr "大小"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Small"
-msgstr ""
+msgstr "小"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Medium"
-msgstr ""
+msgstr "中"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
-#, fuzzy
 msgid "Large"
-msgstr "目标"
+msgstr "大"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Huge"
-msgstr ""
+msgstr "特大"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Acknowledged by"
@@ -5474,54 +5424,50 @@ msgid "Dest"
 msgstr "澳大利亚教育科学与培训部"
 
 #. plugins/BurnDownChart/BurnDownChart.html
-#, fuzzy
 msgid "Backlog history"
-msgstr "预算历史"
+msgstr "积压历史"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Task type filter"
-msgstr "任务过滤器："
+msgstr "任务类型过滤器"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Check the submission date of the tasks"
-msgstr ""
+msgstr "检查任务提交日期"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:73
 msgid "Statistics on the age of open tasks"
-msgstr ""
+msgstr "开放任务时限统计"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
-msgstr ""
+msgstr "新"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "Open"
-msgstr ""
+msgstr "开放"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb Issues"
-msgstr ""
+msgstr "Nb 问题"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
 msgid "Nb new"
-msgstr ""
+msgstr "新 Nb"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#, fuzzy
 msgid "Nb open"
-msgstr "Nb已重启"
+msgstr "开放 Nb"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Open issues seniority"
-msgstr ""
+msgstr "开放问题排行"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Display task list"
-msgstr "显示的任务"
+msgstr "显示任务列表"
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator_cfg.html
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
@@ -5539,40 +5485,36 @@ msgstr "按状态时间分配"
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:69
 msgid "Timetracking analysis"
-msgstr ""
+msgstr "时间跟踪分析"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average delay between the timetrack date and it's creation date (in days)"
-msgstr ""
+msgstr "时间跟踪日期与其创建日期之间的平均延迟（天数）"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "Average"
-msgstr "平均积压工作"
+msgstr "平均"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "(in days)"
-msgstr "nb日"
+msgstr "（天数）"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
-msgstr ""
+msgstr "中位数"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Mode"
-msgstr ""
+msgstr "众数"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "Nb timetracks"
-msgstr "周时间跟踪"
+msgstr "Nb 时间跟踪"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
-#, fuzzy
 msgid "Missing"
-msgstr "丢失字段"
+msgstr "丢失"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
@@ -5605,12 +5547,11 @@ msgstr "拖放并设置过滤器的顺序"
 #. plugins/TasksPivotTable/TasksPivotTable_cfg.html
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:76
 msgid "Tasks pivot table"
-msgstr ""
+msgstr "任务数据透视表"
 
 #. plugins/ResetDashboard/ResetDashboard.html
-#, fuzzy
 msgid "Reset selected dashboards"
-msgstr "重设管理面板"
+msgstr "重置选定的仪表板"
 
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
 msgid "Domain"
@@ -5690,11 +5631,11 @@ msgstr "提示信息"
 
 #: admin/edit_team_ajax.php:445
 msgid "ERROR: joblist cannot be empty !"
-msgstr ""
+msgstr "错误：工作列表不能为空！"
 
 #: admin/edit_team_ajax.php:494
 msgid "Invalid team name"
-msgstr ""
+msgstr "无效的团队名称"
 
 #: admin/edit_team_ajax.php:498
 msgid "Couldn't enable/disable team"
@@ -5714,7 +5655,7 @@ msgstr "请上传带以下扩展名的文件：\\"
 #: admin/edit_team_ajax.php:782
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:311
 msgid "No group defined for team member"
-msgstr ""
+msgstr "没有为团队成员定义群组"
 
 #: admin/admin_dashboard.php:75 import/import_dashboard.php:66
 #: reports/team_dashboard.php:98
@@ -5727,7 +5668,7 @@ msgstr "不能创建classmap：\\"
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
-msgstr ""
+msgstr "抱歉，此工作不能更改"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
@@ -5881,7 +5822,7 @@ msgstr "检查已移除问题上的时间跟踪（当启用Mantis插件时不需
 #. for all timetracks of the team, check that the Mantis issue exist.
 #: classes/consistency_check2.class.php:188
 msgid "Command issues should belong to the team's project-list"
-msgstr ""
+msgstr "应属于团队项目列表的命令问题"
 
 #: classes/consistency_check2.class.php:286
 msgid "Backlog should be 0 (not "
@@ -5937,19 +5878,19 @@ msgstr "未定义默认项目工作流，检查配置文件：\\"
 
 #: classes/consistency_check2.class.php:764
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
-msgstr ""
+msgstr "）请运行<a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 
 #: classes/consistency_check2.class.php:783
 msgid "Project not defined in the team's project-list"
-msgstr ""
+msgstr "项目未在团队项目列表中定义"
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr ""
+msgstr "请将配置文件移至：\\"
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr ""
+msgstr "请移除：\\"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:203
 msgid "monitored"
@@ -5984,27 +5925,27 @@ msgstr "约束自"
 msgid "Constrains"
 msgstr "约束"
 
-#: classes/issue.class.php:2191 tools.php:1549
+#: classes/issue.class.php:2215 tools.php:1549
 msgid "Tags"
 msgstr "标签"
 
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "none"
 msgstr "无"
 
-#: classes/issue.class.php:2204 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2228 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "漂移颜色"
 
-#: classes/issue.class.php:2208
+#: classes/issue.class.php:2232
 msgid "DriftMgrColor"
 msgstr "DriftMgr颜色"
 
-#: classes/issue.class.php:2225 tools.php:1563
+#: classes/issue.class.php:2249 tools.php:1563
 msgid "Assigned"
 msgstr "已分派"
 
-#: classes/issue.class.php:2233 tools.php:1571
+#: classes/issue.class.php:2257 tools.php:1571
 msgid "ETA"
 msgstr "ETA"
 
@@ -6093,7 +6034,7 @@ msgstr "按自定义字段排序问题：CodevTT_类型"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
-msgstr ""
+msgstr "类型（任务/错误）"
 
 #: indicator_plugins/StatusHistoryIndicator/StatusHistoryIndicator.class.php:186
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:337
@@ -6115,7 +6056,7 @@ msgstr "升级指令"
 
 #: install/install.php:123
 msgid "If you're upgrading from an older CodevTT version, do the following steps:"
-msgstr ""
+msgstr "如果您要从旧版本的 CodevTT 版本升级，请执行以下步骤："
 
 #: install/install.php:125
 msgid "Upgrade Mantis first ! (not mandatory)"
@@ -6123,7 +6064,7 @@ msgstr "首先升级Mantis！（非强制）"
 
 #: install/install.php:126
 msgid "Backup your database"
-msgstr ""
+msgstr "备份您的数据库"
 
 #: install/install.php:127
 msgid "Copy CodevTT configuration files from your previous installation"
@@ -6470,11 +6411,11 @@ msgstr "对不起，您不是此团队的活跃成员"
 
 #: reports/issue_info.php:90
 msgid "You do not have permissions to display task :"
-msgstr ""
+msgstr "您没有权限显示任务："
 
 #: reports/issue_info.php:101
 msgid "Task not found in Mantis DB :"
-msgstr ""
+msgstr "未在 Mantis 数据库中找到任务："
 
 #: reports/statistics.php:86
 msgid "No projects in this team"
@@ -6535,7 +6476,7 @@ msgstr "日不完全或未定义"
 
 #: timetracking/team_monthly_activity_report.php:143
 #: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:495
+#: timetracking/time_tracking_tools.php:505
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "错误：在Mantis数据库中找不到任务！"
@@ -6571,32 +6512,32 @@ msgstr "其他团队"
 
 #: timetracking/time_tracking_ajax.php:161
 msgid "Timetracking is forbidden when issue's status is :"
-msgstr ""
+msgstr "禁止时间跟踪，当问题状态为："
 
 #: timetracking/time_tracking_ajax.php:442
 msgid "ERROR: Failed to delete the timetrack !"
-msgstr ""
+msgstr "错误：删除时间跟踪失败！"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:474
+#: timetracking/time_tracking_ajax.php:475
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "时间跟踪未添加：时间追踪注释必填"
 
-#: timetracking/time_tracking_ajax.php:478
+#: timetracking/time_tracking_ajax.php:479
 msgid "Timetrack not added: Job is not specified"
 msgstr "时间跟踪未添加：未指定工作"
 
-#: timetracking/time_tracking_ajax.php:481
+#: timetracking/time_tracking_ajax.php:482
 msgid "Timetrack not added: bugid is not specified"
 msgstr "时间跟踪未添加：未指定bugid"
 
-#: timetracking/time_tracking_ajax.php:484
+#: timetracking/time_tracking_ajax.php:485
 msgid "Timetrack not added: duration is not specified"
 msgstr "时间跟踪未添加：未指定时长"
 
-#: timetracking/time_tracking_ajax.php:522
+#: timetracking/time_tracking_ajax.php:530
 msgid "ERROR: Failed to add timetrack !"
-msgstr ""
+msgstr "错误：添加时间跟踪失败！"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:62
 msgid "Task deadlines alert"
@@ -6632,7 +6573,7 @@ msgstr "工作日在一段周期内可用，除了离开时间和外部任务"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
 msgid "Task is not in team's projects"
-msgstr ""
+msgstr "任务不在团队项目中"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
 msgid "Timetrack added by "
@@ -6640,7 +6581,7 @@ msgstr "按任务添加时间\\"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
-msgstr ""
+msgstr "任务不存在！"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
 msgid "Management load history"
@@ -6652,23 +6593,23 @@ msgstr "将管理边缘任务上的运行时间与管理规定相比较"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:75
 msgid "Import Mantis relationship-tree to WBS"
-msgstr ""
+msgstr "将 Mantis 关系树导入到 WBS"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:78
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
-msgstr ""
+msgstr "将 Mantis 父子关系问题结构导入到命令 WBS 结构"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr ""
+msgstr "加载各用户组"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
-msgstr ""
+msgstr "检查周期内的所有时间跟踪并返回各用户组的重新分配"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:334
 msgid "No group defined"
-msgstr ""
+msgstr "没有定义的群组"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
@@ -6690,15 +6631,15 @@ msgstr "自定义用户数据"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "允许设置一些用户特定数据，例如员工 ID、其他数据库/软件中的用户 ID、电话号码等。"
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "最初的目标是简化将 CodevTT 数据导出到其他工具的过程。"
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
-msgstr ""
+msgstr "加总边缘任务经过时间，并与命令规定的总合比较。返回人日和花费的结果"
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:168
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
@@ -6752,11 +6693,11 @@ msgstr "显示问题状态历史"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "销售价格 = 每日价格 x 经过周期"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "警告：您需要将“CodevTT_DailyPrice”自定义字段分配给以下项目：\\"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
@@ -6764,7 +6705,7 @@ msgstr "显示进度历史"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
-msgstr ""
+msgstr "显示周期内经过时间"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
@@ -6776,11 +6717,11 @@ msgstr "显示预算历史"
 
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:72
 msgid "Choose a customfield, return the elapsed time for each customField value"
-msgstr ""
+msgstr "选择一个自定义字段，返回每个自定义字段值的经过时间"
 
 #: plugins/TimetrackList/TimetrackList.class.php:84
 msgid "List and edit timetracks"
-msgstr ""
+msgstr "列出并编辑时间跟踪"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
@@ -6792,7 +6733,7 @@ msgstr "（未知 0）"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:88
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "列出指定周期内活跃的任务"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:90
 #, fuzzy
@@ -6801,7 +6742,7 @@ msgstr "在期间内已重启的任务"
 
 #: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:68
 msgid "Display the number of issues submitted/resolved in a period"
-msgstr ""
+msgstr "显示周期内已提交/已解决的问题数"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Import a list of users to MantisBT / CodevTT"
@@ -6861,7 +6802,7 @@ msgstr "WBS导出"
 
 #: plugins/WBSExport/WBSExport.class.php:57
 msgid "Export WBS to CSV file"
-msgstr ""
+msgstr "将 WBS 导出为 CSV 文件"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
@@ -6898,11 +6839,11 @@ msgstr "允许管理员和团队成员发送消息，这将显示在其他用户
 
 #: plugins/BurnDownChart/BurnDownChart.class.php:66
 msgid "Display the backlog history"
-msgstr ""
+msgstr "显示积压历史"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:70
 msgid "Open issues seniority statistics"
-msgstr ""
+msgstr "打开问题排行统计"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:174
 msgid "Last week"
@@ -6910,43 +6851,43 @@ msgstr "上周"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:175
 msgid "+1 week"
-msgstr ""
+msgstr "+1 周"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:176
 msgid "+2 week"
-msgstr ""
+msgstr "+2 周"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:177
 msgid "+3 week"
-msgstr ""
+msgstr "+3 周"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:178
 msgid "+1 months"
-msgstr ""
+msgstr "+1 个月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:179
 msgid "+2 months"
-msgstr ""
+msgstr "+2 个月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:180
 msgid "+3 months"
-msgstr ""
+msgstr "+3 个月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:181
 msgid "+6 months"
-msgstr ""
+msgstr "+6 个月"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:182
 msgid "Over a year"
-msgstr ""
+msgstr "超过一年"
 
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:271
 msgid "All (tasks & bugs)"
-msgstr ""
+msgstr "全部（任务和错误）"
 
 #: plugins/TimetrackingAnalysis/TimetrackingAnalysis.class.php:72
 msgid "Display the delay between the timetrack date and it's creation date"
-msgstr ""
+msgstr "显示时间跟踪日期与其创建日期之间的延迟"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
@@ -6970,11 +6911,11 @@ msgstr "通过添加多个筛选器将任务分组"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:60
 msgid "Remove dashboard plugins"
-msgstr ""
+msgstr "移除控制面板插件"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:63
 msgid "Remove all plugins from a dashboard. This is usefull if a plugin crashes the page"
-msgstr ""
+msgstr "移除控制面板的所有插件。这在插件造成页面崩溃时很有用"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"

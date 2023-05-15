@@ -1,6 +1,7 @@
 # Translation of CodevTT to Traditional Chinese (中文（繁體）)
 # Exported from translatewiki.net
 #
+# Author: HellojoeAoPS
 # Author: Kly
 # Author: LNDDYL
 # Author: Liuxinyu970226
@@ -13,12 +14,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:06+0000\n"
+"PO-Revision-Date: 2023-07-06 11:02:34+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
-"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
+"X-POT-Import-Date: 2023-05-11 18:30:24+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. tpl/check.html
@@ -112,7 +113,7 @@ msgstr "上一次修改日期"
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
 #: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2220 reports/project_info.php:300
+#: classes/issue.class.php:2244 reports/project_info.php:300
 #: reports/planning_report.php:458 reports/planning_report.php:481
 #: plugins/WBSExport/WBSExport.class.php:148
 #: scheduler/SchedulerEvent.class.php:113
@@ -156,7 +157,7 @@ msgstr "狀態"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2216
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
 #: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
 #: management/commandset_info.php:141 management/command_info.php:226
 #: management/servicecontract_info.php:138 reports/project_info.php:275
@@ -191,7 +192,7 @@ msgstr "專案"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. add task summary in front
 #. insert in front
-#: classes/issue.class.php:2222 classes/issue_selection.class.php:345
+#: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: management/command_info.php:227 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
@@ -513,7 +514,7 @@ msgstr "從該合約移除專案？"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 msgid "Sorry, only managers can access this page."
-msgstr "很抱歉，僅有管理者可以存取此頁面。"
+msgstr "很抱歉，僅有管理者可以訪問此頁面。"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/team_monthly_activity_report.html
@@ -555,7 +556,7 @@ msgstr "進度"
 #: plugins/WBSExport/WBSExport.class.php:150
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:291 tools.php:1491
 msgid "MgrEffortEstim"
-msgstr "管理成效估計"
+msgstr "管理工作量估計"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/ajax/schedulerAffectationSummary.html
@@ -574,7 +575,7 @@ msgstr "管理成效估計"
 #: plugins/WBSExport/WBSExport.class.php:151
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:292 tools.php:1494
 msgid "EffortEstim"
-msgstr "成效估計"
+msgstr "工作量估計"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/productivity_report.html
@@ -872,7 +873,7 @@ msgstr "可用人力"
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability"
-msgstr "成效估計可靠性"
+msgstr "工作量估計可靠性"
 
 #. tpl/statistics.html
 msgid "% Tasks"
@@ -924,17 +925,17 @@ msgstr "日期"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the MgrEffortEstim)"
-msgstr "在已解決任務的成效偏差（有關管理成效估計）"
+msgstr "在已解決任務的工作量偏差（有關管理工作量估計）"
 
 #. tpl/statistics.html
 msgid "Effort deviation on resolved tasks (regarding the EffortEstim)"
-msgstr "在已解決任務的成效偏差（相關於成效估計）"
+msgstr "在已解決任務的工作量偏差（相關於工作量估計）"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Effort Deviation"
-msgstr "成效偏差"
+msgstr "工作量偏差"
 
 #. tpl/statistics.html
 msgid "No Support"
@@ -950,7 +951,7 @@ msgstr "BS"
 
 #. tpl/statistics.html
 msgid "Effort Deviation (ExtRefOnly)"
-msgstr "成效偏差（僅外部參照）"
+msgstr "工作量偏差（僅外部參照）"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1016,7 +1017,7 @@ msgstr "nb生產日"
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "Compares the effort estimation to the elapsed time."
-msgstr "比較成效估計和流逝時間"
+msgstr "比較工作量估計和流逝時間"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1059,7 +1060,7 @@ msgstr "公式"
 #. tpl/productivity_report.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "EffortAdd"
-msgstr "成效添加"
+msgstr "工作量添加"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1445,11 +1446,11 @@ msgstr "系統可用性"
 
 #. tpl/productivity_report.html
 msgid "MgrEffortEstim Reliability Rate"
-msgstr "管理成效估計可靠率"
+msgstr "管理工作量估計可靠率"
 
 #. tpl/productivity_report.html
 msgid "EffortEstim Reliability Rate"
-msgstr "成效估計可靠率"
+msgstr "工作量估計可靠率"
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
@@ -1477,7 +1478,7 @@ msgstr "故障日"
 
 #. tpl/productivity_report.html
 msgid "prodDays"
-msgstr "生產日期"
+msgstr "生產日"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
@@ -1518,7 +1519,7 @@ msgstr "任務按時交付"
 
 #. tpl/productivity_report.html
 msgid "Task list for EffortEstim"
-msgstr "用於成效估計的任務清單"
+msgstr "用於工作量估計的任務清單"
 
 #. tpl/productivity_report.html
 msgid "Note: Drift on tasks resolved in the period"
@@ -1574,21 +1575,21 @@ msgstr "準時解決的任務"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks ahead"
-msgstr "任務之前"
+msgstr "當前任務"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Tasks resolved in less time than the estimated effort"
-msgstr "任務花費比成效估計還少的時間解決"
+msgstr "任務花費比估計還少的時間解決"
 
 #. tpl/productivity_report.html
 msgid "Effort deviation"
-msgstr "成效偏差"
+msgstr "工作量偏差"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "Manager Estimation"
-msgstr "管理估計"
+msgstr "經理估計"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
@@ -1603,7 +1604,7 @@ msgstr "任務管理"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 msgid "EffortDeviation"
-msgstr "效率偏差"
+msgstr "工作量偏差"
 
 #. tpl/productivity_report.html
 msgid "No resolved tasks..."
@@ -1759,7 +1760,7 @@ msgstr "目標版本"
 #. tpl/issue_info.html
 #. tpl/command_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2229 plugins/WBSExport/WBSExport.class.php:144
+#: classes/issue.class.php:2253 plugins/WBSExport/WBSExport.class.php:144
 #: tools.php:1565
 msgid "Target"
 msgstr "目標"
@@ -2024,7 +2025,7 @@ msgstr "完成"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT tables from MantisDB:"
-msgstr "移除 CodevTT 表格從 Mantis 資料庫："
+msgstr "從 Mantis 資料庫移除 CodevTT 表格："
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT config files:"
@@ -2160,14 +2161,14 @@ msgstr "匯入模板"
 
 #. tpl/command_edit.html
 msgid "Add Provision"
-msgstr "增加供應"
+msgstr "增加規定"
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Budget Days"
-msgstr "預定日"
+msgstr "預算日"
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
@@ -2175,7 +2176,7 @@ msgstr "預定日"
 #. tpl/command_info.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget"
-msgstr "預定"
+msgstr "預算"
 
 #. tpl/command_edit.html
 msgid "add to budget check"
@@ -2220,7 +2221,7 @@ msgstr "從命令中刪除？"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
-msgstr "編輯供應"
+msgstr "編輯規定"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -2264,7 +2265,7 @@ msgstr "一般"
 
 #. tpl/doc.html
 msgid "Task priority in Planning & Gantt"
-msgstr "在計劃與甘特圖的任務屬性"
+msgstr "在計劃與甘特圖的任務優先級"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
@@ -2327,7 +2328,7 @@ msgstr "服務合約"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "Commands"
 msgstr "命令"
 
@@ -2576,7 +2577,7 @@ msgstr "載入中"
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
-msgstr "準備中專案："
+msgstr "準備專案："
 
 #. tpl/prepare_project.html
 msgid "Configure existing Projects"
@@ -2601,7 +2602,7 @@ msgstr "--- 創建新服務合約 ---"
 
 #. tpl/servicecontract_info.html
 msgid "Charges"
-msgstr "指示"
+msgstr "費用"
 
 #. tpl/servicecontract_info.html
 #. tpl/create_team.html
@@ -2683,6 +2684,10 @@ msgid "Current backlog"
 msgstr "目前積壓工作"
 
 #. tpl/modal/update_issueBacklog.html
+msgid "Fixed in version"
+msgstr "版本的修正"
+
+#. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
 msgstr "更新積壓工作"
 
@@ -2701,7 +2706,7 @@ msgstr "任務已解決，積壓日誌應為「0」"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr "時間表停用，若任務狀態為：\\"
+msgstr "時間表停用，若當前狀態為：\\"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -2814,7 +2819,7 @@ msgstr "時間表註釋"
 
 #. tpl/team_activity_report.html
 msgid "Read by"
-msgstr "讀取自"
+msgstr "已閱由"
 
 #. tpl/team_activity_report.html
 #. plugins/AdminTools/AdminTools.html
@@ -2873,7 +2878,7 @@ msgstr "工作量"
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr "nb 日至截止日期"
+msgstr "至截止日期的天數"
 
 #. tpl/planning_report.html
 msgid "day"
@@ -2922,7 +2927,7 @@ msgstr "啟用"
 
 #. tpl/edit_team.html
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
-msgstr "注意：<em>團隊管理員</em>必須被聲明為<em>團隊成員</em>以包含至團隊生產報告中。"
+msgstr "注意：<em>團隊管理員</em>必須被聲明為<em>團隊成員</em>以包含至團隊生產率報告中。"
 
 #. tpl/edit_team.html
 msgid "Team Administrators"
@@ -2934,7 +2939,7 @@ msgstr "添加為團隊管理員"
 
 #. tpl/edit_team.html
 msgid "Add a team administrator"
-msgstr "添加為團隊管理員"
+msgstr "添加團隊管理員"
 
 #. tpl/edit_team.html
 msgid "Remove administrator"
@@ -3054,7 +3059,7 @@ msgstr "團隊成員數目"
 
 #. tpl/edit_team.html
 msgid "Arrival date in the team"
-msgstr "團隊的抵達日期"
+msgstr "團隊中的抵達日期"
 
 #. tpl/edit_team.html
 #. plugins/UserTeamList/UserTeamList.html
@@ -3134,7 +3139,7 @@ msgstr "預設團隊貨幣"
 
 #. tpl/edit_team.html
 msgid "All indicators will use this currency and all values defined in other currencies will be converted."
-msgstr "所有指示器將使用此貨幣且所有定義其它貨幣的值將會轉換。"
+msgstr "所有指標將使用此貨幣且所有由其它貨幣定義值的將會轉換。"
 
 #. tpl/edit_team.html
 msgid "Currency"
@@ -3158,7 +3163,7 @@ msgstr "使用者每日成本"
 
 #. tpl/edit_team.html
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
-msgstr "UDC 是單一使用者每日成本，這是覆寫 ADC 內容"
+msgstr "UDC 是單一使用者每日成本，它覆寫 ADC 內容"
 
 #. tpl/edit_team.html
 msgid "Add UserDailyCost"
@@ -3348,7 +3353,7 @@ msgstr "無"
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Provision included in 'check budget'"
-msgstr "包含在「檢查預算」的供應"
+msgstr "包含在「檢查預算」的規範"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
@@ -3361,7 +3366,7 @@ msgstr "Bilan mensuel SAUF SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
-msgstr "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
+msgstr "Bilan mensuel (nbre de fiches / 狀態 &agrave; la fin du mois)"
 
 #. tpl/workflow.html
 msgid "Are you sure you want to change"
@@ -3515,7 +3520,7 @@ msgstr "CodevTT 自訂欄位"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr "管理成效估計、成效估計、添加成效、積壓工作、截止日期、交付日期"
+msgstr "管理工作量估計、工作量估計、添加工作量、積壓工作、截止日期、交付日期"
 
 #. tpl/create_team.html
 msgid "These are sample sideTasks, you can create more with Mantis"
@@ -3543,7 +3548,7 @@ msgstr "更新團隊 wiki"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
-msgstr "其它活動在專案上指示"
+msgstr "其它活動在專案上支出"
 
 #. tpl/create_team.html
 #. ------ Display Empty Command Form
@@ -3589,7 +3594,7 @@ msgstr "自動"
 
 #. tpl/scheduler.html
 msgid "Total assigned effort"
-msgstr "總計已分配成效"
+msgstr "總計已分配工作量"
 
 #. tpl/scheduler.html
 msgid "Save user assignment for this task"
@@ -3640,7 +3645,7 @@ msgstr "從命令移除任務"
 
 #. tpl/issue_info.html
 msgid "Add to command"
-msgstr "添加至任務"
+msgstr "添加至命令"
 
 #. tpl/issue_info.html
 msgid "Properties"
@@ -3671,7 +3676,7 @@ msgid "External Ref"
 msgstr "外部參照"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2231 reports/planning_report.php:459
+#: classes/issue.class.php:2255 reports/planning_report.php:459
 #: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
@@ -3680,7 +3685,7 @@ msgstr "優先程度"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2227 reports/planning_report.php:460
+#: classes/issue.class.php:2251 reports/planning_report.php:460
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
@@ -3765,7 +3770,7 @@ msgstr "以透過設定一些過濾來減少命令選擇"
 
 #. tpl/command_info.html
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr "管理成效估計 + 已確認供應（日）"
+msgstr "管理工作量估計 + 已檢查規定（日）"
 
 #. tpl/command_info.html
 msgid "Reestimated (days)"
@@ -3788,7 +3793,7 @@ msgstr "日"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr "所有費用（管理成效估計 + 供應）應相同於「銷售費用」"
+msgstr "所有費用（管理工作量估計 + 規定）應相同於「銷售費用」"
 
 #. tpl/command_info.html
 msgid "balance"
@@ -3806,7 +3811,7 @@ msgstr "預設平均每日費用"
 
 #. tpl/command_info.html
 msgid "Tasks & Provisions"
-msgstr "任務和供應"
+msgstr "任務和規定"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
@@ -3828,7 +3833,7 @@ msgstr "警告"
 
 #. tpl/command_info.html
 msgid "Reload page to update charges & indicators"
-msgstr "重新載入頁面來更新費用和指示器"
+msgstr "重新載入頁面來更新費用和指標"
 
 #. tpl/command_info.html
 msgid "Format"
@@ -3992,7 +3997,7 @@ msgstr "紀錄"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr "檢查新的外掛套件在「plugins」目錄。"
+msgstr "在「plugins」目錄檢查新的外掛套件。"
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
@@ -4328,12 +4333,12 @@ msgstr "理論進度"
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "比較成效估計和流逝時間"
+msgstr "比較工作量估計和流逝時間"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / max(MgrEffortEstim, EffortEstim)"
-msgstr "已流逝/最大值（管理成效估計，成效估計）"
+msgstr "已流逝/最大值（管理工作量估計，工作量估計）"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4361,7 +4366,7 @@ msgstr "管理已流逝"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 msgid "Mngt Provisions"
-msgstr "管理供應"
+msgstr "管理規定"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Sorry, you need to be manager to use this plugin"
@@ -4373,7 +4378,7 @@ msgstr "根源任務"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated"
-msgstr "逗號區分"
+msgstr "逗號分隔"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Root task list"
@@ -4568,7 +4573,7 @@ msgstr "錯誤拒絕率"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr "Nb 問題在驗證測試失敗"
+msgstr "在驗證測試失敗的問題個數"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Fail"
@@ -4576,7 +4581,7 @@ msgstr "Nb 失敗"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr "Nb 問題通過驗證測試"
+msgstr "通過驗證測試的問題個數"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
@@ -4630,7 +4635,7 @@ msgstr "強烈建議使用 <strong>UTF-8</strong>，但 ASCII 和 ISO-8859-1（�
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Columns"
-msgstr "直行數"
+msgstr "欄"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
@@ -4638,7 +4643,7 @@ msgstr "檔案必須包含 7 個欄位，第一行內容則為欄位名稱。"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr "摘要；管理成效估計；成效估計；描述；截止日期；外部參照；工作分解結構樹"
+msgstr "摘要；管理工作量估計；工作量估計；描述；截止日期；外部參照；工作分解結構樹"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
@@ -4733,7 +4738,7 @@ msgstr "顯示全部活動：\n         <br>如果有勾選，任務上的時間
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
-msgstr "警告：若「僅團隊成員」為勾選，此選項將會停用"
+msgstr "警告：若「僅團隊成員」未勾選，此選項將會停用"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
 msgid "Move issue timetracks"
@@ -4767,7 +4772,7 @@ msgstr "結束"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin"
-msgstr "起初"
+msgstr "原始"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Destination"
@@ -4780,7 +4785,7 @@ msgstr "請正確地填寫所有欄位"
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
 msgid "Destination task must be different from origin"
-msgstr "目標任務必須與原始項目不同"
+msgstr "目標任務必須與原始任務不同"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Origin task"
@@ -4817,7 +4822,7 @@ msgstr "是"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "Filter on Issue type"
-msgstr "在問題類型的過濾"
+msgstr "問題類型的過濾器"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No filter"
@@ -4858,7 +4863,7 @@ msgstr "週期的售出價格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Elapsed during period"
-msgstr "流逝週期"
+msgstr "週期內的流逝"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining to produce (at end of period)"
@@ -4873,7 +4878,7 @@ msgstr "週期的售出價格"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:88
 msgid "If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time."
-msgstr "如果您替各任務以特定價格售出每日服務，此外掛套件會提供您在指定週期時間裡，您的批量任務價格。"
+msgstr "如果您替各任務以特定價格售出每日服務，此外掛套件會提供您在指定週期時間裡您的批量任務價格。"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
@@ -4886,7 +4891,7 @@ msgstr "售出價格 = 每日價格 x 流逝週期"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr "剩餘 = 管理成效估計 - 自任務開始到週期結尾的流逝"
+msgstr "剩餘 = 管理工作量估計 - 自任務開始到週期結尾的流逝"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 msgid "Include sideTasks"
@@ -4934,7 +4939,7 @@ msgstr "每日價格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price on period"
-msgstr "週期內的價值"
+msgstr "週期內的價格"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Price"
@@ -4982,7 +4987,7 @@ msgstr "邊際任務"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "MgrEffortEstim + checked provisions"
-msgstr "管理成效估計 + 已確認供應"
+msgstr "管理工作量估計 + 已檢查規定"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
@@ -4992,7 +4997,7 @@ msgstr "燃盡圖"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
-msgstr "比較預算（管理成效估計 + 已確認供應）和重新估計時間（需要來完成任務的nb日）"
+msgstr "比較預算（管理工作量估計 + 已檢查規定）和重新估計的時間（需要來完成任務的nb日）"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "% Budget Drift"
@@ -5051,9 +5056,8 @@ msgid "WBS path"
 msgstr "WBS 路徑"
 
 #. plugins/OngoingTasks/OngoingTasks.html
-#, fuzzy
 msgid "Ongoing tasks"
-msgstr "原始任務"
+msgstr "正在進行的任務"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Display only the tasks with activity (timetracks) on the period"
@@ -5184,7 +5188,7 @@ msgstr "要建立的 Mantis 使用者："
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "First name"
-msgstr "檔案名稱"
+msgstr "名"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username"
@@ -5196,7 +5200,7 @@ msgstr "Mantis角色"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team"
-msgstr "在團隊的日期項目"
+msgstr "團隊中的記錄日期"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Username not set on all users"
@@ -5212,7 +5216,7 @@ msgstr "CodevTT角色未設定在所有用戶"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team not set on all users"
-msgstr "在團隊的日期項目未設定在所有使用者"
+msgstr "團隊中的記錄日期未設定在所有使用者"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! The password for every created users is"
@@ -5421,7 +5425,7 @@ msgstr "檢查任務提交日期"
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:73
 msgid "Statistics on the age of open tasks"
-msgstr "開放問題時間的統計"
+msgstr "開放任務時間的統計"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 msgid "New"
@@ -5471,7 +5475,7 @@ msgstr "時間表分析"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Average delay between the timetrack date and it's creation date (in days)"
-msgstr "時間表日期與其建立日期之間的平均延遲（數日）"
+msgstr "時間表日期與其建立日期之間的平均延遲（天數）"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
@@ -5480,7 +5484,7 @@ msgstr "平均"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "(in days)"
-msgstr "（數日）"
+msgstr "（天數）"
 
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_ajax.html
 msgid "Median"
@@ -5501,19 +5505,19 @@ msgstr "遺失"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
 msgid "Effort estimation reliability rate"
-msgstr "成效估計可靠率"
+msgstr "工作量估計可靠率"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "EffortEstim ReliabilityRate"
-msgstr "成效估計可靠率"
+msgstr "工作量估計可靠率"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 msgid "MgrEffortEstim ReliabilityRate"
-msgstr "管理成效估計可靠率"
+msgstr "管理工作量估計可靠率"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "EffortEstim reliability history"
-msgstr "成效估計可靠性歷史"
+msgstr "工作量估計可靠性歷史"
 
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #: scheduler/SchedulerEvent.class.php:163 gantt/gantt_ajax.php:257
@@ -5565,7 +5569,7 @@ msgstr "團隊每日平均成本和使用者每日成本必須定義在團隊設
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
-msgstr "當沒有使用者每日成本被定義在時間軸的使用者上；會使用每日平均成本。"
+msgstr "當使用者每日成本沒有被定義在時間軸的使用者上時會使用每日平均成本。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
@@ -5577,7 +5581,7 @@ msgstr "積壓工作是以目前使用者所分配的使用者每日成本來計
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
-msgstr "分別加總各任務的管理成效估計、成效估計、重新估計、已流逝、積壓工作。"
+msgstr "分別加總各任務的管理工作量估計、工作量估計、重新估計、已流逝、積壓工作。"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog depends on the status (always 0 if status >= Resolved)"
@@ -5585,7 +5589,7 @@ msgstr "積壓工作取決於狀態（若狀態 >= 已解決則為 0）"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr "包含在預算的供應加總為「已確認」。"
+msgstr "加總包含在預算的「已確認」規定。"
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
@@ -5771,7 +5775,7 @@ msgstr "積壓工作在未解決問題上不可為 0"
 
 #: classes/consistency_check2.class.php:180
 msgid "EffortEstim should not be 0"
-msgstr "成效估計不應為 0"
+msgstr "工作量估計不應為 0"
 
 #: classes/consistency_check2.class.php:181
 msgid "There should be no timetracks on \"new\" issues "
@@ -5820,11 +5824,11 @@ msgstr "積壓工作 == 0：積壓工作內容可能不是最新的。"
 
 #: classes/consistency_check2.class.php:356
 msgid "MgrEffortEstim not set."
-msgstr "管理成效估計未設定"
+msgstr "管理工作量估計未設定"
 
 #: classes/consistency_check2.class.php:388
 msgid "EffortEstim not set."
-msgstr "成效估計沒有設定。"
+msgstr "工作量估計沒有設定。"
 
 #: classes/consistency_check2.class.php:414
 msgid "Status should not be"
@@ -5880,7 +5884,7 @@ msgstr "已監測"
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
-msgstr "重複於"
+msgstr "與此重複"
 
 #: classes/issue.class.php:60
 msgid "Has duplicate"
@@ -5907,27 +5911,27 @@ msgstr "限制由"
 msgid "Constrains"
 msgstr "限制"
 
-#: classes/issue.class.php:2191 tools.php:1549
+#: classes/issue.class.php:2215 tools.php:1549
 msgid "Tags"
 msgstr "標籤"
 
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "none"
 msgstr "無"
 
-#: classes/issue.class.php:2204 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2228 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "調度色彩"
 
-#: classes/issue.class.php:2208
+#: classes/issue.class.php:2232
 msgid "DriftMgrColor"
 msgstr "調度管理色彩"
 
-#: classes/issue.class.php:2225 tools.php:1563
+#: classes/issue.class.php:2249 tools.php:1563
 msgid "Assigned"
 msgstr "已分配"
 
-#: classes/issue.class.php:2233 tools.php:1571
+#: classes/issue.class.php:2257 tools.php:1571
 msgid "ETA"
 msgstr "估計抵達時間"
 
@@ -6256,7 +6260,7 @@ msgstr "CodevTT管理者"
 
 #: install/install_step3.php:568
 msgid "More administrators can be defined later, for now you just need one."
-msgstr "管理員可於事後作更多定義，而現在您僅需要一項。"
+msgstr "更多管理員可於稍後定義，而現在您僅需要一項。"
 
 #. ------- External ID
 #: install/install_step3.php:572
@@ -6355,7 +6359,7 @@ msgstr "步驟 4"
 
 #: management/servicecontract_tools.php:182
 msgid "Provision"
-msgstr "供應"
+msgstr "規定"
 
 #: management/command_info_ajax.php:340 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
@@ -6368,7 +6372,7 @@ msgstr "影響命令集的錯誤"
 
 #: management/command_edit_ajax.php:66
 msgid "Provisions updated FAILED !"
-msgstr "供應更新失敗！"
+msgstr "規定更新失敗！"
 
 #: reports/issue_info_ajax.php:105
 msgid "Sorry, only managers can remove tasks from commands"
@@ -6456,7 +6460,7 @@ msgstr "天數不完成或未定義"
 
 #: timetracking/team_monthly_activity_report.php:143
 #: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:495
+#: timetracking/time_tracking_tools.php:505
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "錯誤：沒有在Mantis資料庫找到任務！"
@@ -6499,23 +6503,23 @@ msgid "ERROR: Failed to delete the timetrack !"
 msgstr "錯誤：刪除時間表失敗！"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:474
+#: timetracking/time_tracking_ajax.php:475
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "時間表未添加：時間表註釋為必需"
 
-#: timetracking/time_tracking_ajax.php:478
+#: timetracking/time_tracking_ajax.php:479
 msgid "Timetrack not added: Job is not specified"
 msgstr "時間表未添加：工作沒有指定"
 
-#: timetracking/time_tracking_ajax.php:481
+#: timetracking/time_tracking_ajax.php:482
 msgid "Timetrack not added: bugid is not specified"
 msgstr "時間表未添加：錯誤 ID 沒有指定"
 
-#: timetracking/time_tracking_ajax.php:484
+#: timetracking/time_tracking_ajax.php:485
 msgid "Timetrack not added: duration is not specified"
 msgstr "時間表未添加：期間沒有指定"
 
-#: timetracking/time_tracking_ajax.php:522
+#: timetracking/time_tracking_ajax.php:530
 msgid "ERROR: Failed to add timetrack !"
 msgstr "錯誤：添加時間表失敗！"
 
@@ -6569,7 +6573,7 @@ msgstr "管理負荷歷史"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
 msgid "Compares the elapsed time on management sideTasks to the management provisions"
-msgstr "比較管理邊際任務和管理供應的流逝時間"
+msgstr "比較管理邊際任務和管理工作量的流逝時間"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:75
 msgid "Import Mantis relationship-tree to WBS"
@@ -6599,7 +6603,7 @@ msgstr "任務調度警告"
 #. return T_('Display tasks in drift');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:72
 msgid "Display tasks where the elapsed time is greater than the estimated effort"
-msgstr "顯示已流逝時間大於估計成效的任務"
+msgstr "顯示已流逝時間大於估計工作量的任務"
 
 #: plugins/UserTeamList/UserTeamList.class.php:63
 msgid "Display a history of all the teams for a given user"
@@ -6619,7 +6623,7 @@ msgstr "最初目標是簡化將 CodevTT 資料匯出到其他工具的過程。
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
-msgstr "加總在邊際任務的流逝時間，並比較命令供應的加總。回傳在一人一日工作量的結果與成本"
+msgstr "加總在邊際任務的流逝時間，並比較命令規定的加總。回傳人日和费用的结果"
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:168
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
@@ -6645,7 +6649,7 @@ msgstr "移動問題時間表"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:64
 msgid "Move timetracks from one issue to another"
-msgstr "從一個問題至另一個來移動時間表"
+msgstr "把時間表從一個問題移動至另一個問題"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
 msgid "Please, fill all fields"
@@ -6681,7 +6685,7 @@ msgstr "警告：您需要分配「CodevTT_DailyPrice」自定義欄位給以下
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
-msgstr "問題進度歷史"
+msgstr "顯示進度歷史"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
@@ -6693,7 +6697,7 @@ msgstr "預算調度歷史"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
 msgid "Display the budget history"
-msgstr "顯示預算調度歷史"
+msgstr "顯示預算歷史"
 
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:72
 msgid "Choose a customfield, return the elapsed time for each customField value"
@@ -6701,7 +6705,7 @@ msgstr "挑選一個自訂欄位，回傳各自訂欄位值的流逝時間"
 
 #: plugins/TimetrackList/TimetrackList.class.php:84
 msgid "List and edit timetracks"
-msgstr "清單與編輯時間表"
+msgstr "列出並編輯時間表"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
@@ -6716,9 +6720,8 @@ msgid "List the active tasks on a given period"
 msgstr "列出在指定週期的有效任務"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:90
-#, fuzzy
 msgid "Tasks having received timetracks during the period"
-msgstr "於此週期任務已被重新開啟"
+msgstr "在此期間收到時間表的任務"
 
 #: plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator.class.php:68
 msgid "Display the number of issues submitted/resolved in a period"
@@ -6770,7 +6773,7 @@ msgstr "所有邊際任務專案"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:348
 msgid "All Production Projects"
-msgstr "所有專案成品"
+msgstr "所有生產項目"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:349
 msgid "All Projects"
@@ -6871,11 +6874,11 @@ msgstr "顯示時間表日期與其建立日期之間的延遲"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
 msgid "Display the EffortEstim reliability rate history"
-msgstr "顯示成效估計可靠率歷史記錄"
+msgstr "顯示工作量估計可靠率歷史記錄"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr "比率 = 成效估計/已流逝時間（僅限已解決任務）"
+msgstr "比率 = 工作量估計/已流逝時間（僅限已解決任務）"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
@@ -6883,11 +6886,11 @@ msgstr "REM：一個在結束時間戳記之前已被重開的問題將不會被
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
-msgstr "（對於重新開啟的錯誤，成效估計可能沒被重新評估；因此結果不可靠。）"
+msgstr "（對於重新開啟的錯誤，工作量估計可能沒被重新評估；因此結果不可靠。）"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
-msgstr "按添加多重過濾的群組任務"
+msgstr "通過添加多個過濾器對任務進行分組"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:60
 msgid "Remove dashboard plugins"
@@ -6895,7 +6898,7 @@ msgstr "移除功能面板外掛套件"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:63
 msgid "Remove all plugins from a dashboard. This is usefull if a plugin crashes the page"
-msgstr "移除控制面板的所有外掛套件。這在外掛套件造成頁面出錯時很有用"
+msgstr "移除控制面板的所有外掛套件。這在外掛套件造成頁面崩潰時很有用"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"

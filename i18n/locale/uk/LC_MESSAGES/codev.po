@@ -13,12 +13,12 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:06+0000\n"
+"PO-Revision-Date: 2023-07-06 11:02:33+0000\n"
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
-"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
+"X-POT-Import-Date: 2023-05-11 18:30:24+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
 
 #. tpl/check.html
@@ -112,7 +112,7 @@ msgstr "Дата останньої модифікації"
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
 #: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2220 reports/project_info.php:300
+#: classes/issue.class.php:2244 reports/project_info.php:300
 #: reports/planning_report.php:458 reports/planning_report.php:481
 #: plugins/WBSExport/WBSExport.class.php:148
 #: scheduler/SchedulerEvent.class.php:113
@@ -156,7 +156,7 @@ msgstr "Статус"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2216
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
 #: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
 #: management/commandset_info.php:141 management/command_info.php:226
 #: management/servicecontract_info.php:138 reports/project_info.php:275
@@ -191,7 +191,7 @@ msgstr "Проєкт"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. add task summary in front
 #. insert in front
-#: classes/issue.class.php:2222 classes/issue_selection.class.php:345
+#: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: management/command_info.php:227 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
@@ -1760,7 +1760,7 @@ msgstr "Цільова версія"
 #. tpl/issue_info.html
 #. tpl/command_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2229 plugins/WBSExport/WBSExport.class.php:144
+#: classes/issue.class.php:2253 plugins/WBSExport/WBSExport.class.php:144
 #: tools.php:1565
 msgid "Target"
 msgstr "Ціль"
@@ -2328,7 +2328,7 @@ msgstr "Сервісні договори"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "Commands"
 msgstr "Команди"
 
@@ -2682,6 +2682,10 @@ msgstr "Видалити примітку табеля розкладу для �
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
 msgstr "Поточні відставання"
+
+#. tpl/modal/update_issueBacklog.html
+msgid "Fixed in version"
+msgstr ""
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
@@ -3672,7 +3676,7 @@ msgid "External Ref"
 msgstr "Зовнішні посилання"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2231 reports/planning_report.php:459
+#: classes/issue.class.php:2255 reports/planning_report.php:459
 #: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
@@ -3681,7 +3685,7 @@ msgstr "Пріоритет"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2227 reports/planning_report.php:460
+#: classes/issue.class.php:2251 reports/planning_report.php:460
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
@@ -5925,27 +5929,27 @@ msgstr "Обмежується"
 msgid "Constrains"
 msgstr "Обмеження"
 
-#: classes/issue.class.php:2191 tools.php:1549
+#: classes/issue.class.php:2215 tools.php:1549
 msgid "Tags"
 msgstr "Теги"
 
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "none"
 msgstr "немає"
 
-#: classes/issue.class.php:2204 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2228 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "DriftColor"
 
-#: classes/issue.class.php:2208
+#: classes/issue.class.php:2232
 msgid "DriftMgrColor"
 msgstr "DriftMgrColor"
 
-#: classes/issue.class.php:2225 tools.php:1563
+#: classes/issue.class.php:2249 tools.php:1563
 msgid "Assigned"
 msgstr "Призначено"
 
-#: classes/issue.class.php:2233 tools.php:1571
+#: classes/issue.class.php:2257 tools.php:1571
 msgid "ETA"
 msgstr "Очікувана швидкість вирішення"
 
@@ -6473,7 +6477,7 @@ msgstr "дні неповні чи невизначені"
 
 #: timetracking/team_monthly_activity_report.php:143
 #: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:495
+#: timetracking/time_tracking_tools.php:505
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Помилка: завдання не знайдено в базі даних Mantis!"
@@ -6516,23 +6520,23 @@ msgid "ERROR: Failed to delete the timetrack !"
 msgstr "ПОМИЛКА: Не вдалося видалити хронометраж!"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:474
+#: timetracking/time_tracking_ajax.php:475
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Відеомережа не додана: Примітка про часову доріжку є обов’язковою"
 
-#: timetracking/time_tracking_ajax.php:478
+#: timetracking/time_tracking_ajax.php:479
 msgid "Timetrack not added: Job is not specified"
 msgstr "Хронометраж не додано: не вказана вакансія"
 
-#: timetracking/time_tracking_ajax.php:481
+#: timetracking/time_tracking_ajax.php:482
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Хронометраж не додано: bugid не вказано"
 
-#: timetracking/time_tracking_ajax.php:484
+#: timetracking/time_tracking_ajax.php:485
 msgid "Timetrack not added: duration is not specified"
 msgstr "Хронометраж не додано: тривалість не вказана"
 
-#: timetracking/time_tracking_ajax.php:522
+#: timetracking/time_tracking_ajax.php:530
 msgid "ERROR: Failed to add timetrack !"
 msgstr "ПОМИЛКА: Не вдалося додати хронометраж!"
 

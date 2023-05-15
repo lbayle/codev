@@ -19,15 +19,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-05-08 11:02:02+0000\n"
+"PO-Revision-Date: 2023-07-06 11:02:28+0000\n"
 "Last-Translator: Vincent <vmerz@outlook.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-05-04 20:30:28+0000\n"
-"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-04-26\n"
+"X-POT-Import-Date: 2023-05-11 18:30:24+0000\n"
+"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. tpl/check.html
@@ -121,7 +121,7 @@ msgstr "Änderungsdatum"
 #. unset($tooltipAttr[T_('Type')]);
 #. unset($tooltipAttr[T_('Category')]);
 #: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2220 reports/project_info.php:300
+#: classes/issue.class.php:2244 reports/project_info.php:300
 #: reports/planning_report.php:458 reports/planning_report.php:481
 #: plugins/WBSExport/WBSExport.class.php:148
 #: scheduler/SchedulerEvent.class.php:113
@@ -165,7 +165,7 @@ msgstr "Status"
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2216
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
 #: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
 #: management/commandset_info.php:141 management/command_info.php:226
 #: management/servicecontract_info.php:138 reports/project_info.php:275
@@ -200,7 +200,7 @@ msgstr "Projekt"
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. add task summary in front
 #. insert in front
-#: classes/issue.class.php:2222 classes/issue_selection.class.php:345
+#: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
 #: management/command_info.php:227 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
@@ -1769,7 +1769,7 @@ msgstr "Zielversion"
 #. tpl/issue_info.html
 #. tpl/command_info.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#: classes/issue.class.php:2229 plugins/WBSExport/WBSExport.class.php:144
+#: classes/issue.class.php:2253 plugins/WBSExport/WBSExport.class.php:144
 #: tools.php:1565
 msgid "Target"
 msgstr "Version/Release"
@@ -2343,7 +2343,7 @@ msgstr "Serviceverträge"
 #. plugins/TimetrackList/TimetrackList_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "Commands"
 msgstr "Aufträge"
 
@@ -2702,6 +2702,10 @@ msgstr "Zeiterfassungsnotiz für Aufgabe löschen?"
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
 msgstr "Aktueller Restaufwand"
+
+#. tpl/modal/update_issueBacklog.html
+msgid "Fixed in version"
+msgstr "Behoben in Version"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
@@ -3705,7 +3709,7 @@ msgid "External Ref"
 msgstr "Externe Ref."
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2231 reports/planning_report.php:459
+#: classes/issue.class.php:2255 reports/planning_report.php:459
 #: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
@@ -3714,7 +3718,7 @@ msgstr "Priorität"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2227 reports/planning_report.php:460
+#: classes/issue.class.php:2251 reports/planning_report.php:460
 #: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
@@ -4535,9 +4539,8 @@ msgid "Drift resolved tasks"
 msgstr "Erledigte (resolved) Aufgaben ausblenden"
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "Team-WIKI aktualisieren"
+msgstr "Team aktualisieren"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
@@ -5986,27 +5989,27 @@ msgstr "Verwendet von"
 msgid "Constrains"
 msgstr "Verwendungen"
 
-#: classes/issue.class.php:2191 tools.php:1549
+#: classes/issue.class.php:2215 tools.php:1549
 msgid "Tags"
 msgstr "Tags"
 
-#: classes/issue.class.php:2199
+#: classes/issue.class.php:2223
 msgid "none"
 msgstr "keine"
 
-#: classes/issue.class.php:2204 reports/issue_info_tools.php:115
+#: classes/issue.class.php:2228 reports/issue_info_tools.php:115
 msgid "DriftColor"
 msgstr "Mehraufwand Farbe"
 
-#: classes/issue.class.php:2208
+#: classes/issue.class.php:2232
 msgid "DriftMgrColor"
 msgstr "Mehraufwand Manager Farbe"
 
-#: classes/issue.class.php:2225 tools.php:1563
+#: classes/issue.class.php:2249 tools.php:1563
 msgid "Assigned"
 msgstr "Zugewiesen"
 
-#: classes/issue.class.php:2233 tools.php:1571
+#: classes/issue.class.php:2257 tools.php:1571
 msgid "ETA"
 msgstr "ETA"
 
@@ -6537,7 +6540,7 @@ msgstr "Tage unvollständig, bzw. nicht definiert"
 
 #: timetracking/team_monthly_activity_report.php:143
 #: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:495
+#: timetracking/time_tracking_tools.php:505
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Fehler: Aufgabe exisitert nicht in Mantis Datenbank!"
@@ -6580,23 +6583,23 @@ msgid "ERROR: Failed to delete the timetrack !"
 msgstr "ERROR: Das Löschen der Zeitspur ist fehlgeschlagen!"
 
 #. forbid adding timetrack, return error
-#: timetracking/time_tracking_ajax.php:474
+#: timetracking/time_tracking_ajax.php:475
 msgid "Timetrack not added: Timetrack note is mandatory"
 msgstr "Zeiterfassung nicht hinzugefügt: Zeiterfassungsnotiz ist verpflichtend."
 
-#: timetracking/time_tracking_ajax.php:478
+#: timetracking/time_tracking_ajax.php:479
 msgid "Timetrack not added: Job is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Aufgabe wurde nicht angegeben."
 
-#: timetracking/time_tracking_ajax.php:481
+#: timetracking/time_tracking_ajax.php:482
 msgid "Timetrack not added: bugid is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Aufgabe wurde nicht angegeben."
 
-#: timetracking/time_tracking_ajax.php:484
+#: timetracking/time_tracking_ajax.php:485
 msgid "Timetrack not added: duration is not specified"
 msgstr "Zeiterfassung nicht hinzugefügt: Dauer wurde nicht angegeben."
 
-#: timetracking/time_tracking_ajax.php:522
+#: timetracking/time_tracking_ajax.php:530
 msgid "ERROR: Failed to add timetrack !"
 msgstr "ERROR: Zeitspur kann nicht hinzugefügt werden!"
 
@@ -6687,17 +6690,16 @@ msgid "Display a history of all the teams for a given user"
 msgstr "Zeigt einen Verlauf aller Teams eines angegebenen Benutzers an"
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "Benutzerspezifische Felder"
+msgstr "Benutzerdefinierte Daten"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "Ermöglicht das Festlegen einiger benutzerspezifischer Daten wie EmployeeId, userId in anderen DB/Softwares, phoneNumber usw."
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "Das erste Ziel ist es, den Export von CodevTT-Daten in andere Tools zu erleichtern."
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
