@@ -162,7 +162,7 @@ class TimeTrackingLiteController extends Controller {
 
 // ========== MAIN ===========
 TimeTrackingLiteController::staticInit();
-$controller = new TimeTrackingLiteController('../', 'Time Tracking (lite)','TimeTracking');
+$controller = new TimeTrackingLiteController('../', T_('Time Tracking (lite)'), 'TimeTracking');
 $controller->execute();
 
 
