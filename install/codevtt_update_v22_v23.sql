@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS "codev_custom_user_data_table" (
   "field_03" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_04" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
-  "field_05" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_06" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_07" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   "field_08" varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
