@@ -398,8 +398,8 @@ class TimeTrack extends Model implements Comparable {
          $sql = AdodbWrapper::getInstance();
          $query = "SELECT note FROM {bugnote_text} ".
                  "WHERE id=(SELECT bugnote_text_id FROM {bugnote} ".
-                            "WHERE bugnote_text_id=(SELECT noteid FROM codev_timetrack_note_table ".
-                                                                  "WHERE timetrackid=".$sql->db_param()."))";
+                            "WHERE id=(SELECT noteid FROM codev_timetrack_note_table " .
+                                       "WHERE timetrackid=" . $sql->db_param() . "))";
          $result = $sql->sql_query($query, array($this->id));
 
          if($sql->getNumRows($result) == 0) {
