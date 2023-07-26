@@ -243,7 +243,7 @@ class IssueSeniorityIndicator extends IndicatorPluginAbstract {
                }
                $issueSeniorityData[$k]['nbTasks'] += 1;
                $totalNbTasks += 1;
-               $issueSeniorityData[$k]['backlog'] += $issue->getDuration();
+               $issueSeniorityData[$k]['backlog'] += (float) $issue->getDuration();
 
                //$issueSeniorityData[$k]['tasks'] .= "$bugid, ";
                $tooltipAttr = $issue->getTooltipItems($this->teamid, $this->sessionUserId);
@@ -251,7 +251,7 @@ class IssueSeniorityIndicator extends IndicatorPluginAbstract {
                $formattedTaskId = Tools::issueInfoURL($bugid, $tooltipAttr, FALSE, $bugid);
                $issueSeniorityData[$k]['tasks'] .= "$formattedTaskId, ";
 
-               $totalBacklog += $issue->getDuration();
+               $totalBacklog += (float) $issue->getDuration();
                break;
             }
 

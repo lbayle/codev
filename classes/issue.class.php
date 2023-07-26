@@ -921,7 +921,7 @@ class Issue extends Model implements Comparable {
     * @return int reestimated
     */
    public function getReestimated($timestamp = NULL) {
-      $reestimated = $this->getElapsed(NULL, NULL, $timestamp) + $this->getDuration($timestamp);
+      $reestimated = (float) $this->getElapsed(NULL, NULL, $timestamp) + (float) $this->getDuration($timestamp);
       return $reestimated;
    }
 
@@ -943,14 +943,14 @@ class Issue extends Model implements Comparable {
       // but the Reestimated depends on mgrEffortEstim, because duration = max(effortEstim, mgrEffortEstim)
       // so getReestimated cannot be used here.
 
-      $bl = $this->getBacklog();
+      $bl = (float) $this->getBacklog();
       // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
       if ( !is_null($bl) && is_numeric($bl)) {
-         $localReestimated = $this->getElapsed() + $bl;
+         $localReestimated = (float) $this->getElapsed() + $bl;
       } else {
          // Note: effortEstim is a mandatory field and will not be NULL
          $localDuration = $totalEstim;
-         $localReestimated = $this->getElapsed() + $localDuration;
+         $localReestimated = (float) $this->getElapsed() + $localDuration;
       }
 
       $derive = $localReestimated - $totalEstim;
@@ -974,7 +974,7 @@ class Issue extends Model implements Comparable {
          return $this->driftMgr;
       }
 
-      $derive = (float)$this->getReestimated() - (float)$this->getMgrEffortEstim();
+      $derive = ((float) $this->getReestimated()) - ((float) $this->getMgrEffortEstim());
 
       $this->driftMgr = round($derive,3);
       return $this->driftMgr;
@@ -1568,7 +1568,7 @@ class Issue extends Model implements Comparable {
       // we need to be absolutely sure that time is 00:00:00
       $timestamp = mktime(0, 0, 0, date("m", $beginTimestamp), date("d", $beginTimestamp), date("Y", $beginTimestamp));
 
-      $tmpDuration = $this->getDuration();
+      $tmpDuration = (float) $this->getDuration();
 
       // first day depends only on $availTimeOnBeginTimestamp
       if (NULL == $availTimeOnBeginTimestamp) {
@@ -1676,7 +1676,7 @@ class Issue extends Model implements Comparable {
       if (is_null($this->getBacklog()) || (0 == $this->getBacklog())) { return 1; }
 
       // nominal case
-      $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
+      $progress = (float) $this->getElapsed() / (float) $this->getReestimated();   // (T-R)/T
 
       return $progress;
    }
@@ -2460,8 +2460,7 @@ class Issue extends Model implements Comparable {
          // not be displayed here, because it is very confusing to get reestimated != elapsed + backlog
          // during a manual check of the displayed values.
          # $backlog = $this->getBacklog() * $handlerUDC;
-         $duration = $this->getDuration() * $handlerUDC;
-
+         $duration = (float) $this->getDuration() * $handlerUDC;
 
          $effortEstim = (float)$this->getEffortEstim() * $handlerUDC;
          $mgrEE = (float)$this->getMgrEffortEstim() * $handlerUDC;

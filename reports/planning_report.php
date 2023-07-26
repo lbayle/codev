@@ -179,11 +179,10 @@ class PlanningReportController extends Controller {
                      continue;
                   }
                   if ((NULL != $user->getDepartureDate($this->teamid)) && ($user->getDepartureDate($this->teamid) < $today)) { continue; }
-
                   $scheduledTaskList = ScheduledTask::scheduleUser($user, $today, $this->teamid, TRUE);
 
                   foreach($scheduledTaskList as $scheduledTask) {
-                     $workload += $scheduledTask->getDuration();
+                     $workload += (float) $scheduledTask->getDuration();
                   }
                   $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
 

@@ -322,7 +322,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
             if ($isRecreditBacklog) {
                if (!is_null($issue->getBacklog())) {
                   $diff = (0 !== $duration) ? ($tt->getDuration() - $duration): $tt->getDuration();
-                  $futureBacklog = $issue->getBacklog() + $diff;
+                  $futureBacklog = (float) $issue->getBacklog() + (float) $diff;
                }
                else {
                   $statusMsg = "Backlog update failed.";

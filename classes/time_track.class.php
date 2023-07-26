@@ -267,7 +267,7 @@ class TimeTrack extends Model implements Comparable {
    public function updateBacklog($diff) {
       $issue = IssueCache::getInstance()->getIssue($this->bugId);
       if (!is_null($issue->getBacklog())) {
-         $backlog = $issue->getBacklog() + $diff;
+         $backlog = (float) $issue->getBacklog() + (float) $diff;
          $issue->setBacklog($backlog);
       }
    }

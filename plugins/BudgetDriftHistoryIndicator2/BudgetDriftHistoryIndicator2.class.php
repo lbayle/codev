@@ -227,7 +227,7 @@ class BudgetDriftHistoryIndicator2 extends IndicatorPluginAbstract {
          foreach ($timestampList2 as $timestamp) {
             $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
-            $cmdProvAndMeeDays = $this->inputIssueSel->getMgrEffortEstim($timestamp) + $this->provisionDays;
+            $cmdProvAndMeeDays = (float) $this->inputIssueSel->getMgrEffortEstim($timestamp) + (float) $this->provisionDays;
 
             $reestimated = $this->inputIssueSel->getReestimated($timestamp);
 

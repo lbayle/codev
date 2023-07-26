@@ -966,7 +966,7 @@ class User extends Model {
 
       while ($row = $sql->fetchObject($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-         $totalBacklog += $issue->getDuration();
+         $totalBacklog += (float) $issue->getDuration();
       }
       return $totalBacklog;
    }

@@ -291,7 +291,7 @@ class SchedulerManager {
                   continue;
                }
                $task = IssueCache::getInstance()->getIssue($taskIdKey);
-               $backlog = $task->getDuration();
+               $backlog = (float) $task->getDuration();
 
                $userAuto = array();
 

@@ -106,7 +106,7 @@ class ScheduledTask {
       foreach ($issueList as $issue) {
 
          // determinate issue duration (Backlog, EffortEstim, MgrEffortEstim)
-         $issueDuration = $issue->getDuration();
+         $issueDuration = (float) $issue->getDuration();
 
          $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
@@ -143,7 +143,7 @@ class ScheduledTask {
             }
 
             // determinate issue duration (Backlog, EffortEstim, MgrEffortEstim)
-            $issueDuration = $issue->getDuration();
+            $issueDuration = (float) $issue->getDuration();
 
             #echo "DEBUG Monitored issue $issue->bugId  Duration = $issueDuration<br/>";
 

@@ -53,7 +53,7 @@ if(Tools::isConnectedUser() && filter_input(INPUT_POST, 'action')) {
                // OPTION set startDate to first timestrack (if exists)
                $issue = IssueCache::getInstance()->getIssue($bugid);
 
-               $duration_real = round($issue->getDuration(), 2);
+               $duration_real = round((float) $issue->getDuration(), 2);
                $duration_tmp = round(($taskDates['endTimestamp'] - $taskDates['startTimestamp']) / 86400, 2); // 24*60*60 (ms -> day);
                $duration = ($duration_tmp < 0) ? 1 : round($duration_tmp); // fix dxhtml bug ?
 
