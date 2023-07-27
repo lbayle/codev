@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le :  mer. 09 fév. 2022 à 15:11
--- Version du serveur :  10.4.11-MariaDB
--- Version de PHP :  7.4.1
+-- Hôte : localhost
+-- Généré le : jeu. 27 juil. 2023 à 15:42
+-- Version du serveur : 10.3.35-MariaDB
+-- Version de PHP : 8.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `bugtracker`
+-- Base de données : `bugtracker`
 --
 
 DELIMITER $$
@@ -27,7 +26,7 @@ DELIMITER $$
 -- Fonctions
 --
 DROP FUNCTION IF EXISTS `get_issue_resolved_status_threshold`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_issue_resolved_status_threshold` (`bug_id` INT) RETURNS INT(11) BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_issue_resolved_status_threshold` (`bug_id` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE proj_id INT DEFAULT NULL;
    
    SELECT project_id INTO proj_id FROM mantis_bug_table
@@ -38,7 +37,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_issue_resolved_status_threshold`
 END$$
 
 DROP FUNCTION IF EXISTS `get_project_resolved_status_threshold`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_project_resolved_status_threshold` (`proj_id` INT) RETURNS INT(11) BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_project_resolved_status_threshold` (`proj_id` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE status INT DEFAULT NULL;
    
    SELECT value INTO status FROM mantis_config_table 
@@ -57,7 +56,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_project_resolved_status_threshol
 END$$
 
 DROP FUNCTION IF EXISTS `is_issue_in_team_commands`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `is_issue_in_team_commands` (`bugid` INT, `teamid` INT) RETURNS INT(11) BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `is_issue_in_team_commands` (`bugid` INT, `teamid` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE is_found INT DEFAULT NULL;
 
    SELECT COUNT(codev_command_bug_table.bug_id) INTO is_found FROM codev_command_bug_table, codev_command_table
@@ -70,7 +69,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `is_issue_in_team_commands` (`bugid` 
 END$$
 
 DROP FUNCTION IF EXISTS `is_project_in_team`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `is_project_in_team` (`projid` INT, `teamid` INT) RETURNS INT(11) BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `is_project_in_team` (`projid` INT, `teamid` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE is_found INT DEFAULT NULL;
 
 
@@ -276,7 +275,7 @@ INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`, `proj
 ('customField_ExtId', '4', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('customField_MgrEffortEstim', '3', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('customField_type', '2', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
-('database_version', '22', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
+('database_version', '23', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
 ('defaultProjectId', '0', 1, 1, 0, 0, 0, 0, 0, NULL, 'prefered project on login'),
 ('defaultTeamId', '1', 1, 1, 0, 0, 0, 0, 0, NULL, 'prefered team on login'),
 ('externalTasksCat_leave', '2', 1, 0, 0, 0, 0, 0, 0, NULL, NULL),
@@ -307,6 +306,27 @@ INSERT INTO `codev_currencies_table` (`currency`, `coef`) VALUES
 ('GBP', 1153988),
 ('INR', 14125),
 ('USD', 930709);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_custom_user_data_table`
+--
+
+DROP TABLE IF EXISTS `codev_custom_user_data_table`;
+CREATE TABLE IF NOT EXISTS `codev_custom_user_data_table` (
+  `user_id` int(11) NOT NULL COMMENT 'MantisBT user id',
+  `field_01` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_02` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_03` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_04` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_05` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_06` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_07` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_08` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_09` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
+  `field_10` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -389,47 +409,48 @@ CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
 --
 
 INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `version`, `description`) VALUES
-('AdminTools', 1, 'Admin', 'Admin', '1.0.0', 'CodevTT administration tools'),
-('AvailableWorkforceIndicator', 1, 'Team', 'Planning', '1.0.0', 'Man-days available in period, except leaves and external tasks'),
-('BacklogPerUserIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the tasks and return the backlog per User'),
-('BlogPlugin', 1, 'Homepage', 'Internal', '1.0.0', 'Display a message wall on the homepage<br>Allows Administrators & team members to send messages that will be displayed on other users\' wall'),
-('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the budget history'),
-('BurnDownChart', 1, 'Project,Task,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the backlog history'),
-('CostsIndicator', 1, 'Task,Command,CommandSet,ServiceContract', 'Financial', '1.0.0', 'Compute costs, using the UserDailyCosts defined in team settings'),
-('DeadlineAlertIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display unresolved tasks that should have been delivered'),
-('DriftAlertIndicator', 1, 'Homepage,Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Display tasks where the elapsed time is greater than the estimated effort'),
-('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the EffortEstim reliability rate history<br>rate = EffortEstim / elapsed (on resolved tasks only)'),
-('FillPeriodWithTimetracks', 1, 'TeamAdmin', 'Activity', '1.0.0', 'Add multiple timetracks at once'),
-('ImportIssueCsv', 1, 'Import_Export', 'Import', '1.0.0', 'Import a list of issues to MantisBT / CodevTT from a CSV file'),
-('ImportRelationshipTreeToCommand', 1, 'Import_Export,Command', 'Import', '1.0.0', 'Import a mantis parent-child relationship issue structure to a command WBS structure'),
-('ImportUsers', 1, 'Import_Export,TeamAdmin', 'Import', '1.0.0', 'Import a list of users to MantisBT / CodevTT'),
-('IssueBacklogVariationIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Display task backlog updates since the task creation'),
-('IssueConsistencyCheck', 1, 'Homepage', 'Risk', '1.0.0', 'Check for errors in issues'),
-('IssueSeniorityIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Statistics on the age of open tasks'),
-('LoadHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the elapsed time in a period'),
-('LoadPerCustomfieldValues', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Choose a customfield, return the elapsed time for each customField value'),
-('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.1.0', 'Check all the timetracks of the period and return their repartition per Job'),
-('LoadPerProjCategoryIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per project categories'),
-('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'Check all the timetracks of the period and return their repartition per Project'),
-('LoadPerUserGroups', 1, 'Project,Team,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per User groups'),
-('LoadPerUserIndicator', 1, 'Task,Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Check all the timetracks of the period and return their repartition per User'),
-('ManagementCosts', 1, 'ServiceContract', 'Financial', '1.0.0', 'Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs'),
-('ManagementLoadHistoryIndicator', 1, 'ServiceContract', 'Activity', '1.0.0', 'Compares the elapsed time on management sideTasks to the management provisions'),
-('MoveIssueTimetracks', 1, 'Admin,TeamAdmin', 'Admin', '1.0.0', 'Move timetracks from one issue to another'),
-('OngoingTasks', 1, 'Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'List the active tasks on a given period'),
-('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the progress history'),
-('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display the bug reopened rate history'),
-('ResetDashboard', 1, 'Admin', 'Admin', '1.0.0', 'Remove all plugins from a dashboard. This is usefull if a plugin crashes the page'),
-('SellingPriceForPeriod', 1, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'If you sell daily services with a specific price for each task, this plugin will give you the price of your batch of tasks over a given period of time. For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and '),
-('StatusHistoryIndicator2', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Display Issue Status history'),
-('SubmittedResolvedHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Display the number of issues submitted/resolved in a period'),
-('TasksPivotTable', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Group tasks by adding multiple filters'),
-('TimePerStatusIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Time allocation by status'),
-('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Display additional info on timetracks'),
-('TimetrackingAnalysis', 1, 'Team,Project', 'Risk', '1.0.0', 'Display the delay between the timetrack date and it\'s creation date'),
-('TimetrackList', 1, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'List and edit timetracks'),
-('UserTeamList', 1, 'Admin', 'Admin', '1.0.0', 'Display a history of all the teams for a given user'),
-('WBSExport', 1, 'Command', 'Roadmap', '1.0.0', 'Export WBS to CSV file');
+('AdminTools', 1, 'Admin', 'Admin', '1.0.0', 'Outils d\'administration de CodevTT'),
+('AvailableWorkforceIndicator', 1, 'Team', 'Planning', '1.0.0', 'Nbre de jours-hommes disponibles sur la période (taches annexes et externes exclues)'),
+('BacklogPerUserIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Répartition du RAF des tâches de la sélection par utilisateur'),
+('BlogPlugin', 1, 'Homepage', 'Internal', '1.0.0', 'Afficher les messages sur la page de garde<br>Permet aux administrateurs et aux membres d\'une équipe d\'envoyer des messages qui seront affichés sur la page de garde des autres utilisateurs'),
+('BudgetDriftHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche la dérive Budget'),
+('BurnDownChart', 1, 'Project,Task,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche l\'historique du RAF'),
+('CostsIndicator', 1, 'Task,Command,CommandSet,ServiceContract', 'Financial', '1.0.0', 'Calcul des coûts en utilisant les CJI (coût journalier individuel) défini dans les paramètres de l\'équipe'),
+('CustomUserData', 1, 'TeamAdmin,Team,User', 'Admin,Activity', '1.0.0', 'Ajout d\'informations utilisateurs supplementaires comme le matricule d\'entreprise ou un identifiant dans une autre BDD/Application<br>Ces champs permettent d\'exporter plus facilement les données CodevTT vers d\'autres applications.'),
+('DeadlineAlertIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche les tâches ayant du être livrées (date jalon dépassée)'),
+('DriftAlertIndicator', 1, 'Homepage,Team,Project,Command,CommandSet,ServiceContract', 'Risk', '1.0.0', 'Tâches dont le consommé est supérieur à la charge initiale'),
+('EffortEstimReliabilityIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Taux de fiabilité de la charge estimée (ChargeMgr, ChargeInit)<br>Taux = charge estimée / consommé (tâches résolues uniquement)'),
+('FillPeriodWithTimetracks', 1, 'TeamAdmin', 'Activity', '1.0.0', 'Ajouter plusieurs imputations en une seule opération'),
+('ImportIssueCsv', 1, 'Import_Export', 'Import', '1.0.0', 'Importer une liste de tâches dans MantisBT / CodevTT à partir d\'un fichier CSV'),
+('ImportRelationshipTreeToCommand', 1, 'Import_Export,Command', 'Import', '1.0.0', 'Importer un arbre de tâches défini par les relations parent-enfant de mantis vers une commande'),
+('ImportUsers', 1, 'Import_Export,TeamAdmin', 'Import', '1.0.0', 'Créer une liste d\'utilisateurs dans MantisBT / CodevTT à partir d\'un fichier CSV'),
+('IssueBacklogVariationIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Affiche l\'évolution du RAF dans le temps (burndown chart)'),
+('IssueConsistencyCheck', 1, 'Homepage', 'Risk', '1.0.0', 'Recherche les erreurs d\'intégrité dans les tâches'),
+('IssueSeniorityIndicator', 1, 'Command,Team,User,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Statistiques sur l\'ancienneté des tâches en cours'),
+('LoadHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche le consommé sur une période'),
+('LoadPerCustomfieldValues', 1, 'Team,Project,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Sélectionnez un champ personnalisé, le consommé pour chaque valeur de ce champ sera affiché'),
+('LoadPerJobIndicator2', 1, 'Task,Team,User,Project,Command,CommandSet,ServiceContract', 'Quality', '1.1.0', 'Affiche le consommé sur la période, réparti par poste'),
+('LoadPerProjCategoryIndicator', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par catégorie projet'),
+('LoadPerProjectIndicator', 1, 'User,Team,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'Affiche le consommé sur la période, réparti par projet'),
+('LoadPerUserGroups', 1, 'Project,Team,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par groupe d\'utilisateurs'),
+('LoadPerUserIndicator', 1, 'Task,Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche le consommé sur la période, réparti par utilisateur'),
+('ManagementCosts', 1, 'ServiceContract', 'Financial', '1.0.0', 'Compare le consommé en gestion de projet à la somme des provisions de pilotage. Resultats exprimés en jours-homme et en euro'),
+('ManagementLoadHistoryIndicator', 1, 'ServiceContract', 'Activity', '1.0.0', 'Compare le consommé en gestion de projet à la somme des provisions de pilotage'),
+('MoveIssueTimetracks', 1, 'Admin,TeamAdmin', 'Admin', '1.0.0', 'Déplacer des imputations d\'une tâche à une autre'),
+('OngoingTasks', 1, 'Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Affiche les tâches actives sur la période'),
+('ProgressHistoryIndicator2', 1, 'Command,CommandSet,ServiceContract', 'Roadmap', '1.1.0', 'Affiche la progression de l\'avancement dans le temps'),
+('ReopenedRateIndicator2', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Historique du nombre de fiches ayant été réouvertes'),
+('ResetDashboard', 1, 'Admin', 'Admin', '1.0.0', 'Suppression de tous les plugins du dashboard. A utiliser quand un plugin fait planter la page'),
+('SellingPriceForPeriod', 0, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Si vous vendez du service à la journée avec un prix spécifique pour chaque tâche, ce plugin vous donnera le prix d\'un lot de tâches sur une période donnée Pour ce plugin il faut ajouter le champ personnalisé \"CodevTT_PrixJournee\" au projet mantis et le renseigner pour chaque tâche'),
+('StatusHistoryIndicator2', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Quality', '1.0.0', 'Affiche l\'évolution de la répartition des tâches par statut'),
+('SubmittedResolvedHistoryIndicator', 1, 'Command,Team,Project,CommandSet,ServiceContract', 'Roadmap', '1.0.0', 'Affiche le nombre de taches ouvertes/résolues sur une période'),
+('TasksPivotTable', 1, 'Team,Project,Command,CommandSet,ServiceContract', 'Activity', '1.0.0', 'Grouper les tâches en ajoutant des filtres'),
+('TimePerStatusIndicator', 1, 'Task', 'Roadmap', '1.0.0', 'Répartition du temps par status'),
+('TimetrackDetailsIndicator', 1, 'Admin', 'Admin', '1.0.0', 'Affiche des informations suplémentaires sur les imputations'),
+('TimetrackingAnalysis', 1, 'Team,Project', 'Risk', '1.0.0', 'Affiche le délai entre la date d\'imputation et sa date d\'ajout'),
+('TimetrackList', 1, 'Task,Project,Team,User,Command,CommandSet,ServiceContract', 'Activity', '1.1.0', 'Lister et éditer les imputations'),
+('UserTeamList', 1, 'Admin', 'Admin', '1.0.0', 'Affiche la liste des équipes pour un utilisateur'),
+('WBSExport', 1, 'Command', 'Roadmap', '1.0.0', 'Export WBS vers fichier CSV');
 
 -- --------------------------------------------------------
 
@@ -1327,7 +1348,7 @@ CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
   `expiry` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_typeowner` (`type`,`owner`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1441,7 +1462,7 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES
-(1, 'administrator', '', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 7, 0, 0, '732aac42ba8df328cc8e19febef5910e2b4289473bc523f1d973862efb7380ad', 1636636190, 1521316138);
+(1, 'administrator', '', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 12, 0, 0, '732aac42ba8df328cc8e19febef5910e2b4289473bc523f1d973862efb7380ad', 1690465200, 1521316138);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
