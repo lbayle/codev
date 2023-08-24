@@ -206,7 +206,7 @@ class LoadPerCustomfieldValues extends IndicatorPluginAbstract {
          $this->selectedCustomfieldId = array_key_first($customfieldList);
       }
 
-      self::$logger->error('selectedCustomField='.$this->selectedCustomfieldId);
+      //self::$logger->error('selectedCustomField='.$this->selectedCustomfieldId);
       //self::$logger->error('getCustomfieldList='.var_export($customfieldList, true));
 
       return $customfieldList;
