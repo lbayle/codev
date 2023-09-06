@@ -115,10 +115,9 @@ class CommandInfoController extends Controller {
 
                   // check if sold days warning should be displayed
                   if (0 != $cmd->getTotalSoldDays()) {
-
                      $checkTotalSoldDays = $cmd->getTotalSoldDays() - $cmd->getIssueSelection()->mgrEffortEstim - $cmd->getProvisionDays();
                      $checkTotalSoldDays = round($checkTotalSoldDays, 2);
-                     if (0 !== checkTotalSoldDays) {
+                     if (0 !== $checkTotalSoldDays) {
                         $this->smartyHelper->assign('checkTotalSoldDays', $checkTotalSoldDays);
                      }
                   }
