@@ -24,16 +24,384 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-07-17 11:01:35+0000\n"
+"PO-Revision-Date: 2023-10-12 11:02:06+0000\n"
 "Last-Translator: Franklin Haut <franklin.haut@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: pt_br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-07-10\n"
+"X-Generator: MediaWiki 1.42.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-POT-Import-Date: 2023-05-11 18:30:24+0000\n"
+"X-POT-Import-Date: 2023-09-17 16:30:31+0000\n"
+
+#. tpl/timetracking_lite.html
+msgid "Add task"
+msgstr "Adicionar um caso"
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/consistency_check.html
+#. tpl/planning_report.html
+msgid "Click to show errors"
+msgstr "Clique para ver os erros"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Previous week"
+msgstr "Semana anterior"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Week"
+msgstr "Semana"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Next week"
+msgstr "Próxima semana"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/set_holidays.html
+#. tpl/form/bugSelector.html
+#. tpl/time_tracking.html
+#. tpl/modal/edit_issueNote.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/edit_team.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/menu/global_menu.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#: management/command_info_ajax.php:305 management/command_info_ajax.php:307
+#: reports/planning_report.php:467 reports/planning_report.php:469
+#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
+#: scheduler/SchedulerEvent.class.php:123
+#: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
+#: gantt/gantt_ajax.php:192
+msgid "Task"
+msgstr "Tarefa"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/productivity_report.html
+#. tpl/export_odt.html
+#. tpl/project_activity_report.html
+#. tpl/time_tracking.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/modal/select_issues.html
+#. tpl/edit_team.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/plugin_manager.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. unset($tooltipAttr[T_('Project')]);
+#. unset($tooltipAttr[T_('Type')]);
+#. unset($tooltipAttr[T_('Category')]);
+#: classes/wbsElement.class.php:694 classes/issue.class.php:2244
+#: reports/project_info.php:300 reports/planning_report.php:457
+#: reports/planning_report.php:480 plugins/WBSExport/WBSExport.class.php:148
+#: scheduler/SchedulerEvent.class.php:113
+#: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
+#: tools.php:1559
+msgid "Status"
+msgstr "Status"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/issueGeneralInfo.html
+#. tpl/ajax/schedulerAffectationSummary.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/productivity_report.html
+#. tpl/project_activity_report.html
+#. tpl/tools/wbsReader.html
+#. tpl/servicecontract_info.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/BurnDownChart/BurnDownChart_ajax.html
+#. plugins/BurnDownChart/BurnDownChart.html
+#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#. $titles[] = T_("Elapsed");
+#: reports/project_info.php:178 reports/project_info.php:235
+#: reports/planning_report.php:461 tests/filters.php:71
+#: plugins/WBSExport/WBSExport.class.php:153
+#: plugins/TasksPivotTable/TasksPivotTable.class.php:295
+#: scheduler/SchedulerEvent.class.php:117
+#: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
+#: tools.php:1488 tools.php:1497
+msgid "Backlog"
+msgstr "Retorno"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/productivity_report.html
+#. tpl/project_activity_report.html
+#. tpl/team_activity_report.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/command_info.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+msgid "BL"
+msgstr "BL"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/servicecontract_info.html
+#. tpl/commandset_info.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#. plugins/ManagementCosts/ManagementCosts_ajax.html
+#. plugins/ManagementCosts/ManagementCosts_ajax2.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#. tpl/timetracking_lite.html
+msgid "Hint: Click in a field to edit 'Elapsed time' or 'Backlog'"
+msgstr "Dica: Clique em um campo para editar \"Tempo decorrido\" ou \"Atraso"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+msgid "Hide tasks not assigned to me"
+msgstr "Ocultar casos não atribuidos a mim"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+msgid "Hide resolved tasks"
+msgstr "Ocultar casos resolvidos"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/servicecontract_edit.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/filters.html
+#. tpl/export_odt.html
+#. tpl/form/projectSelector.html
+#. tpl/edit_jobs.html
+#. tpl/command_edit.html
+#. tpl/project_info.html
+#. tpl/time_tracking.html
+#. tpl/servicecontract_info.html
+#. tpl/modal/select_issues.html
+#. tpl/team_activity_report.html
+#. tpl/edit_team.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/menu/global_menu.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
+#: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
+#: management/commandset_info.php:141 management/command_info.php:225
+#: management/servicecontract_info.php:138 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298
+#: reports/planning_report.php:230 reports/planning_report.php:471
+#: reports/planning_report.php:472 tests/odt.php:25
+#: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:326
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
+#: plugins/ResetDashboard/ResetDashboard.class.php:263
+#: scheduler/SchedulerEvent.class.php:127
+#: scheduler/SchedulerEvent.class.php:128 tools.php:1555
+msgid "Project"
+msgstr "Projeto"
+
+#. tpl/timetracking_lite.html
+#. tpl/set_holidays.html
+#. tpl/time_tracking.html
+#. --- define the list of tasks the user can display
+#. All projects from teams where I'm a Developper or Manager AND Observer
+#: reports/issue_info.php:56 reports/export_odt.php:83
+#: reports/export_odt.php:113 reports/export_odt.php:164
+#: reports/export_odt_ajax.php:32 reports/export_odt_ajax.php:61
+#: smarty_tools_ajax.php:46
+msgid "(all)"
+msgstr "(todos)"
+
+#. tpl/timetracking_lite.html
+#. tpl/edit_jobs.html
+#. tpl/time_tracking.html
+#. tpl/modal/select_issues.html
+#. tpl/modal/login.html
+#. tpl/command_info.html
+#. tpl/gantt.html
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "OK"
+msgstr "OK"
+
+#. tpl/timetracking_lite.html
+#. tpl/user_info.html
+#. tpl/edit_jobs.html
+#. tpl/command_edit.html
+#. tpl/time_tracking.html
+#. tpl/tools/dashboard.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/gantt.html
+#. plugins/UserTeamList/UserTeamList.html
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. tpl/timetracking_lite.html
+#. tpl/servicecontract_edit.html
+#. tpl/command_edit.html
+#. tpl/commandset_edit.html
+#. tpl/time_tracking.html
+#. tpl/tools/wbsEditor.html
+#. tpl/edit_team.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:414
+#: plugins/BlogPlugin/BlogPost.class.php:425
+msgid "Delete"
+msgstr "Apagar"
+
+#. tpl/timetracking_lite.html
+#. tpl/command_edit.html
+#. tpl/time_tracking.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. plugins/UserTeamList/UserTeamList.html
+msgid "Update"
+msgstr "Atualização"
+
+#. tpl/timetracking_lite.html
+#. tpl/user_info.html
+#. tpl/time_tracking.html
+#. tpl/modal/login.html
+#. tpl/plugin_manager.html
+msgid "Please wait..."
+msgstr "Por favor, aguarde..."
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/TimetrackList/TimetrackList.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+msgid "Job"
+msgstr "Serviço"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/scheduler.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. $finalTooltipAttr[T_('Attributes')] =
+#. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
+#. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
+#. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+msgid "Duration"
+msgstr "Duração"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/issue_info.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Enter a keyword or *** to display all..."
+msgstr "Digite uma palavra-chave ou *** para exibir todas as..."
+
+#. tpl/timetracking_lite.html
+msgid "Invalid backlog format"
+msgstr "Formato de registro de pendências inválido"
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/issue_info.html
+#: timetracking/timetracking_lite_ajax.php:139
+msgid "Task not resolved, backlog cannot be '0'"
+msgstr "Tarefa não resolvida, backlog não pode ser '0'"
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/update_issueBacklog.html
+msgid "Status can't be : "
+msgstr "O status não pode ser : "
+
+#. tpl/timetracking_lite.html
+msgid "Please update status before editing timetracks"
+msgstr "Atualize o status antes de editar as faixas de horário"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/user_info.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/export_odt.html
+#. tpl/project_activity_report.html
+#. tpl/project_info.html
+#. tpl/time_tracking.html
+#. tpl/missing_timetracks.html
+#. tpl/servicecontract_info.html
+#. tpl/team_activity_report.html
+#. tpl/planning_report.html
+#. tpl/commandset_info.html
+#. tpl/mantis_reports.html
+#. tpl/forecasting_report.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/holidays_report.html
+#. tpl/gantt.html
+#: reports/team_dashboard.php:95
+msgid "Please select a team to access this page."
+msgstr "Por favor, selecione uma equipe para acessar esta página."
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
@@ -72,118 +440,12 @@ msgid "User"
 msgstr "Usuário"
 
 #. tpl/check.html
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/set_holidays.html
-#. tpl/form/bugSelector.html
-#. tpl/time_tracking.html
-#. tpl/modal/edit_issueNote.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
-#. tpl/edit_team.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/menu/global_menu.html
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#: management/command_info_ajax.php:307 reports/planning_report.php:468
-#: reports/planning_report.php:470 scheduler/SchedulerEvent.class.php:83
-#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
-#: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
-#: gantt/gantt_ajax.php:192
-msgid "Task"
-msgstr "Tarefa"
-
-#. tpl/check.html
 msgid "extRef"
 msgstr "extRef"
 
 #. tpl/check.html
 msgid "last modification date"
 msgstr "data última modificação"
-
-#. tpl/check.html
-#. tpl/productivity_report.html
-#. tpl/export_odt.html
-#. tpl/project_activity_report.html
-#. tpl/time_tracking.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/modal/select_issues.html
-#. tpl/edit_team.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/plugin_manager.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#. unset($tooltipAttr[T_('Project')]);
-#. unset($tooltipAttr[T_('Type')]);
-#. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2244 reports/project_info.php:300
-#: reports/planning_report.php:458 reports/planning_report.php:481
-#: plugins/WBSExport/WBSExport.class.php:148
-#: scheduler/SchedulerEvent.class.php:113
-#: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
-#: tools.php:1559
-msgid "Status"
-msgstr "Status"
-
-#. tpl/check.html
-#. tpl/servicecontract_edit.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/filters.html
-#. tpl/export_odt.html
-#. tpl/form/projectSelector.html
-#. tpl/edit_jobs.html
-#. tpl/command_edit.html
-#. tpl/project_info.html
-#. tpl/time_tracking.html
-#. tpl/servicecontract_info.html
-#. tpl/modal/select_issues.html
-#. tpl/team_activity_report.html
-#. tpl/edit_team.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/menu/global_menu.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/ImportIssueCsv/ImportIssueCsv.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
-#: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/command_info.php:226
-#: management/servicecontract_info.php:138 reports/project_info.php:275
-#: reports/project_info.php:286 reports/project_info.php:298
-#: reports/planning_report.php:231 reports/planning_report.php:472
-#: reports/planning_report.php:473 tests/odt.php:25
-#: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:326
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
-#: plugins/ResetDashboard/ResetDashboard.class.php:263
-#: scheduler/SchedulerEvent.class.php:127
-#: scheduler/SchedulerEvent.class.php:128 tools.php:1555
-msgid "Project"
-msgstr "Projeto"
 
 #. tpl/check.html
 #. tpl/ajax/schedulerAffectationSummary.html
@@ -207,10 +469,10 @@ msgstr "Projeto"
 #. insert in front
 #: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
-#: management/command_info.php:227 management/servicecontract_info.php:139
+#: management/command_info.php:226 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
-#: reports/project_info.php:299 reports/planning_report.php:232
-#: reports/planning_report.php:475
+#: reports/project_info.php:299 reports/planning_report.php:231
+#: reports/planning_report.php:474
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:250
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:327
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
@@ -233,30 +495,6 @@ msgstr "Severidade"
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Error Description"
 msgstr "Descrição de erro"
-
-#. tpl/check.html
-#. tpl/user_info.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/export_odt.html
-#. tpl/project_activity_report.html
-#. tpl/project_info.html
-#. tpl/time_tracking.html
-#. tpl/missing_timetracks.html
-#. tpl/servicecontract_info.html
-#. tpl/team_activity_report.html
-#. tpl/planning_report.html
-#. tpl/commandset_info.html
-#. tpl/mantis_reports.html
-#. tpl/forecasting_report.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/holidays_report.html
-#. tpl/gantt.html
-msgid "Please select a team to access this page."
-msgstr "Por favor, selecione uma equipe para acessar esta página."
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
@@ -388,18 +626,6 @@ msgid "State"
 msgstr "Estado"
 
 #. tpl/servicecontract_edit.html
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/time_tracking.html
-#. tpl/tools/wbsEditor.html
-#. tpl/edit_team.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:425
-msgid "Delete"
-msgstr "Apagar"
-
-#. tpl/servicecontract_edit.html
 #. tpl/edit_holidays.html
 #. tpl/set_holidays.html
 #. tpl/edit_jobs.html
@@ -511,7 +737,7 @@ msgstr "Id"
 
 #. tpl/servicecontract_edit.html
 msgid "delete Contract-Project association"
-msgstr "apagar associação do projeto de contrato de serviço "
+msgstr "apagar associação do projeto de contrato de serviço"
 
 #. tpl/servicecontract_edit.html
 msgid "Remove Project"
@@ -636,41 +862,7 @@ msgstr "Reestimado"
 #: plugins/WBSExport/WBSExport.class.php:152
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:294
 msgid "Elapsed"
-msgstr "decorrido"
-
-#. tpl/ajax/issueGeneralInfo.html
-#. tpl/ajax/schedulerAffectationSummary.html
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/productivity_report.html
-#. tpl/project_activity_report.html
-#. tpl/tools/wbsReader.html
-#. tpl/servicecontract_info.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/BurnDownChart/BurnDownChart_ajax.html
-#. plugins/BurnDownChart/BurnDownChart.html
-#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#. $titles[] = T_("Elapsed");
-#: reports/project_info.php:235 reports/planning_report.php:462
-#: tests/filters.php:71 plugins/WBSExport/WBSExport.class.php:153
-#: plugins/TasksPivotTable/TasksPivotTable.class.php:295
-#: scheduler/SchedulerEvent.class.php:117
-#: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
-#: tools.php:1488 tools.php:1497
-msgid "Backlog"
-msgstr "Retorno"
+msgstr "Decorrido"
 
 #. tpl/ajax/issueGeneralInfo.html
 #. tpl/statistics.html
@@ -802,50 +994,8 @@ msgid "Tasks"
 msgstr "Casos"
 
 #. tpl/ajax/weekTaskDetails.html
-#. tpl/productivity_report.html
-#. tpl/project_activity_report.html
-#. tpl/team_activity_report.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/command_info.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-msgid "BL"
-msgstr "BL"
-
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/TimetrackList/TimetrackList.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-msgid "Job"
-msgstr "Serviço"
-
-#. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
 msgstr "atualizar backlog"
-
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/servicecontract_info.html
-#. tpl/commandset_info.html
-#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
-#. plugins/ManagementCosts/ManagementCosts_ajax3.html
-#. plugins/ManagementCosts/ManagementCosts_ajax.html
-#. plugins/ManagementCosts/ManagementCosts_ajax2.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
-msgid "TOTAL"
-msgstr "TOTAL"
 
 #. tpl/statistics.html
 msgid "Start Year"
@@ -991,7 +1141,7 @@ msgstr "% Disp Sys"
 
 #. tpl/statistics.html
 msgid "Sys Disp."
-msgstr "Sys Disp"
+msgstr "Sys Disp."
 
 #. tpl/statistics.html
 msgid "Number of reopened external tasks (tasks having an ExternalRef)."
@@ -1016,7 +1166,7 @@ msgstr "dias-homem"
 
 #. tpl/statistics.html
 msgid "Available man-days on the period (excluding leave and external tasks)"
-msgstr ""
+msgstr "Dias-homem disponíveis no período (excluindo férias e tarefas externas)"
 
 #. tpl/statistics.html
 msgid "Developers Workload"
@@ -1024,7 +1174,7 @@ msgstr "Capacidade de desenvolvimento"
 
 #. tpl/statistics.html
 msgid "nb production days"
-msgstr "Núm de dias de produção"
+msgstr "núm de dias de produção"
 
 #. tpl/statistics.html
 #. tpl/productivity_report.html
@@ -1127,31 +1277,9 @@ msgstr "Grupo"
 msgid "Team arrival date"
 msgstr "Data de chegada da equipe"
 
-#. tpl/user_info.html
-#. tpl/edit_jobs.html
-#. tpl/command_edit.html
-#. tpl/time_tracking.html
-#. tpl/tools/dashboard.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/gantt.html
-#. plugins/UserTeamList/UserTeamList.html
-#. plugins/BlogPlugin/BlogPlugin.html
-msgid "Cancel"
-msgstr "Cancelar"
-
-#. tpl/user_info.html
-#. tpl/time_tracking.html
-#. tpl/modal/login.html
-#. tpl/plugin_manager.html
-msgid "Please wait..."
-msgstr "Por favor, aguarde..."
-
 #. tpl/bvi.html
-#, fuzzy
 msgid "Average Backlog Variation"
-msgstr "Variação do BackLog"
+msgstr "Variação média do backlog"
 
 #. tpl/bvi.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
@@ -1270,11 +1398,11 @@ msgstr "Cor"
 #. tpl/edit_jobs.html
 #: install/install_step3.php:634
 msgid "open a colorPicker in a new Tab"
-msgstr "Abror seleção de cor em nova aba"
+msgstr "abrir um colorPicker em uma nova guia"
 
 #. tpl/edit_holidays.html
 msgid "Permanently remove this date ?"
-msgstr ""
+msgstr "Remover permanentemente essa data?"
 
 #. tpl/edit_holidays.html
 msgid "delete Holiday"
@@ -1298,16 +1426,6 @@ msgstr "Desculpe, você deve ser membro do time-admin para acessar esta página.
 #. tpl/command_info.html
 msgid "Select"
 msgstr "Selecionar"
-
-#. tpl/set_holidays.html
-#. tpl/time_tracking.html
-#. --- define the list of tasks the user can display
-#. All projects from teams where I'm a Developper or Manager AND Observer
-#: reports/export_odt.php:83 reports/export_odt.php:113
-#: reports/export_odt.php:164 reports/export_odt_ajax.php:32
-#: reports/export_odt_ajax.php:61 smarty_tools_ajax.php:46
-msgid "(all)"
-msgstr "(todos)"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -1422,7 +1540,7 @@ msgstr "Dias de produção : Total"
 
 #. tpl/productivity_report.html
 msgid "number of days billed"
-msgstr "Número de dias faturados"
+msgstr "número de dias faturados"
 
 #. tpl/productivity_report.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
@@ -1432,7 +1550,7 @@ msgstr "projetos"
 
 #. tpl/productivity_report.html
 msgid "sideTasks"
-msgstr "Casos correlatos"
+msgstr "casos correlatos"
 
 #. tpl/productivity_report.html
 msgid "Not available."
@@ -1468,7 +1586,7 @@ msgstr "Classificação de Confiabilidade do EffortEstim"
 
 #. tpl/productivity_report.html
 msgid "Workload Forecasting (holidays & externalTasks not included, developers only)"
-msgstr "previsão de capacidade (horas e casos externos não inclusos, apenas desenvolvimento)"
+msgstr "Previsão de carga de trabalho (feriados e tarefas externas não incluídas, somente para desenvolvedores)"
 
 #. tpl/productivity_report.html
 msgid "Development workload (developers only)"
@@ -1488,11 +1606,11 @@ msgstr "Disponibilidade da plataforma de desenvolvimento"
 
 #. tpl/productivity_report.html
 msgid "breakdownDays"
-msgstr "Indisponibilidade do sistema"
+msgstr "breakdownDays"
 
 #. tpl/productivity_report.html
 msgid "prodDays"
-msgstr "Dias de produção"
+msgstr "dias de produção"
 
 #. tpl/productivity_report.html
 msgid "Tasks having no deadLine are not reported here"
@@ -1512,7 +1630,6 @@ msgstr "núm de casos"
 #. tpl/forecasting_report.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
-#: classes/time_tracking.class.php:458
 msgid "nb days"
 msgstr "núm. dias"
 
@@ -1662,15 +1779,15 @@ msgstr "Não derivar em tarefas externas."
 
 #. tpl/productivity_report.html
 msgid "nb resolved"
-msgstr "Num resolvidos"
+msgstr "núm resolvidos"
 
 #. tpl/productivity_report.html
 msgid "nb reopened"
-msgstr "Núm reabertos"
+msgstr "núm reabertos"
 
 #. tpl/productivity_report.html
 msgid "nb reopened / nb resolved"
-msgstr "Núm reabertos / Núm resolvidos"
+msgstr "núm reabertos / núm resolvidos"
 
 #. tpl/productivity_report.html
 msgid "Rate"
@@ -1678,7 +1795,7 @@ msgstr "Taxa"
 
 #. tpl/productivity_report.html
 msgid "tasks having been reopened in the period"
-msgstr "Casos reabertos no período"
+msgstr "tarefas que foram reabertas no período"
 
 #. tpl/filters.html
 msgid "Set project filters"
@@ -1686,7 +1803,7 @@ msgstr "Definir filtros de projeto"
 
 #. tpl/export_odt.html
 msgid "The following fields need to be set"
-msgstr ""
+msgstr "Os seguintes campos precisam ser definidos"
 
 #. tpl/export_odt.html
 msgid "Reporters"
@@ -1694,11 +1811,11 @@ msgstr "Relatores"
 
 #. tpl/export_odt.html
 msgid "Handlers"
-msgstr ""
+msgstr "Manipuladores"
 
 #. tpl/export_odt.html
 msgid "ODT Template"
-msgstr ""
+msgstr "Modelo ODT"
 
 #. tpl/export_odt.html
 #. tpl/create_team.html
@@ -1725,8 +1842,8 @@ msgstr "Reportado por"
 #. tpl/issue_info.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. add in front
-#: classes/wbsElement.class.php:686 classes/wbsElement.class.php:688
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#: classes/wbsElement.class.php:688 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "Atribuido a"
 
@@ -1846,7 +1963,7 @@ msgstr "Os filtros aplicados"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "From"
-msgstr "de"
+msgstr "De"
 
 #. tpl/form/dateRangeSelector.html
 #. tpl/project_info.html
@@ -1929,7 +2046,7 @@ msgstr "Nome do cargo"
 
 #. tpl/edit_jobs.html
 msgid "delete Job"
-msgstr "Apagar cargo"
+msgstr "apagar cargo"
 
 #. tpl/edit_jobs.html
 msgid "Edit Job"
@@ -1961,36 +2078,25 @@ msgstr "Campos faltantes:"
 msgid "Jobs"
 msgstr "Cargos"
 
-#. tpl/edit_jobs.html
-#. tpl/time_tracking.html
-#. tpl/modal/select_issues.html
-#. tpl/modal/login.html
-#. tpl/command_info.html
-#. tpl/gantt.html
-#. plugins/BlogPlugin/BlogPlugin.html
-msgid "OK"
-msgstr "OK"
-
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
 msgstr "Você quer desinstalar o CodevTT de seu servidor Mantis ?"
 
 #. tpl/uninstall.html
 msgid "This step will clean Mantis DB."
-msgstr "Este passo irá zerar a base de dados do Mantis"
+msgstr "Essa etapa limpará o Mantis DB."
 
 #. tpl/uninstall.html
 msgid "It is HIGHLY recommended to backup your Mantis DB before you proceed !"
-msgstr ""
+msgstr "É altamente recomendável fazer backup do banco de dados do Mantis antes de continuar!"
 
 #. tpl/uninstall.html
 msgid "Backup data"
 msgstr "Dados de backup"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Backup file will be saved in CodevTT reports directory"
-msgstr "O arquivo de backup será salvo na pasta de relatórios do CodevTT"
+msgstr "O arquivo de backup será salvo no diretório de relatórios do CodevTT"
 
 #. tpl/uninstall.html
 msgid "Filename"
@@ -2011,7 +2117,7 @@ msgstr "Backup efetuado com sucesso"
 
 #. tpl/uninstall.html
 msgid "Uninstall aborted !"
-msgstr "Desinstalação cancelada"
+msgstr "Desinstalação cancelada !"
 
 #. tpl/uninstall.html
 msgid "Remove CodevTT from Mantis menu:"
@@ -2051,9 +2157,8 @@ msgid "Remove Mantis plugin:"
 msgstr "Remover o plugin Mantis:"
 
 #. tpl/uninstall.html
-#, fuzzy
 msgid "Remove ExternalTasks project:"
-msgstr "CodevTT Projeto de casos externos"
+msgstr "Remover o projeto ExternalTasks:"
 
 #. tpl/uninstall.html
 msgid "Please MANUALY delete the following projects:"
@@ -2068,7 +2173,7 @@ msgstr "Novo comando"
 #. tpl/issue_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: reports/planning_report.php:463 reports/planning_report.php:492
+#: reports/planning_report.php:462 reports/planning_report.php:491
 #: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1500
@@ -2077,9 +2182,8 @@ msgstr "Vencimento"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "Sold Charge"
-msgstr "Encargos"
+msgstr "Carga vendida"
 
 #. tpl/command_edit.html
 #. tpl/planning_report.html
@@ -2088,7 +2192,7 @@ msgstr "Encargos"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #: classes/command.class.php:814 classes/consistency_check2.class.php:708
-#: classes/scheduler.class.php:74 reports/planning_report.php:489
+#: classes/scheduler.class.php:74 reports/planning_report.php:488
 #: scheduler/SchedulerEvent.class.php:140
 msgid "days"
 msgstr "dias"
@@ -2108,9 +2212,8 @@ msgstr "Núm casos"
 
 #. tpl/command_edit.html
 #. tpl/command_info.html
-#, fuzzy
 msgid "WBS"
-msgstr "BS"
+msgstr "WBS"
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
@@ -2124,9 +2227,8 @@ msgid "Provisions"
 msgstr "Provisões"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Parent CommandSets"
-msgstr "CommandSets"
+msgstr "CommandSets pai"
 
 #. tpl/command_edit.html
 msgid "Add tasks (comma separated)"
@@ -2134,7 +2236,7 @@ msgstr "Adicionar tarefas (separadas por vírgulas)"
 
 #. tpl/command_edit.html
 msgid "Create the Command to add some tasks."
-msgstr "Criar o comando para adicionar alguns casos"
+msgstr "Criar o comando para adicionar alguns casos."
 
 #. tpl/command_edit.html
 msgid "delete Command-Task association"
@@ -2150,7 +2252,7 @@ msgstr "Remover caso deste comando ?"
 
 #. tpl/command_edit.html
 msgid "Create the Command before assigning it to a CommandSet."
-msgstr "Criar um Comando antes de atribuir a um conjunto de comando"
+msgstr "Criar um Comando antes de atribuir a um conjunto de comando."
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
@@ -2168,17 +2270,15 @@ msgstr "Remover este Comando do grupo de Comando?"
 
 #. tpl/command_edit.html
 msgid "Create the Command first."
-msgstr "Crie o comando antes de adicionar casos"
+msgstr "Crie o comando antes de adicionar casos."
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "CSV Import"
-msgstr "Importar"
+msgstr "Importação CSV"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Import templates"
-msgstr "Importar casos"
+msgstr "Importar Modelos"
 
 #. tpl/command_edit.html
 msgid "Add Provision"
@@ -2201,7 +2301,7 @@ msgstr "Orçamento"
 
 #. tpl/command_edit.html
 msgid "add to budget check"
-msgstr ""
+msgstr "adicionar à verificação do orçamento"
 
 #. tpl/command_edit.html
 #. tpl/servicecontract_info.html
@@ -2221,15 +2321,7 @@ msgstr "Taux Journalier Moyen"
 
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
-msgstr ""
-
-#. tpl/command_edit.html
-#. tpl/time_tracking.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. plugins/UserTeamList/UserTeamList.html
-msgid "Update"
-msgstr "Atualização"
+msgstr "Adicionar a \"verificar orçamento"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -2237,9 +2329,8 @@ msgid "save"
 msgstr "salvar"
 
 #. tpl/command_edit.html
-#, fuzzy
 msgid "Delete from the Command ?"
-msgstr "Remover este comando?"
+msgstr "Excluir do Command ?"
 
 #. tpl/command_edit.html
 msgid "Edit Provision"
@@ -2287,25 +2378,23 @@ msgstr "Geral"
 
 #. tpl/doc.html
 msgid "Task priority in Planning & Gantt"
-msgstr ""
+msgstr "Prioridade da tarefa em Planning & Gantt"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
 msgstr "Documentação disponível em "
 
 #. tpl/doc.html
-#, fuzzy
 msgid "CodevTT Documentation"
-msgstr "Documentação"
+msgstr "Documentação do CodevTT"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
 msgstr "Você pode ajudar nas traduções: "
 
 #. tpl/doc.html
-#, fuzzy
 msgid "statistics"
-msgstr "Estatísticas do usuário"
+msgstr "estatísticas"
 
 #. tpl/doc.html
 msgid "Contact the author: "
@@ -2315,9 +2404,8 @@ msgstr "Entre em contato com o autor: "
 #. tpl/scheduler.html
 #. tpl/command_info.html
 #. tpl/gantt.html
-#, fuzzy
 msgid "IMPORTANT: unassigned tasks will not be displayed !"
-msgstr "Tarefas não assinadas não serão exibidas"
+msgstr "IMPORTANTE: as tarefas não atribuídas não serão exibidas!"
 
 #. tpl/commandset_edit.html
 msgid "New command set"
@@ -2382,7 +2470,7 @@ msgstr "Comando"
 
 #. tpl/commandset_edit.html
 msgid "Create the CommandSet to add some commands."
-msgstr "Criar um grupo de comandos para adicionar um comando"
+msgstr "Criar um grupo de comandos para adicionar um comando."
 
 #. tpl/time_tracking.html
 #. tpl/team_dashboard.html
@@ -2401,19 +2489,6 @@ msgstr "Adicionar monitor de tempo"
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/team_activity_report.html
-#. tpl/scheduler.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. $finalTooltipAttr[T_('Attributes')] =
-#. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
-#. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
-#. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
-msgid "Duration"
-msgstr "Duração"
-
-#. tpl/time_tracking.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
 #. tpl/issue_info.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -2427,31 +2502,8 @@ msgid "Reduce the tasks selection by setting some filters"
 msgstr "Reduzir a seleção de casos adicionando alguns filtros"
 
 #. tpl/time_tracking.html
-msgid "Hide tasks not assigned to me"
-msgstr "Ocultar casos não atribuidos a mim"
-
-#. tpl/time_tracking.html
-msgid "Hide resolved tasks"
-msgstr "Ocultar casos resolvidos"
-
-#. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
-msgstr ""
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Week"
-msgstr "Semana"
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Previous week"
-msgstr "Semana anterior"
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Next week"
-msgstr "Próxima semana"
+msgstr "Ocultar tarefas com status proibido (fechado, ...)"
 
 #. tpl/time_tracking.html
 msgid "Week timetracks"
@@ -2485,22 +2537,14 @@ msgstr "Controle dos tempos futuros"
 msgid "Delete track"
 msgstr "Apagar pista/track"
 
-#. tpl/time_tracking.html
-#. tpl/issue_info.html
-#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-msgid "Enter a keyword or *** to display all..."
-msgstr ""
-
 #. tpl/missing_timetracks.html
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Missing Timetracks"
-msgstr "Atividades"
+msgstr "Faixas de horário ausentes"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing timetracks per user"
-msgstr "Atividades"
+msgstr "Faixas horárias ausentes por usuário"
 
 #. tpl/missing_timetracks.html
 #. tpl/planning_report.html
@@ -2509,6 +2553,7 @@ msgstr "Atividades"
 #: management/servicecontract_info.php:84 reports/issue_info.php:121
 #: reports/issue_info.php:122 timetracking/team_monthly_activity_report.php:73
 #: timetracking/time_tracking.php:189 timetracking/team_activity_report.php:65
+#: timetracking/timetracking_lite.php:119
 msgid "Errors"
 msgstr "Erros"
 
@@ -2520,20 +2565,18 @@ msgid "workdays"
 msgstr "dias úteis"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing timetracks"
-msgstr "Atividades"
+msgstr "Faixas horárias ausentes"
 
 #. tpl/missing_timetracks.html
-#, fuzzy
 msgid "Missing days"
-msgstr "Faltando"
+msgstr "Dias perdidos"
 
 #. tpl/missing_timetracks.html
 #. plugins/CustomUserData/CustomUserData.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #. tpl/missing_timetracks.html
 #: timetracking/team_monthly_activity_report.php:142
@@ -2560,19 +2603,19 @@ msgstr "Enregistrer"
 
 #. tpl/tools/wbsEditor.html
 msgid "WBS Root element cannot be renamed."
-msgstr ""
+msgstr "O elemento raiz do PEP não pode ser renomeado."
 
 #. tpl/tools/wbsEditor.html
 msgid "Root element cannot be deleted."
-msgstr ""
+msgstr "O elemento raiz não pode ser excluído."
 
 #. tpl/tools/wbsEditor.html
 msgid "Delete Failed: Folder must be empty."
-msgstr ""
+msgstr "Falha na exclusão: A pasta deve estar vazia."
 
 #. tpl/tools/wbsEditor.html
 msgid "New Folder"
-msgstr ""
+msgstr "Nova Pasta"
 
 #. tpl/tools/wbsEditor.html
 #. plugins/WBSExport/WBSExport_ajax.html
@@ -2585,7 +2628,7 @@ msgstr "Adicionar subpasta"
 
 #. tpl/tools/dashboard.html
 msgid "Add an indicator to the dashboard"
-msgstr ""
+msgstr "Adicionar um indicador ao painel"
 
 #. tpl/tools/dashboard.html
 msgid "Add Indicator"
@@ -2595,7 +2638,7 @@ msgstr "Adicionar Indicador"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 #. tpl/command_info.html
-#: reports/planning_report.php:480 scheduler/SchedulerEvent.class.php:135
+#: reports/planning_report.php:479 scheduler/SchedulerEvent.class.php:135
 msgid "Attributes"
 msgstr "Propriedades"
 
@@ -2651,7 +2694,7 @@ msgstr "Comando não localizado."
 
 #. tpl/servicecontract_info.html
 msgid "No sidetasks found."
-msgstr "Não há casos relacionados "
+msgstr "Não foram encontradas tarefas secundárias."
 
 #. tpl/servicecontract_info.html
 msgid "All tasks"
@@ -2663,7 +2706,7 @@ msgstr "Total não localizado."
 
 #. tpl/servicecontract_info.html
 msgid "Note: SideTasks already defined in Commands are not displayed."
-msgstr "Nota: Estes casos relacionados estão definidos em comandos e não serão exibidos"
+msgstr "Nota: Estes casos relacionados estão definidos em comandos e não serão exibidos."
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
@@ -2685,80 +2728,56 @@ msgid "Select User"
 msgstr "Selecionar usuário"
 
 #. tpl/modal/change_managedUser.html
-#, fuzzy
 msgid "Select team user"
-msgstr "Remover equipe"
+msgstr "Selecione o usuário da equipe"
 
 #. tpl/modal/change_managedUser.html
-#, fuzzy
 msgid "Change user"
-msgstr "Valores do intervalo"
+msgstr "Alterar usuário"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr ""
+msgstr "Se não estiver marcada, será criada uma nota \"padrão\" do Mantis"
 
 #. tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "Add as Timesheet note"
-msgstr "Notas de quadro de horários"
+msgstr "Adicionar como nota da planilha de horas"
 
 #. tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "Edit timesheet note"
-msgstr "Notas de quadro de horários"
+msgstr "Editar nota da planilha de horas"
 
 #. tpl/modal/edit_issueNote.html
-#, fuzzy
 msgid "Delete timesheet note for task "
-msgstr "Apagar esta equipe ?"
+msgstr "Excluir a nota da planilha de horas para a tarefa "
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Current backlog"
-msgstr "Casos atuais"
+msgstr "Atraso atual"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Fixed in version"
-msgstr ""
+msgstr "Corrigido na versão"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Update Backlog"
 msgstr "Update Backlog/acúmulo"
 
 #. tpl/modal/update_issueBacklog.html
-#. tpl/issue_info.html
-msgid "Task not resolved, backlog cannot be '0'"
-msgstr "Tarefa não resolvida, backlog não pode ser '0'"
-
-#. tpl/modal/update_issueBacklog.html
-#, fuzzy
-msgid "Status can't be : "
-msgstr "O staus não deve ser "
-
-#. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Task resolved, backlog must be '0'"
-msgstr "Tarefas resolvidas no período"
+msgstr "Tarefa resolvida, o backlog deve ser \"0"
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Timetracking disabled if current status in : "
-msgstr "O acompanhamento em tempo real não é permitido quando a situação do problema é:"
+msgstr "Rastreamento de tempo desativado se o status atual estiver em : "
 
 #. tpl/modal/update_issueBacklog.html
-#, fuzzy
 msgid "Timetrack note is required"
-msgstr "Atividades"
-
-#. tpl/modal/consistency_check.html
-#. tpl/planning_report.html
-msgid "Click to show errors"
-msgstr "Clique para ver os erros"
+msgstr "É necessária uma nota sobre o cronômetro"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
-msgstr "sem caso selecionado !"
+msgstr "Sem caso selecionado !"
 
 #. tpl/modal/select_issues.html
 msgid "Browse..."
@@ -2771,16 +2790,15 @@ msgstr "Selecionar tudo"
 
 #. tpl/modal/login.html
 msgid "Length of"
-msgstr ""
+msgstr "Tamaño de la imagen"
 
 #. tpl/modal/login.html
 msgid "must be between"
-msgstr ""
+msgstr "Deve estar entre"
 
 #. tpl/modal/login.html
-#, fuzzy
 msgid "and"
-msgstr "Ativo"
+msgstr "e"
 
 #. tpl/modal/login.html
 msgid "CodevTT Identification"
@@ -2789,16 +2807,15 @@ msgstr "Identificação CodevTT"
 #. tpl/modal/login.html
 #. tpl/edit_team.html
 msgid "login"
-msgstr "Usuário"
+msgstr "login"
 
 #. tpl/modal/login.html
 msgid "password"
-msgstr "Senha"
+msgstr "senha"
 
 #. tpl/modal/login.html
-#, fuzzy
 msgid "Login failed."
-msgstr "l'identification a échouée !"
+msgstr "Falha no login."
 
 #. tpl/modal/login.html
 #: plugins/ImportUsers/ImportUsers_ajax.php:166
@@ -2807,7 +2824,7 @@ msgstr "Senha"
 
 #. tpl/modal/login.html
 msgid "Lost your password?"
-msgstr ""
+msgstr "Perdeu sua senha?"
 
 #. tpl/modal/login.html
 msgid "Redirection"
@@ -2815,15 +2832,15 @@ msgstr "Redirecionando"
 
 #. tpl/modal/fairplay.html
 msgid "Fair play !"
-msgstr ""
+msgstr "Jogo limpo!"
 
 #. tpl/modal/fairplay.html
 msgid "You are using CodevTT since"
-msgstr ""
+msgstr "Você está usando o CodevTT desde"
 
 #. tpl/modal/fairplay.html
 msgid "If you like this software, please consider making a donation."
-msgstr ""
+msgstr "Se você gostar deste software, considere a possibilidade de fazer uma doação."
 
 #. tpl/team_activity_report.html
 #. tpl/menu/global_menu.html
@@ -2831,9 +2848,8 @@ msgid "Weekly Activity"
 msgstr "Atividade semanal"
 
 #. tpl/team_activity_report.html
-#, fuzzy
 msgid "Timesheets"
-msgstr "Atividades"
+msgstr "Folhas de Horas"
 
 #. tpl/team_activity_report.html
 msgid "sum(Backlog) of assigned tasks"
@@ -2841,7 +2857,7 @@ msgstr "soma(Backlog) dos atribuído atuais"
 
 #. tpl/team_activity_report.html
 msgid "Workload"
-msgstr "carga"
+msgstr "Carga"
 
 #. tpl/team_activity_report.html
 msgid "Timesheet notes"
@@ -2907,9 +2923,8 @@ msgid "Unassigned tasks"
 msgstr "Tarefas não atribuídas"
 
 #. tpl/planning_report.html
-#, fuzzy
 msgid "Team's backlog"
-msgstr "Consommé + RAF"
+msgstr "A lista de pendências da equipe"
 
 #. tpl/planning_report.html
 msgid "tasks"
@@ -2921,7 +2936,7 @@ msgstr "carga"
 
 #. tpl/planning_report.html
 msgid "nbDaysToDeadLine"
-msgstr "Num dias restantes"
+msgstr "núm dias restantes"
 
 #. tpl/planning_report.html
 msgid "day"
@@ -2957,9 +2972,8 @@ msgid "Tools"
 msgstr "Ferramentas"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Team name"
-msgstr "Nome da equipe"
+msgstr "Nome do equipa"
 
 #. tpl/edit_team.html
 msgid "Creation Date"
@@ -3029,18 +3043,16 @@ msgstr "Importar grupos de usuários de um arquivo CSV"
 
 #. tpl/edit_team.html
 msgid "import groups"
-msgstr "Importar grupos"
+msgstr "importar grupos"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "User groups"
-msgstr "Importar grupos"
+msgstr "Grupos de utilizadores"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "CSV file"
-msgstr "Filtrar casos"
+msgstr "Arquivo CSV"
 
 #. tpl/edit_team.html
 msgid "upload"
@@ -3049,9 +3061,8 @@ msgstr "carregar"
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Import template"
-msgstr "Importar casos"
+msgstr "Importar template"
 
 #. tpl/edit_team.html
 msgid "Info"
@@ -3059,12 +3070,11 @@ msgstr "Informação"
 
 #. tpl/edit_team.html
 msgid "Group examples: FrontEnd, BackEnd, Architect, Designers, Qualifiers"
-msgstr ""
+msgstr "Exemplos de grupos: FrontEnd, BackEnd, Arquiteto, Designers, Qualificadores"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "CSV File Format"
-msgstr "Formato do arquivo"
+msgstr "Formato de arquivo CSV"
 
 #. tpl/edit_team.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
@@ -3073,36 +3083,33 @@ msgid "delimiter"
 msgstr "separador"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "1st column"
-msgstr "Coluna da tarefa de exibição"
+msgstr "1ª coluna"
 
 #. tpl/edit_team.html
 msgid "2nd column"
-msgstr ""
+msgstr "2ª coluna"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Colors"
-msgstr "Cor"
+msgstr "Cores"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Team members assigned to a group"
-msgstr ""
+msgstr "Membros da equipe atribuídos a um grupo"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
-#, fuzzy
 msgid "Users not assigned to any group"
-msgstr "Os casos não estão atribuidos "
+msgstr "Usuários não atribuídos a nenhum grupo"
 
 #. tpl/edit_team.html
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Not a team member, but assigned to a group"
-msgstr ""
+msgstr "Não é um membro da equipe, mas é atribuído a um grupo"
 
 #. tpl/edit_team.html
 msgid "Number of team members"
@@ -3237,24 +3244,20 @@ msgid "User Daily Cost"
 msgstr "Custo diário do usuário"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetracking settings"
-msgstr "Análise de cronograma"
+msgstr "Configurações de controle de tempo"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Timetracking disabled if task status in"
-msgstr "O acompanhamento em tempo real não é permitido quando a situação do problema é:"
+msgstr "Rastreamento de tempo desativado se o status da tarefa estiver em"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Forbidden status list"
-msgstr "Editar lista de cargos"
+msgstr "Editar lista de status Proibido"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Edit Forbiden status list"
-msgstr "Editar lista de cargos"
+msgstr "Editar a lista de status do Forbiden"
 
 #. tpl/edit_team.html
 msgid "Issue Tooltips"
@@ -3283,7 +3286,7 @@ msgstr "Adicionar tarefas de plantão"
 
 #. tpl/edit_team.html
 msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
-msgstr "Nota: Tarefas OnDuty são tarefas específicas 'Deixar' pouco diferente"
+msgstr "Observação: as tarefas OnDuty são tarefas \"Leave\" específicas da equipe, com um comportamento ligeiramente diferente."
 
 #. tpl/edit_team.html
 msgid "Inactivity tasks"
@@ -3303,7 +3306,7 @@ msgstr "Lista de duração para contar o tempo"
 
 #. tpl/edit_team.html
 msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
-msgstr "Estes são os valores propostos na página Timetracking, ao medir o tempo"
+msgstr "Esses são os valores propostos na página Rastreamento de tempo, ao adicionar um rastreamento de tempo."
 
 #. tpl/edit_team.html
 #. tpl/menu/global_menu.html
@@ -3370,24 +3373,23 @@ msgstr "Remover a personalização do IssueTooltip para o projeto"
 
 #. tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
-msgstr "Esta tarefa não será mais identificada como uma tarefa 'OnDuty'"
+msgstr "Esta tarefa não será mais identificada como uma tarefa 'OnDuty'."
 
 #. tpl/edit_team.html
 msgid "Job list for project :"
 msgstr "Lista de trabalho para projeto:"
 
 #. tpl/edit_team.html
-#, fuzzy
 msgid "Forbiden Status for project:"
-msgstr "Lista de trabalho para projeto:"
+msgstr "Forbiden Status do projeto:"
 
 #. tpl/edit_team.html
 msgid "Please select a CSV file"
-msgstr ""
+msgstr "Selecione um arquivo CSV"
 
 #. tpl/edit_team.html
 msgid "Please check table below and click 'OK' button to accept changes"
-msgstr ""
+msgstr "Verifique a tabela abaixo e clique no botão \"OK\" para aceitar as alterações"
 
 #. tpl/edit_team.html
 msgid "Sorry, you need to be Team Leader to access this page."
@@ -3404,21 +3406,21 @@ msgstr "Contrato de Serviço"
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Provision included in 'check budget'"
-msgstr ""
+msgstr "Provisão incluída no \"orçamento de verificação"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Provision NOT included in 'check budget'"
-msgstr ""
+msgstr "Provisão NÃO incluída no \"orçamento de verificação"
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
-msgstr "Saldo mensal exceto SuiviOp"
+msgstr "Saldo mensal exceto SuiviOp."
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)"
@@ -3430,7 +3432,7 @@ msgstr "Você tem certeza que deseja alterar"
 
 #. tpl/workflow.html
 msgid "settings ?"
-msgstr " ?"
+msgstr "configurações ?"
 
 #. tpl/workflow.html
 msgid "Clonning"
@@ -3474,7 +3476,7 @@ msgstr "Sem configuração definida, utilizando configuração padrão."
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
-msgstr "Cálculo de casos NÃO Fechados/Resolvidos"
+msgstr "Cálculo de casos NÃO Fechados/Resolvidos "
 
 #. tpl/forecasting_report.html
 msgid "Unassigned tasks will not be displayed"
@@ -3482,7 +3484,7 @@ msgstr "Tarefas não assinadas não serão exibidas"
 
 #. tpl/forecasting_report.html
 msgid "deviation"
-msgstr "Desvio"
+msgstr "desvio"
 
 #. tpl/forecasting_report.html
 #. plugins/ManagementCosts/ManagementCosts.html
@@ -3563,9 +3565,8 @@ msgid "Inactivity"
 msgstr "Inatividade"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "On Duty, Waste, other special cases"
-msgstr "de plantão, outros casos especiais"
+msgstr "Plantão, resíduos, outros casos especiais"
 
 #. tpl/create_team.html
 msgid "Custom Fields"
@@ -3577,40 +3578,35 @@ msgstr "Campos CodevTT"
 
 #. tpl/create_team.html
 msgid "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
-msgstr "gerenciar esforço, adicionar esforço, Backlog, Vencimento, Data de entrega"
+msgstr "MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate"
 
 #. tpl/create_team.html
 msgid "These are sample sideTasks, you can create more with Mantis"
-msgstr ""
+msgstr "Estes são exemplos de sideTasks, você pode criar mais com o Mantis"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Project management"
-msgstr "Gerenciamento de Projetos"
+msgstr "Gerenciamento de projetos"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Team meeting"
-msgstr "Nome da equipe"
+msgstr "Reunião da equipe"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Network is down"
-msgstr "(geral) Problemas técnicos"
+msgstr "A rede está inoperante"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Compilation scripts"
-msgstr "(Geral) Scripts de compilação"
+msgstr "Scripts de compilação"
 
 #. tpl/create_team.html
-#, fuzzy
 msgid "Update team WIKI"
-msgstr "(Geral) Documentação WIKI"
+msgstr "Atualizar a WIKI da equipe"
 
 #. tpl/create_team.html
 msgid "Other activity charged on the project"
-msgstr ""
+msgstr "Outras atividades cobradas no projeto"
 
 #. tpl/create_team.html
 #. ------ Display Empty Command Form
@@ -3738,8 +3734,8 @@ msgid "External Ref"
 msgstr "Ref. Externa"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2255 reports/planning_report.php:459
-#: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
+#: classes/issue.class.php:2255 reports/planning_report.php:458
+#: reports/planning_report.php:481 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
 msgid "Priority"
@@ -3747,8 +3743,8 @@ msgstr "Prioridade"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2251 reports/planning_report.php:460
-#: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
+#: classes/issue.class.php:2251 reports/planning_report.php:459
+#: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
 msgid "Severity"
@@ -3815,9 +3811,8 @@ msgid "Backlog should not be set if status is : "
 msgstr "Backlog não deve ser estabelecido se o status for : "
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Set command filters"
-msgstr "Filtrar casos"
+msgstr "Definir filtros de comando"
 
 #. tpl/command_info.html
 msgid "--- Create New Command ---"
@@ -3832,24 +3827,20 @@ msgid "Reduce the command selection by setting some filters"
 msgstr "Reduzir a seleção de comandos estabelecendo alguns filtros"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "MgrEffortEstim + Checked Provisions (days)"
-msgstr "Precisão de esforço"
+msgstr "MgrEffortEstim + Provisões verificadas (dias)"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Reestimated (days)"
-msgstr "Reestimado"
+msgstr "Reestimado (dias)"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Drift (days)"
-msgstr "Duração (em dias)"
+msgstr "Desvio (dias)"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Drift (percent)"
-msgstr "pourcent"
+msgstr "Desvio (porcentagem)"
 
 #. tpl/command_info.html
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
@@ -3860,11 +3851,11 @@ msgstr "Dias"
 
 #. tpl/command_info.html
 msgid "The total charge (MgrEffortEstim + Provisions) should be equal to the 'Sold Charge'"
-msgstr ""
+msgstr "A cobrança total (MgrEffortEstim + Provisões) deve ser igual à \"Cobrança Vendida"
 
 #. tpl/command_info.html
 msgid "balance"
-msgstr ""
+msgstr "saldo"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
@@ -3877,15 +3868,13 @@ msgid "Default ADR"
 msgstr "Padrão ADR"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Tasks & Provisions"
-msgstr "Provisão"
+msgstr "Tarefas & Provisões"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
-#, fuzzy
 msgid "Task filter:"
-msgstr "Filtros"
+msgstr "Filtro de tarefas:"
 
 #. tpl/command_info.html
 msgid "Show resolved tasks"
@@ -3893,9 +3882,8 @@ msgstr "Mostrar tarefas resolvidas"
 
 #. tpl/command_info.html
 #. tpl/gantt.html
-#, fuzzy
 msgid "Filter"
-msgstr "Filtros"
+msgstr "Filtro"
 
 #. tpl/command_info.html
 msgid "Warning"
@@ -3903,12 +3891,11 @@ msgstr "Alerta"
 
 #. tpl/command_info.html
 msgid "Reload page to update charges & indicators"
-msgstr ""
+msgstr "Recarregar a página para atualizar cobranças e indicadores"
 
 #. tpl/command_info.html
-#, fuzzy
 msgid "Format"
-msgstr "Fórmula"
+msgstr "Formato"
 
 #. tpl/holidays_report.html
 msgid "Year"
@@ -3931,6 +3918,10 @@ msgid "Activity"
 msgstr "Atividade"
 
 #. tpl/menu/global_menu.html
+msgid "Time Tracking (lite)"
+msgstr "Controle de horas (lite)"
+
+#. tpl/menu/global_menu.html
 msgid "Time Tracking"
 msgstr "Acompanhamento de tempo"
 
@@ -3947,13 +3938,12 @@ msgid "Check DeadLines"
 msgstr "Verificar vencimento"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Workload planning"
-msgstr "carga"
+msgstr "Planejamento da carga de trabalho"
 
 #. tpl/menu/global_menu.html
 msgid "Timeline scheduler"
-msgstr ""
+msgstr "Agendador de cronograma"
 
 #. tpl/menu/global_menu.html
 msgid "Gantt Chart"
@@ -4000,9 +3990,8 @@ msgid "Import / Export"
 msgstr "Importar / Exportar"
 
 #. tpl/menu/global_menu.html
-#, fuzzy
 msgid "Import/Export tools"
-msgstr "Importar / Exportar"
+msgstr "Ferramentas de importação/exportação"
 
 #. tpl/menu/global_menu.html
 msgid "Export to LibreOffice"
@@ -4051,7 +4040,7 @@ msgstr "Editar feriados"
 
 #. tpl/menu/global_menu.html
 msgid "Prepare Projects"
-msgstr "Preparar projetos "
+msgstr "Preparar projetos"
 
 #. tpl/menu/global_menu.html
 msgid "Clone Projects"
@@ -4070,7 +4059,7 @@ msgstr "Logs"
 
 #. tpl/plugin_manager.html
 msgid "Check for new plugins in 'plugins' directory."
-msgstr ""
+msgstr "Verifique se há novos plug-ins no diretório \"plug-ins\"."
 
 #. tpl/plugin_manager.html
 msgid "Discover new plugins"
@@ -4150,22 +4139,19 @@ msgstr "ou"
 #. plugins/ResetDashboard/ResetDashboard_cfg.html
 #. plugins/CostsIndicator/CostsIndicator_cfg.html
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator_cfg.html
-#, fuzzy
 msgid "Deadline alerts"
-msgstr "Lista de casos"
+msgstr "Alertas de prazo"
 
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#, fuzzy
 msgid "No late task."
-msgstr "Nenhum caso resolvido..."
+msgstr "Nenhuma tarefa atrasada."
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Run selected actions"
-msgstr "Excluir duração"
+msgstr "Executar ações selecionadas"
 
 #. plugins/AdminTools/AdminTools.html
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -4177,34 +4163,29 @@ msgstr "Executar"
 #. plugins/AdminTools/AdminTools.html
 #. plugins/AdminTools/AdminTools_cfg.html
 #: plugins/AdminTools/AdminTools.class.php:65
-#, fuzzy
 msgid "Administration tools"
-msgstr "Administração CodevTT"
+msgstr "Ferramentas de administração"
 
 #. plugins/AdminTools/AdminTools.html
-#, fuzzy
 msgid "Actions executed !"
-msgstr "sem caso selecionado !"
+msgstr "Ações executadas!"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Force the display of the \"Message\" plugin on the homepage"
-msgstr "Mostrar uma parede de mensagem na página inicial"
+msgstr "Forçar a exibição do plug-in \"Message\" na página inicial"
 
 #. plugins/AdminTools/AdminTools_ajax.html
 msgid "users"
 msgstr "usuários"
 
 #. plugins/AdminTools/AdminTools_ajax.html
-#, fuzzy
 msgid "Change Mantis issue id"
-msgstr "Obter customizações do Mantis"
+msgstr "Alterar o ID do problema do Mantis"
 
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
 #. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator_cfg.html
-#, fuzzy
 msgid "Task backlog variation"
-msgstr "Variação do BackLog"
+msgstr "Variação do backlog de tarefas"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 msgid "Show Tasks"
@@ -4218,9 +4199,8 @@ msgstr "Coluna da tarefa de exibição"
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
-#, fuzzy
 msgid "Date range"
-msgstr "Formato da Data"
+msgstr "Intervalo de datas"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
@@ -4231,28 +4211,26 @@ msgstr "Formato da Data"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "dashboard default"
-msgstr ""
+msgstr "padrão do painel"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
-#, fuzzy
 msgid "current week"
-msgstr "Próxima semana"
+msgstr "semana atual"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_cfg.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_cfg.html
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
-#, fuzzy
 msgid "current month"
-msgstr "Próxima semana"
+msgstr "mês atual"
 
 #. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.html
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:79
 msgid "Check all the timetracks of the period and return their repartition per Job"
-msgstr ""
+msgstr "Verifique todas as faixas de tempo do período e retorne sua repartição por trabalho"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
@@ -4266,7 +4244,7 @@ msgstr ""
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
 msgid "Interval"
-msgstr ""
+msgstr "Intervalo"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
@@ -4274,9 +4252,8 @@ msgstr ""
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
-#, fuzzy
 msgid "Monthly"
-msgstr "Relatório mensal"
+msgstr "Mensal"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_cfg.html
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
@@ -4284,14 +4261,12 @@ msgstr "Relatório mensal"
 #. plugins/SubmittedResolvedHistoryIndicator/SubmittedResolvedHistoryIndicator_cfg.html
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis_cfg.html
-#, fuzzy
 msgid "Weekly"
-msgstr "Semana"
+msgstr "Semanal"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "User selection"
-msgstr "Redirecionando"
+msgstr "Seleção do usuário"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
@@ -4302,7 +4277,7 @@ msgstr "Redirecionando"
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
 msgid "Graph"
-msgstr ""
+msgstr "Gráfico"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Graph values"
@@ -4313,37 +4288,32 @@ msgid "Range values"
 msgstr "Valores do intervalo"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available Workforce Options"
-msgstr "Capacidade de produção"
+msgstr "Opções de força de trabalho disponíveis"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Select by group"
-msgstr "Selecionar usuário"
+msgstr "Selecionar por grupo"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Availability"
-msgstr "Disponibilidade do sistema"
+msgstr "Disponibilidade"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Productivity Coefficient"
-msgstr "Indicadores de produção"
+msgstr "Coeficiente de produtividade"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "Prod. Coef"
-msgstr ""
+msgstr "Prod. Coef"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 msgid "SUM(userWorkforce * availability * prodCoef)"
-msgstr ""
+msgstr "SUM(userWorkforce * disponibilidade * prodCoef)"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
-#, fuzzy
 msgid "Available workforce"
-msgstr "Capacidade de produção"
+msgstr "Força de trabalho disponível"
 
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator_ajax2.html
 msgid "Workforce"
@@ -4362,48 +4332,41 @@ msgstr "para"
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.html
-#, fuzzy
 msgid "End Date"
-msgstr "Data final"
+msgstr "Data Final"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Number of days to add on the period"
-msgstr "Número de dias para computar"
+msgstr "Número de dias a serem adicionados ao período"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Nb days"
-msgstr "núm. dias"
+msgstr "Nb dias"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Task backlog"
-msgstr "Consommé + RAF"
+msgstr "Registro de tarefas"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "Fill Period With Timetracks"
-msgstr "Listar e editar timetracks"
+msgstr "Preencher período com faixas de horário"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:77
-#, fuzzy
 msgid "Add multiple timetracks at once"
-msgstr "Adicionar multiplas tarefas"
+msgstr "Adicionar várias trilhas de tempo de uma só vez"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
-msgstr ""
+msgstr "Não faz parte da filosofia do CodevTT permitir que os usuários insiram vários registros de tempo ao mesmo tempo. No entanto, às vezes é necessário inserir registros de data e hora ausentes em grandes períodos (por exemplo, recuperar quando o CodevTT é instalado tardiamente em um projeto).\nEsse direito é concedido apenas aos administradores da equipe."
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
 msgstr "Erro!"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#, fuzzy
 msgid "days available on period"
-msgstr "Decorrido no período"
+msgstr "dias disponíveis no período"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_cfg.html
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:74
@@ -4411,114 +4374,102 @@ msgid "Fill period with timetracks"
 msgstr "Preencher o período com cronogramas"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator_cfg.html
-#, fuzzy
 msgid "Managemnt load history"
-msgstr "Gerenciamento"
+msgstr "Histórico de carga de gerenciamento"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Progress History Indicator"
-msgstr "Progresso Mgr"
+msgstr "Indicador de histórico de progresso"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Evolution of the real progress vs the theoretical progress."
-msgstr ""
+msgstr "Evolução do progresso real versus o progresso teórico."
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Theoretical progress"
-msgstr "Progresso"
+msgstr "Progresso teórico"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Compares the EffortEstim to the Elapsed days"
-msgstr "Compara a estimativa de esforço no tempo decorrido."
+msgstr "Compara o EffortEstim com os dias decorridos"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / max(MgrEffortEstim, EffortEstim)"
-msgstr ""
+msgstr "Decorrido / max(MgrEffortEstim, EffortEstim)"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Real progress"
-msgstr "Progresso"
+msgstr "Progresso real"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "Displays the backlog"
-msgstr "atualizar backlog"
+msgstr "Exibe a lista de pendências"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Elapsed / (Elapsed +  Backlog)"
-msgstr ""
+msgstr "Decorrido / (Decorrido + Atraso)"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Historical Progression Chart"
-msgstr ""
+msgstr "Gráfico de progressão histórica"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Elapsed"
-msgstr "decorrido"
+msgstr "Gerenciamento de tempo decorrido"
 
 #. plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.html
-#, fuzzy
 msgid "Mngt Provisions"
-msgstr "Provisões"
+msgstr "Provisões de gerenciamento"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Sorry, you need to be manager to use this plugin"
 msgstr "Desculpe, você precisa ser gerente para usar esse terminal"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task"
-msgstr "Nenhum caso resolvido..."
+msgstr "Tarefa raiz"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "comma separated"
-msgstr "Adicionar tarefas (separadas por vírgulas)"
+msgstr "separada por vírgulas"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "Root task list"
-msgstr "Nenhum caso resolvido..."
+msgstr "Lista de tarefas raiz"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "comma separated list of mantis tasks"
-msgstr ""
+msgstr "lista de tarefas do mantis separada por vírgulas"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Also include parent-tasks in the tree (unchecked: include as folder only)"
-msgstr ""
+msgstr "Incluir também as tarefas pai na árvore (desmarcado: incluir somente como pasta)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Include parent-tasks in its own folder (unchecked: include above)"
-msgstr ""
+msgstr "Incluir tarefas pai em sua própria pasta (desmarcado: incluir acima)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 msgid "Clear the WBS before import (remove all existing issues from the command)"
-msgstr ""
+msgstr "Limpar o WBS antes da importação (remover todos os problemas existentes do comando)"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand_cfg.html
 msgid "Import Relationship tree to command"
-msgstr ""
+msgstr "Importar árvore de relacionamento para o comando"
 
 #. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-#, fuzzy
 msgid "ERROR, Please check"
-msgstr "ERRO: Por favor verifique"
+msgstr "ERRO, verifique"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_cfg.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_cfg.html
@@ -4559,15 +4510,13 @@ msgstr "Usuários envolvidos"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "Total elapsed"
-msgstr "decorridos"
+msgstr "Total decorrido"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#, fuzzy
 msgid "sidetasks"
-msgstr "Casos correlatos"
+msgstr "tarefas secundárias"
 
 #. plugins/LoadPerUserGroups/LoadPerUserGroups.html
 msgid "Groups"
@@ -4578,34 +4527,29 @@ msgid "Display the elapsed time for each user group"
 msgstr "Mostrar tempo decorrido para cada grupo de usuário"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
-#, fuzzy
 msgid "Tasks Drift alert"
-msgstr "Casos à deriva"
+msgstr "Alerta de desvio de tarefas"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Display resolved issues"
-msgstr "Tâches résolues"
+msgstr "Exibir problemas resolvidos"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift current tasks"
-msgstr "Casos atuais"
+msgstr "Deslocar tarefas atuais"
 
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#, fuzzy
 msgid "Drift resolved tasks"
-msgstr "Ocultar casos resolvidos"
+msgstr "Tarefas resolvidas por desvio"
 
 #. plugins/UserTeamList/UserTeamList.html
-#, fuzzy
 msgid "Update team"
-msgstr "(Geral) Documentação WIKI"
+msgstr "Equipe de atualização"
 
 #. plugins/UserTeamList/UserTeamList_cfg.html
 msgid "User team list"
-msgstr ""
+msgstr "Lista de equipes de usuários"
 
 #. plugins/ManagementCosts/ManagementCosts_ajax3.html
 #. plugins/ManagementCosts/ManagementCosts.html
@@ -4616,7 +4560,7 @@ msgstr ""
 #: plugins/ManagementCosts/ManagementCosts.class.php:246
 #: plugins/CostsIndicator/CostsIndicator.class.php:65
 msgid "Costs"
-msgstr ""
+msgstr "Custos"
 
 #. plugins/ManagementCosts/ManagementCosts_cfg.html
 #. plugins/ManagementCosts/ManagementCosts.html
@@ -4626,103 +4570,94 @@ msgstr "Custos de gerenciamento"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:61
-#, fuzzy
 msgid "Reopened rate history"
-msgstr "Taxa de reabertura"
+msgstr "Histórico de taxas reabertas"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
-#, fuzzy
 msgid "week"
-msgstr "Próxima semana"
+msgstr "semana"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
-#, fuzzy
 msgid "weeks"
-msgstr "Próxima semana"
+msgstr "semanas"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2_cfg.html
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
-#, fuzzy
 msgid "month"
-msgstr "+1 meses"
+msgstr "mês"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "BugValidation History Indicator"
-msgstr "Progresso Mgr"
+msgstr "Indicador de histórico de validação de bugs"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr ""
+msgstr "Os bugs resolvidos devem ser validados. Isso mostra quantos bugs foram Rejeitados ou Aceitos durante o estágio de validação. Os bugs com status \"resolvido\" (ainda não validados) são excluídos."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
-msgstr ""
+msgstr "% Validado"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having successfully pass the validation tests"
-msgstr ""
+msgstr "Exibe a porcentagem de bugs que passaram com êxito nos testes de validação"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr ""
+msgstr "status alterado de \"resolvido\" para qualquer status superior (e ainda nesse estado no final do período)."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "% Rejected"
-msgstr "% de retour"
+msgstr "% Rejeitado"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Displays the percent of bugs having failed the validation tests"
-msgstr ""
+msgstr "Exibe a porcentagem de bugs que falharam nos testes de validação"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr ""
+msgstr "status alterado de \"resolvido (ou superior) para qualquer status inferior (e ainda não resolvido no final do período)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
-msgstr ""
+msgstr "Taxa de recusa de insetos"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having fail validation tests"
-msgstr ""
+msgstr "Número de problemas que falharam nos testes de validação"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
-#, fuzzy
 msgid "Nb Fail"
-msgstr "Falha"
+msgstr "Nb Fail"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb of issues having pass validation tests"
-msgstr ""
+msgstr "Número de problemas que passaram nos testes de validação"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Nb Pass"
-msgstr ""
+msgstr "Nb Pass"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_cfg.html
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:62
-#, fuzzy
 msgid "Import issues"
-msgstr "Importar casos"
+msgstr "Problemas de importação"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "Sorry, only team members can import tasks."
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr "Desculpe, mas somente os membros da equipe podem importar tarefas."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4740,9 +4675,8 @@ msgid "Standard CSV format with :"
 msgstr "Arquivo CSV padrão:"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "enclosure"
-msgstr "enclosure"
+msgstr "compartimento"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportUsers/ImportUsers.html
@@ -4754,9 +4688,8 @@ msgid "Number format"
 msgstr "Formato numérico"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
-#, fuzzy
 msgid "Encoding"
-msgstr "Carregando"
+msgstr "Codificação"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported."
@@ -4768,16 +4701,15 @@ msgstr "Colunas"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "the file must contain 7 columns, the 1st line contains the column names."
-msgstr ""
+msgstr "o arquivo deve conter 7 colunas, a primeira linha contém os nomes das colunas."
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 msgid "Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef ; WBS tree"
-msgstr ""
+msgstr "Resumo; MgrEffortEstim; EffortEstim; Descrição; Prazo; ExternalRef; Árvore WBS"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "File"
 msgstr "Arquivo"
 
@@ -4786,9 +4718,8 @@ msgid "Set All"
 msgstr "Aplicar a todos"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "TargetVersion"
-msgstr "Meta da versão"
+msgstr "Versão de destino"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "Mantis issues to create:"
@@ -4796,48 +4727,44 @@ msgstr "Casos Mantis a criar:"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
 msgid "WBS Tree"
-msgstr ""
+msgstr "Árvore PEP"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Category not set on all issues"
-msgstr "Tempo total gasto neste caso"
+msgstr "Categoria não definida em todas as edições"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Type not set on all issues"
-msgstr "Tempo total gasto neste caso"
+msgstr "Tipo não definido em todas as edições"
 
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#, fuzzy
 msgid "Import done !"
-msgstr "Importar"
+msgstr "Importação realizada!"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:80
-#, fuzzy
 msgid "Load per User"
-msgstr "Filtros"
+msgstr "Carga por usuário"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:83
 msgid "Check all the timetracks of the period and return their repartition per User"
-msgstr ""
+msgstr "Verifique todas as faixas de tempo do período e retorne sua repartição por usuário"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "Time spent on the projects & sideTasks of the current task selection"
-msgstr ""
+msgstr "Tempo gasto nos projetos e tarefas paralelas da seleção de tarefas atual"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
 #: plugins/LoadPerUserIndicator/LoadPerUserIndicator.class.php:400
 msgid "Waste"
-msgstr ""
+msgstr "Resíduos"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
+msgstr "tarefas secundárias de \"Incidente\" e \"Inatividade\" da seleção atual.<br>\n         (se a opção \"resíduos\" não tiver sido selecionada, isso será incluído em \"decorrido\")"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4847,7 +4774,7 @@ msgstr "Outros"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "The time spent on tasks & sideTasks that are not in the current task selection"
-msgstr ""
+msgstr "O tempo gasto em tarefas e sideTasks que não estão na seleção de tarefas atual"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4857,109 +4784,95 @@ msgstr "Externo"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External tasks except 'Leave' category"
-msgstr ""
+msgstr "Tarefas externas, exceto a categoria \"Licença"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External leave tasks & inactivity sideTasks that are not in the current task selection"
-msgstr ""
+msgstr "Tarefas sideTasks externas de licença e inatividade que não estão na seleção de tarefas atual"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
+msgstr "Mostrar tarefas secundárias de resíduos: categorias \"Incidente\" e \"Inatividade <br>\n         (se desmarcada, as tarefas secundárias serão incluídas em 'decorrido')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
+msgstr "Mostrar atividade completa:\n         <br> Se marcada, as faixas de tempo das tarefas não incluídas na seleção atual serão exibidas em colunas adicionais."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
-msgstr ""
+msgstr "AVISO: essa opção será desativada se a opção \"Only team members\" estiver desmarcada"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_cfg.html
-#, fuzzy
 msgid "Move issue timetracks"
-msgstr "Atividades"
+msgstr "Mover os cronogramas de emissão"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#, fuzzy
 msgid "Committer"
-msgstr "Filtros de comando"
+msgstr "Compromissário"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#, fuzzy
 msgid "Commit date"
-msgstr "Data inicial"
+msgstr "Data de compromisso"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Select All"
-msgstr "Selecionar tudo"
+msgstr "Selecionar Tudo"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Dates"
-msgstr "Data"
+msgstr "Datas"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Start"
-msgstr "Data incial"
+msgstr "Iniciar"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "End"
-msgstr "Ativo"
+msgstr "Terminar"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin"
-msgstr "núm de casos"
+msgstr "Origem"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Destination"
-msgstr "Descrição"
+msgstr "Destino"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Please, fill all fields correctly"
-msgstr "Campos disponíveis"
+msgstr "Por favor, preencha todos os campos corretamente"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:75
 msgid "Destination task must be different from origin"
-msgstr ""
+msgstr "A tarefa de destino deve ser diferente da origem"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Origin task"
-msgstr "núm de casos"
+msgstr "Tarefa de origem"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Move selected timetracks"
-msgstr "Atividades"
+msgstr "Mover as trilhas de tempo selecionadas"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Destination task"
-msgstr "Descrição"
+msgstr "Tarefa de destino"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
-msgstr ""
+msgstr "AVISO: Para mover as faixas de tempo, a data de criação da tarefa de destino será movida para "
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
-#, fuzzy
 msgid "Timetracks moved successfully !"
-msgstr "Backup efetuado com sucesso"
+msgstr "O Timetracks foi movido com sucesso!"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:67
 msgid "Issue Status History"
-msgstr ""
+msgstr "Histórico do status do problema"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 msgid "No"
@@ -4970,52 +4883,45 @@ msgid "Yes"
 msgstr "Sim"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on Issue type"
-msgstr "Tag caso"
+msgstr "Filtrar por tipo de problema"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "No filter"
-msgstr "Filtrar casos"
+msgstr "Sem Filtro"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:265
 msgid "Bugs only"
-msgstr ""
+msgstr "Somente bugs"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 #: plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.class.php:268
-#, fuzzy
 msgid "Tasks only"
-msgstr "Casos"
+msgstr "Somente tarefas"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Filter on External ID"
-msgstr "ID externo"
+msgstr "Filtro na ID externa"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues with External ID"
-msgstr "ID externo"
+msgstr "Problemas com a ID externa"
 
 #. plugins/StatusHistoryIndicator2/StatusHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Issues without External ID"
-msgstr "Ordenar casos: com/sem referencia externa"
+msgstr "Problemas sem ID externa"
 
 #. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.html
 #: plugins/LoadPerProjectIndicator/LoadPerProjectIndicator.class.php:77
 msgid "Check all the timetracks of the period and return their repartition per Project"
-msgstr ""
+msgstr "Verifique todas as faixas de horário do período e retorne sua divisão por projeto"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "Selling price for period"
-msgstr "Preço de venda do período"
+msgstr "Preço de venda para o período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Elapsed during period"
@@ -5039,16 +4945,15 @@ msgstr "Se você vender serviços diários com um preço específico para cada t
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:89
 msgid "For this plugin, you need to add the \"CodevTT_DailyPrice\" customField to your mantis projects and set a value for each task."
-msgstr ""
+msgstr "Para esse plug-in, você precisa adicionar o customField \"CodevTT_DailyPrice\" aos seus projetos mantis e definir um valor para cada tarefa."
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
-#, fuzzy
 msgid "SellingPrice = DailyPrice x Elapsed during period"
-msgstr "Decorrido durante o período"
+msgstr "Preço de venda = preço diário x tempo decorrido durante o período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 msgid "Remaining = MgrEffortEstim - Elapsed since the beginning of the task to end of period"
-msgstr ""
+msgstr "Restante = MgrEffortEstim - Decorrido desde o início da tarefa até o final do período"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
 msgid "Include sideTasks"
@@ -5073,16 +4978,14 @@ msgstr "Tarefa ExtRef"
 #. plugins/TimetrackList/TimetrackList_ajax.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Task ID"
-msgstr "Info caso"
+msgstr "ID da tarefa"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "Elapsed on period"
-msgstr "Decorrido no período"
+msgstr "Período decorrido"
 
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 msgid "Remaining to produce at end of period"
@@ -5106,9 +5009,8 @@ msgstr "Preço"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2_cfg.html
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:64
-#, fuzzy
 msgid "Progress history"
-msgstr "Progresso Mgr"
+msgstr "Histórico de progresso"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
@@ -5118,22 +5020,20 @@ msgstr "Progresso Mgr"
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
-#, fuzzy
 msgid "Values"
-msgstr "Valor"
+msgstr "Valores"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Theoric"
-msgstr ""
+msgstr "Teórico"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
 msgid "Real"
-msgstr ""
+msgstr "Real"
 
 #. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#, fuzzy
 msgid "% Progress"
-msgstr "Progresso"
+msgstr "% Pogresso"
 
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator_cfg.html
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
@@ -5145,12 +5045,11 @@ msgstr "Carregar histórico"
 #. plugins/LoadHistoryIndicator/LoadHistoryIndicator.html
 #: plugins/CostsIndicator/CostsIndicator.class.php:283
 msgid "Sidetasks"
-msgstr ""
+msgstr "Tarefas secundárias"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "MgrEffortEstim + checked provisions"
-msgstr "Precisão de esforço"
+msgstr "MgrEffortEstim + provisões verificadas"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/BurnDownChart/BurnDownChart_cfg.html
@@ -5160,40 +5059,36 @@ msgstr "Gráfico de burndown"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Compares the budget (MgrEffortEstim + checked provisions) to the reestimated time (nb days needed to finish the tasks)."
-msgstr ""
+msgstr "Compara o orçamento (MgrEffortEstim + provisões verificadas) com o tempo reestimado (número de dias necessários para concluir as tarefas)."
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "% Budget Drift"
-msgstr "Dias de orçamento"
+msgstr "% de desvio do orçamento"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "( reestimated - budget ) / budget"
-msgstr ""
+msgstr "( reestimado - orçamento ) / orçamento"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 msgid "Budget Drift Progression Chart"
-msgstr ""
+msgstr "Gráfico de progressão de desvio orçamentário"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
-#, fuzzy
 msgid "Budget Drift"
-msgstr "Dias de orçamento"
+msgstr "Desvio orçamentário"
 
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2_cfg.html
-#, fuzzy
 msgid "Budget history"
-msgstr "Progresso Mgr"
+msgstr "Histórico orçamentário"
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues_cfg.html
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:69
 msgid "Load per customfield values"
-msgstr ""
+msgstr "Carregar valores por campo personalizado"
 
 #. plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.html
-#, fuzzy
 msgid "Custom field"
-msgstr "Campos personalizados"
+msgstr "Campo personalizado"
 
 #. plugins/TimetrackList/TimetrackList.html
 msgid "Timetrack list"
@@ -5206,24 +5101,21 @@ msgstr "Atualizar faixa de tempo"
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator_cfg.html
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:69
-#, fuzzy
 msgid "Backlog per User"
-msgstr "Filtros"
+msgstr "Atraso por usuário"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#, fuzzy
 msgid "No task with backlog"
-msgstr "Consommé + RAF"
+msgstr "Nenhuma tarefa com backlog"
 
 #. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
 msgid "For each user, return the sum of the backlog of its assigned tasks"
-msgstr ""
+msgstr "Para cada usuário, retorne a soma do backlog de suas tarefas atribuídas"
 
 #. plugins/OngoingTasks/OngoingTasks_cfg.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
-#, fuzzy
 msgid "WBS path"
-msgstr "Exportar WBS"
+msgstr "Caminho do PEP"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "Ongoing tasks"
@@ -5235,7 +5127,7 @@ msgstr "Exibir apenas as tarefas com atividade (faixas horárias) no período"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "The time spent on the task during the period (which can be less than the total time spent since the beginning of the task)"
-msgstr ""
+msgstr "O tempo gasto na tarefa durante o período (que pode ser menor do que o tempo total gasto desde o início da tarefa)"
 
 #. plugins/OngoingTasks/OngoingTasks.html
 msgid "List the users having spent time on the task during the period"
@@ -5279,173 +5171,154 @@ msgid "Resolved"
 msgstr "Resolvidos"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "You need to be manager to import issues."
-msgstr "Desculpe, você precisa ser gerente para usar esse terminal"
+msgstr "Você precisa ser gerente para importar problemas."
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team administrators can create users"
-msgstr ""
+msgstr "Somente os administradores da equipe podem criar usuários"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_cfg.html
 #: plugins/ImportUsers/ImportUsers.class.php:67
 msgid "Import users"
-msgstr ""
+msgstr "Importar Uzuários"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Create Mantis users"
-msgstr "Obter customizações do Mantis"
+msgstr "Criar usuários do Mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "Add users to CodevTT team & projects"
-msgstr "Remover CodevTT dos projetos específicos"
+msgstr "Adicionar usuários à equipe e aos projetos do CodevTT"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Only team-leaders & administrators are allowed to do this action."
-msgstr ""
+msgstr "Somente os líderes de equipe e administradores têm permissão para realizar essa ação."
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Send password by mail"
-msgstr ""
+msgstr "Enviar senha por correio"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Send a password per email to each user"
-msgstr ""
+msgstr "Enviar uma senha por e-mail para cada usuário"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Generate password"
-msgstr "Senha"
+msgstr "Gerar senha"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "Display a generated password (common to all created users)"
-msgstr ""
+msgstr "Exibir uma senha gerada (comum a todos os usuários criados)"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "username"
-msgstr "Renomear"
+msgstr "usuário"
 
 #. plugins/ImportUsers/ImportUsers.html
-#, fuzzy
 msgid "User already exists"
-msgstr "Custos diários do usuário"
+msgstr "Usuário já existe"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Mantis project access level"
-msgstr ""
+msgstr "Nível de acesso ao projeto Mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to Mantis projects"
-msgstr ""
+msgstr "O usuário não pode ser adicionado aos projetos do Mantis"
 
 #. plugins/ImportUsers/ImportUsers.html
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "CodevTT role"
-msgstr "CodevTT_Vencimento"
+msgstr "Função do CodevTT"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User already belong to this team"
-msgstr ""
+msgstr "O usuário já pertence a esta equipe"
 
 #. plugins/ImportUsers/ImportUsers.html
 msgid "User can't be added to this team"
-msgstr ""
+msgstr "O usuário não pode ser adicionado a esta equipe"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Mantis users to create:"
-msgstr "Casos Mantis a criar:"
+msgstr "Usuários do Mantis para criar:"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "First name"
-msgstr "Arquivo"
+msgstr "Nome"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Username"
-msgstr "Renomear"
+msgstr "Nome de usuário"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Mantis role"
-msgstr "Ocorrências Mantis"
+msgstr "Papel do Louva-a-Deus"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Date of entry in team"
-msgstr ""
+msgstr "Data de entrada na equipe"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Username not set on all users"
-msgstr "Tempo total gasto neste caso"
+msgstr "Nome de usuário não definido em todos os usuários"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Project access level not set on all users"
-msgstr ""
+msgstr "Nível de acesso ao projeto não definido para todos os usuários"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "CodevTT roles not set on all users"
-msgstr "Tempo total gasto neste caso"
+msgstr "As funções do CodevTT não estão definidas para todos os usuários"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
-#, fuzzy
 msgid "Date of entry in team not set on all users"
-msgstr "Tempo total gasto neste caso"
+msgstr "Data de entrada na equipe não definida para todos os usuários"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! The password for every created users is"
-msgstr ""
+msgstr "Importação concluída! A senha para cada usuário criado é"
 
 #. plugins/ImportUsers/ImportUsers_ajax.html
 msgid "Import Done ! An email with login and password has been sent to each user."
-msgstr ""
+msgstr "Importação concluída! Um e-mail com login e senha foi enviado a cada usuário."
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "No errors"
-msgstr "Erros"
+msgstr "Nenhum erro"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#, fuzzy
 msgid "Consistency check"
-msgstr "Teste de integridade"
+msgstr "Verificação de consistência"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:62
 msgid "Check for errors in issues"
-msgstr ""
+msgstr "Verificar se há erros nas edições"
 
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck_cfg.html
 #: plugins/IssueConsistencyCheck/IssueConsistencyCheck.class.php:59
-#, fuzzy
 msgid "Issue consistency check"
-msgstr "Teste de integridade"
+msgstr "Verificação da consistência da emissão"
 
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator_cfg.html
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:70
-#, fuzzy
 msgid "Load per project categories"
-msgstr "Ordenar casos por categorias de projeto"
+msgstr "Carga por categorias de projeto"
 
 #. plugins/WBSExport/WBSExport_cfg.html
 msgid "Hello World"
-msgstr "Olá, Mundo!"
+msgstr "Olá, Mundo"
 
 #. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_cfg.html
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:60
-#, fuzzy
 msgid "Timetrack details"
-msgstr "Atividades"
+msgstr "Detalhes da trilha de tempo"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Refresh"
@@ -5460,9 +5333,8 @@ msgid "Expire"
 msgstr "Expirar"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Exp. date"
-msgstr "Date Fin"
+msgstr "Data de vencimento"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Expiration Date (optional)"
@@ -5470,12 +5342,11 @@ msgstr "Data de expiração (opcional)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Everybody (all teams)"
-msgstr ""
+msgstr "Todos (todas as equipes)"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Message wall options"
-msgstr "Ajuda na parede da mensagem"
+msgstr "Opções de mural de recados"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Recipient"
@@ -5486,19 +5357,16 @@ msgid "Current team"
 msgstr "Time atual"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "All my teams"
-msgstr "Todos os casos"
+msgstr "Todas as minhas equipes"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Assigned to me"
-msgstr "Atribuido a"
+msgstr "Atribuídos a mim"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Posted by me"
-msgstr "Reportado por"
+msgstr "Postado por mim"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
@@ -5531,17 +5399,16 @@ msgid "Post a new message"
 msgstr "Publique uma nova mensagem"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Set message wall options"
-msgstr "Ajuda na parede da mensagem"
+msgstr "Definir opções do mural de recados"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Mark as read. The message can then be hidden"
-msgstr ""
+msgstr "Marcar como lida. A mensagem pode então ser ocultada"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr ""
+msgstr "Ocultar mensagem. Depende da configuração do usuário \"Exibir mensagens ocultas\""
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
@@ -5552,13 +5419,12 @@ msgid "Unhide a hidden message"
 msgstr "Mostrar uma mensagem escondida"
 
 #. plugins/BlogPlugin/BlogPlugin.html
-#, fuzzy
 msgid "Delete a message."
-msgstr "Remover equipe"
+msgstr "Excluir uma mensagem."
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "This will permanently delete this post, are you sure ?!"
-msgstr ""
+msgstr "Isso excluirá permanentemente esta postagem, tem certeza?!"
 
 #. plugins/BlogPlugin/BlogPlugin_cfg.html
 msgid "Message wall"
@@ -5590,9 +5456,8 @@ msgstr "Reconhecido por"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#, fuzzy
 msgid "Submission date"
-msgstr "Data de validade"
+msgstr "Data de submissão"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Expiration date"
@@ -5604,7 +5469,7 @@ msgstr "Autor"
 
 #. plugins/BlogPlugin/BlogPlugin_ajax.html
 msgid "Dest"
-msgstr ""
+msgstr "Dest"
 
 #. plugins/BurnDownChart/BurnDownChart.html
 msgid "Backlog history"
@@ -5645,9 +5510,8 @@ msgid "Nb open"
 msgstr "Nb aberto"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
-#, fuzzy
 msgid "Open issues seniority"
-msgstr "Estatísticas de antiguidade em questões abertas"
+msgstr "Antiguidade de questões abertas"
 
 #. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_cfg.html
 msgid "Display task list"
@@ -5657,9 +5521,8 @@ msgstr "Mostrar lista de tarefas"
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #. plugins/CostsIndicator/CostsIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:62
-#, fuzzy
 msgid "Time per status"
-msgstr "Tempo por Status"
+msgstr "Tempo por status"
 
 #. plugins/TimePerStatusIndicator/TimePerStatusIndicator.html
 #: plugins/TimePerStatusIndicator/TimePerStatusIndicator.class.php:65
@@ -5703,31 +5566,26 @@ msgstr "Faltando"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:65
-#, fuzzy
 msgid "Effort estimation reliability rate"
-msgstr "EffortEstim Não especificado"
+msgstr "Taxa de confiabilidade da estimativa de esforço"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "EffortEstim ReliabilityRate"
-msgstr "Classificação de Confiabilidade do EffortEstim"
+msgstr "EffortEstim ReliabilityRate"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "MgrEffortEstim ReliabilityRate"
-msgstr "Classificação de Confiabilidade do MgrEffortEstim"
+msgstr "MgrEffortEstim ReliabilityRate"
 
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2_cfg.html
-#, fuzzy
 msgid "EffortEstim reliability history"
-msgstr "Confiabilidade do EffortEstim"
+msgstr "Histórico de confiabilidade do EffortEstim"
 
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
 #: scheduler/SchedulerEvent.class.php:163 gantt/gantt_ajax.php:257
 #: tools.php:275
-#, fuzzy
 msgid "DriftMgr"
-msgstr "Desvio Mgr"
+msgstr "DriftMgr"
 
 #. plugins/TasksPivotTable/TasksPivotTable.html
 msgid "Drag, drop and set the order of the filters"
@@ -5740,43 +5598,40 @@ msgid "Tasks pivot table"
 msgstr "Tarefas de tabela dinâmica"
 
 #. plugins/ResetDashboard/ResetDashboard.html
-#, fuzzy
 msgid "Reset selected dashboards"
-msgstr "Excluir duração"
+msgstr "Redefinir painéis selecionados"
 
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
-#, fuzzy
 msgid "Domain"
-msgstr "Domínio(s)"
+msgstr "Domínio"
 
 #. plugins/ResetDashboard/ResetDashboard_ajax.html
 msgid "Item"
-msgstr ""
+msgstr "Item"
 
 #. plugins/ResetDashboard/ResetDashboard_cfg.html
 msgid "Reset Dashboard"
-msgstr ""
+msgstr "Reinicializar Dashboard"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Global cost estimation:"
-msgstr ""
+msgstr "Estimativa de custo global:"
 
 #. plugins/CostsIndicator/CostsIndicator.html
-#, fuzzy
 msgid "Costs Mgr"
-msgstr "Casos Mgr"
+msgstr "Gerente de custos"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the costs of each timetrack."
-msgstr ""
+msgstr "Some os custos de cada faixa de tempo."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Team AverageDailyCost and UserDailyCosts must be defined in team settings."
-msgstr ""
+msgstr "O Team AverageDailyCost e o UserDailyCosts devem ser definidos nas configurações da equipe."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used when no UserDailyCosts is defined for the timetrack's user."
-msgstr ""
+msgstr "AverageDailyCost é usado quando nenhum UserDailyCosts é definido para o usuário da faixa de horário."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "AverageDailyCost is used if the task is not yet assigned to anyone."
@@ -5784,19 +5639,19 @@ msgstr "AverageDailyCost é usado se a tarefa ainda não tiver sido atribuída a
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog is computed with the current assigned user's UserDailyCost"
-msgstr ""
+msgstr "O backlog é calculado com o UserDailyCost do usuário atribuído atual"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Respectively sum the MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog of each task."
-msgstr ""
+msgstr "Respectivamente, some o MgrEffortEstim, EffortEstim, Reestimated, Elapsed, Backlog de cada tarefa."
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "The backlog depends on the status (always 0 if status >= Resolved)"
-msgstr ""
+msgstr "O backlog depende do status (sempre 0 se o status for >= Resolvido)"
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr ""
+msgstr "Some as Provisões que são \"verificadas\" como incluídas no orçamento."
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
@@ -5808,12 +5663,11 @@ msgstr "Não foi possível remover o feriado"
 
 #: admin/edit_team_ajax.php:92
 msgid "Issue tooltips for project"
-msgstr ""
+msgstr "Emitir dicas de ferramentas para o projeto"
 
 #: admin/edit_team_ajax.php:93
-#, fuzzy
 msgid "Drag & drop the items to be displayed in the Issue tooltip"
-msgstr "Clique e arraste os filtros para aplicar"
+msgstr "Arraste e solte os itens a serem exibidos na dica de ferramenta do problema"
 
 #: admin/edit_team_ajax.php:94
 msgid "Available fields"
@@ -5829,7 +5683,7 @@ msgstr "Erro: lista de trabalhos não pode estar vazia!"
 
 #: admin/edit_team_ajax.php:494
 msgid "Invalid team name"
-msgstr ""
+msgstr "Nome de equipe inválido"
 
 #: admin/edit_team_ajax.php:498
 msgid "Couldn't enable/disable team"
@@ -5844,12 +5698,12 @@ msgstr "Não foi possível altterar a data da criação"
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:237
 msgid "Please upload files with the following extension: "
-msgstr "Por favor efetue upload com as seguintes extensões:"
+msgstr "Por favor efetue upload com as seguintes extensões: "
 
 #: admin/edit_team_ajax.php:782
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:311
 msgid "No group defined for team member"
-msgstr ""
+msgstr "Nenhum grupo definido para o membro da equipe"
 
 #: admin/admin_dashboard.php:75 import/import_dashboard.php:66
 #: reports/team_dashboard.php:98
@@ -5858,7 +5712,7 @@ msgstr "Desculpe, você precisa estar identificado."
 
 #: admin/plugin_manager.php:69
 msgid "Could not create classmap: "
-msgstr ""
+msgstr "Não foi possível criar classmap: "
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
@@ -5866,7 +5720,7 @@ msgstr "Desculpas, esse Trabalho não pode ser alterado"
 
 #: admin/edit_jobs.php:92
 msgid "This job must not be deleted."
-msgstr ""
+msgstr "Esse trabalho não deve ser excluído."
 
 #: admin/edit_jobs.php:99
 msgid "Couldn't remove the job association"
@@ -5874,7 +5728,7 @@ msgstr "Não foi possível remover a associação trabalho"
 
 #: admin/edit_jobs.php:106
 msgid "Couldn't delete the job"
-msgstr "Impossivel de apagar o cargo "
+msgstr "Impossível de apagar o cargo"
 
 #: admin/logs.php:59
 msgid "Sorry, logfile not found:"
@@ -5882,7 +5736,7 @@ msgstr "Desculpe, arquivo de log não localizado:"
 
 #: admin/edit_team.php:52
 msgid "Couldn't delete the team"
-msgstr "Impossivel de apagar a equipe: "
+msgstr "Impossível de apagar a equipe"
 
 #: admin/edit_team.php:95
 msgid "Couldn't update the team leader"
@@ -5910,7 +5764,7 @@ msgstr "inativo"
 
 #: classes/command.class.php:59
 msgid "to be sent"
-msgstr ""
+msgstr "a ser enviado"
 
 #: classes/command.class.php:60
 msgid "Sent"
@@ -5918,32 +5772,31 @@ msgstr "Enviado"
 
 #: classes/command.class.php:61
 msgid "to be validated"
-msgstr ""
+msgstr "a ser validado"
 
 #: classes/command.class.php:62
 msgid "validated"
-msgstr ""
+msgstr "validado"
 
 #: classes/command.class.php:63
 msgid "to be closed"
-msgstr ""
+msgstr "a ser fechado"
 
 #: classes/command.class.php:64
-#, fuzzy
 msgid "closed"
-msgstr "enclosure"
+msgstr "fechado"
 
 #: classes/command.class.php:65
 msgid "bill must be sent"
-msgstr ""
+msgstr "a fatura deve ser enviada"
 
 #: classes/command.class.php:66
 msgid "bill sent"
-msgstr ""
+msgstr "conta enviada"
 
 #: classes/command.class.php:67
 msgid "payed"
-msgstr ""
+msgstr "pago"
 
 #: classes/user.class.php:1560
 msgid "for team"
@@ -5951,15 +5804,15 @@ msgstr "para a equipe"
 
 #: classes/user.class.php:1562
 msgid "[CodevTT] Timesheet reminder !"
-msgstr ""
+msgstr "[CodevTT] Lembrete sobre o quadro de horários!"
 
 #: classes/user.class.php:1564 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
-msgstr ""
+msgstr "Caro "
 
 #: classes/user.class.php:1565
 msgid "Please fill your CodevTT timesheet"
-msgstr ""
+msgstr "Por favor, preencha sua planilha de horas CodevTT"
 
 #: classes/user.class.php:1576 classes/consistency_check2.class.php:704
 msgid "incomplete (missing "
@@ -5976,47 +5829,43 @@ msgstr "desconhecido"
 
 #: classes/consistency_check2.class.php:178
 msgid "Backlog on resolved issues should be 0"
-msgstr ""
+msgstr "O backlog de problemas resolvidos deve ser 0"
 
 #: classes/consistency_check2.class.php:179
 msgid "Backlog on unresolved issues should not be 0"
-msgstr ""
+msgstr "A lista de pendências de problemas não resolvidos não deve ser 0"
 
 #: classes/consistency_check2.class.php:180
-#, fuzzy
 msgid "EffortEstim should not be 0"
-msgstr "EffortEstim Não especificado"
+msgstr "EffortEstim não deve ser 0"
 
 #: classes/consistency_check2.class.php:181
 msgid "There should be no timetracks on \"new\" issues "
-msgstr ""
+msgstr "Não deve haver cronogramas para \"novas\" questões "
 
 #: classes/consistency_check2.class.php:182
-#, fuzzy
 msgid "Issues should be referenced in a Command"
-msgstr "não está referenciado em qualquer grupo de comandos."
+msgstr "Os problemas devem ser referenciados em um comando"
 
 #: classes/consistency_check2.class.php:183
 msgid "Issues should not be referenced in multiple commands"
-msgstr ""
+msgstr "Os problemas não devem ser referenciados em vários comandos"
 
 #: classes/consistency_check2.class.php:184
-#, fuzzy
 msgid "Commands should be referenced in a CommandSet"
-msgstr "não está referenciado em qualquer grupo de comandos."
+msgstr "Os comandos devem ser referenciados em um CommandSet"
 
 #: classes/consistency_check2.class.php:185
-#, fuzzy
 msgid "CommandSets should be referenced in a ServiceContract"
-msgstr "não está referenciado em qualquer Contrato de Serviço. "
+msgstr "Os CommandSets devem ser referenciados em um ServiceContract"
 
 #: classes/consistency_check2.class.php:186
 msgid "Issues should be assigned to someone"
-msgstr ""
+msgstr "Os problemas devem ser atribuídos a alguém"
 
 #: classes/consistency_check2.class.php:187
 msgid "Check timetracks on removed issues (not needed if Mantis plugin is enabled)"
-msgstr ""
+msgstr "Verificar as faixas de tempo em problemas removidos (não é necessário se o plug-in Mantis estiver ativado)"
 
 #. for all timetracks of the team, check that the Mantis issue exist.
 #: classes/consistency_check2.class.php:188
@@ -6025,7 +5874,7 @@ msgstr "Problemas de comando devem pertencer a lista de projetos do time"
 
 #: classes/consistency_check2.class.php:286
 msgid "Backlog should be 0 (not "
-msgstr ""
+msgstr "O backlog deve ser 0 (não "
 
 #: classes/consistency_check2.class.php:308
 msgid "Backlog must be defined !"
@@ -6037,19 +5886,19 @@ msgstr "Backlog == 0: Backlog não pode ser atualizado."
 
 #: classes/consistency_check2.class.php:356
 msgid "MgrEffortEstim not set."
-msgstr "MgrEffortEstim  Não especificado"
+msgstr "MgrEffortEstim não especificado."
 
 #: classes/consistency_check2.class.php:388
 msgid "EffortEstim not set."
-msgstr "EffortEstim Não especificado"
+msgstr "EffortEstim não especificado."
 
 #: classes/consistency_check2.class.php:414
 msgid "Status should not be"
-msgstr "O staus não deve ser "
+msgstr "O status não deve ser"
 
 #: classes/consistency_check2.class.php:452
 msgid "The task is not assigned to anybody."
-msgstr "Os casos não estão atribuidos "
+msgstr "A tarefa não é atribuída a ninguém."
 
 #: classes/consistency_check2.class.php:506
 msgid "The task is not referenced in any Command."
@@ -6057,11 +5906,11 @@ msgstr "Casos não referenciados em nenhum comando."
 
 #: classes/consistency_check2.class.php:605
 msgid "is not referenced in any CommandSet"
-msgstr "não está referenciado em qualquer grupo de comandos."
+msgstr "não está referenciado em qualquer grupo de comandos"
 
 #: classes/consistency_check2.class.php:630
 msgid "is not referenced in any ServiceContract"
-msgstr "não está referenciado em qualquer Contrato de Serviço. "
+msgstr "não está referenciado em qualquer Contrato de Serviço"
 
 #: classes/consistency_check2.class.php:704
 msgid " days"
@@ -6073,11 +5922,11 @@ msgstr "inconsistente"
 
 #: classes/consistency_check2.class.php:744
 msgid "No default project workflow defined, check config file: "
-msgstr ""
+msgstr "Nenhum fluxo de trabalho de projeto padrão definido, verifique o arquivo de configuração: "
 
 #: classes/consistency_check2.class.php:764
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
-msgstr ""
+msgstr ") Por favor, rode <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
 
 #: classes/consistency_check2.class.php:783
 msgid "Project not defined in the team's project-list"
@@ -6085,15 +5934,15 @@ msgstr "Projeto não definido na lista de projetos do time"
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr ""
+msgstr "Mova o arquivo de configuração para: "
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr ""
+msgstr "Favor remover: "
 
-#: classes/scheduler.class.php:81 reports/planning_report.php:203
+#: classes/scheduler.class.php:81 reports/planning_report.php:202
 msgid "monitored"
-msgstr "Monitorado"
+msgstr "monitorado"
 
 #: classes/issue.class.php:59
 msgid "Duplicate of"
@@ -6101,24 +5950,24 @@ msgstr "Duplicado de"
 
 #: classes/issue.class.php:60
 msgid "Has duplicate"
-msgstr ""
+msgstr "Tem duplicatas"
 
 #: classes/issue.class.php:61 classes/issue.class.php:62
 msgid "Related to"
-msgstr ""
+msgstr "Relacionado a"
 
 #: classes/issue.class.php:63
 msgid "Parent of"
-msgstr ""
+msgstr "Pai de"
 
 #. 2
 #: classes/issue.class.php:64
 msgid "Child of"
-msgstr ""
+msgstr "Filho de"
 
 #: classes/issue.class.php:65
 msgid "Constrained by"
-msgstr ""
+msgstr "Restrito por"
 
 #: classes/issue.class.php:66
 msgid "Constrains"
@@ -6126,21 +5975,19 @@ msgstr "Restrições"
 
 #: classes/issue.class.php:2215 tools.php:1549
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
 #: classes/issue.class.php:2223
 msgid "none"
 msgstr "(nenhum)"
 
 #: classes/issue.class.php:2228 reports/issue_info_tools.php:115
-#, fuzzy
 msgid "DriftColor"
-msgstr "Desvio"
+msgstr "DriftColor"
 
 #: classes/issue.class.php:2232
-#, fuzzy
 msgid "DriftMgrColor"
-msgstr "Desvio Mgr"
+msgstr "DriftMgrColor"
 
 #: classes/issue.class.php:2249 tools.php:1563
 msgid "Assigned"
@@ -6161,24 +6008,23 @@ msgstr "Removido"
 #. avoid divisions by zero
 #: classes/Currencies.class.php:126
 msgid "ERROR: invalid currency: (coef is null, zero, or not a number)"
-msgstr ""
+msgstr "ERRO: moeda inválida: (coef é nulo, zero ou não é um número)"
 
 #: classes/Currencies.class.php:131
 msgid "ERROR: First define the referal currency (with coef=1)"
-msgstr ""
+msgstr "ERRO: Primeiro defina a moeda de referência (com coef=1)"
 
 #: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr ""
+msgstr "ERRO: só pode haver uma moeda \"referencial\" (com coef=1)"
 
 #: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
-msgstr ""
+msgstr "ERRO: moeda já definida"
 
 #: filters/ProjectFilter.php:51
-#, fuzzy
 msgid "Sort issues per Project"
-msgstr "Ordenar casos por etiquetas"
+msgstr "Classificar problemas por projeto"
 
 #: filters/IssueExtIdFilter.php:49
 msgid "Sort issues: with/without External ID"
@@ -6230,7 +6076,7 @@ msgstr "Caso público/privado"
 
 #: filters/IssueCodevTypeFilter.php:55
 msgid "Sort issues per CustomField: CodevTT_Type"
-msgstr ""
+msgstr "Classificar problemas por CustomField: CodevTT_Type"
 
 #: filters/IssueCodevTypeFilter.php:63
 msgid "Type (Task/Bug)"
@@ -6242,9 +6088,8 @@ msgid "Y-m-d"
 msgstr "dd-mm-yyyy"
 
 #: indicator_plugins/BacklogVariationIndicator/BacklogVariationIndicator.class.php:286
-#, fuzzy
 msgid "Average backlog"
-msgstr "atualizar backlog"
+msgstr "Carteira média"
 
 #: install/install.php:25 install/install.php:133
 #: install/install_menu.inc.php:22
@@ -6253,27 +6098,27 @@ msgstr "Instalação"
 
 #: install/install.php:122
 msgid "Upgrade instructions"
-msgstr ""
+msgstr "Instruções de atualização"
 
 #: install/install.php:123
 msgid "If you're upgrading from an older CodevTT version, do the following steps:"
-msgstr ""
+msgstr "Se estiver fazendo upgrade de uma versão mais antiga do CodevTT, siga as etapas abaixo:"
 
 #: install/install.php:125
 msgid "Upgrade Mantis first ! (not mandatory)"
-msgstr ""
+msgstr "Atualize o Mantis primeiro! (não obrigatório)"
 
 #: install/install.php:126
 msgid "Backup your database"
-msgstr ""
+msgstr "Faça backup de seu banco de dados"
 
 #: install/install.php:127
 msgid "Copy CodevTT configuration files from your previous installation"
-msgstr ""
+msgstr "Copie os arquivos de configuração do CodevTT de sua instalação anterior"
 
 #: install/install.php:128
 msgid "Run this script: "
-msgstr ""
+msgstr "Execute este script: "
 
 #: install/install_step5.php:25
 msgid "Installation finished"
@@ -6285,45 +6130,45 @@ msgstr "Instalação - Passo 4"
 
 #: install/install_step4.php:44
 msgid "Manual steps"
-msgstr ""
+msgstr "Etapas manuais"
 
 #: install/install_step4.php:48
 msgid "Check Mantis Plugins"
-msgstr ""
+msgstr "Verificar os plug-ins do Mantis"
 
 #: install/install_step4.php:50
 msgid "Login to Mantis as 'Administrator'."
-msgstr ""
+msgstr "Faça login no Mantis como \"Administrador\"."
 
 #: install/install_step4.php:51
 msgid "manage plugins"
-msgstr ""
+msgstr "gerenciar plug-ins"
 
 #: install/install_step4.php:52
 msgid "Check that the <b>CodevTT</b> plugin is installed and activated."
-msgstr ""
+msgstr "Verifique se o plug-in <b>CodevTT</b> está instalado e ativado."
 
 #. echo '<br>';
 #: install/install_step4.php:58
 msgid "Check generated configuration files"
-msgstr ""
+msgstr "Verificar os arquivos de configuração gerados"
 
 #: install/install_step4.php:60
 msgid "Mantis Path & URL in "
-msgstr ""
+msgstr "Caminho e URL do Mantis em "
 
 #: install/install_step4.php:61
 msgid "Log directory in "
-msgstr ""
+msgstr "Diretório de registro em "
 
 #. echo '<br>';
 #: install/install_step4.php:66
 msgid "Remove CodevTT Installation files"
-msgstr ""
+msgstr "Remover arquivos de instalação do CodevTT"
 
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
-msgstr ""
+msgstr "Por motivos de segurança, exclua o seguinte diretório: "
 
 #: install/install_step4.php:83
 msgid "Done !"
@@ -6350,18 +6195,16 @@ msgid "Database Name"
 msgstr "Base de dados"
 
 #: install/install_step1.php:237
-#, fuzzy
 msgid "Database Table Prefix "
-msgstr "Base de dados"
+msgstr "Prefixo da tabela do banco de dados "
 
 #: install/install_step1.php:241
-#, fuzzy
 msgid "Database Table Suffix "
-msgstr "Base de dados"
+msgstr "Sufixo da tabela do banco de dados "
 
 #: install/install_step1.php:255
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
-msgstr ""
+msgstr "WARN Windows Install: para evitar um erro de privilégio SUPER, use o usuário <b>root</b> mysql (isso pode ser alterado no config.ini quando a instalação for concluída)."
 
 #: install/install_step1.php:260
 msgid "Proxy Settings"
@@ -6369,7 +6212,7 @@ msgstr "Configurações de proxy"
 
 #: install/install_step1.php:261
 msgid "CodevTT will check for updates."
-msgstr ""
+msgstr "O CodevTT verificará se há atualizações."
 
 #: install/install_step1.php:264
 msgid "Enable proxy"
@@ -6381,7 +6224,7 @@ msgstr "Servidor"
 
 #: install/install_step1.php:266
 msgid "Port"
-msgstr ""
+msgstr "Porta"
 
 #: install/install_step1.php:273
 msgid "Proceed Step 1"
@@ -6396,18 +6239,16 @@ msgid "Get Mantis customizations"
 msgstr "Obter customizações do Mantis"
 
 #: install/install_step2.php:109
-#, fuzzy
 msgid "Path to Mantis"
-msgstr "Pasta do Mantis"
+msgstr "Caminho para o Louva-a-Deus"
 
 #: install/install_step2.php:114
-#, fuzzy
 msgid "URL to Mantis"
-msgstr "URL do Mantis"
+msgstr "URL para Mantis"
 
 #: install/install_step2.php:119
 msgid "URL to CodevTT"
-msgstr ""
+msgstr "URL para o CodevTT"
 
 #: install/install_step2.php:134
 msgid "Proceed Step 2"
@@ -6418,18 +6259,16 @@ msgid "Install - Step 3"
 msgstr "Instalação - Passo 3"
 
 #: install/install_step3.php:235
-#, fuzzy
 msgid "CodevTT Administrators team"
-msgstr "Equipe Administração CodevTT"
+msgstr "Equipe de administradores do CodevTT"
 
 #: install/install_step3.php:388
 msgid "CodevTT_EffortEstim"
 msgstr "CodevTT_Esforço inicial"
 
 #: install/install_step3.php:391
-#, fuzzy
 msgid "CodevTT_Type"
-msgstr "CodevTT_Vencimento"
+msgstr "CodevTT_Type"
 
 #: install/install_step3.php:398
 msgid "CodevTT_Manager EffortEstim"
@@ -6444,9 +6283,8 @@ msgid "CodevTT_External ID"
 msgstr "CodevTT_Referencia Externa"
 
 #: install/install_step3.php:409
-#, fuzzy
 msgid "CodevTT_Deadline"
-msgstr "CodevTT_Vencimento"
+msgstr "Prazo de validade do CodevTT"
 
 #: install/install_step3.php:419
 msgid "CodevTT_Backlog"
@@ -6459,58 +6297,52 @@ msgstr "CodevTT_Data entrega"
 
 #. ------ Reports
 #: install/install_step3.php:478
-#, fuzzy
 msgid "Path to output files"
-msgstr "Pasta para saída (logs, relatórios, ...)"
+msgstr "Caminho para os arquivos de saída"
 
 #. T_("Note: <b>/var/local/codevtt</b> is a good location for this, but you'll need to create it first and give read/write access.")
 #: install/install_step3.php:480
 msgid "Path to log files and other temporary files."
-msgstr ""
+msgstr "Caminho para os arquivos de registro e outros arquivos temporários."
 
 #. ------ Status
 #: install/install_step3.php:497
-#, fuzzy
 msgid "Workflow"
-msgstr "carga"
+msgstr "Fluxo de trabalho"
 
 #: install/install_step3.php:498
 msgid "Set equivalences in accordance to your Mantis workflow"
-msgstr ""
+msgstr "Defina as equivalências de acordo com seu fluxo de trabalho do Mantis"
 
 #. ------ Administrator
 #: install/install_step3.php:556
-#, fuzzy
 msgid "CodevTT Administrator"
-msgstr "Equipe Administração CodevTT"
+msgstr "Administrador do CodevTT"
 
 #: install/install_step3.php:568
 msgid "More administrators can be defined later, for now you just need one."
-msgstr ""
+msgstr "Mais administradores podem ser definidos posteriormente; por enquanto, você só precisa de um."
 
 #. ------- External ID
 #: install/install_step3.php:572
-#, fuzzy
 msgid "Tasks external ID field"
-msgstr "ID externo"
+msgstr "Campo ID externo das tarefas"
 
 #: install/install_step3.php:594
 msgid "Create a new CustomField"
-msgstr ""
+msgstr "Criar um novo CustomField"
 
 #: install/install_step3.php:596
-#, fuzzy
 msgid "Use this CustomField :"
-msgstr "Campos personalizados"
+msgstr "Use este CustomField :"
 
 #: install/install_step3.php:623
 msgid "Default Jobs"
 msgstr "Número de cargos"
 
 #: install/install_step3.php:630
-#, fuzzy
 msgid "CodevTT support management"
-msgstr "gestão do suporte"
+msgstr "Gerenciamento de suporte do CodevTT"
 
 #: install/install_step3.php:641
 msgid "Specific to SideTasks"
@@ -6533,9 +6365,8 @@ msgid "Leave"
 msgstr "Ausência"
 
 #: install/install_step3.php:866
-#, fuzzy
 msgid "Sick Leave"
-msgstr "Ausência"
+msgstr "Licença médica"
 
 #: install/install_step3.php:867
 msgid "Analyse"
@@ -6559,19 +6390,17 @@ msgstr "CodevTT Projeto de casos externos"
 
 #. cat="OtherInternal", status="closed"
 #: install/install_step3.php:995
-#, fuzzy
 msgid "Any external task, NOT referenced in any Mantis project"
-msgstr "Qualquer caso externo, SEM referência em qualquer projeto mantis"
+msgstr "Qualquer tarefa externa, NÃO referenciada em nenhum projeto do Mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
 #: install/install_step3.php:998
-#, fuzzy
 msgid "On holiday, leave, ..."
-msgstr "em feriado, licença médica, ..."
+msgstr "Em férias, licenças, ..."
 
 #: install/install_step3.php:999
 msgid "Sick"
-msgstr ""
+msgstr "Doente"
 
 #: install/install_menu.inc.php:26
 msgid "Step 1"
@@ -6596,41 +6425,38 @@ msgstr "Provisão"
 #: management/command_info_ajax.php:340 scheduler/scheduler_ajax.php:379
 #: gantt/gantt_ajax.php:166
 msgid "auto"
-msgstr ""
+msgstr "auto"
 
 #: management/commandset_info.php:88
 msgid "Errors affecting the CommandSet"
-msgstr ""
+msgstr "Erros que afetam o CommandSet"
 
 #: management/command_edit_ajax.php:66
 msgid "Provisions updated FAILED !"
-msgstr ""
+msgstr "Disposições atualizadas FALHARAM!"
 
 #: reports/issue_info_ajax.php:105
-#, fuzzy
 msgid "Sorry, only managers can remove tasks from commands"
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr "Desculpe, mas somente os gerentes podem remover tarefas dos comandos"
 
 #: reports/issue_info_ajax.php:130 reports/issue_info_ajax.php:172
-#, fuzzy
 msgid "Sorry, only managers can add tasks to commands"
-msgstr "Você deve ser um gerente de equipe para acessar esta pagina."
+msgstr "Desculpe, mas somente os gerentes podem adicionar tarefas aos comandos"
 
 #: reports/issue_info_ajax.php:132 reports/issue_info_ajax.php:174
 #: reports/issue_info_ajax.php:205 reports/issue_info_ajax.php:254
 #: reports/issue_info_ajax.php:301 reports/issue_info_ajax.php:366
 msgid "Sorry, this task is not in your team's projects"
-msgstr ""
+msgstr "Desculpe, esta tarefa não está nos projetos da sua equipe"
 
 #: reports/issue_info_ajax.php:203 reports/issue_info_ajax.php:252
 #: reports/issue_info_ajax.php:299 reports/issue_info_ajax.php:364
-#, fuzzy
 msgid "Sorry, you're not an active member of this team"
-msgstr "Desculpe, você nao tem acesso a esta página."
+msgstr "Desculpe, você não é um membro ativo desta equipe"
 
 #: reports/issue_info.php:90
 msgid "You do not have permissions to display task :"
-msgstr ""
+msgstr "Você não tem permissão para exibir a tarefa:"
 
 #: reports/issue_info.php:101
 msgid "Task not found in Mantis DB :"
@@ -6638,7 +6464,7 @@ msgstr "Tarefa não localizada na base de dados do mantis:"
 
 #: reports/statistics.php:86
 msgid "No projects in this team"
-msgstr ""
+msgstr "Não há projetos nesta equipe"
 
 #: reports/project_info.php:322
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:389
@@ -6655,31 +6481,29 @@ msgstr "Casos atuais"
 msgid "Resolved Tasks"
 msgstr "Casos resolvidos"
 
-#: reports/planning_report.php:200
+#: reports/planning_report.php:199
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:201
+#: reports/planning_report.php:200
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:202
+#: reports/planning_report.php:201
 msgid "no deadLine"
 msgstr "sans deadLine"
 
-#: reports/planning_report.php:495
+#: reports/planning_report.php:494
 msgid "Monitored"
 msgstr "Monitorado"
 
 #: reports/issue_info_tools.php:39
-#, fuzzy
 msgid "No date defined"
-msgstr "não definido."
+msgstr "Nenhuma data definida"
 
 #: reports/issue_info_tools.php:41
-#, fuzzy
 msgid "No target version defined"
-msgstr "Meta da versão"
+msgstr "Nenhuma versão de destino definida"
 
 #: tests/odt.php:8
 msgid "Test: export to ODT"
@@ -6687,39 +6511,38 @@ msgstr "Test: Exportar para ODT"
 
 #: tests/odt.php:155
 msgid "Sorry, there are no projects defined for your team."
-msgstr ""
+msgstr "Desculpe, não há projetos definidos para sua equipe."
 
 #: timetracking/team_monthly_activity_report.php:74
 #: timetracking/time_tracking.php:190 timetracking/team_activity_report.php:66
 #: timetracking/missing_timetracks.php:70
+#: timetracking/timetracking_lite.php:120
 msgid "days are incomplete or undefined"
 msgstr "dias estão incompletos ou indefinidos"
 
 #: timetracking/team_monthly_activity_report.php:143
-#: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:505
+#: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:90
+#: timetracking/time_tracking_tools.php:256
+#: timetracking/time_tracking_tools.php:692
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erro: Caso não localizado na base de dados do mantis!"
 
-#: timetracking/time_tracking_tools.php:177
+#: timetracking/time_tracking_tools.php:363
 msgid "Click to add a note"
-msgstr ""
+msgstr "Clique para adicionar uma nota"
 
 #: timetracking/holidays_report.php:66
-#, fuzzy
 msgid "External Tasks"
-msgstr "Tache externe"
+msgstr "Tarefas externas"
 
 #: timetracking/holidays_report.php:71
-#, fuzzy
 msgid "Sidetasks Inactivity"
-msgstr "Inatividade"
+msgstr "Inatividade de tarefas secundárias"
 
 #: timetracking/holidays_report.php:76
-#, fuzzy
 msgid "Activity on other teams"
-msgstr "Data de entrada na equipe"
+msgstr "Atividade em outras equipes"
 
 #: timetracking/holidays_report.php:140
 msgid "today"
@@ -6728,16 +6551,47 @@ msgstr "hoje"
 #. light grey
 #: timetracking/holidays_report.php:206
 msgid "User not in team"
-msgstr ""
+msgstr "Usuário que não faz parte da equipe"
 
 #: timetracking/holidays_report.php:244
-#, fuzzy
 msgid "Other team"
-msgstr "para a equipe"
+msgstr "Outra equipe"
 
+#. should never happen, $isBacklogEditable should be 'false'
+#: timetracking/timetracking_lite_ajax.php:139
+#: timetracking/timetracking_lite_ajax.php:144
+msgid "REFUSED"
+msgstr "RECUSADO"
+
+#: timetracking/timetracking_lite_ajax.php:154
+msgid "ERROR: Failed to update backlog !"
+msgstr "ERRO: Falha ao atualizar a lista de pendências!"
+
+#: timetracking/timetracking_lite_ajax.php:178
+msgid "ERROR: Failed to getAvailableStatusList !"
+msgstr "ERRO: Falha ao obter a lista de status disponíveis!"
+
+#: timetracking/timetracking_lite_ajax.php:219
+msgid "ERROR: Failed to setStatus !"
+msgstr "ERRO: Falha ao definir o status!"
+
+#: timetracking/timetracking_lite_ajax.php:245
 #: timetracking/time_tracking_ajax.php:161
 msgid "Timetracking is forbidden when issue's status is :"
 msgstr "O acompanhamento em tempo real não é permitido quando a situação do problema é:"
+
+#. existing tt is too small to be decreased, FORBID the change, do nothing !
+#. $logger->error("DEBUG: existing tt is too small to be decreased tt=".$timetrackCandidate->getDuration()." diff=$diffToRemove");
+#. No tt with same jobid, FORBID the change, do nothing !
+#. $logger->error("DEBUG: no tt with same jobid");
+#: timetracking/timetracking_lite_ajax.php:337
+#: timetracking/timetracking_lite_ajax.php:342
+msgid "Sorry, multiple existing timetracks, please use the regular Timetracking page"
+msgstr "Desculpe, existem várias faixas de horário, por favor, use a página regular de faixas de horário"
+
+#: timetracking/timetracking_lite_ajax.php:358
+msgid "ERROR: Failed to add/update timetrack !"
+msgstr "ERRO: Falha ao adicionar/atualizar a trilha de tempo!"
 
 #: timetracking/time_tracking_ajax.php:442
 msgid "ERROR: Failed to delete the timetrack !"
@@ -6746,47 +6600,43 @@ msgstr "ERROR: Falha em apagar o cronograma !"
 #. forbid adding timetrack, return error
 #: timetracking/time_tracking_ajax.php:475
 msgid "Timetrack not added: Timetrack note is mandatory"
-msgstr ""
+msgstr "Faixa de horário não adicionada: a nota da faixa de horário é obrigatória"
 
 #: timetracking/time_tracking_ajax.php:479
 msgid "Timetrack not added: Job is not specified"
-msgstr ""
+msgstr "Timetrack não adicionado: o trabalho não está especificado"
 
 #: timetracking/time_tracking_ajax.php:482
-#, fuzzy
 msgid "Timetrack not added: bugid is not specified"
-msgstr "Atividades"
+msgstr "Timetrack não adicionado: o bugid não foi especificado"
 
 #: timetracking/time_tracking_ajax.php:485
-#, fuzzy
 msgid "Timetrack not added: duration is not specified"
-msgstr "Lista de duração para contar o tempo"
+msgstr "Timetrack não adicionado: a duração não é especificada"
 
 #: timetracking/time_tracking_ajax.php:530
 msgid "ERROR: Failed to add timetrack !"
 msgstr "ERRO: Falha em adicionar cronograma !"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:62
-#, fuzzy
 msgid "Task deadlines alert"
-msgstr "Lista de casos"
+msgstr "Alerta de prazos de tarefas"
 
 #: plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.class.php:65
 msgid "Display unresolved tasks that should have been delivered"
-msgstr ""
+msgstr "Exibir tarefas não resolvidas que deveriam ter sido entregues"
 
 #: plugins/AdminTools/AdminTools.class.php:68
-#, fuzzy
 msgid "CodevTT administration tools"
-msgstr "Administração CodevTT"
+msgstr "Ferramentas de administração do CodevTT"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:55
 msgid "Task burndown chart"
-msgstr ""
+msgstr "Gráfico de burndown de tarefas"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:58
 msgid "Display task backlog updates since the task creation"
-msgstr ""
+msgstr "Exibir atualizações do backlog da tarefa desde a criação da tarefa"
 
 #: plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.class.php:157
 msgid "Backlog (days)"
@@ -6798,78 +6648,73 @@ msgstr "Gerenciamento"
 
 #: plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.class.php:74
 msgid "Man-days available in period, except leaves and external tasks"
-msgstr ""
+msgstr "Dias-homem disponíveis no período, exceto licenças e tarefas externas"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:199
 msgid "Task is not in team's projects"
-msgstr ""
+msgstr "A tarefa não está nos projetos da equipe"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
-#, fuzzy
 msgid "Timetrack added by "
-msgstr "Nota Timetrack"
+msgstr "Timetrack adicionado por "
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
-msgstr ""
+msgstr "A tarefa não existe!"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:59
-#, fuzzy
 msgid "Management load history"
-msgstr "Gerenciamento"
+msgstr "Histórico de carga de gerenciamento"
 
 #: plugins/ManagementLoadHistoryIndicator/ManagementLoadHistoryIndicator.class.php:62
 msgid "Compares the elapsed time on management sideTasks to the management provisions"
-msgstr ""
+msgstr "Compara o tempo decorrido das tarefas do lado do gerenciamento com as provisões de gerenciamento"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:75
 msgid "Import Mantis relationship-tree to WBS"
-msgstr ""
+msgstr "Importar a árvore de relacionamento do Mantis para o PEP"
 
 #: plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.class.php:78
 msgid "Import a mantis parent-child relationship issue structure to a command WBS structure"
-msgstr ""
+msgstr "Importar uma estrutura de problemas de relacionamento pai-filho do Mantis para uma estrutura WBS de comando"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:71
 msgid "Load per user groups"
-msgstr ""
+msgstr "Carga por grupos de usuários"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:74
 msgid "Check all the timetracks of the period and return their repartition per User groups"
-msgstr ""
+msgstr "Verifique todas as faixas de horário do período e retorne sua repartição por grupos de usuários"
 
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:334
 msgid "No group defined"
-msgstr ""
+msgstr "Nenhum grupo definido"
 
 #. return T_('Task drift alert');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:68
-#, fuzzy
 msgid "Task drift alert"
-msgstr "Casos à deriva"
+msgstr "Alerta de desvio de tarefa"
 
 #. return T_('Display tasks in drift');
 #: plugins/DriftAlertIndicator/DriftAlertIndicator.class.php:72
-#, fuzzy
 msgid "Display tasks where the elapsed time is greater than the estimated effort"
-msgstr "Casos que estão maiores que o esforço previsto"
+msgstr "Exibir tarefas em que o tempo decorrido é maior do que o esforço estimado"
 
 #: plugins/UserTeamList/UserTeamList.class.php:63
 msgid "Display a history of all the teams for a given user"
-msgstr ""
+msgstr "Exibir um histórico de todas as equipes de um determinado usuário"
 
 #: plugins/CustomUserData/CustomUserData.class.php:64
-#, fuzzy
 msgid "Custom user data"
-msgstr "Campos personalizados"
+msgstr "Dados personalizados do usuário"
 
 #: plugins/CustomUserData/CustomUserData.class.php:69
 msgid "Allows to set some user specific data such as EmployeeId, userId in other DB/Softwares, phoneNumber, etc."
-msgstr ""
+msgstr "Permite definir alguns dados específicos do usuário, como EmployeeId, userId em outros bancos de dados/softwares, phoneNumber, etc."
 
 #: plugins/CustomUserData/CustomUserData.class.php:70
 msgid "The initial goal is to ease the export of CodevTT data to other tools."
-msgstr ""
+msgstr "O objetivo inicial é facilitar a exportação de dados do CodevTT para outras ferramentas."
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:61
 msgid "Sum elapsed time on management sideTasks and compare to the sum of command provisions. Returns a result in man-days and costs"
@@ -6878,68 +6723,64 @@ msgstr "Soma o tempo decorrido em sideTasks de gerenciamento e compare com a som
 #: plugins/ManagementCosts/ManagementCosts.class.php:168
 #: plugins/CostsIndicator/CostsIndicator.class.php:187
 msgid "No AverageDailyCost defined in team settings"
-msgstr ""
+msgstr "Nenhum AverageDailyCost definido nas configurações da equipe"
 
 #: plugins/ManagementCosts/ManagementCosts.class.php:175
 #: plugins/CostsIndicator/CostsIndicator.class.php:194
 msgid "Sorry, only managers can access this plugin"
-msgstr ""
+msgstr "Desculpe, apenas gerentes podem acessar esse plug-in"
 
 #: plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.class.php:64
 msgid "Display the bug reopened rate history"
-msgstr ""
+msgstr "Exibir o histórico de taxas de reabertura de bugs"
 
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:65
 msgid "Import a list of issues to MantisBT / CodevTT from a CSV file"
-msgstr ""
+msgstr "Importar uma lista de problemas para o MantisBT / CodevTT a partir de um arquivo CSV"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:60
-#, fuzzy
 msgid "Move Issue Timetracks"
-msgstr "Atividades"
+msgstr "Movimentação de faixas de horário de emissão"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks.class.php:64
 msgid "Move timetracks from one issue to another"
-msgstr ""
+msgstr "Mova as faixas de tempo de um problema para outro"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:71
-#, fuzzy
 msgid "Please, fill all fields"
-msgstr "Campos disponíveis"
+msgstr "Por favor, preencha todos os campos"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:85
 msgid "This origin task doesn't exist"
-msgstr ""
+msgstr "Essa tarefa de origem não existe"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:117
 msgid "This destination task doesn't exist"
-msgstr ""
+msgstr "Essa tarefa de destino não existe"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:120
 msgid "No timetracks for this search"
-msgstr ""
+msgstr "Não há registros de tempo para esta pesquisa"
 
 #: plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.php:171
 msgid "Please, display timetracks before moving them"
-msgstr ""
+msgstr "Por favor, exiba as trilhas de tempo antes de movê-las"
 
 #: plugins/StatusHistoryIndicator2/StatusHistoryIndicator2.class.php:70
-#, fuzzy
 msgid "Display Issue Status history"
-msgstr "Tâches résolues"
+msgstr "Exibir histórico do status do problema"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:91
 msgid "SellingPrice = DailyPrice x Elapsed on period"
-msgstr ""
+msgstr "Preço de venda = Preço diário x Período decorrido"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr ""
+msgstr "AVISO: Você precisa atribuir o customField \"CodevTT_DailyPrice\" aos seguintes projetos: "
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
-#, fuzzy
 msgid "Display the progress history"
-msgstr "Progresso Mgr"
+msgstr "Exibir o histórico de progresso"
 
 #: plugins/LoadHistoryIndicator/LoadHistoryIndicator.class.php:71
 msgid "Display the elapsed time in a period"
@@ -6947,15 +6788,15 @@ msgstr "Mostrar tempo decorrido durante um período"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:63
 msgid "Budget drift history"
-msgstr ""
+msgstr "Histórico de desvios orçamentários"
 
 #: plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.class.php:66
 msgid "Display the budget history"
-msgstr ""
+msgstr "Exibir o histórico do orçamento"
 
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:72
 msgid "Choose a customfield, return the elapsed time for each customField value"
-msgstr ""
+msgstr "Escolha um campo personalizado e retorne o tempo decorrido para cada valor de customField"
 
 #: plugins/TimetrackList/TimetrackList.class.php:84
 msgid "List and edit timetracks"
@@ -6963,16 +6804,15 @@ msgstr "Listar e editar timetracks"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:72
 msgid "Check all the tasks and return the backlog per User"
-msgstr ""
+msgstr "Verifique todas as tarefas e retorne o backlog por usuário"
 
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:258
-#, fuzzy
 msgid "(unknown 0)"
-msgstr "desconhecido"
+msgstr "(desconhecido 0)"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:88
 msgid "List the active tasks on a given period"
-msgstr ""
+msgstr "Listar as tarefas ativas em um determinado período"
 
 #: plugins/OngoingTasks/OngoingTasks.class.php:90
 msgid "Tasks having received timetracks during the period"
@@ -6984,54 +6824,51 @@ msgstr "Exibir o número de problemas enviados/resolvidos em um período"
 
 #: plugins/ImportUsers/ImportUsers.class.php:71
 msgid "Import a list of users to MantisBT / CodevTT"
-msgstr ""
+msgstr "Importar uma lista de usuários para o MantisBT / CodevTT"
 
 #: plugins/ImportUsers/ImportUsers.class.php:74
 msgid "Note: only available for administrators & team leaders"
-msgstr ""
+msgstr "Observação: disponível apenas para administradores e líderes de equipe"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:108
 msgid "Your are not allowed to import users"
-msgstr ""
+msgstr "Você não tem permissão para importar usuários"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
-msgstr ""
+msgstr "Sua conta CodevTT / Mantis foi criada: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "Please, change your password on your first connection."
-msgstr ""
+msgstr "Altere sua senha em sua primeira conexão."
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:168
-#, fuzzy
 msgid "CodevTT URL: "
-msgstr "CodevTT admin"
+msgstr "URL do CodevTT: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
-msgstr ""
+msgstr "Mantis  URL: "
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
-msgstr ""
+msgstr "Atenciosamente"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:171
 msgid "[CodevTT] Your password"
-msgstr ""
+msgstr "[CodevTT] Sua senha"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:73
 msgid "Check all the timetracks of the period and return their repartition per project categories"
-msgstr ""
+msgstr "Verifique todas as faixas de horário do período e retorne sua divisão por categorias de projeto"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:347
-#, fuzzy
 msgid "All Sidetasks Projects"
-msgstr "Todas tarefas correlatas do Projeto"
+msgstr "Todos os projetos de tarefas secundárias"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:348
-#, fuzzy
 msgid "All Production Projects"
-msgstr "Jours de Production : Projets"
+msgstr "Todos os projetos de produção"
 
 #: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:349
 msgid "All Projects"
@@ -7047,27 +6884,24 @@ msgstr "Exportar WBS para arquivo CSV"
 
 #: plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator.class.php:63
 msgid "Display additional info on timetracks"
-msgstr ""
+msgstr "Exibir informações adicionais nas faixas de horário"
 
 #: plugins/BlogPlugin/BlogPost.class.php:112
-#, fuzzy
 msgid "Low"
-msgstr "Log"
+msgstr "Baixo"
 
 #: plugins/BlogPlugin/BlogPost.class.php:114
-#, fuzzy
 msgid "Normal"
 msgstr "Normal"
 
 #: plugins/BlogPlugin/BlogPost.class.php:116
-#, fuzzy
 msgid "High"
 msgstr "Alta"
 
 #. This case happens when an Administrator sends a message to "All" users
 #: plugins/BlogPlugin/BlogPost.class.php:377
 msgid "Everybody"
-msgstr ""
+msgstr "Todo mundo"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:67
 msgid "Messages"
@@ -7079,7 +6913,7 @@ msgstr "Mostrar uma parede de mensagem na página inicial"
 
 #: plugins/BlogPlugin/BlogPlugin.class.php:71
 msgid "Allows Administrators & team members to send messages that will be displayed on other users' wall"
-msgstr ""
+msgstr "Permite que os administradores e membros da equipe enviem mensagens que serão exibidas no mural de outros usuários"
 
 #: plugins/BurnDownChart/BurnDownChart.class.php:66
 msgid "Display the backlog history"
@@ -7134,22 +6968,20 @@ msgid "Display the delay between the timetrack date and it's creation date"
 msgstr "Mostrar o atraso entre a data do cronograma e sua data de criação"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:68
-#, fuzzy
 msgid "Display the EffortEstim reliability rate history"
-msgstr "EffortEstim Não especificado"
+msgstr "Exibir o histórico da taxa de confiabilidade do EffortEstim"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:69
-#, fuzzy
 msgid "rate = EffortEstim / elapsed (on resolved tasks only)"
-msgstr "Nenhum caso resolvido..."
+msgstr "taxa = EffortEstim / decorrido (somente em tarefas resolvidas)"
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:72
 msgid "REM: An issue that has been reopened before endTimestamp will NOT be recorded."
-msgstr ""
+msgstr "REM: um problema que tenha sido reaberto antes do endTimestamp NÃO será registrado."
 
 #: plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.class.php:73
 msgid "(For the bugs that where re-opened, the EffortEstim may not have been re-estimated, and thus the result is not reliable.)"
-msgstr ""
+msgstr "(Para os bugs que foram reabertos, o EffortEstim pode não ter sido reestimado e, portanto, o resultado não é confiável)"
 
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:79
 msgid "Group tasks by adding multiple filters"
@@ -7157,19 +6989,19 @@ msgstr "Agrupar tarefas adicionando vários filtros"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:60
 msgid "Remove dashboard plugins"
-msgstr ""
+msgstr "Remover os plug-ins do painel"
 
 #: plugins/ResetDashboard/ResetDashboard.class.php:63
 msgid "Remove all plugins from a dashboard. This is usefull if a plugin crashes the page"
-msgstr ""
+msgstr "Remover todos os plug-ins de um painel. Isso é útil se um plug-in travar a página"
 
 #: plugins/CostsIndicator/CostsIndicator.class.php:68
 msgid "Compute costs, using the UserDailyCosts defined in team settings"
-msgstr ""
+msgstr "Calcular os custos, usando os UserDailyCosts definidos nas configurações da equipe"
 
 #: scheduler/SchedulerTaskProvider0.class.php:44
 msgid "Standard issue priority scheduling"
-msgstr ""
+msgstr "Programação de prioridade de saída padrão"
 
 #. TODO use this value to stop scheduler computing if OPTION_nbDaysForecast is too big
 #. $max_time = ini_get("max_execution_time");
@@ -7185,11 +7017,11 @@ msgstr "Hoje"
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"
-msgstr ""
+msgstr "Segunda-feira desta semana"
 
 #: scheduler/scheduler.php:110
 msgid "First week of this month"
-msgstr ""
+msgstr "Primeira semana deste mês"
 
 #: scheduler/scheduler.php:116
 msgid "2 weeks"
@@ -7197,27 +7029,27 @@ msgstr "2 semanas"
 
 #: scheduler/scheduler.php:117
 msgid "1 month"
-msgstr ""
+msgstr "1 mês"
 
 #: scheduler/scheduler.php:118
 msgid "2 months"
-msgstr ""
+msgstr "2 meses"
 
 #: scheduler/scheduler.php:119
 msgid "3 months"
-msgstr ""
+msgstr "3 meses"
 
 #: scheduler/SchedulerTaskProvider.class.php:46
 msgid "Daily breakdown scheduling"
-msgstr ""
+msgstr "Programação de paradas diárias"
 
 #: scheduler/scheduler_ajax.php:328
 msgid "Assignments rules not valid for task"
-msgstr ""
+msgstr "As regras de atribuição não são válidas para a tarefa"
 
 #: scheduler/scheduler_ajax.php:342
 msgid "Assignments updated for task"
-msgstr ""
+msgstr "Atribuições atualizadas para a tarefa"
 
 #. 'arrivalDate' = should not be defined here, as another ajax call is doing the $schedulerManager->execute()
 #: scheduler/scheduler_ajax.php:389

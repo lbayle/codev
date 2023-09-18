@@ -18,13 +18,381 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-07-06 11:02:27+0000\n"
+"PO-Revision-Date: 2023-10-12 11:01:57+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-05-11 18:30:24+0000\n"
-"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-07-10\n"
+"X-POT-Import-Date: 2023-09-17 16:30:31+0000\n"
+"X-Generator: MediaWiki 1.42.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ( (n == 1) ? 1 : ( (n == 2) ? 2 : ( (n%100 >= 3 && n%100 <= 10) ? 3 : ( (n%100 >= 11 && n%100 <= 99) ? 4 : 5 ) ) ) );\n"
+
+#. tpl/timetracking_lite.html
+msgid "Add task"
+msgstr "إضافة مهمة"
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/consistency_check.html
+#. tpl/planning_report.html
+msgid "Click to show errors"
+msgstr "انقر لعرض الأخطاء"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Previous week"
+msgstr "الاسبوع السابق"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Week"
+msgstr "أسبوع"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Next week"
+msgstr "الأسبوع القادم"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/set_holidays.html
+#. tpl/form/bugSelector.html
+#. tpl/time_tracking.html
+#. tpl/modal/edit_issueNote.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/edit_team.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/menu/global_menu.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#: management/command_info_ajax.php:305 management/command_info_ajax.php:307
+#: reports/planning_report.php:467 reports/planning_report.php:469
+#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
+#: scheduler/SchedulerEvent.class.php:123
+#: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
+#: gantt/gantt_ajax.php:192
+msgid "Task"
+msgstr "مهمة"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/productivity_report.html
+#. tpl/export_odt.html
+#. tpl/project_activity_report.html
+#. tpl/time_tracking.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/modal/select_issues.html
+#. tpl/edit_team.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/plugin_manager.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. unset($tooltipAttr[T_('Project')]);
+#. unset($tooltipAttr[T_('Type')]);
+#. unset($tooltipAttr[T_('Category')]);
+#: classes/wbsElement.class.php:694 classes/issue.class.php:2244
+#: reports/project_info.php:300 reports/planning_report.php:457
+#: reports/planning_report.php:480 plugins/WBSExport/WBSExport.class.php:148
+#: scheduler/SchedulerEvent.class.php:113
+#: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
+#: tools.php:1559
+msgid "Status"
+msgstr "الحالة"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/issueGeneralInfo.html
+#. tpl/ajax/schedulerAffectationSummary.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/productivity_report.html
+#. tpl/project_activity_report.html
+#. tpl/tools/wbsReader.html
+#. tpl/servicecontract_info.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/BurnDownChart/BurnDownChart_ajax.html
+#. plugins/BurnDownChart/BurnDownChart.html
+#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#. $titles[] = T_("Elapsed");
+#: reports/project_info.php:178 reports/project_info.php:235
+#: reports/planning_report.php:461 tests/filters.php:71
+#: plugins/WBSExport/WBSExport.class.php:153
+#: plugins/TasksPivotTable/TasksPivotTable.class.php:295
+#: scheduler/SchedulerEvent.class.php:117
+#: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
+#: tools.php:1488 tools.php:1497
+msgid "Backlog"
+msgstr "التراكم"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/productivity_report.html
+#. tpl/project_activity_report.html
+#. tpl/team_activity_report.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/command_info.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+msgid "BL"
+msgstr "BL"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/servicecontract_info.html
+#. tpl/commandset_info.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#. plugins/ManagementCosts/ManagementCosts_ajax.html
+#. plugins/ManagementCosts/ManagementCosts_ajax2.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
+msgid "TOTAL"
+msgstr "إجمالي"
+
+#. tpl/timetracking_lite.html
+msgid "Hint: Click in a field to edit 'Elapsed time' or 'Backlog'"
+msgstr ""
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+msgid "Hide tasks not assigned to me"
+msgstr "إخفاء المهام لم يتم تعيينها لي"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+msgid "Hide resolved tasks"
+msgstr "إخفاء المهام المحلولة"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/servicecontract_edit.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/filters.html
+#. tpl/export_odt.html
+#. tpl/form/projectSelector.html
+#. tpl/edit_jobs.html
+#. tpl/command_edit.html
+#. tpl/project_info.html
+#. tpl/time_tracking.html
+#. tpl/servicecontract_info.html
+#. tpl/modal/select_issues.html
+#. tpl/team_activity_report.html
+#. tpl/edit_team.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/menu/global_menu.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
+#: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
+#: management/commandset_info.php:141 management/command_info.php:225
+#: management/servicecontract_info.php:138 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298
+#: reports/planning_report.php:230 reports/planning_report.php:471
+#: reports/planning_report.php:472 tests/odt.php:25
+#: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:326
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
+#: plugins/ResetDashboard/ResetDashboard.class.php:263
+#: scheduler/SchedulerEvent.class.php:127
+#: scheduler/SchedulerEvent.class.php:128 tools.php:1555
+msgid "Project"
+msgstr "المشروع"
+
+#. tpl/timetracking_lite.html
+#. tpl/set_holidays.html
+#. tpl/time_tracking.html
+#. --- define the list of tasks the user can display
+#. All projects from teams where I'm a Developper or Manager AND Observer
+#: reports/issue_info.php:56 reports/export_odt.php:83
+#: reports/export_odt.php:113 reports/export_odt.php:164
+#: reports/export_odt_ajax.php:32 reports/export_odt_ajax.php:61
+#: smarty_tools_ajax.php:46
+msgid "(all)"
+msgstr "(الكل)"
+
+#. tpl/timetracking_lite.html
+#. tpl/edit_jobs.html
+#. tpl/time_tracking.html
+#. tpl/modal/select_issues.html
+#. tpl/modal/login.html
+#. tpl/command_info.html
+#. tpl/gantt.html
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "OK"
+msgstr "موافق"
+
+#. tpl/timetracking_lite.html
+#. tpl/user_info.html
+#. tpl/edit_jobs.html
+#. tpl/command_edit.html
+#. tpl/time_tracking.html
+#. tpl/tools/dashboard.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/gantt.html
+#. plugins/UserTeamList/UserTeamList.html
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. tpl/timetracking_lite.html
+#. tpl/servicecontract_edit.html
+#. tpl/command_edit.html
+#. tpl/commandset_edit.html
+#. tpl/time_tracking.html
+#. tpl/tools/wbsEditor.html
+#. tpl/edit_team.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:414
+#: plugins/BlogPlugin/BlogPost.class.php:425
+msgid "Delete"
+msgstr "حذف"
+
+#. tpl/timetracking_lite.html
+#. tpl/command_edit.html
+#. tpl/time_tracking.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. plugins/UserTeamList/UserTeamList.html
+msgid "Update"
+msgstr "تحديث"
+
+#. tpl/timetracking_lite.html
+#. tpl/user_info.html
+#. tpl/time_tracking.html
+#. tpl/modal/login.html
+#. tpl/plugin_manager.html
+msgid "Please wait..."
+msgstr "الرجاء الانتظار..."
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/TimetrackList/TimetrackList.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+msgid "Job"
+msgstr "وظيفة"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/scheduler.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. $finalTooltipAttr[T_('Attributes')] =
+#. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
+#. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
+#. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+msgid "Duration"
+msgstr "المدة"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/issue_info.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Enter a keyword or *** to display all..."
+msgstr ""
+
+#. tpl/timetracking_lite.html
+msgid "Invalid backlog format"
+msgstr ""
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/issue_info.html
+#: timetracking/timetracking_lite_ajax.php:139
+msgid "Task not resolved, backlog cannot be '0'"
+msgstr "المهمة لم تُحَل، التراكم لا يمكن أن يكون \"0\""
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/update_issueBacklog.html
+msgid "Status can't be : "
+msgstr "الوضع لا يمكن أن يكون: "
+
+#. tpl/timetracking_lite.html
+msgid "Please update status before editing timetracks"
+msgstr ""
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/user_info.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/export_odt.html
+#. tpl/project_activity_report.html
+#. tpl/project_info.html
+#. tpl/time_tracking.html
+#. tpl/missing_timetracks.html
+#. tpl/servicecontract_info.html
+#. tpl/team_activity_report.html
+#. tpl/planning_report.html
+#. tpl/commandset_info.html
+#. tpl/mantis_reports.html
+#. tpl/forecasting_report.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/holidays_report.html
+#. tpl/gantt.html
+#: reports/team_dashboard.php:95
+msgid "Please select a team to access this page."
+msgstr "الرجاء اختيار فريق لدخول هذه الصفحة."
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
@@ -63,118 +431,12 @@ msgid "User"
 msgstr "مستخدم"
 
 #. tpl/check.html
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/set_holidays.html
-#. tpl/form/bugSelector.html
-#. tpl/time_tracking.html
-#. tpl/modal/edit_issueNote.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
-#. tpl/edit_team.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/menu/global_menu.html
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#: management/command_info_ajax.php:307 reports/planning_report.php:468
-#: reports/planning_report.php:470 scheduler/SchedulerEvent.class.php:83
-#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
-#: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
-#: gantt/gantt_ajax.php:192
-msgid "Task"
-msgstr "مهمة"
-
-#. tpl/check.html
 msgid "extRef"
 msgstr "مرجع خارجي"
 
 #. tpl/check.html
 msgid "last modification date"
 msgstr "تاريخ آخر تعديل"
-
-#. tpl/check.html
-#. tpl/productivity_report.html
-#. tpl/export_odt.html
-#. tpl/project_activity_report.html
-#. tpl/time_tracking.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/modal/select_issues.html
-#. tpl/edit_team.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/plugin_manager.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#. unset($tooltipAttr[T_('Project')]);
-#. unset($tooltipAttr[T_('Type')]);
-#. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2244 reports/project_info.php:300
-#: reports/planning_report.php:458 reports/planning_report.php:481
-#: plugins/WBSExport/WBSExport.class.php:148
-#: scheduler/SchedulerEvent.class.php:113
-#: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
-#: tools.php:1559
-msgid "Status"
-msgstr "الحالة"
-
-#. tpl/check.html
-#. tpl/servicecontract_edit.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/filters.html
-#. tpl/export_odt.html
-#. tpl/form/projectSelector.html
-#. tpl/edit_jobs.html
-#. tpl/command_edit.html
-#. tpl/project_info.html
-#. tpl/time_tracking.html
-#. tpl/servicecontract_info.html
-#. tpl/modal/select_issues.html
-#. tpl/team_activity_report.html
-#. tpl/edit_team.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/menu/global_menu.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/ImportIssueCsv/ImportIssueCsv.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
-#: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/command_info.php:226
-#: management/servicecontract_info.php:138 reports/project_info.php:275
-#: reports/project_info.php:286 reports/project_info.php:298
-#: reports/planning_report.php:231 reports/planning_report.php:472
-#: reports/planning_report.php:473 tests/odt.php:25
-#: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:326
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
-#: plugins/ResetDashboard/ResetDashboard.class.php:263
-#: scheduler/SchedulerEvent.class.php:127
-#: scheduler/SchedulerEvent.class.php:128 tools.php:1555
-msgid "Project"
-msgstr "المشروع"
 
 #. tpl/check.html
 #. tpl/ajax/schedulerAffectationSummary.html
@@ -198,10 +460,10 @@ msgstr "المشروع"
 #. insert in front
 #: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
-#: management/command_info.php:227 management/servicecontract_info.php:139
+#: management/command_info.php:226 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
-#: reports/project_info.php:299 reports/planning_report.php:232
-#: reports/planning_report.php:475
+#: reports/project_info.php:299 reports/planning_report.php:231
+#: reports/planning_report.php:474
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:250
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:327
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
@@ -224,30 +486,6 @@ msgstr "مستوى"
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Error Description"
 msgstr "وصف خاطئ"
-
-#. tpl/check.html
-#. tpl/user_info.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/export_odt.html
-#. tpl/project_activity_report.html
-#. tpl/project_info.html
-#. tpl/time_tracking.html
-#. tpl/missing_timetracks.html
-#. tpl/servicecontract_info.html
-#. tpl/team_activity_report.html
-#. tpl/planning_report.html
-#. tpl/commandset_info.html
-#. tpl/mantis_reports.html
-#. tpl/forecasting_report.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/holidays_report.html
-#. tpl/gantt.html
-msgid "Please select a team to access this page."
-msgstr "الرجاء اختيار فريق لدخول هذه الصفحة."
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
@@ -377,18 +615,6 @@ msgstr "تاريخ الانتهاء"
 #. tpl/command_info.html
 msgid "State"
 msgstr "الحالة"
-
-#. tpl/servicecontract_edit.html
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/time_tracking.html
-#. tpl/tools/wbsEditor.html
-#. tpl/edit_team.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:425
-msgid "Delete"
-msgstr "حذف"
 
 #. tpl/servicecontract_edit.html
 #. tpl/edit_holidays.html
@@ -630,40 +856,6 @@ msgid "Elapsed"
 msgstr "المنقضي"
 
 #. tpl/ajax/issueGeneralInfo.html
-#. tpl/ajax/schedulerAffectationSummary.html
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/productivity_report.html
-#. tpl/project_activity_report.html
-#. tpl/tools/wbsReader.html
-#. tpl/servicecontract_info.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/BurnDownChart/BurnDownChart_ajax.html
-#. plugins/BurnDownChart/BurnDownChart.html
-#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#. $titles[] = T_("Elapsed");
-#: reports/project_info.php:235 reports/planning_report.php:462
-#: tests/filters.php:71 plugins/WBSExport/WBSExport.class.php:153
-#: plugins/TasksPivotTable/TasksPivotTable.class.php:295
-#: scheduler/SchedulerEvent.class.php:117
-#: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
-#: tools.php:1488 tools.php:1497
-msgid "Backlog"
-msgstr "التراكم"
-
-#. tpl/ajax/issueGeneralInfo.html
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. tpl/tools/wbsReader.html
@@ -793,50 +985,8 @@ msgid "Tasks"
 msgstr "مهام"
 
 #. tpl/ajax/weekTaskDetails.html
-#. tpl/productivity_report.html
-#. tpl/project_activity_report.html
-#. tpl/team_activity_report.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/command_info.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-msgid "BL"
-msgstr "BL"
-
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/TimetrackList/TimetrackList.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-msgid "Job"
-msgstr "وظيفة"
-
-#. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
 msgstr "تحديث التراكم"
-
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/servicecontract_info.html
-#. tpl/commandset_info.html
-#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
-#. plugins/ManagementCosts/ManagementCosts_ajax3.html
-#. plugins/ManagementCosts/ManagementCosts_ajax.html
-#. plugins/ManagementCosts/ManagementCosts_ajax2.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
-msgid "TOTAL"
-msgstr "إجمالي"
 
 #. tpl/statistics.html
 msgid "Start Year"
@@ -1119,27 +1269,6 @@ msgstr "الدور"
 msgid "Team arrival date"
 msgstr "تاريخ وصول المستخدم"
 
-#. tpl/user_info.html
-#. tpl/edit_jobs.html
-#. tpl/command_edit.html
-#. tpl/time_tracking.html
-#. tpl/tools/dashboard.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/gantt.html
-#. plugins/UserTeamList/UserTeamList.html
-#. plugins/BlogPlugin/BlogPlugin.html
-msgid "Cancel"
-msgstr "إلغاء"
-
-#. tpl/user_info.html
-#. tpl/time_tracking.html
-#. tpl/modal/login.html
-#. tpl/plugin_manager.html
-msgid "Please wait..."
-msgstr "الرجاء الانتظار..."
-
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
 msgstr "معدل تراكم الاختلاف"
@@ -1289,16 +1418,6 @@ msgstr "عذرا، تحتاج إلى أن تكون مشرف فريق للوصو�
 #. tpl/command_info.html
 msgid "Select"
 msgstr "اختر"
-
-#. tpl/set_holidays.html
-#. tpl/time_tracking.html
-#. --- define the list of tasks the user can display
-#. All projects from teams where I'm a Developper or Manager AND Observer
-#: reports/export_odt.php:83 reports/export_odt.php:113
-#: reports/export_odt.php:164 reports/export_odt_ajax.php:32
-#: reports/export_odt_ajax.php:61 smarty_tools_ajax.php:46
-msgid "(all)"
-msgstr "(الكل)"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -1503,7 +1622,6 @@ msgstr "nb مهام"
 #. tpl/forecasting_report.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
-#: classes/time_tracking.class.php:458
 msgid "nb days"
 msgstr "nb أيام"
 
@@ -1716,8 +1834,8 @@ msgstr "تم الإبلاغ بواسطة"
 #. tpl/issue_info.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. add in front
-#: classes/wbsElement.class.php:686 classes/wbsElement.class.php:688
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#: classes/wbsElement.class.php:688 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "أوكلت إلى"
 
@@ -1953,16 +2071,6 @@ msgstr "الحقول الناقصة:"
 msgid "Jobs"
 msgstr "الوظائف"
 
-#. tpl/edit_jobs.html
-#. tpl/time_tracking.html
-#. tpl/modal/select_issues.html
-#. tpl/modal/login.html
-#. tpl/command_info.html
-#. tpl/gantt.html
-#. plugins/BlogPlugin/BlogPlugin.html
-msgid "OK"
-msgstr "موافق"
-
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
 msgstr "هل تريد إزالة CodevTT من خادم Mantis الخاص بك؟"
@@ -2059,7 +2167,7 @@ msgstr "أوامر جديدة"
 #. tpl/issue_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: reports/planning_report.php:463 reports/planning_report.php:492
+#: reports/planning_report.php:462 reports/planning_report.php:491
 #: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1500
@@ -2078,7 +2186,7 @@ msgstr "قيمة البيع"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #: classes/command.class.php:814 classes/consistency_check2.class.php:708
-#: classes/scheduler.class.php:74 reports/planning_report.php:489
+#: classes/scheduler.class.php:74 reports/planning_report.php:488
 #: scheduler/SchedulerEvent.class.php:140
 msgid "days"
 msgstr "أيام"
@@ -2208,14 +2316,6 @@ msgstr "متوسط ​​التقييم اليومي"
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
 msgstr "إضافة إلى \"التحقق من الميزانية\""
-
-#. tpl/command_edit.html
-#. tpl/time_tracking.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. plugins/UserTeamList/UserTeamList.html
-msgid "Update"
-msgstr "تحديث"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -2386,19 +2486,6 @@ msgstr "تحرير المسار الزمني"
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/team_activity_report.html
-#. tpl/scheduler.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. $finalTooltipAttr[T_('Attributes')] =
-#. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
-#. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
-#. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
-msgid "Duration"
-msgstr "المدة"
-
-#. tpl/time_tracking.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
 #. tpl/issue_info.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -2412,31 +2499,8 @@ msgid "Reduce the tasks selection by setting some filters"
 msgstr "تخفيض اختيار المهام من خلال وضع بعض المرشحات"
 
 #. tpl/time_tracking.html
-msgid "Hide tasks not assigned to me"
-msgstr "إخفاء المهام لم يتم تعيينها لي"
-
-#. tpl/time_tracking.html
-msgid "Hide resolved tasks"
-msgstr "إخفاء المهام المحلولة"
-
-#. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
 msgstr ""
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Week"
-msgstr "أسبوع"
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Previous week"
-msgstr "الاسبوع السابق"
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Next week"
-msgstr "الأسبوع القادم"
 
 #. tpl/time_tracking.html
 msgid "Week timetracks"
@@ -2470,12 +2534,6 @@ msgstr "المسارات الزمنية المستقبلية"
 msgid "Delete track"
 msgstr "حذف المسار"
 
-#. tpl/time_tracking.html
-#. tpl/issue_info.html
-#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-msgid "Enter a keyword or *** to display all..."
-msgstr ""
-
 #. tpl/missing_timetracks.html
 #. tpl/menu/global_menu.html
 #, fuzzy
@@ -2494,6 +2552,7 @@ msgstr "نقل المسارات الزمنية للقضية"
 #: management/servicecontract_info.php:84 reports/issue_info.php:121
 #: reports/issue_info.php:122 timetracking/team_monthly_activity_report.php:73
 #: timetracking/time_tracking.php:189 timetracking/team_activity_report.php:65
+#: timetracking/timetracking_lite.php:119
 msgid "Errors"
 msgstr "أخطاء"
 
@@ -2580,7 +2639,7 @@ msgstr "إضافة مؤشر"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 #. tpl/command_info.html
-#: reports/planning_report.php:480 scheduler/SchedulerEvent.class.php:135
+#: reports/planning_report.php:479 scheduler/SchedulerEvent.class.php:135
 msgid "Attributes"
 msgstr "السمات"
 
@@ -2706,15 +2765,6 @@ msgid "Update Backlog"
 msgstr "تحديث التراكم"
 
 #. tpl/modal/update_issueBacklog.html
-#. tpl/issue_info.html
-msgid "Task not resolved, backlog cannot be '0'"
-msgstr "المهمة لم تُحَل، التراكم لا يمكن أن يكون \"0\""
-
-#. tpl/modal/update_issueBacklog.html
-msgid "Status can't be : "
-msgstr "الوضع لا يمكن أن يكون: "
-
-#. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
 msgstr "تم حل المهمة; التراكم يجب أن يكون \"0\""
 
@@ -2725,11 +2775,6 @@ msgstr ""
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
 msgstr "ملاحظة المسار الزمني مطلوبة"
-
-#. tpl/modal/consistency_check.html
-#. tpl/planning_report.html
-msgid "Click to show errors"
-msgstr "انقر لعرض الأخطاء"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
@@ -3707,8 +3752,8 @@ msgid "External Ref"
 msgstr "مرجع خارجي"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2255 reports/planning_report.php:459
-#: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
+#: classes/issue.class.php:2255 reports/planning_report.php:458
+#: reports/planning_report.php:481 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
 msgid "Priority"
@@ -3716,8 +3761,8 @@ msgstr "الأولوية"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2251 reports/planning_report.php:460
-#: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
+#: classes/issue.class.php:2251 reports/planning_report.php:459
+#: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
 msgid "Severity"
@@ -3889,6 +3934,10 @@ msgstr "تتبع الوقت ونشاط الفريق"
 #. tpl/menu/global_menu.html
 msgid "Activity"
 msgstr "النشاط"
+
+#. tpl/menu/global_menu.html
+msgid "Time Tracking (lite)"
+msgstr ""
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
@@ -5947,7 +5996,7 @@ msgstr ""
 msgid "Please remove: "
 msgstr ""
 
-#: classes/scheduler.class.php:81 reports/planning_report.php:203
+#: classes/scheduler.class.php:81 reports/planning_report.php:202
 msgid "monitored"
 msgstr "مراقبة"
 
@@ -6491,19 +6540,19 @@ msgstr "المهام الحالية"
 msgid "Resolved Tasks"
 msgstr "المهام المحلولة"
 
-#: reports/planning_report.php:200
+#: reports/planning_report.php:199
 msgid "onTime"
 msgstr "في الوقت المحدد"
 
-#: reports/planning_report.php:201
+#: reports/planning_report.php:200
 msgid "NOT onTime"
 msgstr "ليس في الوقت المحدد"
 
-#: reports/planning_report.php:202
+#: reports/planning_report.php:201
 msgid "no deadLine"
 msgstr "لا يوجد موعد نهائي"
 
-#: reports/planning_report.php:495
+#: reports/planning_report.php:494
 msgid "Monitored"
 msgstr "مراقب"
 
@@ -6526,17 +6575,19 @@ msgstr "معذرة، لا توجد مشاريع محددة لفريقك."
 #: timetracking/team_monthly_activity_report.php:74
 #: timetracking/time_tracking.php:190 timetracking/team_activity_report.php:66
 #: timetracking/missing_timetracks.php:70
+#: timetracking/timetracking_lite.php:120
 msgid "days are incomplete or undefined"
 msgstr "أيام غير مكتملة أو غير محددة"
 
 #: timetracking/team_monthly_activity_report.php:143
-#: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:505
+#: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:90
+#: timetracking/time_tracking_tools.php:256
+#: timetracking/time_tracking_tools.php:692
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "خطأ: لم يتم العثور على المهمة في Mantis DB!"
 
-#: timetracking/time_tracking_tools.php:177
+#: timetracking/time_tracking_tools.php:363
 msgid "Click to add a note"
 msgstr "انقر لإضافة ملاحظة"
 
@@ -6565,8 +6616,40 @@ msgstr "مستخدم ليس في الفريق"
 msgid "Other team"
 msgstr "فريق آخر"
 
+#. should never happen, $isBacklogEditable should be 'false'
+#: timetracking/timetracking_lite_ajax.php:139
+#: timetracking/timetracking_lite_ajax.php:144
+msgid "REFUSED"
+msgstr ""
+
+#: timetracking/timetracking_lite_ajax.php:154
+msgid "ERROR: Failed to update backlog !"
+msgstr ""
+
+#: timetracking/timetracking_lite_ajax.php:178
+msgid "ERROR: Failed to getAvailableStatusList !"
+msgstr ""
+
+#: timetracking/timetracking_lite_ajax.php:219
+msgid "ERROR: Failed to setStatus !"
+msgstr ""
+
+#: timetracking/timetracking_lite_ajax.php:245
 #: timetracking/time_tracking_ajax.php:161
 msgid "Timetracking is forbidden when issue's status is :"
+msgstr ""
+
+#. existing tt is too small to be decreased, FORBID the change, do nothing !
+#. $logger->error("DEBUG: existing tt is too small to be decreased tt=".$timetrackCandidate->getDuration()." diff=$diffToRemove");
+#. No tt with same jobid, FORBID the change, do nothing !
+#. $logger->error("DEBUG: no tt with same jobid");
+#: timetracking/timetracking_lite_ajax.php:337
+#: timetracking/timetracking_lite_ajax.php:342
+msgid "Sorry, multiple existing timetracks, please use the regular Timetracking page"
+msgstr ""
+
+#: timetracking/timetracking_lite_ajax.php:358
+msgid "ERROR: Failed to add/update timetrack !"
 msgstr ""
 
 #: timetracking/time_tracking_ajax.php:442

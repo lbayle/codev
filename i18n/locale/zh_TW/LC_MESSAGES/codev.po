@@ -14,13 +14,381 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-07-06 11:02:34+0000\n"
+"PO-Revision-Date: 2023-10-12 11:02:10+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-05-11 18:30:24+0000\n"
-"X-Generator: MediaWiki 1.41.0-alpha; Translate 2023-07-10\n"
+"X-POT-Import-Date: 2023-09-17 16:30:31+0000\n"
+"X-Generator: MediaWiki 1.42.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#. tpl/timetracking_lite.html
+msgid "Add task"
+msgstr "添加任務"
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/consistency_check.html
+#. tpl/planning_report.html
+msgid "Click to show errors"
+msgstr "點選來顯示錯誤"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Previous week"
+msgstr "上一週"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Week"
+msgstr "週"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+msgid "Next week"
+msgstr "下一週"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/set_holidays.html
+#. tpl/form/bugSelector.html
+#. tpl/time_tracking.html
+#. tpl/modal/edit_issueNote.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/edit_team.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/menu/global_menu.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#: management/command_info_ajax.php:305 management/command_info_ajax.php:307
+#: reports/planning_report.php:467 reports/planning_report.php:469
+#: scheduler/SchedulerEvent.class.php:83 scheduler/SchedulerEvent.class.php:85
+#: scheduler/SchedulerEvent.class.php:123
+#: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
+#: gantt/gantt_ajax.php:192
+msgid "Task"
+msgstr "任務"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/productivity_report.html
+#. tpl/export_odt.html
+#. tpl/project_activity_report.html
+#. tpl/time_tracking.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/modal/select_issues.html
+#. tpl/edit_team.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/plugin_manager.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. unset($tooltipAttr[T_('Project')]);
+#. unset($tooltipAttr[T_('Type')]);
+#. unset($tooltipAttr[T_('Category')]);
+#: classes/wbsElement.class.php:694 classes/issue.class.php:2244
+#: reports/project_info.php:300 reports/planning_report.php:457
+#: reports/planning_report.php:480 plugins/WBSExport/WBSExport.class.php:148
+#: scheduler/SchedulerEvent.class.php:113
+#: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
+#: tools.php:1559
+msgid "Status"
+msgstr "狀態"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/issueGeneralInfo.html
+#. tpl/ajax/schedulerAffectationSummary.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/productivity_report.html
+#. tpl/project_activity_report.html
+#. tpl/tools/wbsReader.html
+#. tpl/servicecontract_info.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/BurnDownChart/BurnDownChart_ajax.html
+#. plugins/BurnDownChart/BurnDownChart.html
+#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#. $titles[] = T_("Elapsed");
+#: reports/project_info.php:178 reports/project_info.php:235
+#: reports/planning_report.php:461 tests/filters.php:71
+#: plugins/WBSExport/WBSExport.class.php:153
+#: plugins/TasksPivotTable/TasksPivotTable.class.php:295
+#: scheduler/SchedulerEvent.class.php:117
+#: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
+#: tools.php:1488 tools.php:1497
+msgid "Backlog"
+msgstr "積壓工作"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/productivity_report.html
+#. tpl/project_activity_report.html
+#. tpl/team_activity_report.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/command_info.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+msgid "BL"
+msgstr "BL"
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/servicecontract_info.html
+#. tpl/commandset_info.html
+#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
+#. plugins/ManagementCosts/ManagementCosts_ajax3.html
+#. plugins/ManagementCosts/ManagementCosts_ajax.html
+#. plugins/ManagementCosts/ManagementCosts_ajax2.html
+#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
+#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
+#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
+#. plugins/CostsIndicator/CostsIndicator.html
+#: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
+msgid "TOTAL"
+msgstr "總計"
+
+#. tpl/timetracking_lite.html
+msgid "Hint: Click in a field to edit 'Elapsed time' or 'Backlog'"
+msgstr "提示：按一下欄位可編輯「已流逝時間」或是「積壓工作」"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+msgid "Hide tasks not assigned to me"
+msgstr "隱藏未分配給我的任務"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+msgid "Hide resolved tasks"
+msgstr "隱藏已解決任務"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/servicecontract_edit.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/filters.html
+#. tpl/export_odt.html
+#. tpl/form/projectSelector.html
+#. tpl/edit_jobs.html
+#. tpl/command_edit.html
+#. tpl/project_info.html
+#. tpl/time_tracking.html
+#. tpl/servicecontract_info.html
+#. tpl/modal/select_issues.html
+#. tpl/team_activity_report.html
+#. tpl/edit_team.html
+#. tpl/commandset_info.html
+#. tpl/forecasting_report.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/menu/global_menu.html
+#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
+#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#. plugins/ImportIssueCsv/ImportIssueCsv.html
+#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
+#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
+#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/TimetrackList/TimetrackList_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_cfg.html
+#. plugins/OngoingTasks/OngoingTasks_ajax.html
+#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
+#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
+#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
+#: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
+#: management/commandset_info.php:141 management/command_info.php:225
+#: management/servicecontract_info.php:138 reports/project_info.php:275
+#: reports/project_info.php:286 reports/project_info.php:298
+#: reports/planning_report.php:230 reports/planning_report.php:471
+#: reports/planning_report.php:472 tests/odt.php:25
+#: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:326
+#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
+#: plugins/ResetDashboard/ResetDashboard.class.php:263
+#: scheduler/SchedulerEvent.class.php:127
+#: scheduler/SchedulerEvent.class.php:128 tools.php:1555
+msgid "Project"
+msgstr "專案"
+
+#. tpl/timetracking_lite.html
+#. tpl/set_holidays.html
+#. tpl/time_tracking.html
+#. --- define the list of tasks the user can display
+#. All projects from teams where I'm a Developper or Manager AND Observer
+#: reports/issue_info.php:56 reports/export_odt.php:83
+#: reports/export_odt.php:113 reports/export_odt.php:164
+#: reports/export_odt_ajax.php:32 reports/export_odt_ajax.php:61
+#: smarty_tools_ajax.php:46
+msgid "(all)"
+msgstr "（全部）"
+
+#. tpl/timetracking_lite.html
+#. tpl/edit_jobs.html
+#. tpl/time_tracking.html
+#. tpl/modal/select_issues.html
+#. tpl/modal/login.html
+#. tpl/command_info.html
+#. tpl/gantt.html
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "OK"
+msgstr "確認"
+
+#. tpl/timetracking_lite.html
+#. tpl/user_info.html
+#. tpl/edit_jobs.html
+#. tpl/command_edit.html
+#. tpl/time_tracking.html
+#. tpl/tools/dashboard.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/gantt.html
+#. plugins/UserTeamList/UserTeamList.html
+#. plugins/BlogPlugin/BlogPlugin.html
+msgid "Cancel"
+msgstr "取消"
+
+#. tpl/timetracking_lite.html
+#. tpl/servicecontract_edit.html
+#. tpl/command_edit.html
+#. tpl/commandset_edit.html
+#. tpl/time_tracking.html
+#. tpl/tools/wbsEditor.html
+#. tpl/edit_team.html
+#. plugins/BlogPlugin/BlogPlugin.html
+#. Delete
+#: plugins/BlogPlugin/BlogPost.class.php:414
+#: plugins/BlogPlugin/BlogPost.class.php:425
+msgid "Delete"
+msgstr "刪除"
+
+#. tpl/timetracking_lite.html
+#. tpl/command_edit.html
+#. tpl/time_tracking.html
+#. tpl/edit_team.html
+#. tpl/issue_info.html
+#. plugins/UserTeamList/UserTeamList.html
+msgid "Update"
+msgstr "更新"
+
+#. tpl/timetracking_lite.html
+#. tpl/user_info.html
+#. tpl/time_tracking.html
+#. tpl/modal/login.html
+#. tpl/plugin_manager.html
+msgid "Please wait..."
+msgstr "請稍候..."
+
+#. tpl/timetracking_lite.html
+#. tpl/ajax/weekTaskDetails.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/time_tracking.html
+#. tpl/team_activity_report.html
+#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
+#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/TimetrackList/TimetrackList_ajax.html
+#. plugins/TimetrackList/TimetrackList.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+msgid "Job"
+msgstr "工作"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/team_activity_report.html
+#. tpl/scheduler.html
+#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
+#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
+#. $finalTooltipAttr[T_('Attributes')] =
+#. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
+#. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
+#. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
+msgid "Duration"
+msgstr "期間"
+
+#. tpl/timetracking_lite.html
+#. tpl/time_tracking.html
+#. tpl/issue_info.html
+#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
+msgid "Enter a keyword or *** to display all..."
+msgstr "輸入關鍵字或是 *** 來全部顯示出…"
+
+#. tpl/timetracking_lite.html
+msgid "Invalid backlog format"
+msgstr "積壓工作格式無效"
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/update_issueBacklog.html
+#. tpl/issue_info.html
+#: timetracking/timetracking_lite_ajax.php:139
+msgid "Task not resolved, backlog cannot be '0'"
+msgstr "任務未解決，積壓工作不能為「0」"
+
+#. tpl/timetracking_lite.html
+#. tpl/modal/update_issueBacklog.html
+msgid "Status can't be : "
+msgstr "狀態不能是：\\"
+
+#. tpl/timetracking_lite.html
+msgid "Please update status before editing timetracks"
+msgstr "請在編輯時間表之前更新狀態"
+
+#. tpl/timetracking_lite.html
+#. tpl/check.html
+#. tpl/user_info.html
+#. tpl/team_monthly_activity_report.html
+#. tpl/set_holidays.html
+#. tpl/productivity_report.html
+#. tpl/export_odt.html
+#. tpl/project_activity_report.html
+#. tpl/project_info.html
+#. tpl/time_tracking.html
+#. tpl/missing_timetracks.html
+#. tpl/servicecontract_info.html
+#. tpl/team_activity_report.html
+#. tpl/planning_report.html
+#. tpl/commandset_info.html
+#. tpl/mantis_reports.html
+#. tpl/forecasting_report.html
+#. tpl/scheduler.html
+#. tpl/issue_info.html
+#. tpl/command_info.html
+#. tpl/holidays_report.html
+#. tpl/gantt.html
+#: reports/team_dashboard.php:95
+msgid "Please select a team to access this page."
+msgstr "請選擇一個團隊來訪問此頁面。"
 
 #. tpl/check.html
 msgid " Error(s) in Mantis Tasks"
@@ -59,118 +427,12 @@ msgid "User"
 msgstr "使用者"
 
 #. tpl/check.html
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/set_holidays.html
-#. tpl/form/bugSelector.html
-#. tpl/time_tracking.html
-#. tpl/modal/edit_issueNote.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
-#. tpl/edit_team.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/menu/global_menu.html
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#: management/command_info_ajax.php:307 reports/planning_report.php:468
-#: reports/planning_report.php:470 scheduler/SchedulerEvent.class.php:83
-#: scheduler/SchedulerEvent.class.php:85 scheduler/SchedulerEvent.class.php:123
-#: scheduler/SchedulerEvent.class.php:125 gantt/gantt_ajax.php:190
-#: gantt/gantt_ajax.php:192
-msgid "Task"
-msgstr "任務"
-
-#. tpl/check.html
 msgid "extRef"
 msgstr "外部參照"
 
 #. tpl/check.html
 msgid "last modification date"
 msgstr "上一次修改日期"
-
-#. tpl/check.html
-#. tpl/productivity_report.html
-#. tpl/export_odt.html
-#. tpl/project_activity_report.html
-#. tpl/time_tracking.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/modal/select_issues.html
-#. tpl/edit_team.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/plugin_manager.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#. unset($tooltipAttr[T_('Project')]);
-#. unset($tooltipAttr[T_('Type')]);
-#. unset($tooltipAttr[T_('Category')]);
-#: classes/wbsElement.class.php:693 classes/wbsElement.class.php:694
-#: classes/issue.class.php:2244 reports/project_info.php:300
-#: reports/planning_report.php:458 reports/planning_report.php:481
-#: plugins/WBSExport/WBSExport.class.php:148
-#: scheduler/SchedulerEvent.class.php:113
-#: scheduler/SchedulerEvent.class.php:136 gantt/gantt_ajax.php:221
-#: tools.php:1559
-msgid "Status"
-msgstr "狀態"
-
-#. tpl/check.html
-#. tpl/servicecontract_edit.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/filters.html
-#. tpl/export_odt.html
-#. tpl/form/projectSelector.html
-#. tpl/edit_jobs.html
-#. tpl/command_edit.html
-#. tpl/project_info.html
-#. tpl/time_tracking.html
-#. tpl/servicecontract_info.html
-#. tpl/modal/select_issues.html
-#. tpl/team_activity_report.html
-#. tpl/edit_team.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/menu/global_menu.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/ImportIssueCsv/ImportIssueCsv.html
-#. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_cfg.html
-#. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/TimetrackList/TimetrackList_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_cfg.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
-#. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
-#: classes/wbsElement.class.php:691 classes/issue.class.php:2240
-#: classes/issue_selection.class.php:344 filters/ProjectFilter.php:59
-#: management/commandset_info.php:141 management/command_info.php:226
-#: management/servicecontract_info.php:138 reports/project_info.php:275
-#: reports/project_info.php:286 reports/project_info.php:298
-#: reports/planning_report.php:231 reports/planning_report.php:472
-#: reports/planning_report.php:473 tests/odt.php:25
-#: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:326
-#: plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.class.php:225
-#: plugins/ResetDashboard/ResetDashboard.class.php:263
-#: scheduler/SchedulerEvent.class.php:127
-#: scheduler/SchedulerEvent.class.php:128 tools.php:1555
-msgid "Project"
-msgstr "專案"
 
 #. tpl/check.html
 #. tpl/ajax/schedulerAffectationSummary.html
@@ -194,10 +456,10 @@ msgstr "專案"
 #. insert in front
 #: classes/issue.class.php:2246 classes/issue_selection.class.php:345
 #: management/command_info_ajax.php:309 management/commandset_info.php:142
-#: management/command_info.php:227 management/servicecontract_info.php:139
+#: management/command_info.php:226 management/servicecontract_info.php:139
 #: reports/project_info.php:276 reports/project_info.php:287
-#: reports/project_info.php:299 reports/planning_report.php:232
-#: reports/planning_report.php:475
+#: reports/project_info.php:299 reports/planning_report.php:231
+#: reports/planning_report.php:474
 #: plugins/LoadPerJobIndicator2/LoadPerJobIndicator2.class.php:250
 #: plugins/LoadPerCustomfieldValues/LoadPerCustomfieldValues.class.php:327
 #: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:199
@@ -220,30 +482,6 @@ msgstr "等級"
 #. plugins/IssueConsistencyCheck/IssueConsistencyCheck.html
 msgid "Error Description"
 msgstr "錯誤描述"
-
-#. tpl/check.html
-#. tpl/user_info.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/export_odt.html
-#. tpl/project_activity_report.html
-#. tpl/project_info.html
-#. tpl/time_tracking.html
-#. tpl/missing_timetracks.html
-#. tpl/servicecontract_info.html
-#. tpl/team_activity_report.html
-#. tpl/planning_report.html
-#. tpl/commandset_info.html
-#. tpl/mantis_reports.html
-#. tpl/forecasting_report.html
-#. tpl/scheduler.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/holidays_report.html
-#. tpl/gantt.html
-msgid "Please select a team to access this page."
-msgstr "請選擇一個團隊來訪問此頁面。"
 
 #. tpl/servicecontract_edit.html
 msgid "New service contract"
@@ -373,18 +611,6 @@ msgstr "結束日期"
 #. tpl/command_info.html
 msgid "State"
 msgstr "狀態"
-
-#. tpl/servicecontract_edit.html
-#. tpl/command_edit.html
-#. tpl/commandset_edit.html
-#. tpl/time_tracking.html
-#. tpl/tools/wbsEditor.html
-#. tpl/edit_team.html
-#. plugins/BlogPlugin/BlogPlugin.html
-#. Delete
-#: plugins/BlogPlugin/BlogPost.class.php:425
-msgid "Delete"
-msgstr "刪除"
 
 #. tpl/servicecontract_edit.html
 #. tpl/edit_holidays.html
@@ -626,40 +852,6 @@ msgid "Elapsed"
 msgstr "已流逝"
 
 #. tpl/ajax/issueGeneralInfo.html
-#. tpl/ajax/schedulerAffectationSummary.html
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/team_monthly_activity_report.html
-#. tpl/productivity_report.html
-#. tpl/project_activity_report.html
-#. tpl/tools/wbsReader.html
-#. tpl/servicecontract_info.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
-#. plugins/IssueBacklogVariationIndicator/IssueBacklogVariationIndicator.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-#. plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#. plugins/OngoingTasks/OngoingTasks_ajax.html
-#. plugins/BurnDownChart/BurnDownChart_ajax.html
-#. plugins/BurnDownChart/BurnDownChart.html
-#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#. $titles[] = T_("Elapsed");
-#: reports/project_info.php:235 reports/planning_report.php:462
-#: tests/filters.php:71 plugins/WBSExport/WBSExport.class.php:153
-#: plugins/TasksPivotTable/TasksPivotTable.class.php:295
-#: scheduler/SchedulerEvent.class.php:117
-#: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
-#: tools.php:1488 tools.php:1497
-msgid "Backlog"
-msgstr "積壓工作"
-
-#. tpl/ajax/issueGeneralInfo.html
 #. tpl/statistics.html
 #. tpl/productivity_report.html
 #. tpl/tools/wbsReader.html
@@ -789,50 +981,8 @@ msgid "Tasks"
 msgstr "任務"
 
 #. tpl/ajax/weekTaskDetails.html
-#. tpl/productivity_report.html
-#. tpl/project_activity_report.html
-#. tpl/team_activity_report.html
-#. tpl/commandset_info.html
-#. tpl/forecasting_report.html
-#. tpl/command_info.html
-#. plugins/DriftAlertIndicator/DriftAlertIndicator.html
-msgid "BL"
-msgstr "BL"
-
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/set_holidays.html
-#. tpl/productivity_report.html
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-#. plugins/LoadPerJobIndicator2/LoadPerJobIndicator2_ajax.html
-#. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/TimetrackList/TimetrackList_ajax.html
-#. plugins/TimetrackList/TimetrackList.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-msgid "Job"
-msgstr "工作"
-
-#. tpl/ajax/weekTaskDetails.html
 msgid "update backlog"
 msgstr "更新積壓工作"
-
-#. tpl/ajax/weekTaskDetails.html
-#. tpl/servicecontract_info.html
-#. tpl/commandset_info.html
-#. plugins/LoadPerUserGroups/LoadPerUserGroups_ajax.html
-#. plugins/ManagementCosts/ManagementCosts_ajax3.html
-#. plugins/ManagementCosts/ManagementCosts_ajax.html
-#. plugins/ManagementCosts/ManagementCosts_ajax2.html
-#. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
-#. plugins/LoadPerProjectIndicator/LoadPerProjectIndicator_ajax.html
-#. plugins/LoadHistoryIndicator/LoadHistoryIndicator_ajax.html
-#. plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.html
-#. plugins/IssueSeniorityIndicator/IssueSeniorityIndicator_ajax.html
-#. plugins/CostsIndicator/CostsIndicator.html
-#: plugins/BacklogPerUserIndicator/BacklogPerUserIndicator.class.php:267
-msgid "TOTAL"
-msgstr "總計"
 
 #. tpl/statistics.html
 msgid "Start Year"
@@ -1114,27 +1264,6 @@ msgstr "身份"
 msgid "Team arrival date"
 msgstr "團隊抵達日期"
 
-#. tpl/user_info.html
-#. tpl/edit_jobs.html
-#. tpl/command_edit.html
-#. tpl/time_tracking.html
-#. tpl/tools/dashboard.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. tpl/command_info.html
-#. tpl/gantt.html
-#. plugins/UserTeamList/UserTeamList.html
-#. plugins/BlogPlugin/BlogPlugin.html
-msgid "Cancel"
-msgstr "取消"
-
-#. tpl/user_info.html
-#. tpl/time_tracking.html
-#. tpl/modal/login.html
-#. tpl/plugin_manager.html
-msgid "Please wait..."
-msgstr "請稍候..."
-
 #. tpl/bvi.html
 msgid "Average Backlog Variation"
 msgstr "平均積壓工作變動"
@@ -1284,16 +1413,6 @@ msgstr "很抱歉，您必須屬於管理員團隊才可訪問此頁面。"
 #. tpl/command_info.html
 msgid "Select"
 msgstr "選擇"
-
-#. tpl/set_holidays.html
-#. tpl/time_tracking.html
-#. --- define the list of tasks the user can display
-#. All projects from teams where I'm a Developper or Manager AND Observer
-#: reports/export_odt.php:83 reports/export_odt.php:113
-#: reports/export_odt.php:164 reports/export_odt_ajax.php:32
-#: reports/export_odt_ajax.php:61 smarty_tools_ajax.php:46
-msgid "(all)"
-msgstr "（全部）"
 
 #. tpl/set_holidays.html
 #. tpl/time_tracking.html
@@ -1498,7 +1617,6 @@ msgstr "nb任務"
 #. tpl/forecasting_report.html
 #. plugins/BudgetDriftHistoryIndicator2/BudgetDriftHistoryIndicator2.html
 #. plugins/TasksPivotTable/TasksPivotTable_ajax.html
-#: classes/time_tracking.class.php:458
 msgid "nb days"
 msgstr "nb日"
 
@@ -1711,8 +1829,8 @@ msgstr "報告由"
 #. tpl/issue_info.html
 #. plugins/OngoingTasks/OngoingTasks_ajax.html
 #. add in front
-#: classes/wbsElement.class.php:686 classes/wbsElement.class.php:688
-#: management/command_info_ajax.php:310 gantt/gantt_ajax.php:195
+#: classes/wbsElement.class.php:688 management/command_info_ajax.php:310
+#: gantt/gantt_ajax.php:195
 msgid "Assigned to"
 msgstr "分配給"
 
@@ -1947,16 +2065,6 @@ msgstr "缺少欄位："
 msgid "Jobs"
 msgstr "工作"
 
-#. tpl/edit_jobs.html
-#. tpl/time_tracking.html
-#. tpl/modal/select_issues.html
-#. tpl/modal/login.html
-#. tpl/command_info.html
-#. tpl/gantt.html
-#. plugins/BlogPlugin/BlogPlugin.html
-msgid "OK"
-msgstr "確認"
-
 #. tpl/uninstall.html
 msgid "Do you want to remove CodevTT from your Mantis server ?"
 msgstr "您確定要把 CodevTT 從您的 Mantis 伺服器上移除嗎？"
@@ -2052,7 +2160,7 @@ msgstr "新命令"
 #. tpl/issue_info.html
 #. plugins/DeadlineAlertIndicator/DeadlineAlertIndicator.html
 #. plugins/ImportIssueCsv/ImportIssueCsv_ajax.html
-#: reports/planning_report.php:463 reports/planning_report.php:492
+#: reports/planning_report.php:462 reports/planning_report.php:491
 #: scheduler/SchedulerEvent.class.php:91 scheduler/SchedulerEvent.class.php:118
 #: scheduler/SchedulerEvent.class.php:143 gantt/gantt_ajax.php:198
 #: gantt/gantt_ajax.php:226 gantt/gantt_ajax.php:235 tools.php:1500
@@ -2071,7 +2179,7 @@ msgstr "銷售費用"
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod.html
 #. plugins/SellingPriceForPeriod/SellingPriceForPeriod_ajax.html
 #: classes/command.class.php:814 classes/consistency_check2.class.php:708
-#: classes/scheduler.class.php:74 reports/planning_report.php:489
+#: classes/scheduler.class.php:74 reports/planning_report.php:488
 #: scheduler/SchedulerEvent.class.php:140
 msgid "days"
 msgstr "日"
@@ -2201,14 +2309,6 @@ msgstr "平均每日費用"
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
 msgstr "添加至「檢查預算」"
-
-#. tpl/command_edit.html
-#. tpl/time_tracking.html
-#. tpl/edit_team.html
-#. tpl/issue_info.html
-#. plugins/UserTeamList/UserTeamList.html
-msgid "Update"
-msgstr "更新"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -2376,19 +2476,6 @@ msgstr "添加時間表"
 #. tpl/time_tracking.html
 #. tpl/modal/update_issueBacklog.html
 #. tpl/team_activity_report.html
-#. tpl/scheduler.html
-#. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
-#. plugins/TimetrackDetailsIndicator/TimetrackDetailsIndicator_ajax.html
-#. $finalTooltipAttr[T_('Attributes')] =
-#. T_('Status').':<strong>'.$scheduledTask->getStatusName().'</strong>,&nbsp; '.
-#. T_('Priority').':<strong>'.$scheduledTask->getPriorityName().'</strong>,&nbsp; '.
-#. T_('Severity').':<strong>'.$scheduledTask->getSeverityName().'</strong>';
-msgid "Duration"
-msgstr "期間"
-
-#. tpl/time_tracking.html
-#. tpl/modal/update_issueBacklog.html
-#. tpl/team_activity_report.html
 #. tpl/issue_info.html
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks_ajax.html
 #. plugins/TimetrackList/TimetrackList_ajax.html
@@ -2402,31 +2489,8 @@ msgid "Reduce the tasks selection by setting some filters"
 msgstr "以透過設定一些過濾來減少任務選擇"
 
 #. tpl/time_tracking.html
-msgid "Hide tasks not assigned to me"
-msgstr "隱藏未分配給我的任務"
-
-#. tpl/time_tracking.html
-msgid "Hide resolved tasks"
-msgstr "隱藏已解決任務"
-
-#. tpl/time_tracking.html
 msgid "Hide tasks with forbiden status (closed, ...)"
 msgstr "隱藏帶有禁止狀態的任務（關閉…等等）"
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Week"
-msgstr "週"
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Previous week"
-msgstr "上一週"
-
-#. tpl/time_tracking.html
-#. tpl/team_activity_report.html
-msgid "Next week"
-msgstr "下一週"
 
 #. tpl/time_tracking.html
 msgid "Week timetracks"
@@ -2460,12 +2524,6 @@ msgstr "未來時間表"
 msgid "Delete track"
 msgstr "刪除追蹤"
 
-#. tpl/time_tracking.html
-#. tpl/issue_info.html
-#. plugins/ImportRelationshipTreeToCommand/ImportRelationshipTreeToCommand.html
-msgid "Enter a keyword or *** to display all..."
-msgstr "輸入關鍵字或是 *** 來全部顯示出…"
-
 #. tpl/missing_timetracks.html
 #. tpl/menu/global_menu.html
 msgid "Missing Timetracks"
@@ -2482,6 +2540,7 @@ msgstr "缺少各使用者的時間表"
 #: management/servicecontract_info.php:84 reports/issue_info.php:121
 #: reports/issue_info.php:122 timetracking/team_monthly_activity_report.php:73
 #: timetracking/time_tracking.php:189 timetracking/team_activity_report.php:65
+#: timetracking/timetracking_lite.php:119
 msgid "Errors"
 msgstr "錯誤"
 
@@ -2566,7 +2625,7 @@ msgstr "添加指示器"
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
 #. tpl/command_info.html
-#: reports/planning_report.php:480 scheduler/SchedulerEvent.class.php:135
+#: reports/planning_report.php:479 scheduler/SchedulerEvent.class.php:135
 msgid "Attributes"
 msgstr "屬性"
 
@@ -2692,15 +2751,6 @@ msgid "Update Backlog"
 msgstr "更新積壓工作"
 
 #. tpl/modal/update_issueBacklog.html
-#. tpl/issue_info.html
-msgid "Task not resolved, backlog cannot be '0'"
-msgstr "任務未解決，積壓工作不能為「0」"
-
-#. tpl/modal/update_issueBacklog.html
-msgid "Status can't be : "
-msgstr "狀態不能是：\\"
-
-#. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
 msgstr "任務已解決，積壓日誌應為「0」"
 
@@ -2711,11 +2761,6 @@ msgstr "時間表停用，若當前狀態為：\\"
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
 msgstr "需要時間表註釋"
-
-#. tpl/modal/consistency_check.html
-#. tpl/planning_report.html
-msgid "Click to show errors"
-msgstr "點選來顯示錯誤"
 
 #. tpl/modal/select_issues.html
 msgid "No task selected !"
@@ -3676,8 +3721,8 @@ msgid "External Ref"
 msgstr "外部參照"
 
 #. tpl/issue_info.html
-#: classes/issue.class.php:2255 reports/planning_report.php:459
-#: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:114
+#: classes/issue.class.php:2255 reports/planning_report.php:458
+#: reports/planning_report.php:481 scheduler/SchedulerEvent.class.php:114
 #: scheduler/SchedulerEvent.class.php:137 gantt/gantt_ajax.php:222
 #: tools.php:1567
 msgid "Priority"
@@ -3685,8 +3730,8 @@ msgstr "優先程度"
 
 #. tpl/issue_info.html
 #. plugins/BlogPlugin/BlogPlugin.html
-#: classes/issue.class.php:2251 reports/planning_report.php:460
-#: reports/planning_report.php:483 scheduler/SchedulerEvent.class.php:115
+#: classes/issue.class.php:2251 reports/planning_report.php:459
+#: reports/planning_report.php:482 scheduler/SchedulerEvent.class.php:115
 #: scheduler/SchedulerEvent.class.php:138 gantt/gantt_ajax.php:223
 #: tools.php:1569
 msgid "Severity"
@@ -3858,6 +3903,10 @@ msgstr "時間表和團隊行動"
 #. tpl/menu/global_menu.html
 msgid "Activity"
 msgstr "活動"
+
+#. tpl/menu/global_menu.html
+msgid "Time Tracking (lite)"
+msgstr "時間表（精簡版）"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
@@ -5878,7 +5927,7 @@ msgstr "請移動設定檔案到：\\"
 msgid "Please remove: "
 msgstr "請移除：\\"
 
-#: classes/scheduler.class.php:81 reports/planning_report.php:203
+#: classes/scheduler.class.php:81 reports/planning_report.php:202
 msgid "monitored"
 msgstr "已監測"
 
@@ -6420,19 +6469,19 @@ msgstr "目前任務"
 msgid "Resolved Tasks"
 msgstr "已解決任務"
 
-#: reports/planning_report.php:200
+#: reports/planning_report.php:199
 msgid "onTime"
 msgstr "按時"
 
-#: reports/planning_report.php:201
+#: reports/planning_report.php:200
 msgid "NOT onTime"
 msgstr "不按時"
 
-#: reports/planning_report.php:202
+#: reports/planning_report.php:201
 msgid "no deadLine"
 msgstr "無截止日期"
 
-#: reports/planning_report.php:495
+#: reports/planning_report.php:494
 msgid "Monitored"
 msgstr "已監測"
 
@@ -6455,17 +6504,19 @@ msgstr "很抱歉，沒有定義為用於您團隊的專案。"
 #: timetracking/team_monthly_activity_report.php:74
 #: timetracking/time_tracking.php:190 timetracking/team_activity_report.php:66
 #: timetracking/missing_timetracks.php:70
+#: timetracking/timetracking_lite.php:120
 msgid "days are incomplete or undefined"
 msgstr "天數不完成或未定義"
 
 #: timetracking/team_monthly_activity_report.php:143
-#: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:505
+#: timetracking/time_tracking.php:303 timetracking/time_tracking_tools.php:90
+#: timetracking/time_tracking_tools.php:256
+#: timetracking/time_tracking_tools.php:692
 #: timetracking/team_activity_report.php:199
 msgid "Error: Task not found in Mantis DB !"
 msgstr "錯誤：沒有在Mantis資料庫找到任務！"
 
-#: timetracking/time_tracking_tools.php:177
+#: timetracking/time_tracking_tools.php:363
 msgid "Click to add a note"
 msgstr "點擊來添加一個註釋"
 
@@ -6494,9 +6545,41 @@ msgstr "未屬於團隊的使用者"
 msgid "Other team"
 msgstr "其他團隊"
 
+#. should never happen, $isBacklogEditable should be 'false'
+#: timetracking/timetracking_lite_ajax.php:139
+#: timetracking/timetracking_lite_ajax.php:144
+msgid "REFUSED"
+msgstr "拒絕"
+
+#: timetracking/timetracking_lite_ajax.php:154
+msgid "ERROR: Failed to update backlog !"
+msgstr "錯誤：無法更新積壓工作！"
+
+#: timetracking/timetracking_lite_ajax.php:178
+msgid "ERROR: Failed to getAvailableStatusList !"
+msgstr "錯誤：無法取得可用狀態清單！"
+
+#: timetracking/timetracking_lite_ajax.php:219
+msgid "ERROR: Failed to setStatus !"
+msgstr "錯誤：無法設定狀態！"
+
+#: timetracking/timetracking_lite_ajax.php:245
 #: timetracking/time_tracking_ajax.php:161
 msgid "Timetracking is forbidden when issue's status is :"
 msgstr "禁止時間追蹤當問題狀態為："
+
+#. existing tt is too small to be decreased, FORBID the change, do nothing !
+#. $logger->error("DEBUG: existing tt is too small to be decreased tt=".$timetrackCandidate->getDuration()." diff=$diffToRemove");
+#. No tt with same jobid, FORBID the change, do nothing !
+#. $logger->error("DEBUG: no tt with same jobid");
+#: timetracking/timetracking_lite_ajax.php:337
+#: timetracking/timetracking_lite_ajax.php:342
+msgid "Sorry, multiple existing timetracks, please use the regular Timetracking page"
+msgstr "很抱歉，已存在多個時間表，請使用常規時間表頁面"
+
+#: timetracking/timetracking_lite_ajax.php:358
+msgid "ERROR: Failed to add/update timetrack !"
+msgstr "錯誤：添加或更新時間表失敗！"
 
 #: timetracking/time_tracking_ajax.php:442
 msgid "ERROR: Failed to delete the timetrack !"
