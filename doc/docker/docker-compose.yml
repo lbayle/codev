@@ -18,13 +18,18 @@ services:
       resources:
         limits:
           memory: 1G
+    networks:
+      - codevtt_net
     volumes:
       - /data/docker/mariadb:/var/lib/mysql
+      - /data/docker/mariadb/logs:/var/log/mariadb
+      - /data/docker/mariadb/conf.d:/etc/mysql/conf.d
 
   # ---------------------------------------------------------
   mantis-codevtt:
     image: lbayle/codevtt:latest
     hostname: 'mantis-codevtt'
+    container_name: mantis-codevtt
     restart: unless-stopped
     ports:
       - '80:80'
@@ -34,16 +39,24 @@ services:
           memory: 1G
     links:
       - mariadb
+    networks:
+      - codevtt_net
     volumes:
       - /data/docker/mantis-codevtt/logs-httpd:/var/log/httpd/
       - /data/docker/mantis-codevtt/logs:/tmp/codevtt/logs
 #      - /data/docker/mantis-codevtt/mantis/config:/var/www/html/mantis/config
 #      - /data/docker/mantis-codevtt/mantis/plugins:/var/www/html/mantis/plugins
 
+      # Development: CodevTT src code is not in the container to be easily accessed by IDE & git
+      #- /data/docker/mantis-codevtt/src:/var/www/html/codevtt
+
+
   # ---------------------------------------------------------
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    restart: always
+    hostname: 'phpmyadmin'
+    container_name: phpmyadmin-codevtt
+    restart: unless-stopped
     ports:
       - 8080:80
     environment:
@@ -51,9 +64,15 @@ services:
       - PMA_HOST=mariadb
       - PMA_USER=mantisbt
       - PMA_PASSWORD=mantisbt
+    networks:
+      - codevtt_net
     links:
       - mariadb
-#    volumes:
-#      - /data/docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    volumes:
+      - /data/docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+
+networks:
+  codevtt_net:
+    driver: bridge
 
 # end.

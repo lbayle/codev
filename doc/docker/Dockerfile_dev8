@@ -118,7 +118,7 @@ RUN echo "session.gc_maxlifetime = 86400" > /etc/php.d/00-docker-php-session.ini
 # ------------------
 # install MantisBT
 
-ENV MANTIS_VER 2.25.2
+ENV MANTIS_VER 2.25.8
 ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
 

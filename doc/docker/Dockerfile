@@ -4,30 +4,32 @@
 # 2018-10-11: update apache 2.4.25 fur security updates
 # 2020-05-24: update to PHP v7.4
 # 2021-11-11: do not include phpmyadmin
+# 2021-11-11: update to PHP v8.1
 
 FROM centos:centos7
 MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
 
 # ====================================================
-# Container with Apache, PHP7, Mantis, CodevTT
+# Container with Apache, PHP8.1, Mantis, CodevTT
 # ====================================================
 # https://hub.docker.com/r/lbayle/codevtt/
 
-#note: You'll need one more container : centos/mariadb
+# ====================================================
+# build
+# ====================================================
+# docker build --rm -t codevtt:1.8.0 .
 
 # ====================================================
-# build & run
+# run with docker-compose
 # ====================================================
-# docker build --rm -t codevtt:latest .
 
-# docker run --name mariadb -h mariadb -d -e MYSQL_ROOT_PASSWORD=my_password -e MYSQL_DATABASE=bugtracker centos/mariadb:latest
-# docker exec -i  mariadb mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+# docker-compose.yml is here:
+# https://github.com/lbayle/codev/blob/master/doc/docker/docker-compose.yml
 
-# docker run --name codevtt -h codevtt -d -p 80:80 --link mariadb lbayle/codevtt:latest
-
-# ------------------
-# docker run --name codevtt -h codevtt -d -p 80:80 -p 443:443 -v /etc/ssl/certs:/etc/ssl/certs --link mariadb lbayle/codevtt:latest
-# docker exec -it codevtt bash
+# run:
+# git clone https://github.com/lbayle/codev.git /data/docker/codevtt/src
+# docker-compose up -d 
+# docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
 
 # ====================================================
 
@@ -42,13 +44,6 @@ RUN yum -y update && \
     yum -y install --setopt=tsflags=nodocs epel-release && \
     rpm -Uvh https://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
     yum clean all
-
-# ------------------
-# Add CodeIT repositories (apache 2.4.25)
-# https://crosp.net/blog/administration/install-latest-apache-server-centos-7/
-# https://codeit.guru/en_US/
-#RUN cd /etc/yum.repos.d \
-#    && wget https://repo.codeit.guru/codeit.el`rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release)`.repo
 
 # ------------------
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 /etc/pki/rpm-gpg/RPM-GPG-KEY-remi /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
@@ -81,8 +76,8 @@ RUN yum -y --setopt=tsflags=nodocs install \
         openssl && \
     yum clean all
 
-# Installing PHP 7.4
-RUN  yum -y --enablerepo=remi-php74 install \
+# Installing PHP 8.1
+RUN  yum -y --enablerepo=remi-php81 install \
         php-cli \
         php \
         php-fpm \
@@ -125,7 +120,7 @@ RUN echo "session.gc_maxlifetime = 86400" > /etc/php.d/00-docker-php-session.ini
 # ------------------
 # install MantisBT
 
-ENV MANTIS_VER 2.25.2
+ENV MANTIS_VER 2.25.8
 ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
 
@@ -141,9 +136,9 @@ RUN set -xe \
 # ------------------
 # install CodevTT
 
-ENV CODEVTT_VER 1.7.0
+ENV CODEVTT_VER 1.8.0
 ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
-ENV CODEVTT_URL https://github.com/lbayle/codev/releases/download/1.7.0/${CODEVTT_FILE}
+ENV CODEVTT_URL https://github.com/lbayle/codev/releases/download/${CODEVTT_VER}/${CODEVTT_FILE}
 
 RUN set -xe \
     && cd /var/www/html \
