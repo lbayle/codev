@@ -12,12 +12,14 @@ $g_crypto_master_salt     = 'rnChYB66v0sq3cJvHP+uJ0DVxb2EoHJOBbmwL+LPgUc=';
 # --------------------------------------
 
 # --- Add CodevTT to mantis main menu ---
-array_push($g_main_menu_custom_options, array( 'CodevTT', NULL, 'http://localhost/codevtt' ));
+array_push($g_main_menu_custom_options, array('title' => 'CodevTT', 'access_level' => NULL, 'url' => '../codevtt', 'icon' => 'fa-clock-o'));
 
 # --- Others ---
 $g_default_home_page = 'view_all_bug_page.php'; # 'my_view_page.php'; // Set the name of the page to go to after login
 $g_show_project_menu_bar = OFF;
 $g_time_tracking_enabled = OFF;
+
+$g_webservice_rest_enabled = ON;
 
 # --- Anonymous Access / Signup ---
 $g_allow_signup = OFF;
@@ -94,6 +96,17 @@ $g_notify_flags = array (
   'resolved'  => array ('reporter' => 1, 'monitor' => 1, 'threshold_min' => MANAGER, 'threshold_max' => MANAGER),
   'validated' => array ('handler'  => 1, 'monitor' => 1, 'threshold_min' => MANAGER, 'threshold_max' => MANAGER),
   );
+
+# -------------------------------------------------------------
+# --- Attachments / File Uploads ---
+$g_allow_file_upload  = ON;
+$g_file_upload_method = DISK; # or DATABASE;
+$g_absolute_path_default_upload_folder = '/var/www/html/mantis/uploaded_files/'; # used with DISK, must contain trailing \ or /.
+# $g_max_file_size      = 5000000;  # in bytes
+# $g_preview_attachments_inline_max_size = 256 * 1024;
+# $g_allowed_files      = '';       # extensions comma separated, e.g. 'php,html,java,exe,pl'
+# $g_disallowed_files       = '';       # extensions comma separated
+
 
 # -------------------------------------------------------------
 # --- remove unused fields ---

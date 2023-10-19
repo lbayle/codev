@@ -2,7 +2,7 @@ version: '3.5'
 services:
 
   # ---------------------------------------------------------
-  # docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+  # docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
 
   mariadb:
     image: centos/mariadb:latest
@@ -46,9 +46,10 @@ services:
       - /data/docker/mantis-codevtt/logs:/tmp/codevtt/logs
 #      - /data/docker/mantis-codevtt/mantis/config:/var/www/html/mantis/config
 #      - /data/docker/mantis-codevtt/mantis/plugins:/var/www/html/mantis/plugins
+      - /data/docker/mantis-codevtt/mantis/uploaded_files:/var/www/html/mantis/uploaded_files
 
       # Development: CodevTT src code is not in the container to be easily accessed by IDE & git
-      #- /data/docker/mantis-codevtt/src:/var/www/html/codevtt
+      #- /data/docker/mantis-codevtt/codevtt:/var/www/html/codevtt
 
 
   # ---------------------------------------------------------
@@ -73,6 +74,7 @@ services:
 
 networks:
   codevtt_net:
+    name: codevtt_net
     driver: bridge
 
 # end.

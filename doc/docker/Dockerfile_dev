@@ -1,84 +1,33 @@
 # Louis BAYLE, 2018-10-11
-# Version 0.4
 
-# 2018-10-11: update apache 2.4.25 fur security updates
 # 2020-05-24: update to PHP v7.4
 # 2021-11-11: do not include CodevTT: make it a volume for dev purpose
+# 2021-11-11: update to PHP v8.1
 
 FROM centos:centos7
 MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
 
 # ====================================================
-# Container with Apache, PHP7, Mantis, CodevTT
+# Container with Apache, PHP8.1, Mantis, CodevTT
 # ====================================================
 # https://hub.docker.com/r/lbayle/codevtt/
-
-#note: You'll need one more container : centos/mariadb
 
 # ====================================================
 # build
 # ====================================================
-# docker build --rm -t codevtt:dev .
-
-# docker exec -i  mariadb mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
-# docker exec -it docker-codevtt-1 bash
+# docker build --rm -t codevtt:1.8.0 .
 
 # ====================================================
-# docker-compose
+# run with docker-compose
 # ====================================================
 
+# docker-compose.yml is here:
+# https://github.com/lbayle/codev/blob/master/doc/docker/docker-compose.yml
+
+# run:
+# git clone https://github.com/lbayle/codev.git /data/docker/codevtt/src
+# docker-compose up -d 
 # docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
-
-# ---------------------------------------------------------
-#  mariadb:
-#    image: centos/mariadb:latest
-#    hostname: 'mariadb.fardeloup'
-#    restart: unless-stopped
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=my_password
-#      - MYSQL_DATABASE=bugtracker
-#      - MYSQL_USER=mantisbt
-#      - MYSQL_PASSWORD=mantisbt
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 1G
-#
-# ---------------------------------------------------------
-#  codevtt:
-#    image: codevtt:dev
-#    hostname: 'codevtt.fardeloup'
-#    restart: unless-stopped
-#    ports:
-#      - '80:80'
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 1G
-#    links:
-#      - mariadb
-#    volumes:
-#      - /data/docker/codevtt/src:/var/www/html/codevtt
-#      - /data/docker/codevtt/logs:/tmp/codevtt/logs
-#      - /data/docker/codevtt/mantis/config:/var/www/html/mantis/config
-#      - /data/docker/codevtt/mantis/plugins:/var/www/html/mantis/plugins
-#      - /data/docker/codevtt/logs-httpd:/var/log/httpd/
-#
-#  # ---------------------------------------------------------
-#  phpmyadmin:
-#    image: phpmyadmin/phpmyadmin
-#    restart: always
-#    ports:
-#      - 8080:80
-#    environment:
-#      - PMA_ARBITRARY=1
-#      - PMA_HOST=mariadb
-#      - PMA_USER=mantisbt
-#      - PMA_PASSWORD=mantisbt
-#    links:
-#      - mariadb
-#    volumes:
-#      - /data/docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
 # ====================================================
 
@@ -125,8 +74,8 @@ RUN yum -y --setopt=tsflags=nodocs install \
         openssl && \
     yum clean all
 
-# Installing PHP 7.4
-RUN  yum -y --enablerepo=remi-php74 install \
+# Installing PHP 8.1
+RUN  yum -y --enablerepo=remi-php81 install \
         php-cli \
         php \
         php-fpm \
@@ -169,7 +118,7 @@ RUN echo "session.gc_maxlifetime = 86400" > /etc/php.d/00-docker-php-session.ini
 # ------------------
 # install MantisBT
 
-ENV MANTIS_VER 2.25.2
+ENV MANTIS_VER 2.25.8
 ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
 
@@ -193,7 +142,7 @@ RUN set -xe \
     && cd /var/www/html/mantis/plugins \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
     && mkdir -p /var/www/html/codevtt \
-    && mkdir -p /tmp/codevtt \
+    && mkdir -p /tmp/codevtt/logs \
     && chown -R apache:apache /tmp/codevtt \
     && chown -R apache:apache /var/www/html/codevtt
 
@@ -214,9 +163,15 @@ RUN set -xe \
     && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/codevtt.conf \
     ; done
 
+# FIX Invalid command 'CGIPassAuth', perhaps misspelled or defined by a module not included in the server configuration
+#     => centos:7 is getting too old...
+RUN sed -i '/^CGIPassAuth/ s/./#&/' /etc/httpd/conf.d/mantis.conf
+
+RUN sed -i '/^#ServerName/a ServerName codevtt:80' /etc/httpd/conf/httpd.conf
+
 # ------------------
 # Adding config files (bugtracker)
-ADD httpd_config/ssl.conf                      /etc/httpd/conf.d/ssl.conf
+#ADD httpd_config/ssl.conf                      /etc/httpd/conf.d/ssl.conf
 ADD httpd_config/php.ini                       /etc
 ADD mantis_config/config_inc.php               /var/www/html/mantis/config
 ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config

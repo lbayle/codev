@@ -18,4 +18,3 @@ $g_relationships[ BUG_CUSTOM_RELATIONSHIP_CONSTRAINS ] = array(
    '#edge_style' => array ( 'style' => 'dashed', 'color' => '808080' ),
 );
 #CodevTT_END
-?>

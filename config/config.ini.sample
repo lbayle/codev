@@ -32,6 +32,7 @@ force_lc_numeric = 0
 ;contact_email = "dpo-france@atos.net"
 
 [mantis]
+; this section is very important, be sure it matches to your MantisBT configuration !
 db_table_prefix = "mantis_"
 db_table_suffix = "_table"
 status_enum_string = "10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed,"
@@ -74,7 +75,7 @@ logo_image_0317_0317 = "images/codevtt_logo_03_stpatrick.jpg"
 logo_image_0401_0401 = "images/codevtt_logo_03_april_1st.jpg"
 logo_image_0621_0621 = "images/codevtt_logo_summer.png"
 logo_image_0922_0922 = "images/codevtt_logo_fall.png"
-logo_image_1031_1031 = "images/codevtt_logo_03_halloween.png"
+logo_image_2431_1031 = "images/codevtt_logo_03_halloween.png"
 logo_image_1220_1227 = "images/codevtt_logo_03_christmas.png"
 
 [timesheets]
@@ -92,7 +93,7 @@ Project = "SubmittedResolvedHistoryIndicator,StatusHistoryIndicator2"
 Task = "IssueBacklogVariationIndicator"
 Team = "AvailableWorkforceIndicator,BacklogPerUserIndicator,LoadPerUserIndicator"
 User = "LoadPerProjectIndicator,OngoingTasks"
-Command = "ProgressHistoryIndicator2, WBSExport"
+Command = "ProgressHistoryIndicator2"
 CommandSet = "ProgressHistoryIndicator2"
 ServiceContract = "ManagementCosts,ManagementLoadHistoryIndicator"
 Import_Export = "ImportIssueCsv"
