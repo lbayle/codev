@@ -40,7 +40,7 @@ class Team extends Model {
           'isTrackNoteMandatory' => 0,
           'sendTimesheetEmailNotification' => 1,
           'isForbidUpdateStatusOnTimetracking' => 0,
-          'isDisplayTimetrackingLite' => 0,
+          'isDisplayTimetrackingLite' => 1,
          );
 
       self::$generalPrefsDescriptionList = array(
