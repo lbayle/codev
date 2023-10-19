@@ -8,9 +8,9 @@ INSERT INTO "codev_config_table"
 ('customField_dailyPrice',(SELECT id FROM "mantis_custom_field_table" WHERE "name" = 'CodevTT_DailyPrice'),1,0,0,0,0,0,0,0,0);
 
 -- Activate new plugins
-UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='AdminTools';
-UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='OngoingTasks';
-UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='SellingPriceForPeriod';
+-- UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='AdminTools';
+-- UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='OngoingTasks';
+-- UPDATE "codev_plugin_table" SET "status"='1' WHERE "name"='SellingPriceForPeriod';
 
 -- tag version
 UPDATE "codev_config_table" SET "value"='20' WHERE "config_id"='database_version';

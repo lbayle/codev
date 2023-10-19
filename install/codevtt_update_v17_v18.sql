@@ -53,8 +53,8 @@ UPDATE mantis_custom_field_table SET type = 2 WHERE id in (
               'customField_MgrEffortEstim'));
 
 -- activate new plugin
-INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "version", "description") VALUES
-('CostsIndicator', 1, 'Task,Command,CommandSet,ServiceContract', 'Financial', '1.0.0', 'Compute costs, using the UserDailyCosts defined in team settings');
+-- INSERT INTO "codev_plugin_table" ("name", "status", "domains", "categories", "version", "description") VALUES
+-- ('CostsIndicator', 1, 'Task,Command,CommandSet,ServiceContract', 'Financial', '1.0.0', 'Compute costs, using the UserDailyCosts defined in team settings');
 
 -- tag version
 UPDATE "codev_config_table" SET "value"='18' WHERE "config_id"='database_version';
