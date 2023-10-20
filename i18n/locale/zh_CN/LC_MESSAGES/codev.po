@@ -24,9 +24,8 @@
 # Author: 神樂坂秀吉
 msgid ""
 msgstr ""
-""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-04 21:02+0200\n"
+"POT-Creation-Date: 2023-10-20 22:12+0200\n"
 "PO-Revision-Date: 2023-10-12 11:02:10+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -371,7 +370,7 @@ msgstr "任务未解决，积压工作不能为“0”"
 #. tpl/timetracking_lite.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "状态不能是：\\"
+msgstr "状态不能是："
 
 #. tpl/timetracking_lite.html
 msgid "Please update status before editing timetracks"
@@ -2382,7 +2381,7 @@ msgstr "计划和甘特图中的任务优先级"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
-msgstr "文档可在此找到\\"
+msgstr "文档可在此找到"
 
 #. tpl/doc.html
 msgid "CodevTT Documentation"
@@ -2390,7 +2389,7 @@ msgstr "CodevTT文档"
 
 #. tpl/doc.html
 msgid "You can help on translations: "
-msgstr "您可以帮助翻译：\\"
+msgstr "您可以帮助翻译："
 
 #. tpl/doc.html
 msgid "statistics"
@@ -2398,7 +2397,7 @@ msgstr "统计"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr "联络作者：\\"
+msgstr "联络作者："
 
 #. tpl/doc.html
 #. tpl/scheduler.html
@@ -2749,7 +2748,7 @@ msgstr "编辑工时表注释"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
-msgstr "删除工时表注释，它用于任务\\"
+msgstr "删除工时表注释，它用于任务"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
@@ -2769,7 +2768,7 @@ msgstr "任务已解决，积压工作必须为“0”"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr "时间跟踪停用，若当前状态为：\\"
+msgstr "时间跟踪停用，若当前状态为："
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -3476,7 +3475,7 @@ msgstr "未定义配置选项，正在使用默认配置。"
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
-msgstr "计算在未解决的任务/关闭于\\"
+msgstr "计算在未解决的任务/关闭于"
 
 #. tpl/forecasting_report.html
 msgid "Unassigned tasks will not be displayed"
@@ -3808,7 +3807,7 @@ msgstr "任务已解决，积压工作应为“0”"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr "积压工作不应设置，如果状态是这样的话：\\"
+msgstr "积压工作不应设置，如果状态是这样的话："
 
 #. tpl/command_info.html
 msgid "Set command filters"
@@ -4357,8 +4356,12 @@ msgid "Add multiple timetracks at once"
 msgstr "同时添加多个任务"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
-msgstr "允许用户同时输入多个时间跟踪并不符合 CodevTT 的理念。然而，有时需要输入长期缺失的时间跟踪（例如 CodevTT 的安装时间晚于项目，需要追赶）。\n此权限仅授予团队管理员。"
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
+msgstr ""
+"允许用户同时输入多个时间跟踪并不符合 CodevTT 的理念。然而，有时需要输入长期缺失的时间跟踪（例如 CodevTT 的安装时间晚于项目，需要追赶）。\n"
+"此权限仅授予团队管理员。"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4763,8 +4766,12 @@ msgid "Waste"
 msgstr "浪费"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"当前选择中的“事件”和“不活跃”子任务。<br>\n"
+"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4791,12 +4798,20 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "未出现在当前已选择任务中的外部分离任务和不活跃子任务"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
+"   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr "显示全部活动：\n         <br> 如果选中，未包含在当前选择中的任务的时间跟踪将显示在额外的列中。"
+msgid ""
+"Show full activity:\n"
+"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr ""
+"显示全部活动：\n"
+"         <br> 如果选中，未包含在当前选择中的任务的时间跟踪将显示在额外的列中。"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
@@ -4863,7 +4878,7 @@ msgstr "目的任务"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
-msgstr "警告：为了移动时间跟踪，目的任务创建日期将被移动至\\"
+msgstr "警告：为了移动时间跟踪，目的任务创建日期将被移动至"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Timetracks moved successfully !"
@@ -5699,7 +5714,7 @@ msgstr "不能更新创建日期"
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:237
 msgid "Please upload files with the following extension: "
-msgstr "请上传带以下扩展名的文件：\\"
+msgstr "请上传带以下扩展名的文件："
 
 #: admin/edit_team_ajax.php:782
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:311
@@ -5713,7 +5728,7 @@ msgstr "对不起，您需要被验证。"
 
 #: admin/plugin_manager.php:69
 msgid "Could not create classmap: "
-msgstr "不能创建classmap：\\"
+msgstr "不能创建classmap："
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
@@ -5809,7 +5824,7 @@ msgstr "[CodevTT]工时表提示！"
 
 #: classes/user.class.php:1564 plugins/ImportUsers/ImportUsers_ajax.php:163
 msgid "Dear "
-msgstr "亲爱的\\"
+msgstr "亲爱的"
 
 #: classes/user.class.php:1565
 msgid "Please fill your CodevTT timesheet"
@@ -5817,7 +5832,7 @@ msgstr "请填充您的工时表"
 
 #: classes/user.class.php:1576 classes/consistency_check2.class.php:704
 msgid "incomplete (missing "
-msgstr "不完整（缺少\\"
+msgstr "不完整（缺少"
 
 #: classes/user.class.php:1579 classes/consistency_check2.class.php:719
 msgid "not defined."
@@ -5842,7 +5857,7 @@ msgstr "努力估计不应为0"
 
 #: classes/consistency_check2.class.php:181
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "在“新”问题上不应拥有时间跟踪\\"
+msgstr "在“新”问题上不应拥有时间跟踪"
 
 #: classes/consistency_check2.class.php:182
 msgid "Issues should be referenced in a Command"
@@ -5875,7 +5890,7 @@ msgstr "应属于团队项目列表的命令问题"
 
 #: classes/consistency_check2.class.php:286
 msgid "Backlog should be 0 (not "
-msgstr "积压工作应为0（不是\\"
+msgstr "积压工作应为0（不是"
 
 #: classes/consistency_check2.class.php:308
 msgid "Backlog must be defined !"
@@ -5923,7 +5938,7 @@ msgstr "不一致"
 
 #: classes/consistency_check2.class.php:744
 msgid "No default project workflow defined, check config file: "
-msgstr "未定义默认项目工作流，检查配置文件：\\"
+msgstr "未定义默认项目工作流，检查配置文件："
 
 #: classes/consistency_check2.class.php:764
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
@@ -5935,11 +5950,11 @@ msgstr "项目未在团队项目列表中定义"
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr "请将配置文件移至：\\"
+msgstr "请将配置文件移至："
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr "请移除：\\"
+msgstr "请移除："
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:202
 msgid "monitored"
@@ -6121,7 +6136,7 @@ msgstr "从您之前的安装副本中复制CodevTT配置文件"
 
 #: install/install.php:128
 msgid "Run this script: "
-msgstr "运行此脚本：\\"
+msgstr "运行此脚本："
 
 #: install/install_step5.php:25
 msgid "Installation finished"
@@ -6158,11 +6173,11 @@ msgstr "检查生成的配置文件"
 
 #: install/install_step4.php:60
 msgid "Mantis Path & URL in "
-msgstr "Mantis路径和URL位于\\"
+msgstr "Mantis路径和URL位于"
 
 #: install/install_step4.php:61
 msgid "Log directory in "
-msgstr "日志目录位于\\"
+msgstr "日志目录位于"
 
 #. echo '<br>';
 #: install/install_step4.php:66
@@ -6171,7 +6186,7 @@ msgstr "移除CodevTT安装文件"
 
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
-msgstr "基于安全原因，删除以下目录：\\"
+msgstr "基于安全原因，删除以下目录："
 
 #: install/install_step4.php:83
 msgid "Done !"
@@ -6199,11 +6214,11 @@ msgstr "数据库名称"
 
 #: install/install_step1.php:237
 msgid "Database Table Prefix "
-msgstr "数据库表前缀\\"
+msgstr "数据库表前缀"
 
 #: install/install_step1.php:241
 msgid "Database Table Suffix "
-msgstr "数据库表后缀\\"
+msgstr "数据库表后缀"
 
 #: install/install_step1.php:255
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -6660,7 +6675,7 @@ msgstr "任务不在团队项目中"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
 msgid "Timetrack added by "
-msgstr "按任务添加时间\\"
+msgstr "按任务添加时间"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
@@ -6780,7 +6795,7 @@ msgstr "销售价格 = 每日价格 x 经过周期"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr "警告：您需要将“CodevTT_DailyPrice”自定义字段分配给以下项目：\\"
+msgstr "警告：您需要将“CodevTT_DailyPrice”自定义字段分配给以下项目："
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
@@ -6841,7 +6856,7 @@ msgstr "您不被允许导入用户"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
-msgstr "您的CodevTT / Mantis账户已被创建：\\"
+msgstr "您的CodevTT / Mantis账户已被创建："
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "Please, change your password on your first connection."
@@ -6849,11 +6864,11 @@ msgstr "请在您第一次连接时，更改您的密码。"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:168
 msgid "CodevTT URL: "
-msgstr "CodevTT URL：\\"
+msgstr "CodevTT URL："
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:169
 msgid "Mantis  URL: "
-msgstr "Mantis  URL：\\"
+msgstr "Mantis  URL："
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:170
 msgid "Best regards"
@@ -7076,4 +7091,3 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "交货日期"
-

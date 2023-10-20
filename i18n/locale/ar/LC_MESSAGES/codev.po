@@ -15,9 +15,8 @@
 # Author: محمد أحمد عبد الفتاح
 msgid ""
 msgstr ""
-""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-04 21:02+0200\n"
+"POT-Creation-Date: 2023-10-20 22:19+0200\n"
 "PO-Revision-Date: 2023-10-12 11:01:57+0000\n"
 "Language: ar\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -357,7 +356,7 @@ msgstr ""
 #. tpl/issue_info.html
 #: timetracking/timetracking_lite_ajax.php:139
 msgid "Task not resolved, backlog cannot be '0'"
-msgstr "المهمة لم تُحَل، التراكم لا يمكن أن يكون \"0\""
+msgstr "المهمة لم تُحَل، التراكم لا يمكن أن يكون '0'"
 
 #. tpl/timetracking_lite.html
 #. tpl/modal/update_issueBacklog.html
@@ -2315,7 +2314,7 @@ msgstr "متوسط ​​التقييم اليومي"
 
 #. tpl/command_edit.html
 msgid "Add to 'check budget'"
-msgstr "إضافة إلى \"التحقق من الميزانية\""
+msgstr "إضافة إلى 'التحقق من الميزانية'"
 
 #. tpl/command_edit.html
 #. tpl/edit_team.html
@@ -2738,7 +2737,7 @@ msgstr "تغيير المستخدم"
 
 #. tpl/modal/edit_issueNote.html
 msgid "If unchecked, a 'standard' Mantis note will be created"
-msgstr "إذا تم إلغاء التحديد، سيتم إنشاء ملاحظة Mantis \"القياسية\""
+msgstr "إذا تم إلغاء التحديد، سيتم إنشاء ملاحظة Mantis 'القياسية'"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Add as Timesheet note"
@@ -2766,7 +2765,7 @@ msgstr "تحديث التراكم"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Task resolved, backlog must be '0'"
-msgstr "تم حل المهمة; التراكم يجب أن يكون \"0\""
+msgstr "تم حل المهمة; التراكم يجب أن يكون '0'"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
@@ -3302,7 +3301,7 @@ msgstr "إضافة مهام في الخدمة"
 
 #. tpl/edit_team.html
 msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
-msgstr "ملاحظة: مهام OnDuty هي مهام \"مغادرة\" محددة للفريق، مع سلوك مختلف قليلا."
+msgstr "ملاحظة: مهام OnDuty هي مهام 'مغادرة' محددة للفريق، مع سلوك مختلف قليلا."
 
 #. tpl/edit_team.html
 msgid "Inactivity tasks"
@@ -3310,7 +3309,7 @@ msgstr "خمول المهام"
 
 #. tpl/edit_team.html
 msgid "No 'inactivity' task defined in your SideTasks projects."
-msgstr "لا يوجد \"خمول\" مهام معرف في مشاريعك."
+msgstr "لا يوجد 'خمول' مهام معرف في مشاريعك."
 
 #. tpl/edit_team.html
 msgid "delete OnDuty task"
@@ -3389,7 +3388,7 @@ msgstr "إزالة تخصيص نصيحة أداة المشاكل للمشروع"
 
 #. tpl/edit_team.html
 msgid "This task will no longer be identified as an 'OnDuty' task."
-msgstr "لن يتم تحديد هذه المهمة كمهمة \"في الخدمة\"."
+msgstr "لن يتم تحديد هذه المهمة كمهمة 'في الخدمة'."
 
 #. tpl/edit_team.html
 msgid "Job list for project :"
@@ -3428,12 +3427,12 @@ msgstr "لا شيء"
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Provision included in 'check budget'"
-msgstr "الاعتماد مدرج في \"فحص الميزانية\""
+msgstr "الاعتماد مدرج في 'فحص الميزانية'"
 
 #. tpl/commandset_info.html
 #. tpl/command_info.html
 msgid "Provision NOT included in 'check budget'"
-msgstr "الاعتماد غير مدرج في \"فحص الميزانية\""
+msgstr "الاعتماد غير مدرج في 'فحص الميزانية'"
 
 #. tpl/mantis_reports.html
 msgid "Bilan mensuel SAUF SuiviOp."
@@ -3822,7 +3821,7 @@ msgstr "تحديد/إزالة تاريخ التسليم"
 
 #. tpl/issue_info.html
 msgid "Task is resolved, backlog should be '0'"
-msgstr "يتم حل المهمة، التراكم يجب أن يكون \"0\""
+msgstr "يتم حل المهمة، التراكم يجب أن يكون '0'"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
@@ -4190,6 +4189,7 @@ msgid "Actions executed !"
 msgstr "لم يتم اختيار مهمة!"
 
 #. plugins/AdminTools/AdminTools_ajax.html
+#, fuzzy
 msgid "Force the display of the \"Message\" plugin on the homepage"
 msgstr "عرض جدار رسالة على الصفحة الرئيسية"
 
@@ -4383,7 +4383,9 @@ msgid "Add multiple timetracks at once"
 msgstr "إضافة مهام متعددة"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -4637,7 +4639,7 @@ msgstr "مؤشر تاريخ التحقق من صحة الأخطاء"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Resolved bugs must be validated. This shows how many bugs have been Rejected or Accepted during the validation stage. Bugs in 'resolved' status (not yet validated) are excluded."
-msgstr "يجب التحقق من صحة الأخطاء، يوضح هذا عدد الأخطاء المرفوضة أو المقبولة أثناء مرحلة التحقق من الصحة، يتم استبعاد الخلل في حالة \"تم الحل\" (لم يتم التحقق من صحتها بعد)."
+msgstr "يجب التحقق من صحة الأخطاء، يوضح هذا عدد الأخطاء المرفوضة أو المقبولة أثناء مرحلة التحقق من الصحة، يتم استبعاد الخلل في حالة 'تم الحل' (لم يتم التحقق من صحتها بعد)."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Validated"
@@ -4649,7 +4651,7 @@ msgstr "يعرض النسبة المئوية للأخطاء التي نجحت ف
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved' to any higher status (and still in this state at the end of the period)."
-msgstr "تم تغيير الحالة من \"تم الحل\" إلى أي حالة أعلى (ولا تزال في هذه الحالة في نهاية الفترة)."
+msgstr "تم تغيير الحالة من 'تم الحل' إلى أي حالة أعلى (ولا تزال في هذه الحالة في نهاية الفترة)."
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "% Rejected"
@@ -4661,7 +4663,7 @@ msgstr "يعرض النسبة المئوية للأخطاء التي فشلت ف
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "status changed from 'resolved (or higher) to any lower status (and still unresolved at the end of the period)"
-msgstr "تم تغيير الحالة من \"تم لحل (أو أعلى) إلى أية حالة أقل (ولا تزال بدون حل في نهاية الفترة)"
+msgstr "تم تغيير الحالة من 'تم لحل (أو أعلى) إلى أية حالة أقل (ولا تزال بدون حل في نهاية الفترة)"
 
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 msgid "Bug Refusal Rate"
@@ -4797,8 +4799,12 @@ msgid "Waste"
 msgstr "المخلفات"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "'جوانب \"الحادثة\" و\"عدم النشاط\" للتحديد الحالي.<br>\n         (إذا لم يتم تحديد خيار \"النفايات\"، فسيتم تضمين هذا في \"المنقضي\")"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"'جوانب 'الحادثة' و'عدم النشاط' للتحديد الحالي.<br>\n"
+"         (إذا لم يتم تحديد خيار 'النفايات'، فسيتم تضمين هذا في 'المنقضي')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4818,18 +4824,24 @@ msgstr "خارجية"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External tasks except 'Leave' category"
-msgstr "مهام خارجية باستثناء فئة \"المغادرة\""
+msgstr "مهام خارجية باستثناء فئة 'المغادرة'"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 msgid "External leave tasks & inactivity sideTasks that are not in the current task selection"
 msgstr "مهمات الرحيل الخارجية ومهمات عدم النشاط الفرعية التي ليست ضمن اختيار المهام الحالي"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "عرض فئات المهام الجانبية: فئات \"الحوادث\" و\"عدم النشاط\" <br>\n         (إذا لم يتم اختيارها، سيتم تضمين المهام الجانبية في \"المنقضي\")"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"عرض فئات المهام الجانبية: فئات 'الحوادث' و'عدم النشاط' <br>\n"
+"         (إذا لم يتم اختيارها، سيتم تضمين المهام الجانبية في 'المنقضي')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgid ""
+"Show full activity:\n"
+"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -5452,8 +5464,9 @@ msgid "Mark as read. The message can then be hidden"
 msgstr "علم كمقروءة، يمكن بعد ذلك أن تكون الرسالة مخفية"
 
 #. plugins/BlogPlugin/BlogPlugin.html
+#, fuzzy
 msgid "Hide message. Depends on user setting \"Display hidden messages\""
-msgstr "إخفاء الرسالة، يعتمد على إعداد المستخدم \"عرض الرسائل المخفية\""
+msgstr "إخفاء الرسالة، يعتمد على إعداد المستخدم 'عرض الرسائل المخفية'"
 
 #. plugins/BlogPlugin/BlogPlugin.html
 msgid "Show"
@@ -5707,7 +5720,7 @@ msgstr "يعتمد التراكم على الحالة (دائما 0 إذا كا�
 
 #. plugins/CostsIndicator/CostsIndicator.html
 msgid "Sum the Provisions that are 'checked' as included in the budget."
-msgstr "اجمع الأحكام التي \"تم فحصها\" كما هي مدرجة في الميزانية."
+msgstr "اجمع الأحكام التي 'تم فحصها' كما هي مدرجة في الميزانية."
 
 #: admin/edit_holidays.php:46
 msgid "Couldn't add the holiday"
@@ -5896,8 +5909,9 @@ msgid "EffortEstim should not be 0"
 msgstr "يجب ألا يكون تقدير الجهد 0"
 
 #: classes/consistency_check2.class.php:181
+#, fuzzy
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "يجب ألا تكون هناك أية مسارات زمنية على القضايا \"الجديدة\" "
+msgstr "يجب ألا تكون هناك أية مسارات زمنية على القضايا 'الجديدة' "
 
 #: classes/consistency_check2.class.php:182
 msgid "Issues should be referenced in a Command"
@@ -6072,7 +6086,7 @@ msgstr "خطأ: أولا حدد عملة الإحالة (باستخدام coef =
 
 #: classes/Currencies.class.php:136
 msgid "ERROR: there can be only one 'referal' currency (with coef=1)"
-msgstr "خطأ: لا يمكن أن يكون هناك سوى عملة \"إحالة\" واحدة (باستخدام coef=1)"
+msgstr "خطأ: لا يمكن أن يكون هناك سوى عملة 'إحالة' واحدة (باستخدام coef=1)"
 
 #: classes/Currencies.class.php:140
 msgid "ERROR: currency already defined"
@@ -7131,4 +7145,3 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "تاريخ التسليم"
-
