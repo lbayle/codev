@@ -87,7 +87,7 @@ RUN  yum -y --enablerepo=remi-php81 install \
         php-adodb \
         php-curl \
         php-gd \
-        php-mcrypt \
+        php-pecl-mcrypt \
         php-ldap \
         php-imap \
         php-soap \
@@ -149,9 +149,11 @@ RUN set -xe \
     && chown -R apache:apache codevtt \
     && chmod -R g+w codevtt
 
+# add mantis plugin (in case you don't mount a volume for /var/www/html/mantis/plugins)
 RUN set -xe \
     && cd /var/www/html/mantis/plugins \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
+    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/FilterBugList \
     && mkdir -p /tmp/codevtt/logs \
     && chown -R apache:apache /tmp/codevtt
 
@@ -171,9 +173,15 @@ RUN set -xe \
     && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/codevtt.conf \
     ; done
 
+# FIX Invalid command 'CGIPassAuth', perhaps misspelled or defined by a module not included in the server configuration
+#     => centos:7 is getting too old...
+RUN sed -i '/^CGIPassAuth/ s/./#&/' /etc/httpd/conf.d/mantis.conf
+
+RUN sed -i '/^#ServerName/a ServerName codevtt:80' /etc/httpd/conf/httpd.conf
+
 # ------------------
 # Adding config files (bugtracker)
-ADD httpd_config/ssl.conf                      /etc/httpd/conf.d/ssl.conf
+#ADD httpd_config/ssl.conf                      /etc/httpd/conf.d/ssl.conf
 ADD httpd_config/php.ini                       /etc
 ADD mantis_config/config_inc.php               /var/www/html/mantis/config
 ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config

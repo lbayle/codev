@@ -32,9 +32,8 @@ services:
 
   # ---------------------------------------------------------
   mantis-codevtt:
-   #image: lbayle/codevtt:latest    
-    image: codevtt:dev8
-    hostname: 'codevtt'
+    image: lbayle/codevtt:latest
+    hostname: 'mantis-codevtt'
     container_name: mantis-codevtt
     restart: unless-stopped
     ports:
@@ -48,15 +47,15 @@ services:
     networks:
       - codevtt_net
     volumes:
-      - /data/docker/mantis-codevtt/logs:/tmp/codevtt/logs
       - /data/docker/mantis-codevtt/logs-httpd:/var/log/httpd/
+      - /data/docker/mantis-codevtt/logs:/tmp/codevtt/logs
       - /data/docker/mantis-codevtt/mantis/config:/var/www/html/mantis/config
       - /data/docker/mantis-codevtt/mantis/plugins:/var/www/html/mantis/plugins
       - /data/docker/mantis-codevtt/mantis/uploaded_files:/var/www/html/mantis/uploaded_files
       # Development: CodevTT src code is not in the container to be easily accessed by IDE & git
       - /data/docker/mantis-codevtt/codevtt:/var/www/html/codevtt
 
-# ---------------------------------------------------------
+  # ---------------------------------------------------------
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     hostname: 'phpmyadmin'
@@ -69,10 +68,10 @@ services:
       - PMA_HOST=mariadb
       - PMA_USER=mantisbt
       - PMA_PASSWORD=mantisbt
-    links:
-      - mariadb
     networks:
       - codevtt_net
+    links:
+      - mariadb
     volumes:
       - /data/docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 

@@ -1462,7 +1462,7 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES
-(1, 'administrator', '', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 12, 0, 0, '732aac42ba8df328cc8e19febef5910e2b4289473bc523f1d973862efb7380ad', 1690465200, 1521316138);
+(1, 'administrator', 'Administrator', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 12, 0, 0, '732aac42ba8df328cc8e19febef5910e2b4289473bc523f1d973862efb7380ad', 1690465200, 1521316138);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

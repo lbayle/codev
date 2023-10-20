@@ -85,7 +85,7 @@ RUN  yum -y --enablerepo=remi-php81 install \
         php-adodb \
         php-curl \
         php-gd \
-        php-mcrypt \
+        php-pecl-mcrypt \
         php-ldap \
         php-imap \
         php-soap \
@@ -99,7 +99,7 @@ RUN  yum -y --enablerepo=remi-php81 install \
         php-bcmath \
         php-process \
         php-tidy \
-        php-intl &&\
+        php-intl && \
     yum clean all
 
 # ------------------
@@ -141,6 +141,7 @@ RUN set -xe \
 RUN set -xe \
     && cd /var/www/html/mantis/plugins \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
+    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/FilterBugList \
     && mkdir -p /var/www/html/codevtt \
     && mkdir -p /tmp/codevtt/logs \
     && chown -R apache:apache /tmp/codevtt \
