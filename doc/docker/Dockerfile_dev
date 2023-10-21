@@ -182,6 +182,12 @@ ADD codevtt_config/config.ini                  /var/www/html/codevtt/config
 ADD codevtt_config/log4php.xml                 /var/www/html/codevtt
 ADD index.html                                 /var/www/html/index.html
 
+# Not realy needed, but you might want to retrieve the appropriate DB init for this image.
+# please check : https://github.com/lbayle/codev/blob/master/doc/docker/docker-compose.yml
+# docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+ADD mantis_codevtt_freshInstall.sql   /install/mantis_codevtt_freshInstall.sql
+ADD docker-compose.yml                /install/docker-compose.yml
+
 # ------------------
 
 EXPOSE 80

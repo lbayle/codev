@@ -44,12 +44,17 @@ services:
     volumes:
       - /data/docker/mantis-codevtt/logs-httpd:/var/log/httpd/
       - /data/docker/mantis-codevtt/logs:/tmp/codevtt/logs
-#      - /data/docker/mantis-codevtt/mantis/config:/var/www/html/mantis/config
-#      - /data/docker/mantis-codevtt/mantis/plugins:/var/www/html/mantis/plugins
       - /data/docker/mantis-codevtt/mantis/uploaded_files:/var/www/html/mantis/uploaded_files
 
-      # Development: CodevTT src code is not in the container to be easily accessed by IDE & git
-      #- /data/docker/mantis-codevtt/codevtt:/var/www/html/codevtt
+# To customize your mantis/codevtt installation, you'll need this too.
+# Do not forget to get the initial config files from the image
+#      - /data/docker/mantis-codevtt/mantis/config:/var/www/html/mantis/config
+#      - /data/docker/mantis-codevtt/mantis/plugins:/var/www/html/mantis/plugins
+#      - /data/docker/mantis-codevtt/codevtt/config:/var/www/html/codevtt/config
+
+# Development: CodevTT & MantisBT src code are not in the container to be easily accessed by IDE & git
+#      - /data/docker/mantis-codevtt/codevtt:/var/www/html/codevtt
+#      - /data/docker/mantis-codevtt/mantis/var/www/html/mantis
 
 
   # ---------------------------------------------------------
