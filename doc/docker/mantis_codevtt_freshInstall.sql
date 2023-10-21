@@ -18,6 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
+-- Database for CodevTT v1.8.0
+-- 
+--
+
+
+--
 -- Base de données : `bugtracker`
 --
 

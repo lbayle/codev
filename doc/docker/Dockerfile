@@ -58,10 +58,8 @@ RUN yum -y --setopt=override_install_langs=all reinstall glibc-common && yum cle
 RUN yum -y install \
         vim-enhanced \
         wget \
-        git \
-        git-gui \
-        unzip \
-        p7zip && \
+        zip unzip \
+        sudo && \
     yum clean all
 
 # ------------------
@@ -72,7 +70,7 @@ RUN yum -y install \
 # install Apache
 RUN yum -y --setopt=tsflags=nodocs install \
         httpd \
-        mod_ssl \
+#        mod_ssl \
         openssl && \
     yum clean all
 
@@ -112,10 +110,17 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # set PHP timezone
 RUN echo 'date.timezone=Europe/Paris' > /etc/php.d/00-docker-php-date-timezone.ini
-#RUN sed -i "s/^;date.timezone =.*$/date.timezone = \"Europe\/Paris\"/" /etc/php.ini
 
 # set PHP session lifetime (1 day)
 RUN echo "session.gc_maxlifetime = 86400" > /etc/php.d/00-docker-php-session.ini
+
+# set PHP memory limits
+RUN echo "max_execution_time = 60" > /etc/php.d/00-docker-php-limits.ini && \
+    echo "memory_limit = 1024M" >> /etc/php.d/00-docker-php-limits.ini && \
+    echo "post_max_size = 64M" >> /etc/php.d/00-docker-php-limits.ini && \
+    echo "upload_max_filesize = 640M" >> /etc/php.d/00-docker-php-limits.ini
+#RUN echo "pdo_mysql.cache_size = 2000" >> /etc/php.d/00-docker-php-limits.ini
+#RUN echo "mysqli.cache_size = 2000" >> /etc/php.d/00-docker-php-limits.ini
 
 # ------------------
 # install MantisBT
@@ -182,7 +187,6 @@ RUN sed -i '/^#ServerName/a ServerName codevtt:80' /etc/httpd/conf/httpd.conf
 # ------------------
 # Adding config files (bugtracker)
 #ADD httpd_config/ssl.conf                      /etc/httpd/conf.d/ssl.conf
-ADD httpd_config/php.ini                       /etc/
 ADD mantis_config/config_inc.php               /var/www/html/mantis/config/
 ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config/
 ADD mantis_config/custom_relationships_inc.php /var/www/html/mantis/config/
@@ -191,14 +195,23 @@ ADD codevtt_config/config.ini                  /var/www/html/codevtt/config/
 ADD codevtt_config/log4php.xml                 /var/www/html/codevtt/
 ADD index.html                                 /var/www/html/index.html
 
+# debug
+RUN echo -e "<?php\nphpinfo();\n" > /var/www/html/phpinfo.php
+
 # Not realy needed, but you might want to retrieve the appropriate DB init for this image.
-# please check : https://github.com/lbayle/codev/blob/master/doc/docker/docker-compose.yml
 # docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
 ADD mantis_codevtt_freshInstall.sql   /install/mantis_codevtt_freshInstall.sql
 ADD docker-compose.yml                /install/docker-compose.yml
 
+# the entrypoint.sh will create the initial configuration files if not found
+# this may happen if you decide to override some directories with docker volumes
+ADD entrypoint.sh      /entrypoint.sh
+ADD mantis_config      /install/mantis_config
+ADD codevtt_config     /install/codevtt_config
+ADD phpmyadmin_config  /install/phpmyadmin_config
+
 # ------------------
 
 EXPOSE 80
-ENTRYPOINT ["/usr/sbin/httpd"]
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["-D", "FOREGROUND"]
