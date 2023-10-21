@@ -40,37 +40,32 @@ if [ ! -f /var/www/html/mantis/plugins/CodevTT/CodevTT.php ] ; then
     cp -R /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT /var/www/html/mantis/plugins/CodevTT
 fi
 
-# check access rights for apache user
+# check access rights for www-data user
 DIR_TEST=/var/www/html/mantis/uploaded_files
-sudo -u apache test -w ${DIR_TEST}
+sudo -u www-data test -w ${DIR_TEST}
 if [ $? -ne 0 ] ; then
-    echo "Grant apache write permission to ${DIR_TEST}"
-    chown -R apache:apache ${DIR_TEST} 
+    echo "Grant www-data write permission to ${DIR_TEST}"
+    chown -R www-data:www-data ${DIR_TEST} 
 fi
 
 
-# check access rights for apache user
+# check access rights for www-data user
 DIR_TEST=/tmp/codevtt/logs
-sudo -u apache test -w ${DIR_TEST}
+sudo -u www-data test -w ${DIR_TEST}
 if [ $? -ne 0 ] ; then
-    echo "Grant apache write permission to ${DIR_TEST}"
-    chown -R apache:apache ${DIR_TEST} 
+    echo "Grant www-data write permission to ${DIR_TEST}"
+    chown -R www-data:www-data ${DIR_TEST} 
 fi
 
 FILE_CLASSMAP=/var/www/html/codevtt/classmap.ser
 if [ -f ${FILE_CLASSMAP} ] ; then
-    sudo -u apache test -w ${FILE_CLASSMAP}
+    sudo -u www-data test -w ${FILE_CLASSMAP}
     if [ $? -ne 0 ] ; then
-       echo "Grant apache write permission to ${FILE_CLASSMAP}"
-       chown apache:apache ${FILE_CLASSMAP} 
+       echo "Grant www-data write permission to ${FILE_CLASSMAP}"
+       chown www-data:www-data ${FILE_CLASSMAP} 
     fi
 fi
 
 # ---------------------------------
 echo "mantis-codevtt: run apache..."
-
-# https://github.com/docker-library/httpd/blob/17166574dea6a8c574443fc3a06bdb5a8bc97743/2.4/httpd-foreground
-set -e
-rm -f ./run/httpd/httpd.pid     # Apache gets grumpy about PID files pre-existing
-exec httpd -DFOREGROUND
-
+apache2-foreground

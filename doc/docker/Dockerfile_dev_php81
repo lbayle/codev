@@ -1,0 +1,166 @@
+# Louis BAYLE, 2023-10-21
+
+FROM php:8.1-apache
+
+#php setup, install extensions, setup configs
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    libzip-dev \
+    libxml2-dev \
+    mariadb-client \
+    zip \
+    unzip \
+    wget \
+    sudo \
+    vim \
+    curl \
+    libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+RUN docker-php-ext-install gd
+RUN docker-php-ext-install xml
+RUN docker-php-ext-install soap
+RUN docker-php-ext-install pdo
+RUN docker-php-ext-install pdo_mysql 
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install intl
+RUN docker-php-ext-install bcmath
+
+RUN pecl install zip pcov
+RUN docker-php-ext-enable zip \
+    && docker-php-source delete
+
+#RUN apt install -y libcurl4
+#RUN apt install -y libcurl4-dev
+#RUN docker-php-ext-install curl
+
+#RUN apt install -y libldap-dev
+#RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
+#RUN docker-php-ext-install ldap
+
+#RUN docker-php-ext-install imap
+#RUN docker-php-ext-install json
+#RUN docker-php-ext-install mbstring
+
+#RUN apt install -y libmcrypt-dev
+#RUN docker-php-ext-install mcrypt
+
+#RUN docker-php-ext-install timezonedb
+#RUN docker-php-ext-install tidy
+
+
+#RUN apt-get install -y libmemcached-dev \
+#    && pecl install memcached-3.2.0 \
+#    && docker-php-ext-enable memcached
+
+#    php-fpm \
+#    php-common \
+#    php-mysqlnd \
+#    php-adodb \
+#    php-pecl-memcache \
+#    php-pecl-memcached \
+#    php-pecl-zip \
+#    php-pecl-xdebug \
+#    php-pear \
+#    php-process \
+
+
+
+# ------------------
+
+# set system timezone
+ENV TZ=Europe/Paris
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# set PHP timezone
+#RUN echo 'date.timezone=Europe/Paris' > /etc/php.d/00-docker-php-date-timezone.ini
+#RUN sed -i "s/^;date.timezone =.*$/date.timezone = \"Europe\/Paris\"/" /etc/php.ini
+
+# set PHP session lifetime (1 day)
+#RUN echo "session.gc_maxlifetime = 86400" > /etc/php.d/00-docker-php-session.ini
+
+# ------------------
+# install MantisBT
+
+ENV MANTIS_VER 2.25.8
+ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
+ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
+
+RUN set -xe \
+    && cd /var/www/html \
+    && wget ${MANTIS_URL} \
+    && tar -xvf ${MANTIS_FILE} \
+    && rm ${MANTIS_FILE} \
+    && mv mantisbt-${MANTIS_VER} mantis \
+    && chown -R www-data:www-data mantis \
+    && chmod -R g+w mantis
+
+# ------------------
+# install CodevTT
+
+# no CodevTT install, we want a volume to a local install
+# this is usefull for developping and/or pulling latest changes from gitlab
+
+# add mantis plugin (in case you don't mount a volume for /var/www/html/mantis/plugins)
+RUN set -xe \
+    && cd /var/www/html/mantis/plugins \
+    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
+    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/FilterBugList \
+    && mkdir -p /var/www/html/codevtt \
+    && mkdir -p /tmp/codevtt/logs \
+    && chown -R www-data:www-data /tmp/codevtt \
+    && chown -R www-data:www-data /var/www/html/codevtt
+
+# ------------------
+# Update httpd.conf in order to restrict access as defined by .htaccess file.
+# .htaccess files are not evaluated since a default apache install does not allow to override directives in /var/www
+### RUN set -xe \
+###     && echo "#Mantis specific access policy" > /etc/httpd/conf.d/mantis.conf \
+###     && echo "#CodevTT specific access policy" > /etc/httpd/conf.d/codevtt.conf \
+###     && for f in $(find /var/www/html/mantis -name .htaccess) ; do \
+###     echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/mantis.conf \
+###     && cat $f >> /etc/httpd/conf.d/mantis.conf \
+###     && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/mantis.conf \
+###     ; done \
+###     && for f in $(find /var/www/html/codevtt -name .htaccess) ; do \
+###     echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/codevtt.conf \
+###     && cat $f >> /etc/httpd/conf.d/codevtt.conf \
+###     && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/codevtt.conf \
+###     ; done
+
+# FIX Invalid command 'CGIPassAuth', perhaps misspelled or defined by a module not included in the server configuration
+#     => centos:7 is getting too old...
+#RUN sed -i '/^CGIPassAuth/ s/./#&/' /etc/httpd/conf.d/mantis.conf
+
+RUN sed -i '/.*#ServerName/a ServerName codevtt:80' /etc/apache2/sites-available/000-default.conf
+
+# ------------------
+# Adding config files (bugtracker)
+#ADD httpd_config/ssl.conf                      /etc/httpd/conf.d/ssl.conf
+ADD httpd_config/php.ini                       /etc
+ADD mantis_config/config_inc.php               /var/www/html/mantis/config
+ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config
+ADD mantis_config/custom_relationships_inc.php /var/www/html/mantis/config
+ADD mantis_config/custom_strings_inc.php       /var/www/html/mantis/config
+ADD codevtt_config/config.ini                  /var/www/html/codevtt/config
+ADD codevtt_config/log4php.xml                 /var/www/html/codevtt
+ADD index.html                                 /var/www/html/index.html
+
+# Not realy needed, but you might want to retrieve the appropriate DB init for this image.
+# docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+ADD mantis_codevtt_freshInstall.sql   /install/mantis_codevtt_freshInstall.sql
+ADD docker-compose.yml                /install/docker-compose.yml
+
+# the entrypoint.sh will create the initial configuration files if not found
+# this may happen if you decide to override some directories with docker volumes
+ADD entrypoint.sh      /entrypoint.sh
+ADD mantis_config      /install/mantis_config
+ADD codevtt_config     /install/codevtt_config
+ADD phpmyadmin_config  /install/phpmyadmin_config
+
+# ------------------
+
+EXPOSE 80
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["-D", "FOREGROUND"]
+#CMD ["apache2-foreground"]
