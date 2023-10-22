@@ -1,0 +1,233 @@
+# Louis BAYLE, 2018-10-11
+
+# 2020-05-24: update to PHP v7.4
+# 2021-11-11: update to PHP v8.1
+# 2023-10-22: FROM oraclelinux:8 (was centos:7)
+
+# ====================================================
+# Container with Apache, PHP8.1, Mantis, CodevTT
+#
+# https://github.com/lbayle/codev
+# https://hub.docker.com/r/lbayle/codevtt/
+
+# ====================================================
+# Build instructions:
+#   docker build --rm -t codevtt:1.8.1 .
+
+# ====================================================
+# Run with docker-compose:
+#
+#   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/docker-compose.yml
+#   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/mantis_codevtt_freshInstall.sql
+#   docker-compose up -d 
+#   docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+
+# ====================================================
+
+FROM oraclelinux:8
+
+# change the shell command for the RUN commands to be '/bin/bash -c' instead of '/bin/sh -c'
+#SHELL ["/bin/bash", "-c"]
+
+# Set proxy
+#ENV http_proxy=http://111.222.333.444:8080
+#ENV https_proxy=http://111.222.333.444:8080
+#RUN sed -i '2iproxy=http:\/\/111.222.333.444:8080' /etc/yum.conf
+
+# ------------------
+# Add Epel & Remi repositories
+RUN yum -y update && \
+    yum -y install --setopt=tsflags=nodocs epel-release && \
+    dnf -y install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm && \
+    yum clean all
+
+# ------------------
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+
+RUN dnf module list reset php && \
+    dnf module enable php:remi-8.1 && \
+    yum clean all
+
+# ------------------
+# TODO /!\ override_install_langs=all not working on linuxoracle:8 !!!
+
+# Reinstall glibc-common for i18n.
+# -> this fixes the case where only english is available in CodevTT
+#RUN yum -y --setopt=override_install_langs=all reinstall glibc-common && yum clean all 
+
+# RUN echo "%_install_langs all" > /usr/lib/rpm/macros.d/macros.image-language-conf &&\
+#     dnf reinstall dnf \
+#     yum -y reinstall glibc-common && \ 
+#     yum clean all
+
+
+# ------------------
+# install tools
+RUN yum -y --setopt=tsflags=nodocs install \
+        vim-enhanced \
+        wget \
+        zip unzip \
+        sudo \
+    && yum clean all
+
+# ------------------
+# install MySQL command-line client (for debug purpose)
+#RUN yum -y --setopt=tsflags=nodocs install mariadb && yum clean all
+
+# ------------------
+# install Apache
+RUN yum -y --setopt=tsflags=nodocs install \
+        httpd \
+#        mod_ssl \
+        openssl && \
+    yum clean all
+
+# Installing PHP 8.1
+RUN  yum -y  --setopt=tsflags=nodocs install \
+        php \
+        php-cli \
+#        mod_fcgid \
+#        php-fpm \
+        php-common \
+        php-mysqlnd \
+        php-xml \
+        php-adodb \
+        php-curl \
+        php-gd \
+        php-mcrypt \
+        php-ldap \
+        php-imap \
+        php-soap \
+        php-mbstring \
+        php-pecl-memcache \
+        php-pecl-memcached \
+        php-pecl-zip \
+        php-pecl-xdebug \
+        php-pear \
+        php-pdo \
+        php-bcmath \
+        php-process \
+        php-tidy \
+        php-intl &&\
+    yum clean all
+
+RUN sed -i '/^#ServerName/a ServerName codevtt:80' /etc/httpd/conf/httpd.conf
+RUN echo 'AddHandler php-script .php' >> /etc/httpd/conf.modules.d/99-activate-php.conf
+
+# TODO php-fpm + MPM not working
+#      errMsg = Apache is running a threaded MPM, but your PHP Module is not compiled to be threadsafe.  You need to recompile PHP.
+# comment mpm_event_module & uncomment mpm_prefork_module
+RUN sed -i '/^LoadModule mpm_event_module/ s/./#&/' /etc/httpd/conf.modules.d/00-mpm.conf && \
+    sed -i '/LoadModule mpm_prefork_module/s/^#//g' /etc/httpd/conf.modules.d/00-mpm.conf
+
+
+# Allow overriding specific directives in .htaccess
+RUN sed -e '/<Directory "\/var\/www\/html">/,/<\/Directory>/s/AllowOverride None/AllowOverride All/' -i /etc/httpd/conf/httpd.conf
+
+# FIX Invalid command 'CGIPassAuth', perhaps misspelled or defined by a module not included in the server configuration
+#     => centos:7 is getting too old...
+#RUN sed -i '/^CGIPassAuth/ s/./#&/' /etc/httpd/conf.d/mantis.conf
+
+# deactivate ssl in the container, if you want to use HTTPS then configure your reverse-proxy (traefik)
+#RUN mv /etc/httpd/conf.modules.d/00-ssl.conf /etc/httpd/conf.modules.d/00-ssl.conf.disabled
+#RUN mv /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.disabled
+
+# ------------------
+
+# set system timezone
+ENV TZ=Europe/Paris
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# set PHP timezone
+RUN echo 'date.timezone=Europe/Paris' > /etc/php.d/00-docker-php-date-timezone.ini
+
+# set PHP session lifetime (1 day)
+RUN echo "session.gc_maxlifetime = 86400" > /etc/php.d/00-docker-php-session.ini
+
+# set PHP memory limits
+RUN echo "max_execution_time = 60" > /etc/php.d/00-docker-php-limits.ini && \
+    echo "memory_limit = 1024M" >> /etc/php.d/00-docker-php-limits.ini && \
+    echo "post_max_size = 64M" >> /etc/php.d/00-docker-php-limits.ini && \
+    echo "upload_max_filesize = 640M" >> /etc/php.d/00-docker-php-limits.ini
+#RUN echo "pdo_mysql.cache_size = 2000" >> /etc/php.d/00-docker-php-limits.ini
+#RUN echo "mysqli.cache_size = 2000" >> /etc/php.d/00-docker-php-limits.ini
+
+# ------------------
+# install MantisBT
+
+ENV MANTIS_VER 2.25.8
+ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
+ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
+
+RUN set -xe \
+    && cd /var/www/html \
+    && wget ${MANTIS_URL} \
+    && tar -xvf ${MANTIS_FILE} \
+    && rm ${MANTIS_FILE} \
+    && mv mantisbt-${MANTIS_VER} mantis \
+    && chown -R apache:apache mantis \
+    && chmod -R g+w mantis
+
+# ------------------
+# install CodevTT
+
+# no CodevTT install, we want a volume to a local install
+# this is usefull for developping and/or pulling latest changes from gitlab
+
+# ENV CODEVTT_VER 1.8.0
+# ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
+# ENV CODEVTT_URL https://github.com/lbayle/codev/releases/download/${CODEVTT_VER}/${CODEVTT_FILE}
+# 
+# RUN set -xe \
+#     && cd /var/www/html \
+#     && wget ${CODEVTT_URL} -O ${CODEVTT_FILE} \
+#     && unzip ${CODEVTT_FILE} \
+#     && rm ${CODEVTT_FILE} \
+#     && mv codevtt_v${CODEVTT_VER} codevtt \
+#     && chown -R apache:apache codevtt \
+#     && chmod -R g+w codevtt
+
+# ------------------
+
+# add mantis plugin (in case you don't mount a volume for /var/www/html/mantis/plugins)
+RUN set -xe \
+    && cd /var/www/html/mantis/plugins \
+    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
+    && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/FilterBugList \
+    && mkdir -p /var/www/html/codevtt \
+    && mkdir -p /tmp/codevtt/logs \
+    && chown -R apache:apache /tmp/codevtt \
+    && chown -R apache:apache /var/www/html/codevtt
+
+# ------------------
+# Adding default config files
+
+ADD mantis_config/config_inc.php               /var/www/html/mantis/config/
+ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config/
+ADD mantis_config/custom_relationships_inc.php /var/www/html/mantis/config/
+ADD mantis_config/custom_strings_inc.php       /var/www/html/mantis/config/
+ADD codevtt_config/config.ini                  /var/www/html/codevtt/config/
+ADD codevtt_config/log4php.xml                 /var/www/html/codevtt/
+ADD index.html                                 /var/www/html/index.html
+
+# the entrypoint.sh will create the initial configuration files if not found
+# this may happen if you decide to override some directories with docker volumes
+ADD entrypoint.sh      /entrypoint.sh
+ADD mantis_config      /install/mantis_config
+ADD codevtt_config     /install/codevtt_config
+ADD phpmyadmin_config  /install/phpmyadmin_config
+
+# Not realy needed, but you might want to retrieve the appropriate DB init for this image.
+# docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+ADD mantis_codevtt_freshInstall.sql   /install/mantis_codevtt_freshInstall.sql
+ADD docker-compose.yml                /install/docker-compose.yml
+
+# debug
+#RUN echo -e "<?php\nphpinfo();\n" > /var/www/html/phpinfo.php
+
+# ------------------
+
+# the entrypoint will check configuration & launch httpd
+EXPOSE 80
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["-D", "FOREGROUND"]
