@@ -13,6 +13,7 @@ mkdir -p /tmp/codevtt/logs
 if [ ! -f /var/www/html/codevtt/config/config.ini ] ; then
     echo "   - Install default codevtt/config/config.ini"
     cp /install/codevtt_config/config.ini /var/www/html/codevtt/config/config.ini
+    sed -i "s/codevInstall_timestamp = .*$/codevInstall_timestamp = $(date +%s)/g" /var/www/html/codevtt/config/config.ini
 fi
 
 if [ ! -f /var/www/html/mantis/config/config_inc.php ] ; then

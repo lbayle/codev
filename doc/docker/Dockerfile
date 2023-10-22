@@ -196,7 +196,7 @@ ADD codevtt_config/log4php.xml                 /var/www/html/codevtt/
 ADD index.html                                 /var/www/html/index.html
 
 # debug
-RUN echo -e "<?php\nphpinfo();\n" > /var/www/html/phpinfo.php
+#RUN echo -e "<?php\nphpinfo();\n" > /var/www/html/phpinfo.php
 
 # Not realy needed, but you might want to retrieve the appropriate DB init for this image.
 # docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
