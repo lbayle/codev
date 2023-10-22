@@ -6,17 +6,16 @@
 #   cd /data/docker
 #   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/docker-compose.yml
 #   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/mantis_codevtt_freshInstall.sql
-#   docker-compose up -d 
+#   docker-compose up -d
 #   docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
 
 version: '3.8'
+
 services:
-
   # ---------------------------------------------------------
-  # docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
-
+  # docker exec -i mariadb-codevtt mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
   mariadb:
-    image: centos/mariadb:latest
+    image: mariadb:latest
     hostname: 'mariadb'
     container_name: mariadb-codevtt
     restart: unless-stopped
@@ -32,7 +31,7 @@ services:
     networks:
       - codevtt_net
     volumes:
-      - /data/docker/mariadb:/var/lib/mysql
+      - /data/docker/mariadb/mysql:/var/lib/mysql
       - /data/docker/mariadb/logs:/var/log/mariadb
       - /data/docker/mariadb/conf.d:/etc/mysql/conf.d
 
