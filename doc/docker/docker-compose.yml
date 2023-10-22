@@ -1,3 +1,14 @@
+# Louis BAYLE, 2023-10-22
+# ====================================================
+# Run with docker-compose:
+#
+#   mkdir -p /data/docker
+#   cd /data/docker
+#   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/docker-compose.yml
+#   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/mantis_codevtt_freshInstall.sql
+#   docker-compose up -d 
+#   docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+
 version: '3.8'
 services:
 
