@@ -11,13 +11,14 @@
 # Author: 烈羽
 msgid ""
 msgstr ""
+""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-20 22:15+0200\n"
-"PO-Revision-Date: 2023-10-12 11:02:10+0000\n"
+"PO-Revision-Date: 2023-10-23 11:02:10+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-09-17 16:30:31+0000\n"
+"X-POT-Import-Date: 2023-10-21 00:30:24+0000\n"
 "X-Generator: MediaWiki 1.42.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -357,7 +358,7 @@ msgstr "任務未解決，積壓工作不能為「0」"
 #. tpl/timetracking_lite.html
 #. tpl/modal/update_issueBacklog.html
 msgid "Status can't be : "
-msgstr "狀態不能是："
+msgstr "狀態不能是：\\"
 
 #. tpl/timetracking_lite.html
 msgid "Please update status before editing timetracks"
@@ -2368,7 +2369,7 @@ msgstr "在計劃與甘特圖的任務優先級"
 
 #. tpl/doc.html
 msgid "Documentation is available at "
-msgstr "文件可用，位於"
+msgstr "文件可用，位於\\"
 
 #. tpl/doc.html
 msgid "CodevTT Documentation"
@@ -2384,7 +2385,7 @@ msgstr "統計"
 
 #. tpl/doc.html
 msgid "Contact the author: "
-msgstr "聯絡作者："
+msgstr "聯絡作者：\\"
 
 #. tpl/doc.html
 #. tpl/scheduler.html
@@ -2735,7 +2736,7 @@ msgstr "編輯出勤卡註釋"
 
 #. tpl/modal/edit_issueNote.html
 msgid "Delete timesheet note for task "
-msgstr "刪除用於任務的出勤卡註釋"
+msgstr "刪除用於任務的出勤卡註釋\\"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Current backlog"
@@ -2755,7 +2756,7 @@ msgstr "任務已解決，積壓日誌應為「0」"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetracking disabled if current status in : "
-msgstr "時間表停用，若當前狀態為："
+msgstr "時間表停用，若當前狀態為：\\"
 
 #. tpl/modal/update_issueBacklog.html
 msgid "Timetrack note is required"
@@ -3462,7 +3463,7 @@ msgstr "沒有定義設置選項，現使用預設設置。"
 
 #. tpl/forecasting_report.html
 msgid "Computed on task NOT Resolved/Closed on "
-msgstr "計算未解決/關閉的任務於"
+msgstr "計算未解決/關閉的任務於\\"
 
 #. tpl/forecasting_report.html
 msgid "Unassigned tasks will not be displayed"
@@ -3794,7 +3795,7 @@ msgstr "任務已解決，積壓工作應為「0」"
 
 #. tpl/issue_info.html
 msgid "Backlog should not be set if status is : "
-msgstr "若狀態為此情況下積壓工作不應被設定："
+msgstr "若狀態為此情況下積壓工作不應被設定：\\"
 
 #. tpl/command_info.html
 msgid "Set command filters"
@@ -4343,12 +4344,8 @@ msgid "Add multiple timetracks at once"
 msgstr "一次添加多個時間表"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
-msgstr ""
-"允許使用者同時輸入多個時間表並不符合 CodevTT 的準則。然而，會有必須輸入長期所缺失時間表的時候（例如：當 CodevTT 安裝完的時間晚於專案，需銜接上的情況）。\n"
-"此權限僅授予團隊管理員。"
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
+msgstr "允許使用者同時輸入多個時間表並不符合 CodevTT 的準則。然而，會有必須輸入長期所缺失時間表的時候（例如：當 CodevTT 安裝完的時間晚於專案，需銜接上的情況）。\n此權限僅授予團隊管理員。"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4753,9 +4750,7 @@ msgid "Waste"
 msgstr "浪費"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr "目前「事件」和「不活躍」邊際任務的選項。<br>（如果「浪費」選項沒被選擇，這將被會包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4783,18 +4778,12 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "額外留下任務和不活躍邊際任務未在目前任務選擇裡"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr "顯示浪費的邊際任務：「事件」和「不活躍」分類<br>（如果未勾選，邊際任務會被包含在「已流逝」）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show full activity:\n"
-"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
-"顯示全部活動：\n"
-"         <br>如果有勾選，任務上的時間表不包含在會被顯示於額外欄位的目前選項裡。"
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr "顯示全部活動：\n         <br>如果有勾選，任務上的時間表不包含在會被顯示於額外欄位的目前選項裡。"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
@@ -4861,7 +4850,7 @@ msgstr "目標任務"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "WARNING : In order to move timetracks, destination task creation date will be moved to "
-msgstr "警告：為了移動時間表，目標任務創建日期將會被移動至"
+msgstr "警告：為了移動時間表，目標任務創建日期將會被移動至\\"
 
 #. plugins/MoveIssueTimetracks/MoveIssueTimetracks.html
 msgid "Timetracks moved successfully !"
@@ -5696,7 +5685,7 @@ msgstr "無法更新創建日期"
 #: plugins/ImportIssueCsv/ImportIssueCsv.class.php:204
 #: plugins/ImportUsers/ImportUsers.class.php:237
 msgid "Please upload files with the following extension: "
-msgstr "請上傳符合下列副檔名的檔案："
+msgstr "請上傳符合下列副檔名的檔案：\\"
 
 #: admin/edit_team_ajax.php:782
 #: plugins/LoadPerUserGroups/LoadPerUserGroups.class.php:311
@@ -5710,7 +5699,7 @@ msgstr "很抱歉，您需要被識別身份。"
 
 #: admin/plugin_manager.php:69
 msgid "Could not create classmap: "
-msgstr "無法建立 classmap："
+msgstr "無法建立 classmap：\\"
 
 #: admin/edit_jobs.php:86
 msgid "Sorry, this Job cannot be changed"
@@ -5814,7 +5803,7 @@ msgstr "請填入您的 CodevTT 時間表"
 
 #: classes/user.class.php:1576 classes/consistency_check2.class.php:704
 msgid "incomplete (missing "
-msgstr "未完成（缺少"
+msgstr "未完成（缺少\\"
 
 #: classes/user.class.php:1579 classes/consistency_check2.class.php:719
 msgid "not defined."
@@ -5839,7 +5828,7 @@ msgstr "工作量估計不應為 0"
 
 #: classes/consistency_check2.class.php:181
 msgid "There should be no timetracks on \"new\" issues "
-msgstr "在「新」問題上不應有時間表"
+msgstr "在「新」問題上不應有時間表\\"
 
 #: classes/consistency_check2.class.php:182
 msgid "Issues should be referenced in a Command"
@@ -5872,7 +5861,7 @@ msgstr "應屬於團隊專案清單的命令問題"
 
 #: classes/consistency_check2.class.php:286
 msgid "Backlog should be 0 (not "
-msgstr "積壓工作應為0（不是"
+msgstr "積壓工作應為0（不是\\"
 
 #: classes/consistency_check2.class.php:308
 msgid "Backlog must be defined !"
@@ -5920,7 +5909,7 @@ msgstr "不一致"
 
 #: classes/consistency_check2.class.php:744
 msgid "No default project workflow defined, check config file: "
-msgstr "沒有定義預設專案工作流程，請檢查設定檔案："
+msgstr "沒有定義預設專案工作流程，請檢查設定檔案：\\"
 
 #: classes/consistency_check2.class.php:764
 msgid ") Please run <a href='tools/update_codevtt.php'>update_codevtt.php</a>"
@@ -5932,11 +5921,11 @@ msgstr "專案未定義在團隊的專案清單裡"
 
 #: classes/consistency_check2.class.php:802
 msgid "Please move config file to: "
-msgstr "請移動設定檔案到："
+msgstr "請移動設定檔案到：\\"
 
 #: classes/consistency_check2.class.php:807
 msgid "Please remove: "
-msgstr "請移除："
+msgstr "請移除：\\"
 
 #: classes/scheduler.class.php:81 reports/planning_report.php:202
 msgid "monitored"
@@ -6116,7 +6105,7 @@ msgstr "從您之前的安裝內容複製 CodevTT 設置檔案"
 
 #: install/install.php:128
 msgid "Run this script: "
-msgstr "執行此手稿："
+msgstr "執行此手稿：\\"
 
 #: install/install_step5.php:25
 msgid "Installation finished"
@@ -6153,7 +6142,7 @@ msgstr "檢查產生的設定檔案"
 
 #: install/install_step4.php:60
 msgid "Mantis Path & URL in "
-msgstr "Mantis 的路徑和 URL 位於"
+msgstr "Mantis 的路徑和 URL 位於\\"
 
 #: install/install_step4.php:61
 msgid "Log directory in "
@@ -6166,7 +6155,7 @@ msgstr "移除 CodevTT 安裝檔案"
 
 #: install/install_step4.php:68
 msgid "For security reasons, delete the following directory: "
-msgstr "基於安全因素，請刪除以下目錄："
+msgstr "基於安全因素，請刪除以下目錄：\\"
 
 #: install/install_step4.php:83
 msgid "Done !"
@@ -6194,11 +6183,11 @@ msgstr "資料庫名稱"
 
 #: install/install_step1.php:237
 msgid "Database Table Prefix "
-msgstr "資料庫表單名稱的字首"
+msgstr "資料庫表單名稱的字首\\"
 
 #: install/install_step1.php:241
 msgid "Database Table Suffix "
-msgstr "資料庫表單名稱的字尾"
+msgstr "資料庫表單名稱的字尾\\"
 
 #: install/install_step1.php:255
 msgid "WARN Windows Install: to avoid a SUPER privilege error, use <b>root</b> mysql user (This can be changed in config.ini when installation is finished)."
@@ -6655,7 +6644,7 @@ msgstr "任務不在團隊的專案裡"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.class.php:285
 msgid "Timetrack added by "
-msgstr "時間表添加由"
+msgstr "時間表添加由\\"
 
 #: plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks_ajax.php:76
 msgid "Task does not exist !"
@@ -6775,7 +6764,7 @@ msgstr "售出價格 = 每日價格 x 流逝週期"
 
 #: plugins/SellingPriceForPeriod/SellingPriceForPeriod.class.php:385
 msgid "WARNING: You need to assign the \"CodevTT_DailyPrice\" customField to the following projects: "
-msgstr "警告：您需要分配「CodevTT_DailyPrice」自定義欄位給以下專案："
+msgstr "警告：您需要分配「CodevTT_DailyPrice」自定義欄位給以下專案：\\"
 
 #: plugins/ProgressHistoryIndicator2/ProgressHistoryIndicator2.class.php:67
 msgid "Display the progress history"
@@ -6835,7 +6824,7 @@ msgstr "您不被允許匯入使用者"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:164
 msgid "Your CodevTT / Mantis account has been created: "
-msgstr "您的 CodevTT / Mantis 帳號已創建："
+msgstr "您的 CodevTT / Mantis 帳號已創建：\\"
 
 #: plugins/ImportUsers/ImportUsers_ajax.php:167
 msgid "Please, change your password on your first connection."
@@ -7070,3 +7059,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "交付日期"
+

@@ -15,6 +15,7 @@
 # Author: KATRINE1992
 # Author: Lemondoge
 # Author: Macofe
+# Author: McDutchie
 # Author: Pacoexe
 # Author: Rodney Araujo
 # Author: Rubentl134
@@ -23,11 +24,11 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-10-12 11:02:00+0000\n"
+"PO-Revision-Date: 2023-10-23 11:02:01+0000\n"
 "Language: es_es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-09-17 16:30:31+0000\n"
+"X-POT-Import-Date: 2023-10-21 00:30:24+0000\n"
 "X-Generator: MediaWiki 1.42.0-alpha; Translate 2023-07-10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -493,6 +494,7 @@ msgid "Error Description"
 msgstr "Descripción del error"
 
 #. tpl/servicecontract_edit.html
+#, fuzzy
 msgid "New service contract"
 msgstr "Contrato de servicio nuevo"
 
@@ -600,6 +602,7 @@ msgid "Start date"
 msgstr "Fecha de inicio"
 
 #. tpl/servicecontract_edit.html
+#, fuzzy
 msgid "StartDate"
 msgstr "StartDate"
 
@@ -611,6 +614,7 @@ msgid "End date"
 msgstr "Fecha de finalización"
 
 #. tpl/servicecontract_edit.html
+#, fuzzy
 msgid "EndDate"
 msgstr "EndDate"
 
@@ -640,14 +644,17 @@ msgid "Service contract name"
 msgstr "Nombre del contrato de servicio"
 
 #. tpl/servicecontract_edit.html
+#, fuzzy
 msgid "Delete ServiceContract"
 msgstr "Eliminar el ServiceContract"
 
 #. tpl/servicecontract_edit.html
+#, fuzzy
 msgid "Delete this ServiceContract ?"
 msgstr "Quiere eliminar este ServiceContract?"
 
 #. tpl/servicecontract_edit.html
+#, fuzzy
 msgid "Nb CommandSets"
 msgstr "Nb CommandSets"
 
@@ -658,6 +665,7 @@ msgid "CommandSets"
 msgstr "Conjuntos de órdenes"
 
 #. tpl/servicecontract_edit.html
+#, fuzzy
 msgid "SideTasks Projects"
 msgstr "Proyectos SideTasks"
 
@@ -698,6 +706,7 @@ msgstr "Quitar"
 #. tpl/servicecontract_edit.html
 #. tpl/commandset_edit.html
 #. tpl/commandset_info.html
+#, fuzzy
 msgid "Ref"
 msgstr "Ref"
 
@@ -791,6 +800,7 @@ msgstr "Progreso"
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
 #: plugins/WBSExport/WBSExport.class.php:150
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:291 tools.php:1491
+#, fuzzy
 msgid "MgrEffortEstim"
 msgstr "MgrEffortEstim"
 
@@ -874,6 +884,7 @@ msgstr "Transcurrido"
 #: reports/project_info.php:179 reports/project_info.php:236
 #: tests/filters.php:72 plugins/WBSExport/WBSExport.class.php:154
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:296
+#, fuzzy
 msgid "Drift Mgr"
 msgstr "Drift Mgr"
 
@@ -895,6 +906,7 @@ msgstr "Drift Mgr"
 #: plugins/TasksPivotTable/TasksPivotTable.class.php:297
 #: scheduler/SchedulerEvent.class.php:161 gantt/gantt_ajax.php:255
 #: tools.php:273
+#, fuzzy
 msgid "Drift"
 msgstr "Drift"
 
@@ -932,6 +944,7 @@ msgstr "Id."
 #. plugins/CostsIndicator/CostsIndicator.html
 #: classes/issue_selection.class.php:349
 #: plugins/WBSExport/WBSExport.class.php:145
+#, fuzzy
 msgid "ExtRef"
 msgstr "ExtRef"
 
@@ -1649,23 +1662,28 @@ msgid "Tasks delivered on time"
 msgstr "Tareas entregadas a tiempo"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Task list for EffortEstim"
 msgstr "Lista de tareas para EffortEstim"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Note: Drift on tasks resolved in the period"
 msgstr "Nota: Concentrarse en tareas del periodo"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Drift - All tasks"
 msgstr "Drift-Todas tareas"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
+#, fuzzy
 msgid "Overflow day quantity"
 msgstr "Cantidad del dia de desbordamiento"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Computed on task Resolved/Closed in the given period"
 msgstr "Computado en tarea Resuelta/Cerrada en este periodo"
 
@@ -1681,15 +1699,18 @@ msgstr "Si <0 se adelantan al plan"
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#, fuzzy
 msgid "Tasks in drift"
 msgstr "Tareas en drift"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
+#, fuzzy
 msgid "Tasks for which the elapsed time is greater than the estimated effort"
 msgstr "Tareas donde el tiempo de retraso es mas grande del esfuerzo estimado"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "drift"
 msgstr "drift"
 
@@ -1734,6 +1755,7 @@ msgstr "Gestor de tareas"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
+#, fuzzy
 msgid "EffortDeviation"
 msgstr "EffortDeviation"
 
@@ -1744,28 +1766,34 @@ msgstr "Tareas no resueltas..."
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#, fuzzy
 msgid "Drift relatively to the managers Estimation"
 msgstr "Drift con la Valoracion de directores relativamente"
 
 #. tpl/productivity_report.html
 #. tpl/forecasting_report.html
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
+#, fuzzy
 msgid "Drift relatively to (EE + AddEE)"
 msgstr "Drift relativamente a (EE+AddEE)"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Drift - Tasks (ExtRefOnly)"
 msgstr "Drift-Tareas (ExtRefSolamente)"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Drift (ExtRefOnly)"
 msgstr "Drift (extRefOnly)"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Drift ExtRefOnly"
 msgstr "Drift ExtRefOnly"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "Tasks without ExternalRef are excluded"
 msgstr "Tareas sin ExternalRef son excluido"
 
@@ -1774,18 +1802,22 @@ msgid "Reopened tasks are not included"
 msgstr "No se incluyen tareas reabiertas"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "No Drift on External tasks."
 msgstr "Ningub Drift sobre tareas Externas"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "nb resolved"
 msgstr "nb resuelto"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "nb reopened"
 msgstr "nb abierto de nuevo"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "nb reopened / nb resolved"
 msgstr "nb abierto de nuevo/nb resuelto"
 
@@ -1794,6 +1826,7 @@ msgid "Rate"
 msgstr "Tasa"
 
 #. tpl/productivity_report.html
+#, fuzzy
 msgid "tasks having been reopened in the period"
 msgstr "tareas que han sido abierto de nuevo en este periodo"
 
@@ -1893,6 +1926,7 @@ msgstr "Versión de destino"
 #. plugins/DriftAlertIndicator/DriftAlertIndicator.html
 #: classes/issue.class.php:2253 plugins/WBSExport/WBSExport.class.php:144
 #: tools.php:1565
+#, fuzzy
 msgid "Target"
 msgstr "Destino"
 
@@ -1909,10 +1943,12 @@ msgid "Time spent on Projects per users"
 msgstr "Tiempo empleado en proyectos por usuarios"
 
 #. tpl/project_activity_report.html
+#, fuzzy
 msgid "With ExternalTasks Project"
 msgstr "Con Proyecto de ExternalTasks"
 
 #. tpl/project_activity_report.html
+#, fuzzy
 msgid "With SideTasks Project"
 msgstr "Con Proyecto de SideTasks"
 
@@ -1962,6 +1998,7 @@ msgstr "Filtros aplicados"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
+#, fuzzy
 msgid "From"
 msgstr "De"
 
@@ -2005,6 +2042,7 @@ msgstr "Fecha de inicio"
 #. plugins/LoadPerProjCategoryIndicator/LoadPerProjCategoryIndicator.html
 #. plugins/BurnDownChart/BurnDownChart.html
 #. plugins/TimetrackingAnalysis/TimetrackingAnalysis.html
+#, fuzzy
 msgid "To"
 msgstr "A"
 
@@ -2683,10 +2721,12 @@ msgstr "Preparar"
 
 #. tpl/servicecontract_info.html
 #. tpl/menu/global_menu.html
+#, fuzzy
 msgid "ServiceContract"
 msgstr "ServiceContract"
 
 #. tpl/servicecontract_info.html
+#, fuzzy
 msgid "--- Create New ServiceContract ---"
 msgstr "--Crear Nuevo ServiceContract"
 
@@ -2734,6 +2774,7 @@ msgstr "No se encontraron tareas."
 
 #. tpl/servicecontract_info.html
 #. tpl/commandset_info.html
+#, fuzzy
 msgid "ADR"
 msgstr "ADR"
 
@@ -2979,6 +3020,7 @@ msgid "Preferences"
 msgstr "Preferencias"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Timetrack Durations"
 msgstr "Duraciones Timetrack"
 
@@ -2987,6 +3029,7 @@ msgid "Costs management"
 msgstr "Gestión de costos"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "OnDuty tasks"
 msgstr "Tareas OnDuty"
 
@@ -3009,6 +3052,7 @@ msgid "Enabled"
 msgstr "Activado"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Note: A <em>Team Admin</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report."
 msgstr "Nota: Un <em>Team Admin</em> debe tambien ser declarado como a <em>TeamMember</em> para ser incluido en el reporte de productividad del equipo."
 
@@ -3206,6 +3250,7 @@ msgid "add new group"
 msgstr ""
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Create SideTasksProject"
 msgstr "Crear Proyecto de SideTasks"
 
@@ -3218,10 +3263,12 @@ msgid "Create project"
 msgstr "Crear proyecto"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Average Daily Cost"
 msgstr "Promedio del Coste Diario"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "The ADC is the default UDC for team members"
 msgstr "El ADC es el defecto UDC de los miembros del equipo"
 
@@ -3246,6 +3293,7 @@ msgid "Currency"
 msgstr "Moneda"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Coef"
 msgstr "Coef"
 
@@ -3254,34 +3302,42 @@ msgid "referal currency"
 msgstr "moneda de referencia"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "TODO: describe how and where it is used in CodevTT"
 msgstr "TODO: describir como y donde es utilizado en CodevTT"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "User Daily Costs"
 msgstr "Coste Diario del Usuario"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "The UDC is the cost of a user for a single day, it overrides the ADC"
 msgstr "El UDC es el coste de un usuario para un dia, elimnado el ADC"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Add UserDailyCost"
 msgstr "Anadir CosteDiarioUsuario"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Add user daily cost"
 msgstr "Anadir coste diario del usuario"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Team creation date"
 msgstr "Fecha de creacion d'equipo"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "User arrival date"
 msgstr "Fecha de llegada del usuario"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "User Daily Cost"
 msgstr "Coste Diario del Usuario"
 
@@ -3305,6 +3361,7 @@ msgid "Edit Forbiden status list"
 msgstr "Editar la lista de trabajos"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Issue Tooltips"
 msgstr "Editar a Tooltips"
 
@@ -3313,6 +3370,7 @@ msgid "Tooltip fields"
 msgstr "Campos de información emergente"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "No custom IssueTooltips defined for your projects."
 msgstr "Ningun problema persnalizado ha sido definido para su proyectos."
 
@@ -3326,10 +3384,12 @@ msgid "Enable/Disable alerts"
 msgstr "Activar/desactivar alertas"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Add OnDuty tasks"
 msgstr "Anadir tareas OnDuty"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Note: OnDuty tasks are team specific 'Leave' tasks, with a slightly different behaviour."
 msgstr "Nota: Las tareas OnDuty son tareas especificos 'Dejar' poco diferentes"
 
@@ -3338,18 +3398,22 @@ msgid "Inactivity tasks"
 msgstr "Tareas de inactividad"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "No 'inactivity' task defined in your SideTasks projects."
 msgstr "Ninguna tarea 'inactiva' es definida ensus proyectos SideTasks."
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "delete OnDuty task"
 msgstr "eliminar tarea OnDuty"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Timetrack durations list"
 msgstr "Lista de duracion para contar la hora"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "These are the values proposed in the Timetracking page, when adding a timetrack."
 msgstr "Estos son los valores propuestos en la pagina Timetracking, al medir la hora"
 
@@ -3413,10 +3477,12 @@ msgid "Remove this project from the team ?"
 msgstr "¿Quitar este proyecto del equipo?"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "Remove IssueTooltip customisation for project"
 msgstr "Remover al IssueTooltip personalizado del proyecto"
 
 #. tpl/edit_team.html
+#, fuzzy
 msgid "This task will no longer be identified as an 'OnDuty' task."
 msgstr "Esta tarea no sera mas identificada como tarea 'OnDuty'."
 
