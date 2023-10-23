@@ -70,7 +70,7 @@ RUN yum -y install \
 # install Apache
 RUN yum -y --setopt=tsflags=nodocs install \
         httpd \
-#        mod_ssl \
+        mod_ssl \
         openssl && \
     yum clean all
 
