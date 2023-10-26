@@ -14,7 +14,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-20 22:15+0200\n"
-"PO-Revision-Date: 2023-10-23 11:02:10+0000\n"
+"PO-Revision-Date: 2023-10-26 11:02:14+0000\n"
 "Language: zh_tw\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3611,7 +3611,7 @@ msgstr "匯出"
 #. tpl/scheduler.html
 #. tpl/menu/global_menu.html
 msgid "Planning"
-msgstr "計劃"
+msgstr "正在規劃"
 
 #. tpl/scheduler.html
 msgid "Assignment"
