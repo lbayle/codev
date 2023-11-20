@@ -5,6 +5,7 @@
 # Author: Alex Khimich
 # Author: Amire80
 # Author: BaRaN6161 TURK
+# Author: Jon Harald Søby
 # Author: Kareyac
 # Author: Liuxinyu970226
 # Author: Mirzali
@@ -20,7 +21,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-06 03:03+0100\n"
-"PO-Revision-Date: 2023-11-02 12:01:59+0000\n"
+"PO-Revision-Date: 2023-11-20 12:02:12+0000\n"
 "Language: qqq\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -7006,7 +7007,7 @@ msgstr ""
 
 #: scheduler/scheduler.php:108
 msgid "Today"
-msgstr ""
+msgstr "{{Identical|Imrüj}}"
 
 #: scheduler/scheduler.php:109
 msgid "Monday this week"
