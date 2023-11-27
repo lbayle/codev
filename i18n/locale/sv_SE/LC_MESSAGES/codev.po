@@ -13,7 +13,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-11-02 12:02:01+0000\n"
+"PO-Revision-Date: 2023-11-27 12:01:44+0000\n"
 "Language: sv_se\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -141,7 +141,7 @@ msgstr "Status"
 #: scheduler/SchedulerEvent.class.php:140 gantt/gantt_ajax.php:225
 #: tools.php:1488 tools.php:1497
 msgid "Backlog"
-msgstr ""
+msgstr "Backlogg"
 
 #. tpl/timetracking_lite.html
 #. tpl/ajax/weekTaskDetails.html
