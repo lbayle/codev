@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-12-07 12:02:12+0000\n"
+"PO-Revision-Date: 2024-01-01 12:01:59+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -170,7 +170,7 @@ msgstr "TOTAL"
 
 #. tpl/timetracking_lite.html
 msgid "Hint: Click in a field to edit 'Elapsed time' or 'Backlog'"
-msgstr ""
+msgstr "Sugeriment: Ch'a sgnaca ant un camp për modifiché 'Temp passà' o 'Diari'"
 
 #. tpl/timetracking_lite.html
 #. tpl/time_tracking.html
