@@ -8,7 +8,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2024-01-01 12:01:59+0000\n"
+"PO-Revision-Date: 2024-01-04 12:01:41+0000\n"
 "Language: pms\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -340,7 +340,7 @@ msgstr "Buté na paròla ciav opura *** pr'ësmon-e tut..."
 
 #. tpl/timetracking_lite.html
 msgid "Invalid backlog format"
-msgstr ""
+msgstr "Formà ëd coa nen bon"
 
 #. tpl/timetracking_lite.html
 #. tpl/modal/update_issueBacklog.html
@@ -356,7 +356,7 @@ msgstr "Lë statù a peul pa esse: "
 
 #. tpl/timetracking_lite.html
 msgid "Please update status before editing timetracks"
-msgstr ""
+msgstr "Për piasì, ch'a agiorna lë stat prima ëd modifiché le marche temporaj"
 
 #. tpl/timetracking_lite.html
 #. tpl/check.html
@@ -3900,7 +3900,7 @@ msgstr "Atività"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking (lite)"
-msgstr ""
+msgstr "Marca temporal (alegerìa)"
 
 #. tpl/menu/global_menu.html
 msgid "Time Tracking"
@@ -6542,19 +6542,19 @@ msgstr "Àutra echip"
 #: timetracking/timetracking_lite_ajax.php:139
 #: timetracking/timetracking_lite_ajax.php:144
 msgid "REFUSED"
-msgstr ""
+msgstr "ARFUDÀ"
 
 #: timetracking/timetracking_lite_ajax.php:154
 msgid "ERROR: Failed to update backlog !"
-msgstr ""
+msgstr "EROR: Falì a agiorné la coa!"
 
 #: timetracking/timetracking_lite_ajax.php:178
 msgid "ERROR: Failed to getAvailableStatusList !"
-msgstr ""
+msgstr "EROR: Falì a oten-e la lista djë statù disponìbij!"
 
 #: timetracking/timetracking_lite_ajax.php:219
 msgid "ERROR: Failed to setStatus !"
-msgstr ""
+msgstr "EROR: Falì a definì lë statù!"
 
 #: timetracking/timetracking_lite_ajax.php:245
 #: timetracking/time_tracking_ajax.php:161
@@ -6568,11 +6568,11 @@ msgstr "La programassion a l'é vietà cand lë stat dël problema a l'é:"
 #: timetracking/timetracking_lite_ajax.php:337
 #: timetracking/timetracking_lite_ajax.php:342
 msgid "Sorry, multiple existing timetracks, please use the regular Timetracking page"
-msgstr ""
+msgstr "An dëspias, a-i é vàire marche temporaj, për piasì ch'a deuvra la pàgina Timetracking regolar"
 
 #: timetracking/timetracking_lite_ajax.php:358
 msgid "ERROR: Failed to add/update timetrack !"
-msgstr ""
+msgstr "EROR: Impossìbil gionté o agiorné ël programa temporal!"
 
 #: timetracking/time_tracking_ajax.php:442
 msgid "ERROR: Failed to delete the timetrack !"
