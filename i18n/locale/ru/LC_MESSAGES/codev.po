@@ -28,7 +28,7 @@ msgstr ""
 ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-04 21:02+0200\n"
-"PO-Revision-Date: 2023-12-07 12:02:14+0000\n"
+"PO-Revision-Date: 2024-01-15 12:01:48+0000\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -199,9 +199,8 @@ msgstr ""
 
 #. tpl/timetracking_lite.html
 #. tpl/time_tracking.html
-#, fuzzy
 msgid "Hide resolved tasks"
-msgstr "Показать решенные задачи"
+msgstr "Скрыть решённые задачи"
 
 #. tpl/timetracking_lite.html
 #. tpl/check.html
@@ -642,9 +641,8 @@ msgid "Some fields are missing:"
 msgstr "Некоторые поля отсутствуют:"
 
 #. tpl/servicecontract_edit.html
-#, fuzzy
 msgid "Service contract name"
-msgstr "Сервисные Контракты"
+msgstr "Сервисные контракты"
 
 #. tpl/servicecontract_edit.html
 #, fuzzy
@@ -1053,9 +1051,8 @@ msgid "EffortEstim Reliability"
 msgstr "EffortEstim"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "% Tasks"
-msgstr "Задачи"
+msgstr "% Задачи"
 
 #. tpl/statistics.html
 msgid "Percentage of tasks delivered before the deadLine"
@@ -1066,14 +1063,12 @@ msgstr ""
 #. plugins/AvailableWorkforceIndicator/AvailableWorkforceIndicator.html
 #. plugins/ReopenedRateIndicator2/ReopenedRateIndicator2.html
 #. plugins/EffortEstimReliabilityIndicator2/EffortEstimReliabilityIndicator2.html
-#, fuzzy
 msgid "show values"
-msgstr "Сменить пользователя"
+msgstr "показать значения"
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "% Tasks Delivered on time"
-msgstr "Задачи доставлены вовремя"
+msgstr "% Задачи доставлены вовремя"
 
 #. tpl/statistics.html
 #. tpl/edit_holidays.html
@@ -1149,9 +1144,9 @@ msgid "Efficiency"
 msgstr "Коэффициент Эффективности"
 
 #. tpl/statistics.html
-#, c-format, fuzzy
+#, c-format
 msgid "% Efficiency"
-msgstr "Коэффициент Эффективности"
+msgstr "% Эффективность"
 
 #. tpl/statistics.html
 #, c-format
@@ -1167,9 +1162,8 @@ msgid "Number of reopened external tasks (tasks having an ExternalRef)."
 msgstr ""
 
 #. tpl/statistics.html
-#, fuzzy
 msgid "% Reopened"
-msgstr "Возобновить задачи"
+msgstr "% Возобновлённые"
 
 #. tpl/statistics.html
 msgid "Compare the number of reopened tasks to the number of resolved tasks"
@@ -2712,7 +2706,7 @@ msgstr "Свойства"
 #. tpl/tools/dashboard.html
 #. tpl/modal/login.html
 msgid "Loading"
-msgstr "Загрузка"
+msgstr "Загружается"
 
 #. tpl/prepare_project.html
 msgid "Preparing project:"
