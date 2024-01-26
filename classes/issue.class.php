@@ -943,7 +943,7 @@ class Issue extends Model implements Comparable {
       // but the Reestimated depends on mgrEffortEstim, because duration = max(effortEstim, mgrEffortEstim)
       // so getReestimated cannot be used here.
 
-      $bl = (float) $this->getBacklog();
+      $bl = $this->getBacklog();  // do not cast in (float) !
       // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
       if ( !is_null($bl) && is_numeric($bl)) {
          $localReestimated = (float) $this->getElapsed() + $bl;
