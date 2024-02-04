@@ -19,9 +19,9 @@
 # Author: Vito Genovese
 msgid ""
 msgstr ""
-""
-"Report-Msgid-Bugs-To: translatewiki.net\n"
-"POT-Creation-Date: 2023-05-04 21:02+0200\n"
+"Project-Id-Version: CodevTT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-04 11:09+0100\n"
 "PO-Revision-Date: 2024-01-25 12:02:24+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,6 @@ msgstr ""
 "X-POT-Import-Date: 2023-10-21 00:30:24+0000\n"
 "X-Generator: MediaWiki 1.42.0-alpha; Translate 2024-01-22\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Project-Id-Version: CodevTT\n"
 "X-Translation-Project: translatewiki.net <https://translatewiki.net>\n"
 
 #. tpl/timetracking_lite.html
@@ -4361,8 +4360,12 @@ msgid "Add multiple timetracks at once"
 msgstr "Tek seferde birden fazla zaman çizelgesi ekleyin"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
-msgstr "CodevTT'nin felsefesinde, kullanıcıların aynı anda birkaç zaman çizelgesine girmesine izin vermek yoktur. Bununla birlikte, bazen büyük dönemlerde eksik zaman çizelgelerini girmek gerekebilir (örn. CodevTT bir projeye geç kurulduğunda yetişmek).\nBu hak yalnızca ekip hizmetlilerine verilir."
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
+msgstr ""
+"CodevTT'nin felsefesinde, kullanıcıların aynı anda birkaç zaman çizelgesine girmesine izin vermek yoktur. Bununla birlikte, bazen büyük dönemlerde eksik zaman çizelgelerini girmek gerekebilir (örn. CodevTT bir projeye geç kurulduğunda yetişmek).\n"
+"Bu hak yalnızca ekip hizmetlilerine verilir."
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4770,8 +4773,12 @@ msgid "Waste"
 msgstr "Atık"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"'Olay' ve 'Hareketsizlik' tarafı Geçerli seçimin görevleri.<br>\n"
+"          ('atık' seçeneği seçilmemişse, bu 'geçen süreye dahil edilecektir')"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4798,12 +4805,20 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Harici izin görevleri ve hareketsizlik tarafı Geçerli görev seçiminde olmayan görevler"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"Atık yan görevlerini göster: 'Olay' ve 'Hareketsizlik' kategorileri<br>\n"
+"          (işaretlenmezse, yan görevler 'geçen' dahil edilir)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr "Tüm aktiviteyi göster:\n         <br> İşaretlenirse, mevcut seçime dahil olmayan görevlerle ilgili zaman çizelgeleri ek sütunlarda görüntülenecektir."
+msgid ""
+"Show full activity:\n"
+"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr ""
+"Tüm aktiviteyi göster:\n"
+"         <br> İşaretlenirse, mevcut seçime dahil olmayan görevlerle ilgili zaman çizelgeleri ek sütunlarda görüntülenecektir."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
@@ -7087,4 +7102,3 @@ msgstr "H"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Teslim Tarihi"
-

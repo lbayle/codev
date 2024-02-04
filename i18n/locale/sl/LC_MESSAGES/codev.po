@@ -4,16 +4,16 @@
 # Author: Eleassar
 msgid ""
 msgstr ""
-""
+"Project-Id-Version: CodevTT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-04 11:09+0100\n"
 "PO-Revision-Date: 2024-01-25 12:02:23+0000\n"
-"X-POT-Import-Date: 2023-10-21 00:30:24+0000\n"
+"Language: sl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
+"X-POT-Import-Date: 2023-10-21 00:30:24+0000\n"
 "X-Generator: MediaWiki 1.42.0-alpha; Translate 2024-01-22\n"
 "Plural-Forms: nplurals=4; plural=(n%100 == 1) ? 0 : ( (n%100 == 2) ? 1 : ( (n%100 == 3 || n%100 == 4) ? 2 : 3 ) );\n"
-"Project-Id-Version: CodevTT\n"
-"Report-Msgid-Bugs-To: translatewiki.net\n"
 "X-Translation-Project: translatewiki.net <https://translatewiki.net>\n"
 
 #. tpl/timetracking_lite.html
@@ -4338,7 +4338,9 @@ msgid "Add multiple timetracks at once"
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
 msgstr ""
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
@@ -4744,7 +4746,9 @@ msgid "Waste"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
@@ -4772,11 +4776,15 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgid ""
+"Show full activity:\n"
+"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
 msgstr ""
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -7052,4 +7060,3 @@ msgstr ""
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr ""
-

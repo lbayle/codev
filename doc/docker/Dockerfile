@@ -1,37 +1,35 @@
 # Louis BAYLE, 2018-10-11
-# Version 0.5
 
-# 2018-10-11: update apache 2.4.25 fur security updates
 # 2020-05-24: update to PHP v7.4
-# 2021-11-11: do not include phpmyadmin
 # 2021-11-11: update to PHP v8.1
+
+# ====================================================
+# Container with Apache, PHP8.1, Mantis, CodevTT
+#
+# https://github.com/lbayle/codev
+# https://hub.docker.com/r/lbayle/codevtt/
+
+# ====================================================
+# Build instructions:
+#   docker build --rm -t codevtt:1.8.0 .
+
+# ====================================================
+# Run with docker-compose:
+#
+#   mkdir -p /data/docker
+#   cd /data/docker
+#   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/docker-compose.yml
+#   wget https://raw.githubusercontent.com/lbayle/codev/master/doc/docker/mantis_codevtt_freshInstall.sql
+#   docker-compose up -d 
+#   docker exec -i mariadb-codevtt mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
+
+# ====================================================
 
 FROM centos:centos7
 MAINTAINER Louis BAYLE <lbayle.work@gmail.com>
 
-# ====================================================
-# Container with Apache, PHP8.1, Mantis, CodevTT
-# ====================================================
-# https://hub.docker.com/r/lbayle/codevtt/
-
-# ====================================================
-# build
-# ====================================================
-# docker build --rm -t codevtt:1.8.0 .
-
-# ====================================================
-# run with docker-compose
-# ====================================================
-
-# docker-compose.yml is here:
-# https://github.com/lbayle/codev/blob/master/doc/docker/docker-compose.yml
-
-# run:
-# git clone https://github.com/lbayle/codev.git /data/docker/codevtt/src
-# docker-compose up -d 
-# docker exec -i docker-mariadb-1 mysql -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
-
-# ====================================================
+# change the shell command for the RUN commands to be '/bin/bash -c' instead of '/bin/sh -c'
+#SHELL ["/bin/bash", "-c"]
 
 # Set proxy
 #ENV http_proxy=http://111.222.333.444:8080
@@ -104,6 +102,34 @@ RUN  yum -y --enablerepo=remi-php81 install \
 
 # ------------------
 
+RUN sed -i '/^#ServerName/a ServerName codevtt:80' /etc/httpd/conf/httpd.conf
+
+# Allow overriding specific directives in .htaccess
+#RUN sed -e '/<Directory "\/var\/www\/html">/,/<\/Directory>/s/AllowOverride None/AllowOverride All/' -i /etc/httpd/conf/httpd.conf
+
+# Update httpd.conf in order to restrict access as defined by .htaccess file.
+# .htaccess files are not evaluated since a default apache install does not allow to override directives in /var/www
+RUN set -xe \
+    && echo "#Mantis specific access policy" > /etc/httpd/conf.d/mantis.conf \
+    && echo "#CodevTT specific access policy" > /etc/httpd/conf.d/codevtt.conf \
+    && for f in $(find /var/www/html/mantis -name .htaccess) ; do \
+    echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/mantis.conf \
+    && cat $f >> /etc/httpd/conf.d/mantis.conf \
+    && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/mantis.conf \
+    ; done \
+    && for f in $(find /var/www/html/codevtt -name .htaccess) ; do \
+    echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/codevtt.conf \
+    && cat $f >> /etc/httpd/conf.d/codevtt.conf \
+    && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/codevtt.conf \
+    ; done
+
+
+# FIX Invalid command 'CGIPassAuth', perhaps misspelled or defined by a module not included in the server configuration
+#     => centos:7 is getting too old...
+RUN sed -i '/^CGIPassAuth/ s/./#&/' /etc/httpd/conf.d/mantis.conf
+
+# ------------------
+
 # set system timezone
 ENV TZ=Europe/Paris
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -125,7 +151,7 @@ RUN echo "max_execution_time = 60" > /etc/php.d/00-docker-php-limits.ini && \
 # ------------------
 # install MantisBT
 
-ENV MANTIS_VER 2.25.8
+ENV MANTIS_VER 2.26.0
 ENV MANTIS_URL https://downloads.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt-${MANTIS_VER}.tar.gz
 
@@ -141,7 +167,7 @@ RUN set -xe \
 # ------------------
 # install CodevTT
 
-ENV CODEVTT_VER 1.8.0
+ENV CODEVTT_VER 1.8.1
 ENV CODEVTT_FILE codevtt_v${CODEVTT_VER}.zip
 ENV CODEVTT_URL https://github.com/lbayle/codev/releases/download/${CODEVTT_VER}/${CODEVTT_FILE}
 
@@ -159,34 +185,14 @@ RUN set -xe \
     && cd /var/www/html/mantis/plugins \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/CodevTT \
     && ln -s /var/www/html/codevtt/mantis_plugin/mantis_2_0/FilterBugList \
+    && mkdir -p /var/www/html/codevtt \
     && mkdir -p /tmp/codevtt/logs \
-    && chown -R apache:apache /tmp/codevtt
-
-# Update httpd.conf in order to restrict access as defined by .htaccess file.
-# .htaccess files are not evaluated since a default apache install does not allow to override directives in /var/www
-RUN set -xe \
-    && echo "#Mantis specific access policy" > /etc/httpd/conf.d/mantis.conf \
-    && echo "#CodevTT specific access policy" > /etc/httpd/conf.d/codevtt.conf \
-    && for f in $(find /var/www/html/mantis -name .htaccess) ; do \
-    echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/mantis.conf \
-    && cat $f >> /etc/httpd/conf.d/mantis.conf \
-    && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/mantis.conf \
-    ; done \
-    && for f in $(find /var/www/html/codevtt -name .htaccess) ; do \
-    echo "<Directory $(dirname $f)>" >> /etc/httpd/conf.d/codevtt.conf \
-    && cat $f >> /etc/httpd/conf.d/codevtt.conf \
-    && echo -e "\n</Directory>\n" >> /etc/httpd/conf.d/codevtt.conf \
-    ; done
-
-# FIX Invalid command 'CGIPassAuth', perhaps misspelled or defined by a module not included in the server configuration
-#     => centos:7 is getting too old...
-RUN sed -i '/^CGIPassAuth/ s/./#&/' /etc/httpd/conf.d/mantis.conf
-
-RUN sed -i '/^#ServerName/a ServerName codevtt:80' /etc/httpd/conf/httpd.conf
+    && chown -R apache:apache /tmp/codevtt \
+    && chown -R apache:apache /var/www/html/codevtt
 
 # ------------------
-# Adding config files (bugtracker)
-#ADD httpd_config/ssl.conf                      /etc/httpd/conf.d/ssl.conf
+# Adding default config files
+
 ADD mantis_config/config_inc.php               /var/www/html/mantis/config/
 ADD mantis_config/custom_constants_inc.php     /var/www/html/mantis/config/
 ADD mantis_config/custom_relationships_inc.php /var/www/html/mantis/config/
@@ -195,23 +201,21 @@ ADD codevtt_config/config.ini                  /var/www/html/codevtt/config/
 ADD codevtt_config/log4php.xml                 /var/www/html/codevtt/
 ADD index.html                                 /var/www/html/index.html
 
-# debug
-#RUN echo -e "<?php\nphpinfo();\n" > /var/www/html/phpinfo.php
-
-# Not realy needed, but you might want to retrieve the appropriate DB init for this image.
-# docker exec -i docker-mariadb-1 mariadb -uroot -pmy_password --force bugtracker < mantis_codevtt_freshInstall.sql
-ADD mantis_codevtt_freshInstall.sql   /install/mantis_codevtt_freshInstall.sql
-ADD docker-compose.yml                /install/docker-compose.yml
-
 # the entrypoint.sh will create the initial configuration files if not found
 # this may happen if you decide to override some directories with docker volumes
 ADD entrypoint.sh      /entrypoint.sh
 ADD mantis_config      /install/mantis_config
 ADD codevtt_config     /install/codevtt_config
 ADD phpmyadmin_config  /install/phpmyadmin_config
+ADD docker-compose.yml /install/docker-compose.yml
+ADD mantis_codevtt_freshInstall.sql /install/mantis_codevtt_freshInstall.sql
+
+# debug
+#RUN echo -e "<?php\nphpinfo();\n" > /var/www/html/phpinfo.php
 
 # ------------------
 
+# the entrypoint will check configuration & launch httpd
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["-D", "FOREGROUND"]

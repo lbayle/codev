@@ -10,9 +10,9 @@
 # Author: Visem
 msgid ""
 msgstr ""
-""
-"Report-Msgid-Bugs-To: translatewiki.net\n"
-"POT-Creation-Date: 2023-05-04 21:02+0200\n"
+"Project-Id-Version: CodevTT\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-04 11:09+0100\n"
 "PO-Revision-Date: 2024-01-25 12:02:25+0000\n"
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,6 @@ msgstr ""
 "X-POT-Import-Date: 2023-10-21 00:30:24+0000\n"
 "X-Generator: MediaWiki 1.42.0-alpha; Translate 2024-01-22\n"
 "Plural-Forms: nplurals=3; plural=(n%10 == 1 && n%100 != 11) ? 0 : ( (n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20)) ? 1 : 2 );\n"
-"Project-Id-Version: CodevTT\n"
 "X-Translation-Project: translatewiki.net <https://translatewiki.net>\n"
 
 #. tpl/timetracking_lite.html
@@ -4350,8 +4349,12 @@ msgid "Add multiple timetracks at once"
 msgstr "Додайте кілька часових доріжок одночасно"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
-msgstr "У філософії CodevTT не входить дозволяти користувачам вводити кілька часових доріжок одночасно. Однак іноді доводиться вводити відсутні часові доріжки протягом тривалих періодів (наприклад, наздоганяти, коли CodevTT інстальовано із запізненням у проєкті).\nЦе право надається тільки адміністраторам команди."
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
+msgstr ""
+"У філософії CodevTT не входить дозволяти користувачам вводити кілька часових доріжок одночасно. Однак іноді доводиться вводити відсутні часові доріжки протягом тривалих періодів (наприклад, наздоганяти, коли CodevTT інстальовано із запізненням у проєкті).\n"
+"Це право надається тільки адміністраторам команди."
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4761,8 +4764,12 @@ msgid "Waste"
 msgstr "Вставити"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "Сторінки «Інцидент» та «Бездіяльність» поточного виділення.<br>\n         (якщо не вибрано параметр «відходи», це буде включено до «минулого»)"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"Сторінки «Інцидент» та «Бездіяльність» поточного виділення.<br>\n"
+"         (якщо не вибрано параметр «відходи», це буде включено до «минулого»)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4789,12 +4796,20 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Зовнішні завдання відпустки та завдання бездіяльності, яких немає у поточному виділенні завдання"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "Показувати додаткові завдання щодо відходів: категорії «Інциденти» та «Бездіяльність»<br>\n         (якщо цей прапорець не встановлено, бічні завдання будуть включені до «минулих»)"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"Показувати додаткові завдання щодо відходів: категорії «Інциденти» та «Бездіяльність»<br>\n"
+"         (якщо цей прапорець не встановлено, бічні завдання будуть включені до «минулих»)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr "Показати повну активність:\n         <br>Якщо встановлено прапорець, часові доріжки для завдань, не включених у поточний вибір, відображатимуться у додаткових стовпцях."
+msgid ""
+"Show full activity:\n"
+"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr ""
+"Показати повну активність:\n"
+"         <br>Якщо встановлено прапорець, часові доріжки для завдань, не включених у поточний вибір, відображатимуться у додаткових стовпцях."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
@@ -7080,4 +7095,3 @@ msgstr "Ср"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Дата доставки"
-

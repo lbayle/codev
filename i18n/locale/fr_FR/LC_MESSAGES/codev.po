@@ -14,10 +14,9 @@
 # Author: Wladek92
 msgid ""
 msgstr ""
-""
 "Project-Id-Version: CodevTT\n"
-"Report-Msgid-Bugs-To: translatewiki.net\n"
-"POT-Creation-Date: 2023-05-04 21:02+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-04 11:09+0100\n"
 "PO-Revision-Date: 2024-01-25 12:02:17+0000\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -4355,8 +4354,12 @@ msgid "Add multiple timetracks at once"
 msgstr "Ajouter plusieurs imputations en une seule opération"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
-msgstr "Ce n’est pas dans la philosophie de CodevTT de permettre aux utilisateurs de saisir plusieurs feuilles de temps en même temps. Cependant, il est parfois nécessaire de saisir des feuilles de temps manquantes sur de longues périodes (par ex. pour un rattrapage quand CodevTT est installé tardivement sur un projet).\nCe droit n’est accordé qu’aux administrateurs d’équipe."
+msgid ""
+"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
+"This right is only given to team administrators."
+msgstr ""
+"Ce n’est pas dans la philosophie de CodevTT de permettre aux utilisateurs de saisir plusieurs feuilles de temps en même temps. Cependant, il est parfois nécessaire de saisir des feuilles de temps manquantes sur de longues périodes (par ex. pour un rattrapage quand CodevTT est installé tardivement sur un projet).\n"
+"Ce droit n’est accordé qu’aux administrateurs d’équipe."
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4761,8 +4764,12 @@ msgid "Waste"
 msgstr "Pertes"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr "Tâches annexes « Incident » et « Inactivité » dans la sélection actuelle.<br>\n         (Si l’option « pertes » est désactivée, ce sera inclus dans le « consommé ».)"
+msgid ""
+"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
+"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr ""
+"Tâches annexes « Incident » et « Inactivité » dans la sélection actuelle.<br>\n"
+"         (Si l’option « pertes » est désactivée, ce sera inclus dans le « consommé ».)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4789,11 +4796,17 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "Absences et tâches annexes d’inactivité ne faisant pas partie de la sélection de tâche actuelle"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr "Afficher les tâches annexes de pertes : catégories « Incident » et « Inactivité ».<br>\n         (Si désactivé, ce sera inclus dans le « consommé ».)"
+msgid ""
+"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
+"         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr ""
+"Afficher les tâches annexes de pertes : catégories « Incident » et « Inactivité ».<br>\n"
+"         (Si désactivé, ce sera inclus dans le « consommé ».)"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgid ""
+"Show full activity:\n"
+"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
 msgstr "Montrer toute l'activité:<br /> Si activé, les imputations sur les tâches hors sélection seront affichées dans des colonnes supplémentaires."
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
@@ -7069,4 +7082,3 @@ msgstr "sem."
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "Date de livraison"
-
