@@ -24,14 +24,15 @@
 # Author: 神樂坂秀吉
 msgid ""
 msgstr ""
+""
 "Project-Id-Version: CodevTT\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: translatewiki.net\n"
 "POT-Creation-Date: 2024-02-04 11:09+0100\n"
-"PO-Revision-Date: 2024-01-25 12:02:26+0000\n"
+"PO-Revision-Date: 2024-02-05 12:02:08+0000\n"
 "Language: zh_cn\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POT-Import-Date: 2023-10-21 00:30:24+0000\n"
+"X-POT-Import-Date: 2024-02-04 11:30:40+0000\n"
 "X-Generator: MediaWiki 1.42.0-alpha; Translate 2024-01-22\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translation-Project: translatewiki.net <https://translatewiki.net>\n"
@@ -4358,12 +4359,8 @@ msgid "Add multiple timetracks at once"
 msgstr "同时添加多个任务"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
-msgid ""
-"It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\n"
-"This right is only given to team administrators."
-msgstr ""
-"允许用户同时输入多个时间跟踪并不符合 CodevTT 的理念。然而，有时需要输入长期缺失的时间跟踪（例如 CodevTT 的安装时间晚于项目，需要追赶）。\n"
-"此权限仅授予团队管理员。"
+msgid "It is not in the philosophy of CodevTT to allow users to enter several timetracks at the same time. However it is sometimes necessary to enter missing timetracks over large periods (eg. Catch up when CodevTT is installed late on a project).\nThis right is only given to team administrators."
+msgstr "允许用户同时输入多个时间跟踪并不符合 CodevTT 的理念。然而，有时需要输入长期缺失的时间跟踪（例如 CodevTT 的安装时间晚于项目，需要追赶）。\n此权限仅授予团队管理员。"
 
 #. plugins/FillPeriodWithTimetracks/FillPeriodWithTimetracks.html
 msgid "Error !"
@@ -4768,12 +4765,8 @@ msgid "Waste"
 msgstr "浪费"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
-msgid ""
-"'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n"
-"         (if 'waste' option has not been selected, this will be included in 'elapsed')"
-msgstr ""
-"当前选择中的“事件”和“不活跃”子任务。<br>\n"
-"   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
+msgid "'Incident' and 'Inactivity' sideTasks of the current selection.<br>\n         (if 'waste' option has not been selected, this will be included in 'elapsed')"
+msgstr "当前选择中的“事件”和“不活跃”子任务。<br>\n   （如果“浪费”选项未被选中，这将被包含在'已过期'中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator.html
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_ajax.html
@@ -4800,20 +4793,12 @@ msgid "External leave tasks & inactivity sideTasks that are not in the current t
 msgstr "未出现在当前已选择任务中的外部分离任务和不活跃子任务"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n"
-"         (if unchecked, sidetasks will be included in 'elapsed')"
-msgstr ""
-"显示浪费的子任务：“事件”和“不活跃”类别<br>\n"
-"   （如果未选中，则子任务将被包含在“已过期”中）"
+msgid "Show waste sidetasks: 'Incident' and 'Inactivity' categories <br>\n         (if unchecked, sidetasks will be included in 'elapsed')"
+msgstr "显示浪费的子任务：“事件”和“不活跃”类别<br>\n   （如果未选中，则子任务将被包含在“已过期”中）"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
-msgid ""
-"Show full activity:\n"
-"         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
-msgstr ""
-"显示全部活动：\n"
-"         <br> 如果选中，未包含在当前选择中的任务的时间跟踪将显示在额外的列中。"
+msgid "Show full activity:\n         <br> If checked, timetracks on tasks not included in current selection will be displayed in additional columns."
+msgstr "显示全部活动：\n         <br> 如果选中，未包含在当前选择中的任务的时间跟踪将显示在额外的列中。"
 
 #. plugins/LoadPerUserIndicator/LoadPerUserIndicator_cfg.html
 msgid "WARN: this option will be disabled if 'Only team members' is unchecked"
@@ -7093,3 +7078,4 @@ msgstr "W"
 #: tools.php:1503
 msgid "Delivery Date"
 msgstr "交货日期"
+
