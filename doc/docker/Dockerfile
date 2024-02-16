@@ -11,8 +11,10 @@
 
 # ====================================================
 # Build instructions:
-#   docker build --rm -t codevtt:1.8.0 .
-
+#   docker build --rm -t codevtt:1.8.1 .
+#   docker tag codevtt:1.8.1 lbayle/codevtt:1.8.1
+#   docker push lbayle/codevtt:1.8.1
+#
 # ====================================================
 # Run with docker-compose:
 #

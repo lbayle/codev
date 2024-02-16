@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : jeu. 27 juil. 2023 à 15:42
--- Version du serveur : 10.3.35-MariaDB
--- Version de PHP : 8.2.8
+-- Host: mariadb
+-- Generation Time: Feb 16, 2024 at 07:14 PM
+-- Server version: 11.0.2-MariaDB-1:11.0.2+maria~ubu2204
+-- PHP Version: 8.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,21 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database for CodevTT v1.8.0
--- 
---
-
-
---
--- Base de données : `bugtracker`
+-- Database: `bugtracker` for CodevTT v1.8.1
 --
 
 DELIMITER $$
 --
--- Fonctions
+-- Functions
 --
 DROP FUNCTION IF EXISTS `get_issue_resolved_status_threshold`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_issue_resolved_status_threshold` (`bug_id` INT) RETURNS INT(11) DETERMINISTIC BEGIN
+CREATE DEFINER=`mantisbt`@`%` FUNCTION `get_issue_resolved_status_threshold` (`bug_id` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE proj_id INT DEFAULT NULL;
    
    SELECT project_id INTO proj_id FROM mantis_bug_table
@@ -43,7 +37,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_issue_resolved_status_threshold`
 END$$
 
 DROP FUNCTION IF EXISTS `get_project_resolved_status_threshold`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_project_resolved_status_threshold` (`proj_id` INT) RETURNS INT(11) DETERMINISTIC BEGIN
+CREATE DEFINER=`mantisbt`@`%` FUNCTION `get_project_resolved_status_threshold` (`proj_id` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE status INT DEFAULT NULL;
    
    SELECT value INTO status FROM mantis_config_table 
@@ -62,7 +56,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_project_resolved_status_threshol
 END$$
 
 DROP FUNCTION IF EXISTS `is_issue_in_team_commands`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `is_issue_in_team_commands` (`bugid` INT, `teamid` INT) RETURNS INT(11) DETERMINISTIC BEGIN
+CREATE DEFINER=`mantisbt`@`%` FUNCTION `is_issue_in_team_commands` (`bugid` INT, `teamid` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE is_found INT DEFAULT NULL;
 
    SELECT COUNT(codev_command_bug_table.bug_id) INTO is_found FROM codev_command_bug_table, codev_command_table
@@ -75,7 +69,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `is_issue_in_team_commands` (`bugid` 
 END$$
 
 DROP FUNCTION IF EXISTS `is_project_in_team`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `is_project_in_team` (`projid` INT, `teamid` INT) RETURNS INT(11) DETERMINISTIC BEGIN
+CREATE DEFINER=`mantisbt`@`%` FUNCTION `is_project_in_team` (`projid` INT, `teamid` INT) RETURNS INT(11) DETERMINISTIC BEGIN
    DECLARE is_found INT DEFAULT NULL;
 
 
@@ -93,7 +87,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_blog_activity_table`
+-- Table structure for table `codev_blog_activity_table`
 --
 
 DROP TABLE IF EXISTS `codev_blog_activity_table`;
@@ -105,12 +99,12 @@ CREATE TABLE IF NOT EXISTS `codev_blog_activity_table` (
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `key1` (`blog_id`,`user_id`,`action`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wall activity';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='Wall activity';
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_blog_table`
+-- Table structure for table `codev_blog_table`
 --
 
 DROP TABLE IF EXISTS `codev_blog_table`;
@@ -130,10 +124,10 @@ CREATE TABLE IF NOT EXISTS `codev_blog_table` (
   PRIMARY KEY (`id`),
   KEY `date` (`date_submitted`),
   KEY `key1` (`dest_team_id`,`dest_user_id`,`date_submitted`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Wall posts';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='Wall posts';
 
 --
--- Déchargement des données de la table `codev_blog_table`
+-- Dumping data for table `codev_blog_table`
 --
 
 INSERT INTO `codev_blog_table` (`id`, `date_submitted`, `src_user_id`, `dest_user_id`, `dest_project_id`, `dest_team_id`, `severity`, `category`, `summary`, `content`, `date_expire`, `color`) VALUES
@@ -142,7 +136,7 @@ INSERT INTO `codev_blog_table` (`id`, `date_submitted`, `src_user_id`, `dest_use
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_commandset_cmd_table`
+-- Table structure for table `codev_commandset_cmd_table`
 --
 
 DROP TABLE IF EXISTS `codev_commandset_cmd_table`;
@@ -152,12 +146,12 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_cmd_table` (
   `command_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_commandset_table`
+-- Table structure for table `codev_commandset_table`
 --
 
 DROP TABLE IF EXISTS `codev_commandset_table`;
@@ -174,12 +168,12 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_command_bug_table`
+-- Table structure for table `codev_command_bug_table`
 --
 
 DROP TABLE IF EXISTS `codev_command_bug_table`;
@@ -190,12 +184,12 @@ CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
   PRIMARY KEY (`id`),
   KEY `command_id` (`command_id`),
   KEY `bug_id` (`bug_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_command_provision_table`
+-- Table structure for table `codev_command_provision_table`
 --
 
 DROP TABLE IF EXISTS `codev_command_provision_table`;
@@ -213,12 +207,12 @@ CREATE TABLE IF NOT EXISTS `codev_command_provision_table` (
   `description` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `command_id` (`command_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_command_table`
+-- Table structure for table `codev_command_table`
 --
 
 DROP TABLE IF EXISTS `codev_command_table`;
@@ -240,12 +234,12 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_config_table`
+-- Table structure for table `codev_config_table`
 --
 
 DROP TABLE IF EXISTS `codev_config_table`;
@@ -262,10 +256,10 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `access_reqd` int(11) DEFAULT NULL,
   `description` text DEFAULT NULL,
   PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`,`servicecontract_id`,`commandset_id`,`command_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_config_table`
+-- Dumping data for table `codev_config_table`
 --
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`, `project_id`, `team_id`, `servicecontract_id`, `commandset_id`, `command_id`, `access_reqd`, `description`) VALUES
@@ -292,7 +286,7 @@ INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`, `proj
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_currencies_table`
+-- Table structure for table `codev_currencies_table`
 --
 
 DROP TABLE IF EXISTS `codev_currencies_table`;
@@ -300,10 +294,10 @@ CREATE TABLE IF NOT EXISTS `codev_currencies_table` (
   `currency` varchar(3) NOT NULL,
   `coef` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`currency`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_currencies_table`
+-- Dumping data for table `codev_currencies_table`
 --
 
 INSERT INTO `codev_currencies_table` (`currency`, `coef`) VALUES
@@ -316,7 +310,7 @@ INSERT INTO `codev_currencies_table` (`currency`, `coef`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_custom_user_data_table`
+-- Table structure for table `codev_custom_user_data_table`
 --
 
 DROP TABLE IF EXISTS `codev_custom_user_data_table`;
@@ -332,12 +326,12 @@ CREATE TABLE IF NOT EXISTS `codev_custom_user_data_table` (
   `field_08` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   `field_09` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini',
   `field_10` varchar(50) DEFAULT NULL COMMENT 'field-name is set in config.ini'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_holidays_table`
+-- Table structure for table `codev_holidays_table`
 --
 
 DROP TABLE IF EXISTS `codev_holidays_table`;
@@ -348,28 +342,30 @@ CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
   `color` varchar(7) NOT NULL DEFAULT 'D8D8D8',
   PRIMARY KEY (`id`),
   KEY `date` (`date`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='Fixed Holidays (national, religious, etc.)';
 
 --
--- Déchargement des données de la table `codev_holidays_table`
+-- Dumping data for table `codev_holidays_table`
 --
 
 INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
-(36, 1492380000, 'lundi de paques', '58CC77'),
-(37, 1493589600, 'fete du travail', '58CC77'),
-(38, 1494194400, 'victoire 1945', '58CC77'),
-(39, 1495663200, 'ascension', '58CC77'),
-(40, 1496613600, 'pentecote', '58CC77'),
-(41, 1499983200, 'fete nationale', '58CC77'),
-(42, 1502748000, 'assomption', '58CC77'),
-(43, 1509490800, 'toussaint', '58CC77'),
-(44, 1514156400, 'noel', '58CC77'),
-(45, 1514761200, 'reveillon', '58CC77');
+(46, 1715205600, 'Ascension', '58CC77'),
+(47, 1704063600, 'Jour de l\'an', '58CC77'),
+(48, 1735686000, 'Jour de l\'an', '58CC77'),
+(49, 1730415600, 'Toussaint', '58CC77'),
+(50, 1711922400, ' Lundi de Paques', '58CC77'),
+(51, 1716156000, 'Lundi de Pentecôte', '58CC77'),
+(52, 1731279600, 'Armistice', '58CC77'),
+(53, 1714514400, 'Fete du Travail', '58CC77'),
+(54, 1720908000, 'Fete Nationale', '58CC77'),
+(55, 1735081200, 'Noel', '58CC77'),
+(56, 1715119200, 'Victoire 1945', '58CC77'),
+(57, 1723672800, 'Assomption', '58CC77');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_job_table`
+-- Table structure for table `codev_job_table`
 --
 
 DROP TABLE IF EXISTS `codev_job_table`;
@@ -379,10 +375,10 @@ CREATE TABLE IF NOT EXISTS `codev_job_table` (
   `type` int(11) NOT NULL DEFAULT 0,
   `color` varchar(7) DEFAULT '000000',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_job_table`
+-- Dumping data for table `codev_job_table`
 --
 
 INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
@@ -396,7 +392,7 @@ INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_plugin_table`
+-- Table structure for table `codev_plugin_table`
 --
 
 DROP TABLE IF EXISTS `codev_plugin_table`;
@@ -408,10 +404,10 @@ CREATE TABLE IF NOT EXISTS `codev_plugin_table` (
   `version` varchar(10) NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_plugin_table`
+-- Dumping data for table `codev_plugin_table`
 --
 
 INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `version`, `description`) VALUES
@@ -461,7 +457,7 @@ INSERT INTO `codev_plugin_table` (`name`, `status`, `domains`, `categories`, `ve
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_project_category_table`
+-- Table structure for table `codev_project_category_table`
 --
 
 DROP TABLE IF EXISTS `codev_project_category_table`;
@@ -471,12 +467,12 @@ CREATE TABLE IF NOT EXISTS `codev_project_category_table` (
   `category_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`,`project_id`,`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_project_job_table`
+-- Table structure for table `codev_project_job_table`
 --
 
 DROP TABLE IF EXISTS `codev_project_job_table`;
@@ -487,10 +483,10 @@ CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
   `team_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `project_job_team` (`project_id`,`job_id`,`team_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_project_job_table`
+-- Dumping data for table `codev_project_job_table`
 --
 
 INSERT INTO `codev_project_job_table` (`id`, `project_id`, `job_id`, `team_id`) VALUES
@@ -499,7 +495,7 @@ INSERT INTO `codev_project_job_table` (`id`, `project_id`, `job_id`, `team_id`) 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_servicecontract_cmdset_table`
+-- Table structure for table `codev_servicecontract_cmdset_table`
 --
 
 DROP TABLE IF EXISTS `codev_servicecontract_cmdset_table`;
@@ -509,12 +505,12 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_cmdset_table` (
   `commandset_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_servicecontract_stproj_table`
+-- Table structure for table `codev_servicecontract_stproj_table`
 --
 
 DROP TABLE IF EXISTS `codev_servicecontract_stproj_table`;
@@ -524,12 +520,12 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_stproj_table` (
   `project_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_servicecontract_table`
+-- Table structure for table `codev_servicecontract_table`
 --
 
 DROP TABLE IF EXISTS `codev_servicecontract_table`;
@@ -546,12 +542,12 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_table` (
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_sidetasks_category_table`
+-- Table structure for table `codev_sidetasks_category_table`
 --
 
 DROP TABLE IF EXISTS `codev_sidetasks_category_table`;
@@ -566,12 +562,12 @@ CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `project_id` (`project_id`),
   KEY `project_id_2` (`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_team_project_table`
+-- Table structure for table `codev_team_project_table`
 --
 
 DROP TABLE IF EXISTS `codev_team_project_table`;
@@ -583,10 +579,10 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`),
   KEY `team_id` (`team_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_team_project_table`
+-- Dumping data for table `codev_team_project_table`
 --
 
 INSERT INTO `codev_team_project_table` (`id`, `project_id`, `team_id`, `type`) VALUES
@@ -595,7 +591,7 @@ INSERT INTO `codev_team_project_table` (`id`, `project_id`, `team_id`, `type`) V
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_team_table`
+-- Table structure for table `codev_team_table`
 --
 
 DROP TABLE IF EXISTS `codev_team_table`;
@@ -613,10 +609,10 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `lock_timetracks_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_team_table`
+-- Dumping data for table `codev_team_table`
 --
 
 INSERT INTO `codev_team_table` (`id`, `name`, `description`, `administrators`, `leader_id`, `enabled`, `commands_enabled`, `date`, `average_daily_cost`, `currency`, `lock_timetracks_date`) VALUES
@@ -625,7 +621,7 @@ INSERT INTO `codev_team_table` (`id`, `name`, `description`, `administrators`, `
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_team_user_table`
+-- Table structure for table `codev_team_user_table`
 --
 
 DROP TABLE IF EXISTS `codev_team_user_table`;
@@ -637,10 +633,10 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `arrival_date` int(10) UNSIGNED NOT NULL,
   `departure_date` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `codev_team_user_table`
+-- Dumping data for table `codev_team_user_table`
 --
 
 INSERT INTO `codev_team_user_table` (`id`, `user_id`, `team_id`, `access_level`, `arrival_date`, `departure_date`) VALUES
@@ -649,7 +645,7 @@ INSERT INTO `codev_team_user_table` (`id`, `user_id`, `team_id`, `access_level`,
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_timetracking_table`
+-- Table structure for table `codev_timetracking_table`
 --
 
 DROP TABLE IF EXISTS `codev_timetracking_table`;
@@ -666,12 +662,12 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   KEY `bugid` (`bugid`),
   KEY `userid` (`userid`),
   KEY `date` (`date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_timetrack_note_table`
+-- Table structure for table `codev_timetrack_note_table`
 --
 
 DROP TABLE IF EXISTS `codev_timetrack_note_table`;
@@ -679,12 +675,12 @@ CREATE TABLE IF NOT EXISTS `codev_timetrack_note_table` (
   `timetrackid` int(11) NOT NULL,
   `noteid` int(11) NOT NULL,
   PRIMARY KEY (`timetrackid`,`noteid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_userdailycost_table`
+-- Table structure for table `codev_userdailycost_table`
 --
 
 DROP TABLE IF EXISTS `codev_userdailycost_table`;
@@ -698,12 +694,12 @@ CREATE TABLE IF NOT EXISTS `codev_userdailycost_table` (
   `description` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_team_date` (`user_id`,`team_id`,`start_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_wbs_table`
+-- Table structure for table `codev_wbs_table`
 --
 
 DROP TABLE IF EXISTS `codev_wbs_table`;
@@ -722,12 +718,12 @@ CREATE TABLE IF NOT EXISTS `codev_wbs_table` (
   KEY `bug_id` (`bug_id`),
   KEY `parent_id` (`parent_id`),
   KEY `wbs_order` (`wbs_order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_api_token_table`
+-- Table structure for table `mantis_api_token_table`
 --
 
 DROP TABLE IF EXISTS `mantis_api_token_table`;
@@ -740,12 +736,12 @@ CREATE TABLE IF NOT EXISTS `mantis_api_token_table` (
   `date_used` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_user_id_name` (`user_id`,`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bugnote_table`
+-- Table structure for table `mantis_bugnote_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bugnote_table`;
@@ -763,12 +759,12 @@ CREATE TABLE IF NOT EXISTS `mantis_bugnote_table` (
   PRIMARY KEY (`id`),
   KEY `idx_bug` (`bug_id`),
   KEY `idx_last_mod` (`last_modified`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bugnote_text_table`
+-- Table structure for table `mantis_bugnote_text_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bugnote_text_table`;
@@ -776,12 +772,12 @@ CREATE TABLE IF NOT EXISTS `mantis_bugnote_text_table` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `note` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_file_table`
+-- Table structure for table `mantis_bug_file_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_file_table`;
@@ -802,12 +798,12 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_file_table` (
   PRIMARY KEY (`id`),
   KEY `idx_bug_file_bug_id` (`bug_id`),
   KEY `idx_diskfile` (`diskfile`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_history_table`
+-- Table structure for table `mantis_bug_history_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_history_table`;
@@ -824,10 +820,10 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_history_table` (
   KEY `idx_bug_history_bug_id` (`bug_id`),
   KEY `idx_history_user_id` (`user_id`),
   KEY `idx_bug_history_date_modified` (`date_modified`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_bug_history_table`
+-- Dumping data for table `mantis_bug_history_table`
 --
 
 INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) VALUES
@@ -836,7 +832,7 @@ INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `field_name`,
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_monitor_table`
+-- Table structure for table `mantis_bug_monitor_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_monitor_table`;
@@ -845,12 +841,12 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_monitor_table` (
   `bug_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`bug_id`),
   KEY `idx_bug_id` (`bug_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_relationship_table`
+-- Table structure for table `mantis_bug_relationship_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_relationship_table`;
@@ -862,12 +858,12 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_relationship_table` (
   PRIMARY KEY (`id`),
   KEY `idx_relationship_source` (`source_bug_id`),
   KEY `idx_relationship_destination` (`destination_bug_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_revision_table`
+-- Table structure for table `mantis_bug_revision_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_revision_table`;
@@ -882,12 +878,12 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_revision_table` (
   PRIMARY KEY (`id`),
   KEY `idx_bug_rev_type` (`type`),
   KEY `idx_bug_rev_id_time` (`bug_id`,`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_table`
+-- Table structure for table `mantis_bug_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_table`;
@@ -927,10 +923,10 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_table` (
   KEY `idx_bug_status` (`status`),
   KEY `idx_project` (`project_id`),
   KEY `handler_id` (`handler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_bug_table`
+-- Dumping data for table `mantis_bug_table`
 --
 
 INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`, `duplicate_id`, `priority`, `severity`, `reproducibility`, `status`, `resolution`, `projection`, `eta`, `bug_text_id`, `os`, `os_build`, `platform`, `version`, `fixed_in_version`, `build`, `profile_id`, `view_state`, `summary`, `sponsorship_total`, `sticky`, `target_version`, `category_id`, `date_submitted`, `due_date`, `last_updated`) VALUES
@@ -942,7 +938,7 @@ INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`,
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_tag_table`
+-- Table structure for table `mantis_bug_tag_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_tag_table`;
@@ -953,12 +949,12 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_tag_table` (
   `date_attached` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`bug_id`,`tag_id`),
   KEY `idx_bug_tag_tag_id` (`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_bug_text_table`
+-- Table structure for table `mantis_bug_text_table`
 --
 
 DROP TABLE IF EXISTS `mantis_bug_text_table`;
@@ -968,10 +964,10 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_text_table` (
   `steps_to_reproduce` longtext NOT NULL,
   `additional_information` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_bug_text_table`
+-- Dumping data for table `mantis_bug_text_table`
 --
 
 INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, `additional_information`) VALUES
@@ -983,7 +979,7 @@ INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_category_table`
+-- Table structure for table `mantis_category_table`
 --
 
 DROP TABLE IF EXISTS `mantis_category_table`;
@@ -995,10 +991,10 @@ CREATE TABLE IF NOT EXISTS `mantis_category_table` (
   `status` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_category_project_name` (`project_id`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_category_table`
+-- Dumping data for table `mantis_category_table`
 --
 
 INSERT INTO `mantis_category_table` (`id`, `project_id`, `user_id`, `name`, `status`) VALUES
@@ -1009,7 +1005,7 @@ INSERT INTO `mantis_category_table` (`id`, `project_id`, `user_id`, `name`, `sta
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_config_table`
+-- Table structure for table `mantis_config_table`
 --
 
 DROP TABLE IF EXISTS `mantis_config_table`;
@@ -1021,10 +1017,10 @@ CREATE TABLE IF NOT EXISTS `mantis_config_table` (
   `type` int(11) DEFAULT 90,
   `value` longtext NOT NULL,
   PRIMARY KEY (`config_id`,`project_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_config_table`
+-- Dumping data for table `mantis_config_table`
 --
 
 INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) VALUES
@@ -1039,7 +1035,7 @@ INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_custom_field_project_table`
+-- Table structure for table `mantis_custom_field_project_table`
 --
 
 DROP TABLE IF EXISTS `mantis_custom_field_project_table`;
@@ -1048,12 +1044,12 @@ CREATE TABLE IF NOT EXISTS `mantis_custom_field_project_table` (
   `project_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `sequence` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`field_id`,`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_custom_field_string_table`
+-- Table structure for table `mantis_custom_field_string_table`
 --
 
 DROP TABLE IF EXISTS `mantis_custom_field_string_table`;
@@ -1064,12 +1060,12 @@ CREATE TABLE IF NOT EXISTS `mantis_custom_field_string_table` (
   `text` longtext DEFAULT NULL,
   PRIMARY KEY (`field_id`,`bug_id`),
   KEY `idx_custom_field_bug` (`bug_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_custom_field_table`
+-- Table structure for table `mantis_custom_field_table`
 --
 
 DROP TABLE IF EXISTS `mantis_custom_field_table`;
@@ -1095,10 +1091,10 @@ CREATE TABLE IF NOT EXISTS `mantis_custom_field_table` (
   `filter_by` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_custom_field_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_custom_field_table`
+-- Dumping data for table `mantis_custom_field_table`
 --
 
 INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`, `default_value`, `valid_regexp`, `access_level_r`, `access_level_rw`, `length_min`, `length_max`, `require_report`, `require_update`, `display_report`, `display_update`, `require_resolved`, `display_resolved`, `display_closed`, `require_closed`, `filter_by`) VALUES
@@ -1115,7 +1111,7 @@ INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_email_table`
+-- Table structure for table `mantis_email_table`
 --
 
 DROP TABLE IF EXISTS `mantis_email_table`;
@@ -1127,12 +1123,12 @@ CREATE TABLE IF NOT EXISTS `mantis_email_table` (
   `body` longtext NOT NULL,
   `submitted` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`email_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_filters_table`
+-- Table structure for table `mantis_filters_table`
 --
 
 DROP TABLE IF EXISTS `mantis_filters_table`;
@@ -1144,12 +1140,12 @@ CREATE TABLE IF NOT EXISTS `mantis_filters_table` (
   `name` varchar(64) NOT NULL DEFAULT '',
   `filter_string` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_news_table`
+-- Table structure for table `mantis_news_table`
 --
 
 DROP TABLE IF EXISTS `mantis_news_table`;
@@ -1164,12 +1160,12 @@ CREATE TABLE IF NOT EXISTS `mantis_news_table` (
   `last_modified` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `date_posted` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_plugin_table`
+-- Table structure for table `mantis_plugin_table`
 --
 
 DROP TABLE IF EXISTS `mantis_plugin_table`;
@@ -1179,10 +1175,10 @@ CREATE TABLE IF NOT EXISTS `mantis_plugin_table` (
   `protected` tinyint(4) NOT NULL DEFAULT 0,
   `priority` int(10) UNSIGNED NOT NULL DEFAULT 3,
   PRIMARY KEY (`basename`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_plugin_table`
+-- Dumping data for table `mantis_plugin_table`
 --
 
 INSERT INTO `mantis_plugin_table` (`basename`, `enabled`, `protected`, `priority`) VALUES
@@ -1197,7 +1193,7 @@ INSERT INTO `mantis_plugin_table` (`basename`, `enabled`, `protected`, `priority
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_project_file_table`
+-- Table structure for table `mantis_project_file_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_file_table`;
@@ -1215,12 +1211,12 @@ CREATE TABLE IF NOT EXISTS `mantis_project_file_table` (
   `date_added` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_project_hierarchy_table`
+-- Table structure for table `mantis_project_hierarchy_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_hierarchy_table`;
@@ -1231,12 +1227,12 @@ CREATE TABLE IF NOT EXISTS `mantis_project_hierarchy_table` (
   UNIQUE KEY `idx_project_hierarchy` (`child_id`,`parent_id`),
   KEY `idx_project_hierarchy_child_id` (`child_id`),
   KEY `idx_project_hierarchy_parent_id` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_project_table`
+-- Table structure for table `mantis_project_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_table`;
@@ -1254,10 +1250,10 @@ CREATE TABLE IF NOT EXISTS `mantis_project_table` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_project_name` (`name`),
   KEY `idx_project_view` (`view_state`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_project_table`
+-- Dumping data for table `mantis_project_table`
 --
 
 INSERT INTO `mantis_project_table` (`id`, `name`, `status`, `enabled`, `view_state`, `access_min`, `file_path`, `description`, `category_id`, `inherit_global`) VALUES
@@ -1267,7 +1263,7 @@ INSERT INTO `mantis_project_table` (`id`, `name`, `status`, `enabled`, `view_sta
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_project_user_list_table`
+-- Table structure for table `mantis_project_user_list_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_user_list_table`;
@@ -1277,12 +1273,12 @@ CREATE TABLE IF NOT EXISTS `mantis_project_user_list_table` (
   `access_level` smallint(6) NOT NULL DEFAULT 10,
   PRIMARY KEY (`project_id`,`user_id`),
   KEY `idx_project_user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_project_version_table`
+-- Table structure for table `mantis_project_version_table`
 --
 
 DROP TABLE IF EXISTS `mantis_project_version_table`;
@@ -1296,12 +1292,12 @@ CREATE TABLE IF NOT EXISTS `mantis_project_version_table` (
   `date_order` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_project_version` (`project_id`,`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_sponsorship_table`
+-- Table structure for table `mantis_sponsorship_table`
 --
 
 DROP TABLE IF EXISTS `mantis_sponsorship_table`;
@@ -1318,12 +1314,12 @@ CREATE TABLE IF NOT EXISTS `mantis_sponsorship_table` (
   PRIMARY KEY (`id`),
   KEY `idx_sponsorship_bug_id` (`bug_id`),
   KEY `idx_sponsorship_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_tag_table`
+-- Table structure for table `mantis_tag_table`
 --
 
 DROP TABLE IF EXISTS `mantis_tag_table`;
@@ -1336,12 +1332,12 @@ CREATE TABLE IF NOT EXISTS `mantis_tag_table` (
   `date_updated` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`,`name`),
   KEY `idx_tag_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_tokens_table`
+-- Table structure for table `mantis_tokens_table`
 --
 
 DROP TABLE IF EXISTS `mantis_tokens_table`;
@@ -1354,12 +1350,19 @@ CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
   `expiry` int(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_typeowner` (`type`,`owner`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+--
+-- Dumping data for table `mantis_tokens_table`
+--
+
+-- INSERT INTO `mantis_tokens_table` (`id`, `owner`, `type`, `value`, `timestamp`, `expiry`) VALUES
+-- (13, 1, 4, '1', 1708110310, 1708110615);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_user_pref_table`
+-- Table structure for table `mantis_user_pref_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_pref_table`;
@@ -1394,10 +1397,10 @@ CREATE TABLE IF NOT EXISTS `mantis_user_pref_table` (
   `language` varchar(32) NOT NULL DEFAULT 'english',
   `timezone` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_user_pref_table`
+-- Dumping data for table `mantis_user_pref_table`
 --
 
 INSERT INTO `mantis_user_pref_table` (`id`, `user_id`, `project_id`, `default_profile`, `default_project`, `refresh_delay`, `redirect_delay`, `bugnote_order`, `email_on_new`, `email_on_assigned`, `email_on_feedback`, `email_on_resolved`, `email_on_closed`, `email_on_reopened`, `email_on_bugnote`, `email_on_status`, `email_on_priority`, `email_on_priority_min_severity`, `email_on_status_min_severity`, `email_on_bugnote_min_severity`, `email_on_reopened_min_severity`, `email_on_closed_min_severity`, `email_on_resolved_min_severity`, `email_on_feedback_min_severity`, `email_on_assigned_min_severity`, `email_on_new_min_severity`, `email_bugnote_limit`, `language`, `timezone`) VALUES
@@ -1406,7 +1409,7 @@ INSERT INTO `mantis_user_pref_table` (`id`, `user_id`, `project_id`, `default_pr
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_user_print_pref_table`
+-- Table structure for table `mantis_user_print_pref_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_print_pref_table`;
@@ -1414,12 +1417,12 @@ CREATE TABLE IF NOT EXISTS `mantis_user_print_pref_table` (
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `print_pref` varchar(64) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_user_profile_table`
+-- Table structure for table `mantis_user_profile_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_profile_table`;
@@ -1431,12 +1434,12 @@ CREATE TABLE IF NOT EXISTS `mantis_user_profile_table` (
   `os_build` varchar(32) NOT NULL DEFAULT '',
   `description` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_user_table`
+-- Table structure for table `mantis_user_table`
 --
 
 DROP TABLE IF EXISTS `mantis_user_table`;
@@ -1461,14 +1464,14 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
   KEY `idx_enable` (`enabled`),
   KEY `idx_access` (`access_level`),
   KEY `idx_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Déchargement des données de la table `mantis_user_table`
+-- Dumping data for table `mantis_user_table`
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES
-(1, 'administrator', 'Administrator', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 12, 0, 0, '732aac42ba8df328cc8e19febef5910e2b4289473bc523f1d973862efb7380ad', 1690465200, 1521316138);
+(1, 'administrator', 'Administrator', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 14, 0, 0, '732aac42ba8df328cc8e19febef5910e2b4289473bc523f1d973862efb7380ad', 1708110315, 1521316138);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

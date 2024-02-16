@@ -37,7 +37,7 @@ services:
 
   # ---------------------------------------------------------
   mantis-codevtt:
-    image: lbayle/codevtt:1.8.0
+    image: lbayle/codevtt:1.8.1
     hostname: 'mantis-codevtt'
     container_name: mantis-codevtt
     restart: unless-stopped
